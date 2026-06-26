@@ -17,6 +17,7 @@ The suite is organized on **two axes** — and they are not the same axis:
 | `catalog.test.ts` | data | pure | — | Open Data catalog curation + formatting (mocked fetch) |
 | `opendata.test.ts` | data | pure | — | Open Data client cache/fallback + enrichment (mocked fetch) |
 | `opendata-route.test.ts` | backend | pure | — | Decision-enrichment route validation, cache headers, and 502 failure path |
+| `rbac.test.ts` | backend | pure | — | Signed demo sessions, route policy, middleware denial, token integrity/expiry |
 | `module-routes.test.ts` | frontend | pure | — | Server-rendered Home/Budget/CRM/Decision Queue demo surfaces |
 | `seed-fixtures.test.ts` | data | live | db | Spec-mandated rates + stress cases vs seeded Postgres |
 | `reconcile.test.ts` | backend | live | db, hubspot | Field-directional authority + stable parity across runs |

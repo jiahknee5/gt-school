@@ -174,7 +174,9 @@ export default async function Home() {
   const spineModules = [
     { slug: "budget", label: "Budget", note: "$365K reconciled spend and variance alerts" },
     { slug: "crm-ops", label: "CRM Ops", note: "Parity, UTM health, and data quality queue" },
-    { slug: "decisions", label: "Decision Queue", note: "Leader-only approve, reject, need-info flow" },
+    ...(canViewDecisions
+      ? [{ slug: "decisions", label: "Decision Queue", note: "Leader-only approve, reject, need-info flow" }]
+      : []),
     { slug: "gt-challenge", label: "GT Challenge", note: "Quiz lead capture, scoring, routing, CAC loop" },
   ];
 
@@ -327,12 +329,9 @@ export default async function Home() {
                   <p className="mt-2 text-[13px] leading-relaxed text-on-cta/80">
                     This role can submit decision requests, but the full queue and ruling controls are leadership-only.
                   </p>
-                  <Link
-                    href="/m/decisions"
-                    className="mt-5 inline-flex h-9 items-center justify-center rounded-card border border-white/20 bg-white/10 px-3 text-[12px] font-semibold transition-colors hover:bg-white/15"
-                  >
-                    Open access state
-                  </Link>
+                  <p className="mono mt-5 text-[11px] font-semibold text-on-cta/70">
+                    Full queue hidden from this role
+                  </p>
                 </>
               )}
             </div>
@@ -392,7 +391,7 @@ export default async function Home() {
           <section className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
             <h2 className="font-serif text-[22px] font-semibold text-ink">All PRD modules</h2>
             <div className="mt-4 grid gap-2">
-              {MODULES.filter((module) => module.slug !== "home").map((module) => (
+              {MODULES.filter((module) => module.slug !== "home" && (!module.leaderOnly || canViewDecisions)).map((module) => (
                 <Link
                   key={module.slug}
                   href={moduleHref(module.slug)}

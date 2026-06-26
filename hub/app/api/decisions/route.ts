@@ -1,6 +1,6 @@
 // Decision Queue data API — Leadership-only (PRD §2; security finding: an Operator
 // session GETting this must receive 403, not 200-with-hidden-UI). The middleware
-// already gates /api/decisions to the Leader role; this handler re-checks
+// already gates the Decision Queue page/API to the Leader role; this handler re-checks
 // server-side (defense in depth) and never trusts the client for role/scope.
 
 import { NextResponse } from "next/server";

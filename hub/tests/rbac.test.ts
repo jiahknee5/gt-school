@@ -49,18 +49,24 @@ describe("route policy — deny by default", () => {
 });
 
 describe("Decision Queue — Leadership-exclusive (view + act)", () => {
-  it("denies an Operator the Decision Queue API with 403, not hidden UI", () => {
+  it("denies an Operator the Decision Queue page and API with 403", () => {
+    expect(isLeaderOnlyPath("/m/decisions")).toBe(true);
     expect(isLeaderOnlyPath("/api/decisions")).toBe(true);
-    const decision = routeDecision("operator", "/api/decisions");
-    expect(decision.allowed).toBe(false);
-    expect(decision.status).toBe(403);
+    const pageDecision = routeDecision("operator", "/m/decisions");
+    const apiDecision = routeDecision("operator", "/api/decisions");
+    expect(pageDecision.allowed).toBe(false);
+    expect(pageDecision.status).toBe(403);
+    expect(apiDecision.allowed).toBe(false);
+    expect(apiDecision.status).toBe(403);
   });
 
   it("allows the Leader and denies Admin (exclusive to Leadership)", () => {
     expect(decisionQueueRoleAllowed("leader")).toBe(true);
     expect(decisionQueueRoleAllowed("operator")).toBe(false);
     expect(decisionQueueRoleAllowed("admin")).toBe(false);
+    expect(routeDecision("leader", "/m/decisions").allowed).toBe(true);
     expect(routeDecision("leader", "/api/decisions").allowed).toBe(true);
+    expect(routeDecision("admin", "/m/decisions").status).toBe(403);
     expect(routeDecision("admin", "/api/decisions").status).toBe(403);
   });
 });
@@ -115,6 +121,13 @@ describe("session token integrity", () => {
     expect(await verifyToken("not-a-token")).toBeNull();
     expect(await verifyToken(undefined)).toBeNull();
   });
+
+  it("rejects expired or future-dated signed tokens", async () => {
+    const nineHoursAgo = Date.now() - 9 * 60 * 60 * 1000;
+    const oneMinuteAhead = Date.now() + 60 * 1000;
+    expect(await verifyToken(await signToken(operator.id, nineHoursAgo))).toBeNull();
+    expect(await verifyToken(await signToken(operator.id, oneMinuteAhead))).toBeNull();
+  });
 });
 
 describe("middleware enforces the policy end-to-end", () => {
@@ -136,6 +149,16 @@ describe("middleware enforces the policy end-to-end", () => {
     expect((await res.json()).error).toMatch(/Leadership-only/i);
   });
 
+  it("redirects an Operator away from the Decision Queue page", async () => {
+    const { middleware } = await import("../middleware");
+    const { NextRequest } = await import("next/server");
+    const req = new NextRequest("http://localhost/m/decisions");
+    req.cookies.set("gt_session", await signToken(operator.id));
+    const res = await middleware(req);
+    expect([302, 307].includes(res.status)).toBe(true);
+    expect(res.headers.get("location")).toContain("/forbidden");
+  });
+
   it("returns 401 JSON for an unauthenticated API request", async () => {
     const { middleware } = await import("../middleware");
     const { NextRequest } = await import("next/server");
@@ -147,6 +170,16 @@ describe("middleware enforces the policy end-to-end", () => {
     const { middleware } = await import("../middleware");
     const { NextRequest } = await import("next/server");
     const req = new NextRequest("http://localhost/api/decisions");
+    req.cookies.set("gt_session", await signToken(leader.id));
+    const res = await middleware(req);
+    expect(res.status).toBe(200);
+    expect(res.headers.get("x-middleware-next")).toBe("1");
+  });
+
+  it("lets a Leader through to the Decision Queue page", async () => {
+    const { middleware } = await import("../middleware");
+    const { NextRequest } = await import("next/server");
+    const req = new NextRequest("http://localhost/m/decisions");
     req.cookies.set("gt_session", await signToken(leader.id));
     const res = await middleware(req);
     expect(res.status).toBe(200);

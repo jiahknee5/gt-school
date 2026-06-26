@@ -3,7 +3,7 @@
 // server-side data, and applies the shared route policy (lib/auth/policy.ts):
 //   - unauthenticated  → page routes redirect to /login?next=…, API routes get 401 JSON
 //   - admin-only        → /dev/*, /opendata/*, /api/opendata/*
-//   - leader-only       → /api/decisions* (Decision Queue data path)
+//   - leader-only       → /m/decisions*, /api/decisions* (Decision Queue)
 // No privilege is read from the request — only the verified user id from the cookie.
 
 import { NextResponse, type NextRequest } from "next/server";

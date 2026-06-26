@@ -48,13 +48,17 @@ export function isAdminOnlyPath(pathname: string): boolean {
 }
 
 /**
- * The Decision Queue *data* surface is Leadership-only (view + act). This gates the
- * API/data path; the /m/decisions PAGE intentionally still renders for other roles
- * but only as a denied-state surface that fetches no decision data (security ask:
- * "403, not 200-with-hidden-UI" applies to the data/API path).
+ * The Decision Queue module and data surface are Leadership-only (view + act).
+ * Operators can submit decision requests from their own modules, but the full queue
+ * page/API is not accessible to them per PRD §11.
  */
 export function isLeaderOnlyPath(pathname: string): boolean {
-  return pathname === "/api/decisions" || pathname.startsWith("/api/decisions/");
+  return (
+    pathname === "/m/decisions" ||
+    pathname.startsWith("/m/decisions/") ||
+    pathname === "/api/decisions" ||
+    pathname.startsWith("/api/decisions/")
+  );
 }
 
 /** Leadership-exclusive: only the Leader role may view/act on the Decision Queue. */

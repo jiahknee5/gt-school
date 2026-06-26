@@ -54,8 +54,8 @@ export default async function ModulePage({
 
   // Role is authoritative from the authenticated session. The ?role= query is only a
   // dev/test view-lens fallback used when there is no session — middleware redirects
-  // unauthenticated users to /login, so it can never escalate privilege at runtime,
-  // and all real data access (e.g. /api/decisions) is gated server-side regardless.
+  // unauthenticated users to /login and gates restricted routes before render, so it
+  // can never escalate privilege at runtime.
   const session = await getSession();
   const role = session?.role ?? query.role;
   const dataset = generate({ seed: 424242, families: 1200 });

@@ -47,6 +47,9 @@ describe("Phase 2 rendered route surfaces", () => {
 
     expect(html).toContain("Access denied for this role");
     expect(html).toContain("Submit a decision request");
+    expect(html).toContain("Full queue hidden");
+    expect(html).not.toContain("open decisions exist");
+    expect(html).not.toContain("Active decisions");
     expect(html).not.toContain("Need info");
   });
 });

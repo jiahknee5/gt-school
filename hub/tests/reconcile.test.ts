@@ -35,10 +35,11 @@ const ENABLED = HAS_DB && HAS_HS;
 const T = 90000;
 const RUN = `rec${randomBytes(3).toString("hex")}`;
 const EMAIL = `gtrecon.${RUN}@example.com`;
+const CURSOR_KEY = `hubspot:contacts:test:${RUN}`;
 
 let contactId = "";
 let familyId = "";
-let origCursor: string | null = null;
+let cursorAnchor: Date | null = null;
 
 async function family() {
   return withoutProgram(
@@ -53,14 +54,25 @@ async function fieldStateInParity(field: string) {
   ).then((r) => r[0]);
 }
 
+async function reconcileFromAnchor() {
+  if (!cursorAnchor) throw new Error("cursorAnchor not set");
+  await withoutProgram(
+    (sql) => sql`
+      update sync_cursor set last_synced = ${cursorAnchor}, updated_at = now()
+      where key = ${CURSOR_KEY}`,
+  );
+  return reconcile({ cursorKey: CURSOR_KEY });
+}
+
 describe("reconcile sweep (live HubSpot → app)", () => {
   beforeAll(async () => {
     if (!ENABLED) return;
-    // save the demo cursor so we can restore it (keep the seeded state pristine).
-    const cur = await withoutProgram(
-      (sql) => sql<{ last_synced: string | null }[]>`select last_synced from sync_cursor where key='hubspot:contacts'`,
+    await withoutProgram(
+      (sql) => sql`
+        insert into sync_cursor (key, last_synced)
+        values (${CURSOR_KEY}, ${new Date(0)})
+        on conflict (key) do update set last_synced = excluded.last_synced`,
     );
-    origCursor = cur[0]?.last_synced ?? null;
 
     // A HubSpot contact whose email matches a DB family by match_key. HubSpot is
     // authoritative for lifecycle_stage + source; app is authoritative for income_band.
@@ -95,7 +107,7 @@ describe("reconcile sweep (live HubSpot → app)", () => {
       await sql`delete from field_state where entity='family' and entity_id=${familyId}`;
       await sql`delete from sync_outbox where aggregate_id = ${familyId}`;
       await sql`delete from families where id = ${familyId}`;
-      await sql`update sync_cursor set last_synced = ${origCursor} where key='hubspot:contacts'`;
+      await sql`delete from sync_cursor where key = ${CURSOR_KEY}`;
     });
     try {
       await archiveContact(contactId);
@@ -123,12 +135,14 @@ describe("reconcile sweep (live HubSpot → app)", () => {
     //     robust to however long indexing took.
     const indexed = await waitForIndexed(contactId);
     const contactTs = indexed.updatedAt ? new Date(indexed.updatedAt).getTime() : Date.now();
-    await withoutProgram(
-      (sql) => sql`update sync_cursor set last_synced = ${new Date(contactTs - 60 * 1000)} where key='hubspot:contacts'`,
-    );
+    cursorAnchor = new Date(contactTs - 60 * 1000);
 
     // ---------- RUN A ----------
-    const a = await reconcile();
+    let a = await reconcileFromAnchor();
+    for (let attempt = 1; a.fetched === 0 && attempt < 5; attempt++) {
+      await sleep(3000);
+      a = await reconcileFromAnchor();
+    }
     console.log(
       `reconcile A: fetched=${a.fetched} matched=${a.matched} changed=${a.changed} conflicts=${a.conflicts} ` +
         `parity=${a.parity.overallPct}% cursor ${a.watermarkFrom ?? "null"} → ${a.watermarkTo}`,
@@ -158,7 +172,7 @@ describe("reconcile sweep (live HubSpot → app)", () => {
     expect(cursorAfterA).toBeGreaterThan(0);
 
     // ---------- RUN B ----------
-    const b = await reconcile();
+    const b = await reconcile({ cursorKey: CURSOR_KEY });
     console.log(
       `reconcile B: fetched=${b.fetched} matched=${b.matched} parity=${b.parity.overallPct}% ` +
         `cursor ${b.watermarkFrom ?? "null"} → ${b.watermarkTo}`,

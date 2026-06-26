@@ -12,6 +12,7 @@ const encoder = new TextEncoder();
 const decoder = new TextDecoder();
 
 const DEV_SECRET = "gt-hub-dev-only-insecure-secret-do-not-use-in-prod";
+const TOKEN_MAX_AGE_MS = 8 * 60 * 60 * 1000;
 
 function getSecret(): string {
   const secret = process.env.AUTH_SECRET;
@@ -69,8 +70,8 @@ function safeEqual(a: string, b: string): boolean {
   return result === 0;
 }
 
-export async function signToken(userId: string): Promise<string> {
-  const payload = encodeString(`${userId}.${Date.now()}`);
+export async function signToken(userId: string, issuedAtMs = Date.now()): Promise<string> {
+  const payload = encodeString(`${userId}.${issuedAtMs}`);
   const signature = await hmac(payload);
   return `${payload}.${signature}`;
 }
@@ -93,7 +94,11 @@ export async function verifyToken(token: string | null | undefined): Promise<str
 
   try {
     const decoded = decodeString(payload);
-    const userId = decoded.split(".")[0];
+    const [userId, issuedAtRaw] = decoded.split(".");
+    const issuedAt = Number(issuedAtRaw);
+    if (!Number.isFinite(issuedAt)) return null;
+    const ageMs = Date.now() - issuedAt;
+    if (ageMs < 0 || ageMs > TOKEN_MAX_AGE_MS) return null;
     return userId || null;
   } catch {
     return null;

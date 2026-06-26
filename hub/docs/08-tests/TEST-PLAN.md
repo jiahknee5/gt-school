@@ -65,12 +65,13 @@ Source of truth: `lib/dev/usecases.ts` (`useCaseCounts()`), surfaced live at `/d
 |---|---|---|---|
 | Phase 1 · Backbone | 8 | 1 | 0 |
 | Test data | 8 | 0 | 0 |
-| Phase 2 · Product | 4 | 0 | 3 |
-| Spec · Marketing Hub | 8 | 0 | 6 |
-| Demo signal | 1 | 1 | 3 |
-| **Total** | **29** | **2** | **12** |
+| Phase 2 · Product | 6 | 0 | 3 |
+| Spec · Marketing Hub | 14 | 0 | 0 |
+| Demo signal | 7 | 1 | 0 |
+| **Total** | **43** | **2** | **3** |
 
-`npm run test:ci` (pure gate): green, no keys, < 5s. `tests/brief-usecases.test.ts`: all `covered`
+`npm run test:ci` (pure gate): green, no keys, < 5s. Latest full live-inclusive run:
+17 files, 170 passed, 3 todo. `tests/brief-usecases.test.ts`: all `covered`
 proven, all `pending` tracked as `it.todo`.
 
 ## 4. Prioritized backlog
@@ -80,11 +81,15 @@ proven, all `pending` tracked as `it.todo`.
 - **P0 traceability** — every P0 hard requirement id is referenced by ≥1 use case. → integrity test in `tests/brief-usecases.test.ts`, pure.
 
 **P1 — next (needs build or a live harness):**
-- Stand up **Playwright** + one skipped smoke test; convert the demo-signal todos as screens land:
-  `UC-DEMO-PAYMENT` (watch propagate), `UC-DEMO-ROLE-DENIED`, `UC-DEMO-BANNER`, `UC-DEMO-BUDGET`. → `tests/frontend/`.
-- **RBAC denial** at the route/data layer when auth ships (`UC-P2-AUTH-ROLES`, `UC-DEMO-ROLE-DENIED`). → `tests/backend/`, live.
-- **Cross-link contract** tests when handlers exist (`UC-SPEC-XLINK-*`): assert the payload lands in the
-  target store with context. → `tests/backend/`, live.
+- Stand up **Playwright** browser coverage for the demo path. Server-rendered route tests now cover
+  Budget, banner, and role-denial surfaces; browser coverage should prove the same signals through the
+  actual navigation/session flow. → `tests/frontend/`.
+- **Production auth gap**: signed demo sessions and route/API RBAC are covered, but Supabase Auth account
+  provisioning and real identity lifecycle remain pending under `UC-P2-AUTH-ROLES`.
+- **Home persistence**: add/remove/reorder widgets per authenticated user and persist layout.
+- **GT Challenge persistence**: public quiz ingest, idempotency key, stored lead, HubSpot outbox handoff.
+- **Decision Queue write workflow**: Leader approve/reject/need-info should persist a decision state and
+  notify/source-link back to the raising module.
 - Wire **`npm run verify`** (build + lint + test) into a PR check / pre-push hook. *(Noor — T7)*
 
 **P2 — hardening:**

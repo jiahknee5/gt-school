@@ -210,6 +210,7 @@ export function Sidebar({
   const pathname = usePathname();
   // Internal/dev surfaces are Admin-only (middleware enforces; hide them otherwise).
   const showDevLinks = viewer?.role === "admin";
+  const visibleModules = MODULES.filter((m) => !m.leaderOnly || viewer?.role === "leader");
 
   return (
     <aside className="sticky top-0 hidden h-[100dvh] w-[228px] shrink-0 flex-col border-r border-hairline bg-side lg:flex">
@@ -230,7 +231,7 @@ export function Sidebar({
           Modules
         </p>
         <ul className="flex flex-col gap-0.5">
-          {MODULES.map((m) => {
+          {visibleModules.map((m) => {
             const active =
               m.slug === "home" ? pathname === "/" : pathname === `/m/${m.slug}`;
             return (

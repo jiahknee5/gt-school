@@ -636,7 +636,7 @@ export function buildModuleSurface(
   }
 
   if (slug === "decisions") {
-    const visible = visibleDecisionsForUser(viewer, decisions);
+    const visible = deniedDecisionQueue ? [] : visibleDecisionsForUser(viewer, decisions);
     return {
       ...base,
       access: {
@@ -647,36 +647,56 @@ export function buildModuleSurface(
       },
       title: "Decision Queue",
       summary: "A leadership-only workflow fed by submissions, budget variance, hot-family flags, and Open Data enrichment.",
-      metrics: [
-        { label: "Visible to viewer", value: String(visible.length), note: `${openDecisions.length} open decisions exist`, tone: deniedDecisionQueue ? "watch" : "good" },
-        { label: "Auto-flagged", value: String(decisions.filter((decision) => decision.auto_flag).length), note: "System-generated from budget or data rules", tone: "watch" },
-        { label: "Actions", value: deniedDecisionQueue ? "Submit only" : "Approve", note: deniedDecisionQueue ? "No full queue or ruling buttons" : "Approve, reject, need-info with comment", tone: deniedDecisionQueue ? "watch" : "good" },
-      ],
-      sections: [
-        {
-          id: deniedDecisionQueue ? "denied" : "active-decisions",
-          title: deniedDecisionQueue ? "Access denied preview" : "Active decisions",
-          note: deniedDecisionQueue
-            ? "This proves the route-level denial state for the demo; Supabase Auth is still tracked separately."
-            : "Leadership sees the full queue and can rule on every card.",
-          rows: visible.slice(0, deniedDecisionQueue ? 3 : 8).map((decision) => ({
-            label: decision.question,
-            value: decision.priority,
-            note: decision.recommendation ?? "Awaiting recommendation.",
-            tone: decision.priority === "urgent" ? "risk" : "neutral",
-          })),
-        },
-        {
-          id: "cross-module-intake",
-          title: "Cross-module intake",
-          note: "Queue receives automatic and human-raised cards from the operating modules.",
-          rows: [
-            { label: "Budget variance", value: `${budget.autoFlagRows.length} cards`, note: "Any workstream >10% over plan auto-files a decision.", href: "/m/budget", tone: budget.autoFlagRows.length ? "risk" : "good" },
-            { label: "Hot family", value: hotFamily.priority, note: hotFamily.question, href: "/m/admissions", tone: "risk" },
-            { label: "Open Data", value: "enrichment", note: "Decision cards can cite public-school context before ruling.", href: "/opendata", tone: "neutral" },
+      metrics: deniedDecisionQueue
+        ? [
+            { label: "Queue access", value: "Denied", note: "Full queue counts and cards are hidden from this role.", tone: "watch" },
+            { label: "Allowed action", value: "Submit only", note: "Raise requests from an owned module; leadership reviews them here.", tone: "neutral" },
+            { label: "Route policy", value: "403", note: "Middleware redirects non-leaders before this page renders.", tone: "risk" },
+          ]
+        : [
+            { label: "Visible to viewer", value: String(visible.length), note: `${openDecisions.length} open decisions exist`, tone: "good" },
+            { label: "Auto-flagged", value: String(decisions.filter((decision) => decision.auto_flag).length), note: "System-generated from budget or data rules", tone: "watch" },
+            { label: "Actions", value: "Approve", note: "Approve, reject, need-info with comment", tone: "good" },
           ],
-        },
-      ],
+      sections: deniedDecisionQueue
+        ? [
+            {
+              id: "denied",
+              title: "Access denied",
+              note: "The full Decision Queue is leadership-only. This direct-render state contains no queue rows or ruling controls.",
+              rows: [
+                {
+                  label: "Full queue hidden",
+                  value: "403",
+                  note: "Operators can submit decision requests from their own modules, but cannot view or act on the full queue.",
+                  tone: "watch",
+                },
+              ],
+            },
+          ]
+        : [
+            {
+              id: "active-decisions",
+              title: "Active decisions",
+              note: "Leadership sees the full queue and can rule on every card.",
+              rows: visible.slice(0, 8).map((decision) => ({
+                label: decision.question,
+                value: decision.priority,
+                note: decision.recommendation ?? "Awaiting recommendation.",
+                tone: decision.priority === "urgent" ? "risk" : "neutral",
+              })),
+            },
+            {
+              id: "cross-module-intake",
+              title: "Cross-module intake",
+              note: "Queue receives automatic and human-raised cards from the operating modules.",
+              rows: [
+                { label: "Budget variance", value: `${budget.autoFlagRows.length} cards`, note: "Any workstream >10% over plan auto-files a decision.", href: "/m/budget", tone: budget.autoFlagRows.length ? "risk" : "good" },
+                { label: "Hot family", value: hotFamily.priority, note: hotFamily.question, href: "/m/admissions", tone: "risk" },
+                { label: "Open Data", value: "enrichment", note: "Decision cards can cite public-school context before ruling.", href: "/opendata", tone: "neutral" },
+              ],
+            },
+          ],
       actions: deniedDecisionQueue ? ["Submit a decision request"] : ["Approve", "Reject", "Need info", "Comment"],
     };
   }

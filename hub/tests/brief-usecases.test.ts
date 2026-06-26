@@ -3,6 +3,7 @@ import { createHash } from "node:crypto";
 import { generate } from "@/lib/seed/generate";
 import { SYNCED_FIELDS } from "@/lib/seed/dictionaries";
 import { USE_CASES } from "@/lib/dev/usecases";
+import { routeDecision } from "@/lib/auth/policy";
 import {
   DEFAULT_STARTER_WIDGET_IDS,
   DEMO_USERS,
@@ -251,6 +252,24 @@ describe("Demo signals supported by Phase 2 helpers", () => {
     expect(visibleDecisionsForUser(operator, ds.decisions).length).toBeLessThan(ds.decisions.length);
   });
 
+  it("UC-DEMO-ROLE-DENIED-AUTH-UI: Operator is denied the Decision Queue route and ruling UI", () => {
+    expect(routeDecision("operator", "/m/decisions").status).toBe(403);
+    expect(routeDecision("admin", "/m/decisions").status).toBe(403);
+    expect(routeDecision("leader", "/m/decisions").allowed).toBe(true);
+
+    const surface = buildModuleSurface("decisions", ds, "operator");
+    expect(surface.access.allowed).toBe(false);
+    expect(surface.metrics.map((m) => m.value)).toContain("Denied");
+    expect(surface.metrics.map((m) => m.note).join(" ")).not.toMatch(/open decisions exist/i);
+    const renderedRows = surface.sections.flatMap((section) => section.rows);
+    expect(renderedRows.map((row) => row.label)).toEqual(["Full queue hidden"]);
+    expect(renderedRows.map((row) => row.label).join(" ")).not.toContain(ds.decisions[0].question);
+    expect(surface.actions).toEqual(["Submit a decision request"]);
+    expect(surface.actions).not.toContain("Approve");
+    expect(surface.actions).not.toContain("Reject");
+    expect(surface.actions).not.toContain("Need info");
+  });
+
   it("UC-DEMO-BANNER: data-confidence banner payload appears when parity drops", () => {
     const banner = buildConfidenceBanner(ds.field_state);
     expect(banner.show).toBe(true);
@@ -388,7 +407,6 @@ describe("Pending product features (tracked, not yet built)", () => {
   it.todo("UC-P2-AUTH-ROLES: auth + Admin/Leader/Operator enforced at the app layer");
   it.todo("UC-P2-HOME-PERSISTENCE: Home add/remove/reorder persists per authenticated user");
   it.todo("UC-GTC-CAPTURE-PERSIST: GT Challenge public quiz stores deduped submissions with no double-count");
-  it.todo("UC-DEMO-ROLE-DENIED-AUTH-UI: an Operator is denied the Decision Queue route and UI");
 });
 
 // ───────────────────────── Catalog integrity ─────────────────────────
@@ -405,11 +423,10 @@ describe("Use-case catalog integrity (lib/dev/usecases.ts)", () => {
     "UC-SPEC-XLINK-TESTIMONIAL", "UC-SPEC-XLINK-OBJECTION", "UC-SPEC-XLINK-HOTFAMILY",
     "UC-SPEC-XLINK-EVENT", "UC-SPEC-MONDAY-MEETING", "UC-SPEC-HANDOFF",
     "UC-DEMO-BUDGET", "UC-DEMO-ROLE-DENIED", "UC-DEMO-BANNER",
-    "UC-DEMO-BUDGET-UI", "UC-DEMO-BANNER-UI",
+    "UC-DEMO-BUDGET-UI", "UC-DEMO-ROLE-DENIED-AUTH-UI", "UC-DEMO-BANNER-UI",
   ]);
   const TODOS = new Set([
     "UC-P2-AUTH-ROLES", "UC-P2-HOME-PERSISTENCE", "UC-GTC-CAPTURE-PERSIST",
-    "UC-DEMO-ROLE-DENIED-AUTH-UI",
   ]);
 
   it("every use case is well-formed (id, reqs, proves, tests)", () => {

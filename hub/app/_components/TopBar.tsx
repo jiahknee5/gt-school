@@ -35,6 +35,7 @@ export function TopBar({
   const [dark, setDark] = useState(false);
   const isHome = pathname === "/";
   const days = useMemo(() => daysToCutoff(), []);
+  const visibleModules = MODULES.filter((module) => !module.leaderOnly || viewer?.role === "leader");
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
@@ -119,7 +120,7 @@ export function TopBar({
       </div>
 
       <nav className="flex gap-1 overflow-x-auto border-t border-hairline px-3 py-2 lg:hidden">
-        {MODULES.map((module) => {
+        {visibleModules.map((module) => {
           const active = module.slug === "home" ? pathname === "/" : pathname === moduleHref(module.slug);
           return (
             <Link
