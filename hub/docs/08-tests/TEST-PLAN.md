@@ -71,7 +71,7 @@ Source of truth: `lib/dev/usecases.ts` (`useCaseCounts()`), surfaced live at `/d
 | **Total** | **44** | **2** | **3** |
 
 `npm run test:ci` (pure gate): green, no keys, < 5s. Latest full live-inclusive run:
-19 files, 197 passed, 3 todo. `tests/brief-usecases.test.ts`: all `covered`
+20 files, 221 passed, 3 todo. `tests/brief-usecases.test.ts`: all `covered`
 proven, all `pending` tracked as `it.todo`.
 
 ## 4. Prioritized backlog

@@ -19,6 +19,7 @@ The suite is organized on **two axes** — and they are not the same axis:
 | `opendata-route.test.ts` | backend | pure | — | Decision-enrichment route validation, cache headers, and 502 failure path |
 | `decisions.test.ts` | backend | pure | — | Decision Queue ruling transitions and Leader-only mutation route |
 | `crm-ops.test.ts` | backend | pure | — | CRM Ops parity, attribution, scoring, detector, queue RBAC, and rendered module surface |
+| `budget.test.ts` | backend | pure | — | Budget ledger reconciliation, variance auto-flags, RBAC, route write guard, and rendered sub-views |
 | `rbac.test.ts` | backend | pure | — | Signed demo sessions, route policy, middleware denial, token integrity/expiry |
 | `module-routes.test.ts` | frontend | pure | — | Server-rendered Home/Budget/CRM/Decision Queue demo surfaces |
 | `seed-fixtures.test.ts` | data | live | db | Spec-mandated rates + stress cases vs seeded Postgres |
@@ -57,7 +58,7 @@ after which the scripts simplify to `vitest run tests/<domain>`:
 ```
 tests/
   data/        seed, matchkey, seed-hubspot, catalog, opendata, seed-fixtures
-  backend/     decisions, crm-ops, rbac, reconcile, payments, hubspot-webhook, outbox-worker, parity, r1-connection
+  backend/     decisions, crm-ops, budget, rbac, reconcile, payments, hubspot-webhook, outbox-worker, parity, r1-connection
   scenarios/   brief-usecases, phase2
   frontend/    route/component/browser tests
 ```

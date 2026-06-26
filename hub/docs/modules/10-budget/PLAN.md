@@ -85,7 +85,7 @@ flowchart TD
 
 **Writes:** `budget_workstream.committed/actual` (derived recompute), `budget_workstream.planned` (Leader/Admin), `decisions` (auto-flag insert).
 
-**Additive migration — `supabase/migrations/0003_budget.sql` (touches no backbone table):**
+**Additive migration — `supabase/migrations/0004_budget.sql` (touches no backbone table):**
 
 **`budget_entry`** (append-only spend ledger; the multi-owner + audit layer)
 | column | type | notes |
@@ -135,7 +135,7 @@ Emitted via the **same raise path a human uses** (not a raw insert); **idempoten
 
 | File | Purpose |
 |---|---|
-| `supabase/migrations/0003_budget.sql` | `budget_entry` ledger + grants |
+| `supabase/migrations/0004_budget.sql` | `budget_entry` ledger + grants |
 | `lib/budget/reconcile.ts` | derive `committed/actual` from `budget_entry` + `campaigns.spend`; per-row `remaining`/`available`; assert `Σ recommended == 365000` |
 | `lib/budget/variance.ts` | `actual > planned×1.10 AND ≥ $2,500` detector → idempotent Decision Queue payload (§4) |
 | `lib/metrics/budget.ts` | single definitions: weekly burn series, `projected_burn_out_date`, % actual allocation, health (on-track/watch/at-risk) |

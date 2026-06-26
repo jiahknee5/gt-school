@@ -127,6 +127,26 @@ export interface BudgetWorkstream {
   actual: number;
 }
 
+/**
+ * Append-only spend ledger (Module 10). The multi-owner + audit layer beneath the
+ * `budget_workstream` aggregates: each owner enters their OWN committed/actual spend;
+ * campaign roll-ins land as `origin='campaign'` rows counted exactly once. Aggregates
+ * are DERIVED from these rows (see lib/budget/reconcile.ts) — corrections are new rows,
+ * never in-place edits. Mirrors supabase/migrations/0004_budget.sql column-for-column.
+ */
+export interface BudgetEntry {
+  id: string;
+  workstream_key: string;
+  kind: "committed" | "actual";
+  origin: "manual" | "campaign"; // survivorship discriminator (campaign roll-ins never hand-entered)
+  amount: number;
+  entered_by: string; // role/user — audit trail
+  owner_role: string; // the function owner responsible (RBAC scope check)
+  note: string | null;
+  campaign_key: string | null; // set when origin='campaign'
+  created_at: string; // immutable; powers weekly burn
+}
+
 export interface Decision {
   id: string;
   question: string;
@@ -347,6 +367,7 @@ export interface SeedDataset {
   parity_snapshot: ParitySnapshot[];
   data_quality_issue: DataQualityIssue[];
   budget_workstream: BudgetWorkstream[];
+  budget_entry: BudgetEntry[];
   decisions: Decision[];
   processed_events: ProcessedEvent[];
   sync_event_log: SyncEventLogEntry[];

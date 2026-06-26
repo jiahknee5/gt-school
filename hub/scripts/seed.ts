@@ -358,10 +358,22 @@ export async function seed(): Promise<void> {
     console.log(`seed:   parity -> income_band ${fieldStats.income_band}%, overall ${overallPct}%`);
 
     // budget: committed reconciles to $365,000; guerrilla is +15% over plan (>10%).
+    await sql`delete from budget_entry`;
     await sql`update budget_workstream set committed = 204000, actual = 150000 where key = 'grassroots'`;
     await sql`update budget_workstream set committed = 90000,  actual = 55000  where key = 'thought_leadership'`;
     await sql`update budget_workstream set committed = 46000,  actual = 43000  where key = 'guerrilla'`;
     await sql`update budget_workstream set committed = 25000,  actual = 18000  where key = 'foundations'`;
+    await insertBatched(sql, "budget_entry", [
+      { workstream_key: "grassroots", kind: "committed", origin: "manual", amount: 204000, entered_by: "Grassroots Owner (seed)", owner_role: "Grassroots Owner", note: "Committed grassroots spend.", campaign_key: null, created_at: now },
+      { workstream_key: "grassroots", kind: "actual", origin: "campaign", amount: 12500, entered_by: "system:campaign-rollup", owner_role: "Grassroots Owner", note: "GT Challenge campaign spend roll-in.", campaign_key: "gifted_quiz_2026", created_at: now },
+      { workstream_key: "grassroots", kind: "actual", origin: "manual", amount: 137500, entered_by: "Grassroots Owner (seed)", owner_role: "Grassroots Owner", note: "Actual grassroots spend.", campaign_key: null, created_at: now },
+      { workstream_key: "thought_leadership", kind: "committed", origin: "manual", amount: 90000, entered_by: "Content Owner (seed)", owner_role: "Content Owner", note: "Committed content spend.", campaign_key: null, created_at: now },
+      { workstream_key: "thought_leadership", kind: "actual", origin: "manual", amount: 55000, entered_by: "Content Owner (seed)", owner_role: "Content Owner", note: "Actual content spend.", campaign_key: null, created_at: now },
+      { workstream_key: "guerrilla", kind: "committed", origin: "manual", amount: 46000, entered_by: "Leadership (seed)", owner_role: "Leadership", note: "Committed guerrilla spend.", campaign_key: null, created_at: now },
+      { workstream_key: "guerrilla", kind: "actual", origin: "manual", amount: 43000, entered_by: "Leadership (seed)", owner_role: "Leadership", note: "Actual guerrilla spend.", campaign_key: null, created_at: now },
+      { workstream_key: "foundations", kind: "committed", origin: "manual", amount: 25000, entered_by: "Marketing Lead (seed)", owner_role: "Marketing Lead", note: "Committed foundations spend.", campaign_key: null, created_at: now },
+      { workstream_key: "foundations", kind: "actual", origin: "manual", amount: 18000, entered_by: "Marketing Lead (seed)", owner_role: "Marketing Lead", note: "Actual foundations spend.", campaign_key: null, created_at: now },
+    ], ["workstream_key", "kind", "origin", "amount", "entered_by", "owner_role", "note", "campaign_key", "created_at"]);
 
     // decisions: >=3 open; one auto-flagged budget-variance; one leadership-only.
     await insertBatched(sql, "decisions", [

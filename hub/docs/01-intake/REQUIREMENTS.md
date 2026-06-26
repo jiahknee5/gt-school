@@ -56,7 +56,7 @@ Judge completeness against *that*, not module count.
 | C1 | **Auth + 3 roles enforced** (Admin, Leader, Operator) | ⛔ | No app-level auth/session yet; sidebar role is hard-coded. **Biggest non-negotiable gap.** RLS exists but app RBAC does not. |
 | C2 | **Decision Queue gated to Leaders** (Operators submit, never view/act) | ⛔ | module is a placeholder (`app/m/[slug]/page.tsx`); the demo's "role denied" depends on this + C1 |
 | C3 | **Single source of truth** honored everywhere (no figure computed two ways) | 🟡 | SSOT map documented (`lib/dev/catalog.ts`, seed) but not *enforced in module UIs* (none built); needs a shared metrics layer |
-| C4 | **Budget reconciles** to $365K everywhere + **>10% variance auto-flags** to Decision Queue | 🟡 | `budget_workstream` table + seed reconcile to $365K ✅; **Budget UI + burn + variance→DQ** ⛔ |
+| C4 | **Budget reconciles** to $365K everywhere + **>10% variance auto-flags** to Decision Queue | 🟡 | Append-only `budget_entry`, Budget UI, burn/allocation views, and variance→DQ payload tests ✅; approved reallocation propagation remains |
 | C5 | **Composable per-user Home** (30+ widget library, starter pack, saved layout) | ⛔ | `app/page.tsx` is a static jump-off grid, not a widget board |
 | C6 | **Real integrations + dual-source reconciliation** (≥ HubSpot live; + summer/form or HubSpot/community) | 🟡 | HubSpot connector live ✅; **dual-source reconcile surfaced as product** ⛔ |
 | C7 | **Open Data query that *changes a decision*** | 🟡 | `lib/opendata/enrich.ts` + `app/api/opendata/decision-enrichment/route.ts` ✅; needs a **decision surface** where the enrichment visibly changes the call |
@@ -76,7 +76,7 @@ Judge completeness against *that*, not module count.
 | # | Signal | Status | Gap to demoable |
 |---|---|---|---|
 | E1 | Watch a **payment propagate** without contamination | 🟡 | backbone ✅; needs a *visible* surface/admin view to watch it land |
-| E2 | A **budget reconcile** to the total | ⛔ | needs C4 Budget UI |
+| E2 | A **budget reconcile** to the total | ✅ | `/m/budget` + `budget.test.ts` visibly reconcile four workstreams to $365K |
 | E3 | A **role denied** the Decision Queue | ⛔ | needs C1 auth + C2 module |
 | E4 | **Data-confidence banner** appears when parity drops | 🟡 | parity compute ✅ (`lib/parity.ts`); banner component + cross-module wiring ⛔ |
 | E5 | A real **Open Data query** (+ ≥1 failure/edge case) | 🟡 | query ✅; show it altering a decision + a failure path |
@@ -90,7 +90,7 @@ Dashboard are the next highest-leverage.
 | Module | Tests | Build depth (current) | Recommended |
 |---|---|---|---|
 | CRM Ops | parity, UTM-broken, DQ auto-detect, field reliability — Phase-1 surfaces as product | ⛔ placeholder | **deep (P0)** |
-| Budget | $365K reconcile, variance→DQ — clearest SSOT test | ⛔ placeholder | **deep (P0)** |
+| Budget | $365K reconcile, variance→DQ — clearest SSOT test | ✅ ledger-backed UI + tests | **deep (P0)** |
 | Decision Queue | role-gating + cross-module intake | ⛔ placeholder | **deep (P0)** |
 | Home | composable widgets, per-user state, aggregation spine | ⛔ grid only | deep (P1) |
 | Nurture | most data-rich; HubSpot+Supabase depth | ⛔ placeholder | deep (P1) |

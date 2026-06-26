@@ -169,6 +169,10 @@ function buildSql(ds: SeedDataset): string {
         `on conflict (key) do update set planned=excluded.planned, committed=excluded.committed, actual=excluded.actual;`,
     );
   }
+  out.push(insertRows("budget_entry", ds.budget_entry as unknown as Record<string, unknown>[], [
+    { name: "id" }, { name: "workstream_key" }, { name: "kind" }, { name: "origin" }, { name: "amount" },
+    { name: "entered_by" }, { name: "owner_role" }, { name: "note" }, { name: "campaign_key" }, { name: "created_at" },
+  ]));
   out.push("");
 
   // scoped tables, per program (RLS scope set before each block)

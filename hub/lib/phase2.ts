@@ -8,6 +8,10 @@ import type {
   SeedDataset,
   SheetRow,
 } from "./seed/types";
+import {
+  ensureBudgetVarianceDecisions,
+  isBudgetVariance,
+} from "@/lib/budget/variance";
 
 export type Role = "admin" | "leader" | "operator";
 export type WorkstreamKey = "grassroots" | "thought_leadership" | "guerrilla" | "foundations";
@@ -146,12 +150,13 @@ export interface BudgetSummary {
 
 export function summarizeBudget(rows: BudgetWorkstream[], users = DEMO_USERS): BudgetSummary {
   const budgetRows = rows.map((r) => {
-    const variancePct = r.planned === 0 ? 0 : ((r.committed - r.planned) / r.planned) * 100;
+    const variancePct = r.planned === 0 ? 0 : ((r.actual - r.planned) / r.planned) * 100;
+    const overAmount = r.actual - r.planned;
     return {
       ...r,
       remaining: r.planned - r.actual,
       variancePct,
-      health: variancePct > 10 ? "at-risk" : variancePct > 0 ? "watch" : "on-track",
+      health: isBudgetVariance(r) ? "at-risk" : overAmount > 0 ? "watch" : "on-track",
       editableBy: users.filter((u) => canEditBudgetWorkstream(u, r.key)).map((u) => u.id),
     } satisfies BudgetRow;
   });
@@ -168,7 +173,7 @@ export function summarizeBudget(rows: BudgetWorkstream[], users = DEMO_USERS): B
   return {
     rows: budgetRows,
     totals,
-    autoFlagRows: budgetRows.filter((r) => r.variancePct > 10),
+    autoFlagRows: budgetRows.filter(isBudgetVariance),
   };
 }
 
@@ -177,30 +182,7 @@ export function ensureBudgetVarianceDecision(
   decisions: Decision[],
 ): Decision[] {
   const summary = summarizeBudget(budgetRows);
-  const existing = new Set(
-    decisions
-      .filter((d) => d.auto_flag && d.workstream)
-      .map((d) => `${d.workstream}:${d.status}`),
-  );
-  const generated = summary.autoFlagRows
-    .filter((r) => !existing.has(`${r.key}:open`))
-    .map((r, i): Decision => ({
-      id: `auto-budget-${r.key}`,
-      question: `${r.name} is ${r.variancePct.toFixed(1)}% over plan — approve reallocation?`,
-      raised_by: "system (budget variance)",
-      workstream: r.key,
-      recommendation: `Review ${r.name}; committed spend exceeds the PRD's >10% threshold.`,
-      budget_ask: Math.max(0, r.committed - r.planned),
-      due_date: "2026-09-01",
-      priority: i === 0 ? "urgent" : "normal",
-      status: "open",
-      response: null,
-      response_note: null,
-      auto_flag: true,
-      resolved_at: null,
-      created_at: "2026-08-30T00:00:00.000Z",
-    }));
-  return [...decisions, ...generated];
+  return ensureBudgetVarianceDecisions(summary.autoFlagRows, decisions);
 }
 
 export interface ConfidenceBanner {
@@ -867,7 +849,7 @@ export interface RequirementAuditItem {
 export const PHASE2_REQUIREMENT_AUDIT: RequirementAuditItem[] = [
   { id: "P2-ROLE", requirement: "Admin, Leader, Operator roles; Decision Queue gated to Leaders.", status: "partial", evidence: "Role policy helpers + tests cover behavior; full Supabase Auth account provisioning remains." },
   { id: "P2-HOME", requirement: "Composable per-user Home with 30+ widget library and starter pack.", status: "partial", evidence: "Widget catalog and Home surface exist; drag-to-reorder persisted layout remains deferred." },
-  { id: "P2-BUDGET", requirement: "$365K Budget Tracker reconciles and >10% variance auto-flags.", status: "covered", evidence: "summarizeBudget + seed/live tests assert totals and auto-flag row." },
+  { id: "P2-BUDGET", requirement: "$365K Budget Tracker reconciles and >10% variance auto-flags.", status: "covered", evidence: "budget_entry ledger, /m/budget, budget.test, and seed invariants cover $365K reconciliation, burn/allocation, owner-scoped writes, and variance auto-flag payloads." },
   { id: "P2-DECISIONS", requirement: "Leader-only Decision Queue with approve/reject/need-info actions.", status: "partial", evidence: "Leader-only route/API gates and a persisted ruling transition API exist; submitter status, audit trail, notifications, and source-module propagation remain." },
   { id: "P2-CRMOPS", requirement: "CRM Ops surfaces parity, UTM broken, reliability flags, and data-quality queue.", status: "covered", evidence: "Dedicated CRM Ops page, detector route, and crm-ops.test cover parity, UTM health, scoring, reliability flags, and queue RBAC." },
   { id: "P2-GTC", requirement: "GT Challenge capture, score, route, budget/CAC loop.", status: "partial", evidence: "Assessment and campaign economics are modeled; public quiz persistence/API remains." },

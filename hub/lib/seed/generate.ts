@@ -34,6 +34,7 @@ import {
   X_CAMPAIGNS,
 } from "./campaigns";
 import type {
+  BudgetEntry,
   BudgetWorkstream,
   Child,
   CommunityAmbassador,
@@ -488,6 +489,11 @@ export function generate(opts: GenerateOptions = {}): SeedDataset {
     return { id: rng.uuid(), key: b.key, name: b.name, recommended: b.recommended, planned, committed, actual };
   });
 
+  // Append-only spend ledger (Module 10): per-owner manual entries + a campaign
+  // roll-in, generated to reconcile EXACTLY to each workstream's committed/actual so
+  // the derived aggregates equal the backbone values (audit immutability holds).
+  const budgetEntries = buildBudgetEntries(rng, budget, sprintStartMs, weeks);
+
   const decisions = buildDecisions(rng, asOfMs, budget);
 
   // ---------------- data quality issues ----------------
@@ -520,7 +526,7 @@ export function generate(opts: GenerateOptions = {}): SeedDataset {
       real: [
         "programs", "families", "children", "program_membership", "enrollments",
         "payments", "field_state", "parity_snapshot", "data_quality_issue",
-        "budget_workstream", "decisions", "processed_events", "sync_event_log",
+        "budget_workstream", "budget_entry", "decisions", "processed_events", "sync_event_log",
         "sync_outbox", "sync_identity_map",
       ],
       standIn: [
@@ -539,6 +545,7 @@ export function generate(opts: GenerateOptions = {}): SeedDataset {
     parity_snapshot: parity,
     data_quality_issue: dataQuality,
     budget_workstream: budget,
+    budget_entry: budgetEntries,
     decisions,
     processed_events: processed,
     sync_event_log: eventLog,
@@ -759,6 +766,100 @@ function outboxEntry(
     last_error: lastError,
     created_at: iso(createdMs),
   };
+}
+
+// The function owner responsible for each workstream's spend (audit `owner_role`).
+const BUDGET_OWNER_ROLE: Record<string, string> = {
+  grassroots: "Grassroots Owner",
+  thought_leadership: "Content Owner",
+  guerrilla: "Leadership",
+  foundations: "Marketing Lead",
+};
+
+/** Split a positive integer total into `parts` positive integer chunks (deterministic). */
+function splitAmount(rng: Rng, total: number, parts: number): number[] {
+  const whole = Math.round(total);
+  if (whole <= 0) return [];
+  const n = Math.max(1, Math.min(parts, whole));
+  const out: number[] = [];
+  let remaining = whole;
+  for (let i = 0; i < n - 1; i++) {
+    const slotsLeft = n - i; // including this one
+    const maxForThis = remaining - (slotsLeft - 1); // leave >=1 for each later slot
+    const target = Math.round((whole / n) * (0.6 + rng.next() * 0.8));
+    const amt = Math.max(1, Math.min(maxForThis, target));
+    out.push(amt);
+    remaining -= amt;
+  }
+  out.push(remaining);
+  return out;
+}
+
+/**
+ * Build the append-only ledger so the DERIVED aggregates equal each workstream's
+ * committed/actual EXACTLY. Grassroots carries a single `origin='campaign'` roll-in
+ * (the GT Challenge gifted_quiz spend, counted once); the rest is per-owner manual.
+ */
+function buildBudgetEntries(
+  rng: Rng,
+  budget: BudgetWorkstream[],
+  sprintStartMs: number,
+  weeks: number,
+): BudgetEntry[] {
+  const entries: BudgetEntry[] = [];
+  const days = weeks * 7;
+  const owner = (k: string) => BUDGET_OWNER_ROLE[k] ?? "Marketing Lead";
+
+  const push = (
+    key: string,
+    kind: "committed" | "actual",
+    origin: "manual" | "campaign",
+    amount: number,
+    note: string,
+    campaignKey: string | null,
+  ) => {
+    if (amount <= 0) return;
+    const createdMs = sprintStartMs + rng.int(0, Math.max(0, days - 1)) * DAY;
+    entries.push({
+      id: rng.uuid(),
+      workstream_key: key,
+      kind,
+      origin,
+      amount,
+      entered_by: `${owner(key)} (seed)`,
+      owner_role: owner(key),
+      note,
+      campaign_key: campaignKey,
+      created_at: iso(createdMs),
+    });
+  };
+
+  for (const b of budget) {
+    // committed: 1–2 manual entries summing to b.committed.
+    splitAmount(rng, b.committed, rng.int(1, 2)).forEach((amt, i) =>
+      push(b.key, "committed", "manual", amt, `Committed PO ${i + 1}`, null),
+    );
+
+    // actual: grassroots carries the GT Challenge campaign roll-in as ONE component.
+    let remainingActual = Math.round(b.actual);
+    if (b.key === "grassroots" && remainingActual > 0) {
+      const campaignAmt = Math.min(remainingActual, Math.round(b.actual * 0.2));
+      push(
+        b.key,
+        "actual",
+        "campaign",
+        campaignAmt,
+        "GT Challenge (gifted_quiz_2026) campaign spend roll-in",
+        "gifted_quiz_2026",
+      );
+      remainingActual -= campaignAmt;
+    }
+    splitAmount(rng, remainingActual, rng.int(1, 3)).forEach((amt, i) =>
+      push(b.key, "actual", "manual", amt, `Actual spend ${i + 1}`, null),
+    );
+  }
+
+  return entries;
 }
 
 function buildDecisions(rng: Rng, asOfMs: number, budget: BudgetWorkstream[]): Decision[] {

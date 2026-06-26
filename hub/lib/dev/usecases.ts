@@ -525,7 +525,7 @@ export const USE_CASES: UseCase[] = [
     proves: "Budget Tracker logic reconciles workstream rows to $365K and turns >10% variance into a Decision Queue item.",
     status: "covered",
     requires: ["pure"],
-    tests: ["brief-usecases.test.ts › UC-DEMO-BUDGET", "phase2.test.ts › Phase 2 Budget Tracker"],
+    tests: ["brief-usecases.test.ts › UC-DEMO-BUDGET", "phase2.test.ts › Phase 2 Budget Tracker", "budget.test.ts › Budget · reconcile to $365K + column identities"],
   },
   {
     id: "UC-DEMO-BUDGET-UI",
@@ -536,7 +536,7 @@ export const USE_CASES: UseCase[] = [
     proves: "Budget Tracker UI visibly shows workstream rows summing to $365K.",
     status: "covered",
     requires: ["pure"],
-    tests: ["module-routes.test.ts › Budget route visibly reconciles workstreams to the $365K total and variance queue"],
+    tests: ["module-routes.test.ts › Budget route visibly reconciles workstreams to the $365K total and variance queue", "budget.test.ts › Budget · rendered sub-views"],
   },
   {
     id: "UC-DEMO-ROLE-DENIED",

@@ -131,6 +131,33 @@ export function validate(ds: SeedDataset): ValidationResult {
   const autoFlag = ds.decisions.some((d) => d.auto_flag);
   add("budget_variance_autoflag", over && autoFlag, `over-plan workstream=${over}, auto-flagged decision=${autoFlag}`);
 
+  // 11b. Budget ledger derives the aggregates (Module 10): for every workstream the
+  //      append-only budget_entry rows sum EXACTLY to committed + actual (audit
+  //      immutability — an aggregate never changes without a corresponding ledger row).
+  const round2 = (n: number) => Math.round(n * 100) / 100;
+  let ledgerMismatch = 0;
+  for (const b of ds.budget_workstream) {
+    const rows = ds.budget_entry.filter((e) => e.workstream_key === b.key);
+    const committed = round2(rows.filter((e) => e.kind === "committed").reduce((s, e) => s + e.amount, 0));
+    const actual = round2(rows.filter((e) => e.kind === "actual").reduce((s, e) => s + e.amount, 0));
+    if (committed !== round2(b.committed) || actual !== round2(b.actual)) ledgerMismatch++;
+  }
+  add("budget_entry_derives_aggregates", ledgerMismatch === 0, `${ledgerMismatch} workstreams where Σ entries ≠ aggregate`);
+
+  // 11c. No double-count (survivorship): a campaign roll-in exists, every campaign entry
+  //      carries origin='campaign', and no campaign_key appears as BOTH campaign + manual.
+  const campaignEntries = ds.budget_entry.filter((e) => e.origin === "campaign");
+  const campaignKeys = new Set(campaignEntries.map((e) => e.campaign_key));
+  const manualCampaignKeys = new Set(
+    ds.budget_entry.filter((e) => e.origin === "manual" && e.campaign_key).map((e) => e.campaign_key),
+  );
+  const doubleCounted = [...campaignKeys].filter((k) => manualCampaignKeys.has(k));
+  add(
+    "budget_campaign_counted_once",
+    campaignEntries.length >= 1 && doubleCounted.length === 0,
+    `${campaignEntries.length} campaign roll-in(s), ${doubleCounted.length} double-counted`,
+  );
+
   // 12. Manifest counts match the actual arrays (honest manifest).
   let countMismatch = 0;
   for (const [k, v] of Object.entries(ds)) {

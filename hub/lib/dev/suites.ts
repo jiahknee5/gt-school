@@ -51,6 +51,7 @@ export const SUITES: Suite[] = [
       { file: "tests/opendata-route.test.ts", kind: "pure", needs: [], what: "Decision-enrichment route validation, cache headers, and 502 failure path." },
       { file: "tests/decisions.test.ts", kind: "pure", needs: [], what: "Decision Queue ruling transitions and Leader-only mutation route." },
       { file: "tests/crm-ops.test.ts", kind: "pure", needs: [], what: "CRM Ops parity, attribution, scoring, detector, queue RBAC, and rendered module surface." },
+      { file: "tests/budget.test.ts", kind: "pure", needs: [], what: "Budget ledger reconciliation, variance auto-flags, RBAC, route write guard, and rendered sub-views." },
       { file: "tests/rbac.test.ts", kind: "pure", needs: [], what: "Signed demo sessions, route policy, middleware denial, token integrity/expiry." },
       { file: "tests/outbox-worker.test.ts", kind: "live", needs: ["db", "hubspot"], what: "Outbound outbox drain, retries, dead-lettering." },
       { file: "tests/parity.test.ts", kind: "live", needs: ["db"], what: "Parity / data-confidence computation." },
