@@ -4,14 +4,17 @@ import {
   DEMO_USERS,
   PHASE2_REQUIREMENT_AUDIT,
   WIDGET_LIBRARY,
+  type DemoUser,
+  type Role,
   buildConfidenceBanner,
   ensureBudgetVarianceDecision,
   summarizeBudget,
   summarizeGtChallengeCampaign,
-  widgetsForUser,
 } from "@/lib/phase2";
 import { generate } from "@/lib/seed/generate";
 import { getSession } from "@/lib/auth";
+import { withoutProgram } from "@/lib/db";
+import { layoutForUser, resolveHomeWidgets } from "@/lib/home/layout";
 
 export const dynamic = "force-dynamic";
 
@@ -45,6 +48,30 @@ function sourceCount(rows: { source: string | null }[]) {
     counts.set(source, (counts.get(source) ?? 0) + 1);
   }
   return [...counts.entries()].sort((a, b) => b[1] - a[1]);
+}
+
+type HomeLayoutRow = {
+  user_id: string;
+  role: Role;
+  widgets: unknown;
+  version: number;
+  updated_at: string | Date | null;
+};
+
+async function readHomeLayout(user: DemoUser, canReadDb: boolean) {
+  if (!canReadDb || !process.env.APP_RW_DATABASE_URL) return layoutForUser(user);
+  try {
+    return await withoutProgram(async (sql) => {
+      const rows = await sql<HomeLayoutRow[]>`
+        select user_id, role, widgets, version, updated_at
+        from home_layout
+        where user_id = ${user.id}
+        limit 1`;
+      return layoutForUser(user, rows[0] ?? null);
+    });
+  } catch {
+    return layoutForUser(user);
+  }
 }
 
 function MetricTile({
@@ -110,7 +137,8 @@ export default async function Home() {
   const dataset = generate({ seed: 424242, families: 1200 });
   const viewer = session ?? DEMO_USERS.find((user) => user.role === "leader") ?? DEMO_USERS[0];
   const canViewDecisions = viewer.role === "leader";
-  const widgets = widgetsForUser(viewer);
+  const layout = await readHomeLayout(viewer, Boolean(session));
+  const widgets = resolveHomeWidgets(layout.widgets);
   const budget = summarizeBudget(dataset.budget_workstream);
   const decisions = ensureBudgetVarianceDecision(dataset.budget_workstream, dataset.decisions);
   const openDecisions = canViewDecisions
@@ -166,8 +194,10 @@ export default async function Home() {
       note: "Budget health grid reads the same workstream rows as Module 10",
     },
     "decision-preview": {
-      value: `${openDecisions.length} open`,
-      note: "Leader-only preview from the Decision Queue",
+      value: canViewDecisions ? `${openDecisions.length} open` : "Restricted",
+      note: canViewDecisions
+        ? "Leader-only preview from the Decision Queue"
+        : "Leader-only preview hidden for this role",
     },
   };
 
@@ -259,7 +289,9 @@ export default async function Home() {
               <div>
                 <h2 className="font-serif text-[24px] font-semibold text-ink">Home widgets</h2>
                 <p className="mt-1 text-[13px] text-muted">
-                  Starter pack for the weekly meeting, personalized for the Leader role.
+                  {layout.persisted
+                    ? "Saved layout for this signed-in role lens."
+                    : "Starter pack for the weekly meeting, personalized by role."}
                 </p>
               </div>
               <span className="mono w-fit rounded-card bg-fill px-2 py-1 text-[11px] font-semibold text-slate">
@@ -267,25 +299,34 @@ export default async function Home() {
               </span>
             </div>
             <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
-              {widgets.map((widget) => {
-                const data = widgetValues[widget.id] ?? {
-                  value: widget.size,
-                  note: `${widget.source} source`,
-                };
+              {widgets.map(({ item, widget }) => {
+                const data = widget
+                  ? widgetValues[widget.id] ?? {
+                    value: widget.size,
+                    note: `${widget.source} source`,
+                  }
+                  : {
+                    value: item.size,
+                    note: "Saved widget key is no longer available in the library",
+                  };
                 return (
                   <article
-                    key={widget.id}
+                    key={item.widget_key}
                     className={`rounded-card border border-hairline bg-canvas p-4 ${
-                      widget.size === "large" ? "md:col-span-2 xl:col-span-3" : ""
+                      item.size === "large" ? "md:col-span-2 xl:col-span-3" : ""
                     }`}
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div>
-                        <p className="text-[13px] font-semibold text-ink">{widget.label}</p>
-                        <p className="mt-1 text-[12px] text-muted">{widget.category}</p>
+                        <p className="text-[13px] font-semibold text-ink">
+                          {widget?.label ?? "Unavailable widget"}
+                        </p>
+                        <p className="mt-1 text-[12px] text-muted">
+                          {widget?.category ?? item.widget_key}
+                        </p>
                       </div>
                       <span className="mono shrink-0 rounded-card bg-fill px-2 py-1 text-[10px] text-slate">
-                        {widget.source}
+                        {widget?.source ?? "Saved layout"}
                       </span>
                     </div>
                     <p className="mono num mt-5 text-[26px] font-semibold leading-none text-ink">

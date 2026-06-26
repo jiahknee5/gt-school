@@ -848,7 +848,7 @@ export interface RequirementAuditItem {
 
 export const PHASE2_REQUIREMENT_AUDIT: RequirementAuditItem[] = [
   { id: "P2-ROLE", requirement: "Admin, Leader, Operator roles; Decision Queue gated to Leaders.", status: "partial", evidence: "Role policy helpers + tests cover behavior; full Supabase Auth account provisioning remains." },
-  { id: "P2-HOME", requirement: "Composable per-user Home with 30+ widget library and starter pack.", status: "partial", evidence: "Widget catalog and Home surface exist; drag-to-reorder persisted layout remains deferred." },
+  { id: "P2-HOME", requirement: "Composable per-user Home with 30+ widget library and starter pack.", status: "partial", evidence: "Widget catalog, Home surface, home_layout migration, and GET/PUT layout persistence exist; picker and drag UI remain deferred." },
   { id: "P2-BUDGET", requirement: "$365K Budget Tracker reconciles and >10% variance auto-flags.", status: "covered", evidence: "budget_entry ledger, /m/budget, budget.test, and seed invariants cover $365K reconciliation, burn/allocation, owner-scoped writes, and variance auto-flag payloads." },
   { id: "P2-DECISIONS", requirement: "Leader-only Decision Queue with approve/reject/need-info actions.", status: "partial", evidence: "Leader-only route/API gates and a persisted ruling transition API exist; submitter status, audit trail, notifications, and source-module propagation remain." },
   { id: "P2-CRMOPS", requirement: "CRM Ops surfaces parity, UTM broken, reliability flags, and data-quality queue.", status: "covered", evidence: "Dedicated CRM Ops page, detector route, and crm-ops.test cover parity, UTM health, scoring, reliability flags, and queue RBAC." },

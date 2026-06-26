@@ -18,10 +18,17 @@ The suite is organized on **two axes** — and they are not the same axis:
 | `opendata.test.ts` | data | pure | — | Open Data client cache/fallback + enrichment (mocked fetch) |
 | `opendata-route.test.ts` | backend | pure | — | Decision-enrichment route validation, cache headers, and 502 failure path |
 | `decisions.test.ts` | backend | pure | — | Decision Queue ruling transitions and Leader-only mutation route |
+| `decisions-queue.test.ts` | backend | pure | — | Decision Queue read helpers and rendered Leader-only surface |
 | `crm-ops.test.ts` | backend | pure | — | CRM Ops parity, attribution, scoring, detector, queue RBAC, and rendered module surface |
 | `budget.test.ts` | backend | pure | — | Budget ledger reconciliation, variance auto-flags, RBAC, route write guard, and rendered sub-views |
+| `home-layout.test.ts` | backend | pure | — | Home saved layout normalization, per-session GET/PUT persistence, and spoofed user-id denial |
 | `rbac.test.ts` | backend | pure | — | Signed demo sessions, route policy, middleware denial, token integrity/expiry |
 | `module-routes.test.ts` | frontend | pure | — | Server-rendered Home/Budget/CRM/Decision Queue demo surfaces |
+| `dashboard.test.ts` | frontend | pure | — | Dashboard/KPI route, shared scorecard, goal RBAC, freshness, and rendered sub-views |
+| `nurture.test.ts` | frontend | pure | — | Nurture lifecycle metrics, SMS/PII gates, SLA, segments, and rendered sub-views |
+| `grassroots.test.ts` | frontend | pure | — | Grassroots ambassador reconciliation, referral metrics, market map, cross-links, and rendered sub-views |
+| `admissions.test.ts` | frontend | pure | — | Admissions objection themes, consented family voice, content bridge, feedback RBAC, and rendered sub-views |
+| `content.test.ts` | frontend | pure | — | Content sheet mirror, channel attribution, brand-voice suggestions, sync conflicts, and rendered sub-views |
 | `seed-fixtures.test.ts` | data | live | db | Spec-mandated rates + stress cases vs seeded Postgres |
 | `reconcile.test.ts` | backend | live | db, hubspot | Field-directional authority + stable parity across runs |
 | `payments.test.ts` | backend | live | db, stripe | Idempotent, monotonic, program-isolated payments |

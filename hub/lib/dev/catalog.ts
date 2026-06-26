@@ -508,6 +508,21 @@ export const TABLES: TableDef[] = [
       { name: "created_at", type: "timestamptz", note: "Raised." },
     ],
   },
+  {
+    name: "home_layout",
+    zone: "machinery",
+    title: "Per-user Home widget layout",
+    sourceOfTruth: "Hub (session user)",
+    why: "Stores each actor's ordered widget keys and sizes so Home personalization survives a new session without owning widget metrics.",
+    fields: [
+      { name: "id", type: "uuid", note: "Primary key.", tags: ["pk"] },
+      { name: "user_id", type: "text", note: "Signed session user id; unique per layout owner.", tags: ["key"] },
+      { name: "role", type: "text", note: "admin | leader | operator at save time." },
+      { name: "widgets", type: "jsonb", note: "Ordered array of {widget_key, size, order}." },
+      { name: "version", type: "integer", note: "Incremented on each save." },
+      { name: "updated_at", type: "timestamptz", note: "Touched automatically by trigger." },
+    ],
+  },
   // ---------------- stand-in ----------------
   {
     name: "meta_insights",

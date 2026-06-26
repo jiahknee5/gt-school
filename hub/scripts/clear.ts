@@ -37,6 +37,7 @@ export async function clearGenerated(
     await sql`delete from data_quality_issue`;
     await sql`delete from parity_snapshot`;
     await sql`delete from field_state`;
+    await sql`delete from home_layout`;
     await sql`delete from decisions`;
     await sql`delete from budget_entry`;
     await sql`delete from sync_outbox`;

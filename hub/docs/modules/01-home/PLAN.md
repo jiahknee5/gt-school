@@ -20,7 +20,7 @@
 | DQ surfacing | `data_quality_issue` | Banner detail link target (CRM Ops, Module 7) |
 | In-app dev docs | `lib/dev/catalog.ts`, `/dev/*` | Register the new Home-owned tables (additive append, PII tags on VoC/narrative) |
 
-**Nothing in `0001_backbone.sql` / `0002_sync_cursor.sql` is edited.** Home adds one additive migration (`0003_home.sql`) for its own small footprint.
+**Nothing in `0001_backbone.sql` / `0002_sync_cursor.sql` is edited.** Home adds one additive migration (`0005_home.sql`) for its current layout footprint.
 
 ---
 
@@ -61,7 +61,7 @@
 
 ### Open
 - Canonical **workstream** taxonomy for the Health Grid (≠ the 4 budget workstreams?) — see §8.
-- Identity/auth: is there a planned **profiles/session** module to reuse, or does `0003_home.sql` own it? — see §8.
+- Identity/auth: current layout rows use the signed session user id; production **profiles/session** ownership remains a C1 auth question — see §8.
 - Source for **"Top 3 personas by volume"** (persona dossier v2) and **ambassador/P2P/RSVP** manual feeds — owned by Grassroots/Admissions, Home only reads.
 
 ---
@@ -117,7 +117,9 @@ flowchart TD
 
 **Reads only (no edits):** `families`, `children`, `enrollments`, `payments` (via `lib/db.ts` RLS), `budget_workstream`, `decisions`, `parity_snapshot`, `field_state`, `data_quality_issue`, and the stand-ins `meta_insights`, `ga4_days`, `x_posts`, `content_sheet`, `community_ambassadors`+`hubspot_ambassadors`, `summer_site_registrations`+`registration_form_entries` — **always through `lib/metrics/home.ts`**, never re-derived inline.
 
-**Additive migration — `supabase/migrations/0003_home.sql` (touches no backbone table):**
+**Additive migration — `supabase/migrations/0005_home.sql` (touches no backbone table):**
+
+Current implementation covers the `home_layout` slice only. The broader Home-owned tables below remain planned for the narrative, workstream-comment, and goal-edit surfaces.
 
 | Table | Key columns | Why |
 |---|---|---|
@@ -158,7 +160,7 @@ These mirror PRD §3 Module 1 **Inputs & Outputs** exactly.
 
 | File | Purpose |
 |---|---|
-| `supabase/migrations/0003_home.sql` | The 6 Home-owned tables + grants (§3) |
+| `supabase/migrations/0005_home.sql` | Current layout table + grants (§3); remaining Home-owned tables stay planned |
 | `lib/metrics/home.ts` | **Single** definition per metric for the 32 widgets; reads authoritative source per SSOT map; returns `{value, as_of, source}` (the no-re-derive contract) |
 | `lib/home/widgets.ts` | Widget **registry**: 32 entries `{key, title, category, source, sizes[], defaultPack, inputs, output}`; **versioned**, unknown-key tolerant |
 | `lib/home/layout.ts` | Load/save per-user layout; role-aware starter-pack defaults; diff from picker |
@@ -208,7 +210,7 @@ These mirror PRD §3 Module 1 **Inputs & Outputs** exactly.
 
 ## 8. Open questions / assumptions
 
-- **Identity/auth:** assumes `0003_home.sql` introduces `profiles` (id/email/role/owned modules) **or** reuses a global auth module if one is planned — Home needs a user + role to personalize and gate. *Reuse over duplicate if it exists.*
+- **Identity/auth:** current layout persistence keys off the signed session user id; a future production auth/profile module should be reused rather than duplicated — Home needs a stable user + role to personalize and gate.
 - **Workstream taxonomy:** the Health Grid's "workstream" is **not** assumed equal to the 4 `budget_workstream` keys; assumed to be the **function modules/owners**. Needs a canonical workstream list (config) — flagged for the Dashboard/KPI module to co-own.
 - **"Top 3 personas by volume"** reads **persona dossier v2**, which is not in the data model — assumed a config/fixture reference owned upstream; Home only renders.
 - **Manual feeds** (P2P calls, events/RSVPs, ambassador touchpoints, family quotes, wins/risks) are **owned by Grassroots/Admissions/Field-Events**; Home reads their reconciled/aggregated figure and only **writes** narrative/comments/goals/decision-responses.

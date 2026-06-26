@@ -91,13 +91,13 @@ export const GUIDES: Guide[] = [
     modules: ["Home", "(all modules as widget sources)"],
     trigger: "First login, or whenever your focus changes.",
     steps: [
-      { do: "Open the '+ Add widget' dropdown, search or browse by category, and check the widgets you want (each shows its data source).", where: "Home · top bar", result: "Selected widgets appear on your grid; your layout is private to you." },
-      { do: "Drag to reorder and set each widget's size (small / medium / large).", where: "Home · grid", result: "Layout saves automatically per user." },
-      { do: "(Leaders) Act inline — approve a Decision Queue card, comment on a Workstream Health row, or adjust a goal/target.", where: "Home · leadership input widgets", result: "Actions propagate to the Decision Queue, the owning workstream, and the KPI module." },
+      { do: "Start from the role-aware widget pack and use the source tags to pick the modules you need to inspect.", where: "Home · widgets", result: "The starter layout is private to the signed-in user." },
+      { do: "Save layout changes through the Home layout API when add/remove/reorder controls are wired.", where: "Home · layout persistence", result: "The ordered widget list is stored per user." },
+      { do: "(Leaders) Rule on decisions in the Decision Queue module.", where: "Decision Queue · Active decisions", result: "Actions are recorded with a leadership note." },
     ],
     success: [
-      "The default starter pack loads for new users; everyone can self-customize without help.",
-      "Leadership can approve, comment, and set goals without leaving Home.",
+      "The default starter pack loads for new users; client-side customization can persist through the layout API.",
+      "Saved layouts survive reloads once a Home client writes the ordered widget list.",
     ],
     watchFor: ["Your Home is yours — it is not the shared scorecard. For shared numbers use Dashboard / KPI."],
     related: ["weekly-meeting", "raise-a-decision"],

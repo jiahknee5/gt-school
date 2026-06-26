@@ -264,6 +264,35 @@ export function Sidebar({
           })}
         </ul>
 
+        {viewer && (
+          <ul className="mt-0.5 flex flex-col gap-0.5">
+            <li>
+              <Link
+                href="/m/submissions"
+                aria-current={pathname === "/m/submissions" ? "page" : undefined}
+                className={`group flex items-center gap-2.5 rounded-card px-2.5 py-[7px] text-[13px] font-medium transition-colors ${
+                  pathname === "/m/submissions"
+                    ? "bg-ink-cta text-on-cta shadow-sm"
+                    : "text-slate hover:bg-hover hover:text-ink"
+                }`}
+              >
+                <span
+                  className={`grid h-[18px] w-[18px] shrink-0 place-items-center ${
+                    pathname === "/m/submissions" ? "text-gold" : "text-label group-hover:text-muted"
+                  }`}
+                >
+                  <LinkIcon>
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                    <path d="M14 2v6h6" />
+                    <path d="m9 15 2 2 4-4" />
+                  </LinkIcon>
+                </span>
+                <span className="truncate">My submissions</span>
+              </Link>
+            </li>
+          </ul>
+        )}
+
         <p className="mono px-2.5 pb-1.5 pt-4 text-[11px] font-semibold text-label">
           Campaigns
         </p>

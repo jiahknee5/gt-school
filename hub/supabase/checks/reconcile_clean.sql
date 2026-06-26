@@ -14,7 +14,7 @@ drop table if exists sync_parity   cascade;
 truncate
   payments, enrollments, program_membership, children,
   field_state, parity_snapshot, data_quality_issue, decisions,
-  budget_entry, sync_outbox, sync_event_log, processed_events, sync_identity_map,
+  budget_entry, home_layout, sync_outbox, sync_event_log, processed_events, sync_identity_map,
   families
 restart identity cascade;
 

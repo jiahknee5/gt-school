@@ -30,18 +30,33 @@ export default function HelpIndex() {
         trustworthy. Each guide shows what you click, where, and what happens.
       </p>
 
-      <Link
-        href="/help/roadmap"
-        className="group mt-6 flex items-center justify-between gap-4 rounded-card border border-hairline bg-surface p-4 shadow-sm transition-colors hover:border-gold"
-      >
-        <div>
-          <p className="text-[14px] font-semibold text-ink group-hover:text-gold">Build roadmap →</p>
-          <p className="mt-0.5 text-[13px] text-muted">Which modules we build, in what order, and why.</p>
-        </div>
-        <span className="mono shrink-0 rounded-[6px] bg-violet-soft px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.06em] text-violet">
-          5 tiers
-        </span>
-      </Link>
+      <div className="mt-6 grid grid-cols-1 gap-3.5 lg:grid-cols-2">
+        <Link
+          href="/help/roadmap"
+          className="group flex items-center justify-between gap-4 rounded-card border border-hairline bg-surface p-4 shadow-sm transition-colors hover:border-gold"
+        >
+          <div>
+            <p className="text-[14px] font-semibold text-ink group-hover:text-gold">Build roadmap -&gt;</p>
+            <p className="mt-0.5 text-[13px] text-muted">Which modules we build, in what order, and why.</p>
+          </div>
+          <span className="mono shrink-0 rounded-[6px] bg-violet-soft px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.06em] text-violet">
+            5 tiers
+          </span>
+        </Link>
+
+        <Link
+          href="/help/priority-workflows"
+          className="group flex items-center justify-between gap-4 rounded-card border border-hairline bg-surface p-4 shadow-sm transition-colors hover:border-gold"
+        >
+          <div>
+            <p className="text-[14px] font-semibold text-ink group-hover:text-gold">Priority workflows -&gt;</p>
+            <p className="mt-0.5 text-[13px] text-muted">Side-by-side grader workflows with business and tech value.</p>
+          </div>
+          <span className="mono shrink-0 rounded-[6px] bg-amber-soft px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.06em] text-amber">
+            5 flows
+          </span>
+        </Link>
+      </div>
 
       <div className="mt-8 grid grid-cols-2 gap-3.5 sm:grid-cols-4">
         {[
@@ -104,7 +119,8 @@ export default function HelpIndex() {
       <footer className="mt-12 border-t border-hairline pt-5 text-[12px] text-label">
         Guides catalog: <span className="mono">lib/help/guides.ts</span> · Cross-module
         workflows: <span className="mono">docs/use-cases/README.md</span> · GT Challenge:{" "}
-        <span className="mono">docs/06-gt-challenge/WORKFLOW.md</span>
+        <span className="mono">docs/06-gt-challenge/WORKFLOW.md</span> · Priority workflows:{" "}
+        <span className="mono">docs/use-cases/PRIORITY-WORKFLOWS.md</span>
       </footer>
     </div>
   );

@@ -50,8 +50,10 @@ export const SUITES: Suite[] = [
       { file: "tests/hubspot-webhook.test.ts", kind: "live", needs: ["db", "hubspot"], what: "Inbound webhook ingest → app state." },
       { file: "tests/opendata-route.test.ts", kind: "pure", needs: [], what: "Decision-enrichment route validation, cache headers, and 502 failure path." },
       { file: "tests/decisions.test.ts", kind: "pure", needs: [], what: "Decision Queue ruling transitions and Leader-only mutation route." },
+      { file: "tests/decisions-queue.test.ts", kind: "pure", needs: [], what: "Decision Queue read helpers and rendered Leader-only surface." },
       { file: "tests/crm-ops.test.ts", kind: "pure", needs: [], what: "CRM Ops parity, attribution, scoring, detector, queue RBAC, and rendered module surface." },
       { file: "tests/budget.test.ts", kind: "pure", needs: [], what: "Budget ledger reconciliation, variance auto-flags, RBAC, route write guard, and rendered sub-views." },
+      { file: "tests/home-layout.test.ts", kind: "pure", needs: [], what: "Home saved layout normalization, per-session GET/PUT persistence, and spoofed user-id denial." },
       { file: "tests/rbac.test.ts", kind: "pure", needs: [], what: "Signed demo sessions, route policy, middleware denial, token integrity/expiry." },
       { file: "tests/outbox-worker.test.ts", kind: "live", needs: ["db", "hubspot"], what: "Outbound outbox drain, retries, dead-lettering." },
       { file: "tests/parity.test.ts", kind: "live", needs: ["db"], what: "Parity / data-confidence computation." },
@@ -75,6 +77,11 @@ export const SUITES: Suite[] = [
     script: "npm run test:frontend",
     files: [
       { file: "tests/module-routes.test.ts", kind: "pure", needs: [], what: "Server-rendered Home/Budget/CRM/Decision Queue demo surfaces." },
+      { file: "tests/dashboard.test.ts", kind: "pure", needs: [], what: "Dashboard/KPI route, shared scorecard, goal RBAC, freshness, and rendered sub-views." },
+      { file: "tests/nurture.test.ts", kind: "pure", needs: [], what: "Nurture lifecycle metrics, SMS/PII gates, SLA, segments, and rendered sub-views." },
+      { file: "tests/grassroots.test.ts", kind: "pure", needs: [], what: "Grassroots ambassador reconciliation, referral metrics, market map, cross-links, and rendered sub-views." },
+      { file: "tests/admissions.test.ts", kind: "pure", needs: [], what: "Admissions objection themes, consented family voice, content bridge, feedback RBAC, and rendered sub-views." },
+      { file: "tests/content.test.ts", kind: "pure", needs: [], what: "Content sheet mirror, channel attribution, brand-voice suggestions, sync conflicts, and rendered sub-views." },
     ],
   },
 ];

@@ -5,6 +5,13 @@ import { SYNCED_FIELDS } from "@/lib/seed/dictionaries";
 import { USE_CASES } from "@/lib/dev/usecases";
 import { routeDecision } from "@/lib/auth/policy";
 import {
+  addWidget,
+  layoutForUser,
+  removeWidget,
+  reorderWidget,
+  starterHomeLayout,
+} from "@/lib/home/layout";
+import {
   DEFAULT_STARTER_WIDGET_IDS,
   DEMO_USERS,
   WIDGET_LIBRARY,
@@ -193,6 +200,26 @@ describe("Phase 2 · product (data-level proofs)", () => {
     ]);
     expect(widgetsForUser(leader).map((w) => w.id)).toContain("decision-preview");
     expect(widgetsForUser(operator).map((w) => w.id)).toContain("content-pipeline");
+  });
+
+  it("UC-P2-HOME-PERSISTENCE: Home add/remove/reorder layout survives as a user row", () => {
+    const started = starterHomeLayout(operator);
+    const added = addWidget(started, "top-objections");
+    const moved = reorderWidget(added, "top-objections", 0);
+    const removed = removeWidget(moved, "content-pipeline");
+    const saved = layoutForUser(operator, {
+      user_id: operator.id,
+      role: operator.role,
+      widgets: removed,
+      version: 2,
+      updated_at: "2026-06-26T12:00:00.000Z",
+    });
+
+    expect(saved.persisted).toBe(true);
+    expect(saved.user_id).toBe(operator.id);
+    expect(saved.widgets[0].widget_key).toBe("top-objections");
+    expect(saved.widgets.map((item) => item.widget_key)).not.toContain("content-pipeline");
+    expect(saved.widgets.map((item) => item.order)).toEqual(saved.widgets.map((_, index) => index));
   });
 
   it("UC-GTC-CAPTURE-ASSESS: Challenge assessment requires consent, scores, routes, and de-identifies", () => {
@@ -405,7 +432,6 @@ describe("Marketing Hub spec (data-level proofs)", () => {
 // ───────────────────────── Pending — not built yet (tracked) ─────────────────────────
 describe("Pending product features (tracked, not yet built)", () => {
   it.todo("UC-P2-AUTH-ROLES: auth + Admin/Leader/Operator enforced at the app layer");
-  it.todo("UC-P2-HOME-PERSISTENCE: Home add/remove/reorder persists per authenticated user");
   it.todo("UC-GTC-CAPTURE-PERSIST: GT Challenge public quiz stores deduped submissions with no double-count");
 });
 
@@ -416,7 +442,7 @@ describe("Use-case catalog integrity (lib/dev/usecases.ts)", () => {
     "UC-P1-CONFLICT", "UC-P1-PARITY-SIGNAL", "UC-P1-RECON-SUMMER", "UC-P1-RECON-AMBASSADOR",
     "UC-DATA-DETERMINISM", "UC-DATA-EDGECASES", "UC-DATA-MESSY", "UC-DATA-HONEST", "UC-DATA-BUDGET-365",
     "UC-DATA-VARIANCE", "UC-DATA-ATTR-GAP", "UC-DATA-UTM-THREAD",
-    "UC-P2-SSOT", "UC-P2-CRMOPS-GAPS", "UC-P2-HOME", "UC-GTC-CAPTURE-ASSESS", "UC-GTC-CAMPAIGN",
+    "UC-P2-SSOT", "UC-P2-CRMOPS-GAPS", "UC-P2-HOME", "UC-P2-HOME-PERSISTENCE", "UC-GTC-CAPTURE-ASSESS", "UC-GTC-CAMPAIGN",
     "UC-SPEC-BUDGET-WORKSTREAMS", "UC-SPEC-CAMP-PL", "UC-SPEC-FIELD-RELIABILITY",
     "UC-SPEC-SCORE-CONVERSION", "UC-SPEC-DQ-AUTODETECT", "UC-SPEC-OUTBOX-DLQ",
     "UC-SPEC-CONTENT-PIPELINE",
@@ -426,7 +452,7 @@ describe("Use-case catalog integrity (lib/dev/usecases.ts)", () => {
     "UC-DEMO-BUDGET-UI", "UC-DEMO-ROLE-DENIED-AUTH-UI", "UC-DEMO-BANNER-UI",
   ]);
   const TODOS = new Set([
-    "UC-P2-AUTH-ROLES", "UC-P2-HOME-PERSISTENCE", "UC-GTC-CAPTURE-PERSIST",
+    "UC-P2-AUTH-ROLES", "UC-GTC-CAPTURE-PERSIST",
   ]);
 
   it("every use case is well-formed (id, reqs, proves, tests)", () => {

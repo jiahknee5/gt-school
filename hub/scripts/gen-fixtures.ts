@@ -120,7 +120,7 @@ function buildSql(ds: SeedDataset): string {
   out.push(
     "truncate families, children, program_membership, enrollments, payments, field_state,",
     "  parity_snapshot, data_quality_issue, decisions, processed_events, sync_event_log,",
-    "  sync_outbox, sync_identity_map cascade;\n",
+    "  sync_outbox, sync_identity_map, home_layout cascade;\n",
   );
 
   // global tables

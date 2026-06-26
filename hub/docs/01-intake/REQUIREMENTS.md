@@ -53,11 +53,11 @@ Judge completeness against *that*, not module count.
 
 | # | Requirement | Status | Notes / gap |
 |---|---|---|---|
-| C1 | **Auth + 3 roles enforced** (Admin, Leader, Operator) | ⛔ | No app-level auth/session yet; sidebar role is hard-coded. **Biggest non-negotiable gap.** RLS exists but app RBAC does not. |
-| C2 | **Decision Queue gated to Leaders** (Operators submit, never view/act) | ⛔ | module is a placeholder (`app/m/[slug]/page.tsx`); the demo's "role denied" depends on this + C1 |
+| C1 | **Auth + 3 roles enforced** (Admin, Leader, Operator) | 🟡 | Signed demo sessions, middleware, route policies, and API guards exist; production identity lifecycle remains. |
+| C2 | **Decision Queue gated to Leaders** (Operators submit, never view/act) | 🟡 | Leader-only route/API guards, rendered queue, and ruling mutation exist; submitter own-status and audit workflow remain. |
 | C3 | **Single source of truth** honored everywhere (no figure computed two ways) | 🟡 | SSOT map documented (`lib/dev/catalog.ts`, seed) but not *enforced in module UIs* (none built); needs a shared metrics layer |
 | C4 | **Budget reconciles** to $365K everywhere + **>10% variance auto-flags** to Decision Queue | 🟡 | Append-only `budget_entry`, Budget UI, burn/allocation views, and variance→DQ payload tests ✅; approved reallocation propagation remains |
-| C5 | **Composable per-user Home** (30+ widget library, starter pack, saved layout) | ⛔ | `app/page.tsx` is a static jump-off grid, not a widget board |
+| C5 | **Composable per-user Home** (30+ widget library, starter pack, saved layout) | 🟡 | Widget library, role-aware starter pack, `home_layout`, and GET/PUT persistence exist; picker/drag board remains. |
 | C6 | **Real integrations + dual-source reconciliation** (≥ HubSpot live; + summer/form or HubSpot/community) | 🟡 | HubSpot connector live ✅; **dual-source reconcile surfaced as product** ⛔ |
 | C7 | **Open Data query that *changes a decision*** | 🟡 | `lib/opendata/enrich.ts` + `app/api/opendata/decision-enrichment/route.ts` ✅; needs a **decision surface** where the enrichment visibly changes the call |
 | C8 | **Respect known gaps honestly** (UTM broken, event-to-consult uninstrumented, unreliable fields) | 🟡 | modeled/labeled in seed + dev docs ✅; needs the **CRM Ops module** to surface them in-product |

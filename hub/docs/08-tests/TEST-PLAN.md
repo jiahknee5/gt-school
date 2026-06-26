@@ -65,13 +65,13 @@ Source of truth: `lib/dev/usecases.ts` (`useCaseCounts()`), surfaced live at `/d
 |---|---|---|---|
 | Phase 1 · Backbone | 8 | 1 | 0 |
 | Test data | 8 | 0 | 0 |
-| Phase 2 · Product | 7 | 0 | 3 |
+| Phase 2 · Product | 8 | 0 | 2 |
 | Spec · Marketing Hub | 14 | 0 | 0 |
 | Demo signal | 7 | 1 | 0 |
-| **Total** | **44** | **2** | **3** |
+| **Total** | **45** | **2** | **2** |
 
 `npm run test:ci` (pure gate): green, no keys, < 5s. Latest full live-inclusive run:
-20 files, 221 passed, 3 todo. `tests/brief-usecases.test.ts`: all `covered`
+27 files, 326 passed, 2 todo. `tests/brief-usecases.test.ts`: all `covered`
 proven, all `pending` tracked as `it.todo`.
 
 ## 4. Prioritized backlog
@@ -86,7 +86,7 @@ proven, all `pending` tracked as `it.todo`.
   actual navigation/session flow. → `tests/frontend/`.
 - **Production auth gap**: signed demo sessions and route/API RBAC are covered, but Supabase Auth account
   provisioning and real identity lifecycle remain pending under `UC-P2-AUTH-ROLES`.
-- **Home persistence**: add/remove/reorder widgets per authenticated user and persist layout.
+- **Home UI controls**: picker, drag/reorder board, and client save loop on top of the covered layout API.
 - **GT Challenge persistence**: public quiz ingest, idempotency key, stored lead, HubSpot outbox handoff.
 - **Decision Queue workflow remainder**: Leader approve/reject/need-info persistence is covered; submitter
   own-status, immutable audit history, notification, and source-link propagation remain.
