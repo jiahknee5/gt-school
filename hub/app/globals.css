@@ -21,7 +21,9 @@
   --ink: #002a3a;
   --slate: #003b5c;
   --muted: #496779;
-  --label: #7891a0;
+  /* Darkened from #7891a0 (3.04:1, failed WCAG AA) to clear 4.5:1 on canvas/surface
+     for the pervasive small mono labels, breadcrumbs, and metadata (a11y X2). */
+  --label: #556f80;
   --hairline: rgba(0, 42, 58, 0.14);
   --border: rgba(0, 42, 58, 0.26);
   --fill: #f5ddcd;
@@ -151,4 +153,13 @@ body {
 ::selection {
   background: var(--fill);
   color: var(--ink);
+}
+
+/* Brand keyboard-focus ring (a11y X4): replaces the off-brand browser-default outline,
+   which was low-contrast against the salmon sidebar + dark active rows. Only shows for
+   keyboard/AT focus (:focus-visible), so it never adds chrome to mouse clicks. */
+:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+  border-radius: 2px;
 }
