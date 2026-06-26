@@ -48,6 +48,7 @@ export const SUITES: Suite[] = [
       { file: "tests/reconcile.test.ts", kind: "live", needs: ["db", "hubspot"], what: "Field-directional authority + stable parity across runs." },
       { file: "tests/payments.test.ts", kind: "live", needs: ["db", "stripe"], what: "Idempotent, monotonic, program-isolated payment propagation." },
       { file: "tests/hubspot-webhook.test.ts", kind: "live", needs: ["db", "hubspot"], what: "Inbound webhook ingest → app state." },
+      { file: "tests/opendata-route.test.ts", kind: "pure", needs: [], what: "Decision-enrichment route validation, cache headers, and 502 failure path." },
       { file: "tests/outbox-worker.test.ts", kind: "live", needs: ["db", "hubspot"], what: "Outbound outbox drain, retries, dead-lettering." },
       { file: "tests/parity.test.ts", kind: "live", needs: ["db"], what: "Parity / data-confidence computation." },
       { file: "tests/r1-connection.test.ts", kind: "live", needs: ["db"], what: "RLS / program isolation smoke against the DB." },
@@ -66,9 +67,11 @@ export const SUITES: Suite[] = [
   {
     id: "frontend",
     label: "Frontend",
-    domain: "UI components & pages — no tests yet (scaffold)",
+    domain: "UI components & pages",
     script: "npm run test:frontend",
-    files: [],
+    files: [
+      { file: "tests/module-routes.test.ts", kind: "pure", needs: [], what: "Server-rendered Home/Budget/CRM/Decision Queue demo surfaces." },
+    ],
   },
 ];
 

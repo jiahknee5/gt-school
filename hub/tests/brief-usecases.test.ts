@@ -388,9 +388,7 @@ describe("Pending product features (tracked, not yet built)", () => {
   it.todo("UC-P2-AUTH-ROLES: auth + Admin/Leader/Operator enforced at the app layer");
   it.todo("UC-P2-HOME-PERSISTENCE: Home add/remove/reorder persists per authenticated user");
   it.todo("UC-GTC-CAPTURE-PERSIST: GT Challenge public quiz stores deduped submissions with no double-count");
-  it.todo("UC-DEMO-BUDGET-UI: Budget Tracker UI shows rows reconciling to $365K");
   it.todo("UC-DEMO-ROLE-DENIED-AUTH-UI: an Operator is denied the Decision Queue route and UI");
-  it.todo("UC-DEMO-BANNER-UI: data-confidence banner renders across modules when parity drops");
 });
 
 // ───────────────────────── Catalog integrity ─────────────────────────
@@ -407,10 +405,11 @@ describe("Use-case catalog integrity (lib/dev/usecases.ts)", () => {
     "UC-SPEC-XLINK-TESTIMONIAL", "UC-SPEC-XLINK-OBJECTION", "UC-SPEC-XLINK-HOTFAMILY",
     "UC-SPEC-XLINK-EVENT", "UC-SPEC-MONDAY-MEETING", "UC-SPEC-HANDOFF",
     "UC-DEMO-BUDGET", "UC-DEMO-ROLE-DENIED", "UC-DEMO-BANNER",
+    "UC-DEMO-BUDGET-UI", "UC-DEMO-BANNER-UI",
   ]);
   const TODOS = new Set([
     "UC-P2-AUTH-ROLES", "UC-P2-HOME-PERSISTENCE", "UC-GTC-CAPTURE-PERSIST",
-    "UC-DEMO-BUDGET-UI", "UC-DEMO-ROLE-DENIED-AUTH-UI", "UC-DEMO-BANNER-UI",
+    "UC-DEMO-ROLE-DENIED-AUTH-UI",
   ]);
 
   it("every use case is well-formed (id, reqs, proves, tests)", () => {
