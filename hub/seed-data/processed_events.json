@@ -1,0 +1,2657 @@
+[
+  {
+    "source": "stripe",
+    "event_id": "evt_7760334669143460",
+    "first_seen_at": "2026-07-18T04:15:36.474Z",
+    "result": {
+      "payment_intent": "pi_3286511684059729",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_4522372993431591",
+    "first_seen_at": "2026-08-18T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_4402304915442509",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3890837210651706",
+    "first_seen_at": "2026-09-13T17:16:38.854Z",
+    "result": {
+      "payment_intent": "pi_2958353007029606",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3993262534620131",
+    "first_seen_at": "2026-07-10T21:17:17.558Z",
+    "result": {
+      "payment_intent": "pi_8717093644108077",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_7915377636708360",
+    "first_seen_at": "2026-06-23T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_7098808539056385",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5179056788569967",
+    "first_seen_at": "2026-08-11T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_4751414306855061",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9711359534709294",
+    "first_seen_at": "2026-06-24T04:21:10.002Z",
+    "result": {
+      "payment_intent": "pi_7180795623515793",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3736254920307262",
+    "first_seen_at": "2026-08-04T08:18:14.182Z",
+    "result": {
+      "payment_intent": "pi_3301274744013229",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9328610701922132",
+    "first_seen_at": "2026-07-22T14:57:16.445Z",
+    "result": {
+      "payment_intent": "pi_0256049959454306",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3362752860909029",
+    "first_seen_at": "2026-07-09T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_3393336185356868",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0056354291829327",
+    "first_seen_at": "2026-06-19T15:42:31.494Z",
+    "result": {
+      "payment_intent": "pi_8750731729629086",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_6673054043728601",
+    "first_seen_at": "2026-07-14T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_0438374607037791",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3387840639851532",
+    "first_seen_at": "2026-08-22T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_3336972794659677",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2475398116660109",
+    "first_seen_at": "2026-09-15T23:22:58.110Z",
+    "result": {
+      "payment_intent": "pi_7403736560954279",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_7929944961296082",
+    "first_seen_at": "2026-06-23T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_2898119663337552",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_1211898579499695",
+    "first_seen_at": "2026-08-29T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_4344509559110853",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2476903298376237",
+    "first_seen_at": "2026-06-11T08:28:54.911Z",
+    "result": {
+      "payment_intent": "pi_5360448923915737",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0080327986982237",
+    "first_seen_at": "2026-07-15T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_2782579719589871",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_1907007537099219",
+    "first_seen_at": "2026-06-01T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_7962109728788094",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_6580204009750534",
+    "first_seen_at": "2026-08-31T11:41:11.100Z",
+    "result": {
+      "payment_intent": "pi_6004549285752336",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9398898732700524",
+    "first_seen_at": "2026-08-27T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_3733243671746183",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_1316054910862751",
+    "first_seen_at": "2026-06-26T18:05:04.521Z",
+    "result": {
+      "payment_intent": "pi_2093232084646665",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0349599077042269",
+    "first_seen_at": "2026-07-14T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_9178557723775564",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3004544710454886",
+    "first_seen_at": "2026-08-28T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_0728534828810166",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_4996633923426482",
+    "first_seen_at": "2026-07-23T21:49:51.194Z",
+    "result": {
+      "payment_intent": "pi_0063763650568292",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9833163945783137",
+    "first_seen_at": "2026-08-26T11:48:05.054Z",
+    "result": {
+      "payment_intent": "pi_0783600730610602",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_8307738997205829",
+    "first_seen_at": "2026-08-17T08:01:45.346Z",
+    "result": {
+      "payment_intent": "pi_3193627676061090",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_8837905329614819",
+    "first_seen_at": "2026-06-22T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_7458372131789026",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2057666258430260",
+    "first_seen_at": "2026-07-25T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_2098636015722234",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_1022055394958966",
+    "first_seen_at": "2026-07-30T18:49:37.824Z",
+    "result": {
+      "payment_intent": "pi_7403381257852931",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_4127884937024100",
+    "first_seen_at": "2026-07-05T00:09:19.681Z",
+    "result": {
+      "payment_intent": "pi_9405298811359333",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0826945411479108",
+    "first_seen_at": "2026-08-16T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_9867392348524383",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9453282117887846",
+    "first_seen_at": "2026-06-05T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_5054586725934254",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_6104083283504692",
+    "first_seen_at": "2026-06-21T02:50:12.068Z",
+    "result": {
+      "payment_intent": "pi_7388159130042521",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_7897913413309927",
+    "first_seen_at": "2026-06-14T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_9961641933858165",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3745292806844586",
+    "first_seen_at": "2026-09-07T03:41:19.718Z",
+    "result": {
+      "payment_intent": "pi_7372077795109759",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2766251854748218",
+    "first_seen_at": "2026-08-29T03:19:21.247Z",
+    "result": {
+      "payment_intent": "pi_7227836210652939",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9551388206634308",
+    "first_seen_at": "2026-06-21T20:57:43.302Z",
+    "result": {
+      "payment_intent": "pi_0979617962385863",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3269730163485642",
+    "first_seen_at": "2026-06-04T10:21:03.361Z",
+    "result": {
+      "payment_intent": "pi_1239951097812780",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9029606003933394",
+    "first_seen_at": "2026-07-13T12:09:24.438Z",
+    "result": {
+      "payment_intent": "pi_6769881212871122",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3066266123745397",
+    "first_seen_at": "2026-07-17T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_2947147205585130",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3894776083899870",
+    "first_seen_at": "2026-06-17T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_0228449994236029",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_4016756034354808",
+    "first_seen_at": "2026-07-19T00:15:43.328Z",
+    "result": {
+      "payment_intent": "pi_8049089549513609",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9298903184103909",
+    "first_seen_at": "2026-06-12T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_6711462467366997",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3265950586637518",
+    "first_seen_at": "2026-08-24T11:51:42.390Z",
+    "result": {
+      "payment_intent": "pi_7439933958678948",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0526230635774684",
+    "first_seen_at": "2026-06-21T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_7636057089947204",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0258286988414437",
+    "first_seen_at": "2026-07-23T03:50:16.881Z",
+    "result": {
+      "payment_intent": "pi_9836571401058477",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_6987918272200383",
+    "first_seen_at": "2026-07-28T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_8184569898835787",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_6391015096099978",
+    "first_seen_at": "2026-07-08T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_7133091654743730",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2774420526570556",
+    "first_seen_at": "2026-09-01T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_6171929615247584",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5223205160978693",
+    "first_seen_at": "2026-08-31T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_5092814658025171",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_4226025955756116",
+    "first_seen_at": "2026-06-18T00:22:00.857Z",
+    "result": {
+      "payment_intent": "pi_2738190363812199",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0678864720201291",
+    "first_seen_at": "2026-06-14T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_6975044269411469",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_7604656836717103",
+    "first_seen_at": "2026-06-25T08:40:44.760Z",
+    "result": {
+      "payment_intent": "pi_5062727855372351",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2275789104144155",
+    "first_seen_at": "2026-09-03T23:56:31.740Z",
+    "result": {
+      "payment_intent": "pi_4038240993102611",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2199078527887628",
+    "first_seen_at": "2026-06-10T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_6915052113773784",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_1236391152538530",
+    "first_seen_at": "2026-06-28T16:41:44.134Z",
+    "result": {
+      "payment_intent": "pi_3085822931029245",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9403829509525533",
+    "first_seen_at": "2026-07-29T15:47:58.945Z",
+    "result": {
+      "payment_intent": "pi_7371240494219411",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_1341577030156521",
+    "first_seen_at": "2026-07-30T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_2566410573901793",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_6322845726708315",
+    "first_seen_at": "2026-06-19T09:38:57.952Z",
+    "result": {
+      "payment_intent": "pi_9132323818285781",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5866687493473447",
+    "first_seen_at": "2026-07-26T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_5233625384321890",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5080073498613811",
+    "first_seen_at": "2026-07-12T05:23:18.412Z",
+    "result": {
+      "payment_intent": "pi_7174330909797207",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_6646031651214688",
+    "first_seen_at": "2026-08-05T18:21:11.143Z",
+    "result": {
+      "payment_intent": "pi_5453495118538747",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_1781568789849880",
+    "first_seen_at": "2026-08-03T05:12:42.067Z",
+    "result": {
+      "payment_intent": "pi_7762551644791794",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3276039268774816",
+    "first_seen_at": "2026-07-12T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_3386577150225966",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_7392207752293225",
+    "first_seen_at": "2026-07-07T12:07:23.113Z",
+    "result": {
+      "payment_intent": "pi_9186201666813928",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_8089734186466106",
+    "first_seen_at": "2026-09-16T23:54:44.912Z",
+    "result": {
+      "payment_intent": "pi_3446653968125007",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5473831399859400",
+    "first_seen_at": "2026-06-23T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_5500562565120027",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5736827981159322",
+    "first_seen_at": "2026-07-24T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_1570846341559363",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5516421734834695",
+    "first_seen_at": "2026-07-08T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_7927299150512291",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3273285328426201",
+    "first_seen_at": "2026-07-28T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_2133895282346675",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_7689464300632952",
+    "first_seen_at": "2026-07-09T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_4466056295313171",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2686828188520883",
+    "first_seen_at": "2026-07-15T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_9072923332281874",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_7338508363944586",
+    "first_seen_at": "2026-06-11T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_0446527794450882",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5054607065846313",
+    "first_seen_at": "2026-07-05T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_4478408645565436",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_7956583752405014",
+    "first_seen_at": "2026-06-24T02:13:42.728Z",
+    "result": {
+      "payment_intent": "pi_5582815547606994",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_7780723151959748",
+    "first_seen_at": "2026-07-29T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_0479427125528269",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5260633991717131",
+    "first_seen_at": "2026-07-09T18:35:47.738Z",
+    "result": {
+      "payment_intent": "pi_4806881032557673",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3870412391319649",
+    "first_seen_at": "2026-06-14T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_1878200901675929",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9060112787307146",
+    "first_seen_at": "2026-08-11T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_4450206010192590",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5711687584373083",
+    "first_seen_at": "2026-08-02T06:48:52.736Z",
+    "result": {
+      "payment_intent": "pi_1641052124638379",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_8111669922135955",
+    "first_seen_at": "2026-07-21T02:47:57.690Z",
+    "result": {
+      "payment_intent": "pi_6007140357043984",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5097138958867021",
+    "first_seen_at": "2026-08-28T00:58:40.184Z",
+    "result": {
+      "payment_intent": "pi_4287280870514382",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5342149407215654",
+    "first_seen_at": "2026-08-04T19:17:09.376Z",
+    "result": {
+      "payment_intent": "pi_0106779011716499",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_8874783149646144",
+    "first_seen_at": "2026-07-18T07:59:35.725Z",
+    "result": {
+      "payment_intent": "pi_3030928553205370",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3835747912470566",
+    "first_seen_at": "2026-08-05T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_5175597629014720",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5282180899261447",
+    "first_seen_at": "2026-07-10T00:02:22.162Z",
+    "result": {
+      "payment_intent": "pi_3830099556628166",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_1495643622277646",
+    "first_seen_at": "2026-07-22T17:47:51.137Z",
+    "result": {
+      "payment_intent": "pi_9178424418725908",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_7559853450981890",
+    "first_seen_at": "2026-06-08T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_8674226285895790",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2870113824783348",
+    "first_seen_at": "2026-06-14T21:18:04.869Z",
+    "result": {
+      "payment_intent": "pi_2902285136979178",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_6312699029003386",
+    "first_seen_at": "2026-08-18T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_2513205806766379",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9296321372329967",
+    "first_seen_at": "2026-09-02T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_1782952674198728",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9859986019573455",
+    "first_seen_at": "2026-09-01T07:32:44.264Z",
+    "result": {
+      "payment_intent": "pi_9045618506158606",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3716906842792483",
+    "first_seen_at": "2026-07-26T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_3166464428278786",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_6469398759497094",
+    "first_seen_at": "2026-06-29T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_1827187737554945",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2414099263039498",
+    "first_seen_at": "2026-08-30T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_4061176608545974",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_4458010141919125",
+    "first_seen_at": "2026-08-13T00:04:12.643Z",
+    "result": {
+      "payment_intent": "pi_8331265362628027",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9164172919404664",
+    "first_seen_at": "2026-07-07T05:00:21.625Z",
+    "result": {
+      "payment_intent": "pi_7362079059149092",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_7194702586420426",
+    "first_seen_at": "2026-07-16T11:57:19.705Z",
+    "result": {
+      "payment_intent": "pi_9128860649167004",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5104551223869136",
+    "first_seen_at": "2026-08-20T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_1999182409473330",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5578176135622519",
+    "first_seen_at": "2026-08-29T09:34:14.690Z",
+    "result": {
+      "payment_intent": "pi_8640677116430724",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9887477887403665",
+    "first_seen_at": "2026-07-05T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_0497019013196213",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_4853010776657024",
+    "first_seen_at": "2026-07-18T02:56:12.417Z",
+    "result": {
+      "payment_intent": "pi_9630350910579893",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0333010702523539",
+    "first_seen_at": "2026-07-03T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_3812285452066001",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3909867085107483",
+    "first_seen_at": "2026-07-29T17:47:21.752Z",
+    "result": {
+      "payment_intent": "pi_7398769689301806",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0259405445949997",
+    "first_seen_at": "2026-08-26T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_6900554235959200",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_1758379085722733",
+    "first_seen_at": "2026-08-16T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_4565066453162418",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5218762699949132",
+    "first_seen_at": "2026-07-01T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_5870847743337849",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5519037382337593",
+    "first_seen_at": "2026-07-17T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_6622183829219146",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0331779585488696",
+    "first_seen_at": "2026-08-23T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_6444940305336683",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0393332715445128",
+    "first_seen_at": "2026-07-14T05:24:22.711Z",
+    "result": {
+      "payment_intent": "pi_4505182478139804",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0480559310345372",
+    "first_seen_at": "2026-07-04T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_3257114874401691",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2652634328260435",
+    "first_seen_at": "2026-07-21T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_9735214544277171",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_4473918233657935",
+    "first_seen_at": "2026-06-21T02:40:11.796Z",
+    "result": {
+      "payment_intent": "pi_8766626737627489",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_7091731827132946",
+    "first_seen_at": "2026-07-13T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_0813135760851382",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_4417786325439060",
+    "first_seen_at": "2026-07-21T00:48:22.201Z",
+    "result": {
+      "payment_intent": "pi_5776019144886975",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5916187234557354",
+    "first_seen_at": "2026-07-01T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_5784719279674218",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2176073852867869",
+    "first_seen_at": "2026-07-05T14:47:21.161Z",
+    "result": {
+      "payment_intent": "pi_4838071046587829",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_6980952493489880",
+    "first_seen_at": "2026-09-01T00:08:06.418Z",
+    "result": {
+      "payment_intent": "pi_7057221170539311",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_6908300876380491",
+    "first_seen_at": "2026-09-08T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_1754255141176535",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_7470566426339757",
+    "first_seen_at": "2026-07-09T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_9842487448588803",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_6103494932398934",
+    "first_seen_at": "2026-08-02T04:33:34.525Z",
+    "result": {
+      "payment_intent": "pi_5805220510668057",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_7222627658791589",
+    "first_seen_at": "2026-07-29T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_4093127872494449",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2703950115384669",
+    "first_seen_at": "2026-07-01T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_1702219128313561",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_1746882794024016",
+    "first_seen_at": "2026-06-21T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_6466718455310874",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5650230115341636",
+    "first_seen_at": "2026-07-13T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_7472035712947517",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0999194049645893",
+    "first_seen_at": "2026-08-25T21:52:40.720Z",
+    "result": {
+      "payment_intent": "pi_9831547715990043",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_8465469793407780",
+    "first_seen_at": "2026-07-13T20:47:50.234Z",
+    "result": {
+      "payment_intent": "pi_7012921591088222",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0817753792889754",
+    "first_seen_at": "2026-06-18T04:47:14.235Z",
+    "result": {
+      "payment_intent": "pi_3639938353441323",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5676687260024106",
+    "first_seen_at": "2026-08-01T09:21:55.427Z",
+    "result": {
+      "payment_intent": "pi_3731999917760355",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3723098799577500",
+    "first_seen_at": "2026-06-12T23:55:05.660Z",
+    "result": {
+      "payment_intent": "pi_5882227557263887",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_7580765756142067",
+    "first_seen_at": "2026-08-10T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_9299103088393968",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9292198037575018",
+    "first_seen_at": "2026-08-09T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_4505352539178994",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_1532882670626730",
+    "first_seen_at": "2026-06-19T11:22:11.604Z",
+    "result": {
+      "payment_intent": "pi_2527528721347995",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5332125918200315",
+    "first_seen_at": "2026-06-11T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_7236940008785426",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_4675169219123593",
+    "first_seen_at": "2026-08-18T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_0400138807372686",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2809607878054581",
+    "first_seen_at": "2026-08-11T05:17:51.119Z",
+    "result": {
+      "payment_intent": "pi_6634163087121614",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9803360614196633",
+    "first_seen_at": "2026-08-29T04:11:56.112Z",
+    "result": {
+      "payment_intent": "pi_4938727144881435",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_6789238847841354",
+    "first_seen_at": "2026-06-18T01:15:37.918Z",
+    "result": {
+      "payment_intent": "pi_5366772884206590",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_1969999668419271",
+    "first_seen_at": "2026-06-06T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_7579419339643818",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5030855769653107",
+    "first_seen_at": "2026-06-27T07:41:00.599Z",
+    "result": {
+      "payment_intent": "pi_0776255999674215",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_4240487454271731",
+    "first_seen_at": "2026-06-06T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_1650866867627597",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_1725422278574864",
+    "first_seen_at": "2026-08-05T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_6016058264855825",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3643578191862779",
+    "first_seen_at": "2026-06-20T13:03:43.344Z",
+    "result": {
+      "payment_intent": "pi_7590181587129374",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_6713856610019403",
+    "first_seen_at": "2026-07-11T05:08:15.181Z",
+    "result": {
+      "payment_intent": "pi_6442356810822944",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_4282687633943053",
+    "first_seen_at": "2026-07-03T11:37:55.260Z",
+    "result": {
+      "payment_intent": "pi_3029374391287223",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_6771080416744999",
+    "first_seen_at": "2026-08-08T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_9234590955111076",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3867071211271650",
+    "first_seen_at": "2026-06-19T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_9126080375016608",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_8736798991253232",
+    "first_seen_at": "2026-07-03T02:14:36.765Z",
+    "result": {
+      "payment_intent": "pi_2445325508383608",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2532565499692498",
+    "first_seen_at": "2026-08-22T09:13:25.529Z",
+    "result": {
+      "payment_intent": "pi_5886441125425420",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0637198671838417",
+    "first_seen_at": "2026-08-26T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_9836833096763271",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9564309260836632",
+    "first_seen_at": "2026-08-02T02:56:46.510Z",
+    "result": {
+      "payment_intent": "pi_3567263293103902",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_4740170350361423",
+    "first_seen_at": "2026-06-30T23:26:14.242Z",
+    "result": {
+      "payment_intent": "pi_4921418238721320",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_1596237529147119",
+    "first_seen_at": "2026-08-08T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_9795599673952163",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2967636372516189",
+    "first_seen_at": "2026-08-13T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_9170373075577241",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_6683749314246540",
+    "first_seen_at": "2026-06-20T15:15:01.443Z",
+    "result": {
+      "payment_intent": "pi_4188529060341596",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2551327499873656",
+    "first_seen_at": "2026-07-14T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_2844184661281668",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_8477821841241028",
+    "first_seen_at": "2026-06-07T08:57:30.581Z",
+    "result": {
+      "payment_intent": "pi_5774162672909890",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_7369590950632149",
+    "first_seen_at": "2026-08-28T11:38:12.996Z",
+    "result": {
+      "payment_intent": "pi_4759343620371621",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2750035313103266",
+    "first_seen_at": "2026-06-20T07:11:13.820Z",
+    "result": {
+      "payment_intent": "pi_0974610613187619",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_8299451181671330",
+    "first_seen_at": "2026-08-07T23:58:13.204Z",
+    "result": {
+      "payment_intent": "pi_3426098476071710",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_1498160733557514",
+    "first_seen_at": "2026-08-18T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_5060328406789818",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3360887586948395",
+    "first_seen_at": "2026-08-05T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_0799818815060559",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_6115444783408900",
+    "first_seen_at": "2026-09-02T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_9157854774891181",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0692706100717015",
+    "first_seen_at": "2026-06-12T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_1800051351928674",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_6930269768665086",
+    "first_seen_at": "2026-06-19T19:29:38.753Z",
+    "result": {
+      "payment_intent": "pi_6840848393985050",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_4518352801205725",
+    "first_seen_at": "2026-07-12T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_5232098240001663",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5267285166085952",
+    "first_seen_at": "2026-06-22T20:08:28.157Z",
+    "result": {
+      "payment_intent": "pi_6679277788896357",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_1457479133461701",
+    "first_seen_at": "2026-07-28T23:43:03.279Z",
+    "result": {
+      "payment_intent": "pi_0774934152888026",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9198309425422110",
+    "first_seen_at": "2026-07-04T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_8438152299566705",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5830661315534902",
+    "first_seen_at": "2026-08-17T06:09:46.624Z",
+    "result": {
+      "payment_intent": "pi_8702267371401811",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3875353683598339",
+    "first_seen_at": "2026-06-20T17:25:10.374Z",
+    "result": {
+      "payment_intent": "pi_7612918762214143",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_4496356338769429",
+    "first_seen_at": "2026-07-08T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_8324364581805540",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_6868747740144049",
+    "first_seen_at": "2026-08-06T21:11:20.880Z",
+    "result": {
+      "payment_intent": "pi_9106226974999841",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3255726275624207",
+    "first_seen_at": "2026-06-11T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_5903229396322724",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_8898490945875663",
+    "first_seen_at": "2026-07-12T09:34:35.161Z",
+    "result": {
+      "payment_intent": "pi_5420623009690349",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_8039790020334160",
+    "first_seen_at": "2026-07-16T13:28:17.845Z",
+    "result": {
+      "payment_intent": "pi_9329738468885406",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_6746355233099249",
+    "first_seen_at": "2026-07-07T10:30:51.927Z",
+    "result": {
+      "payment_intent": "pi_3039486300183861",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_8973367436675219",
+    "first_seen_at": "2026-08-01T01:40:57.572Z",
+    "result": {
+      "payment_intent": "pi_8307027646656361",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_6497027481214568",
+    "first_seen_at": "2026-06-23T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_8975702939612274",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9361153689984490",
+    "first_seen_at": "2026-09-04T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_9629286011923668",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_1681454156141533",
+    "first_seen_at": "2026-07-23T19:29:32.237Z",
+    "result": {
+      "payment_intent": "pi_4897618961334516",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0441482479269003",
+    "first_seen_at": "2026-08-02T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_7146733052274952",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0510548923877428",
+    "first_seen_at": "2026-06-20T22:28:11.182Z",
+    "result": {
+      "payment_intent": "pi_0195771127147281",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5786080059065333",
+    "first_seen_at": "2026-07-04T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_5142404798159478",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0871865405314476",
+    "first_seen_at": "2026-08-24T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_9956874425881045",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_1034445604533836",
+    "first_seen_at": "2026-08-01T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_7737112773145237",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_4452093764170083",
+    "first_seen_at": "2026-09-13T11:08:55.556Z",
+    "result": {
+      "payment_intent": "pi_4293788180414392",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2715606663406214",
+    "first_seen_at": "2026-09-04T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_8849278995521828",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0286238288491543",
+    "first_seen_at": "2026-06-30T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_2319343303268789",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3901303515421131",
+    "first_seen_at": "2026-07-12T03:24:24.581Z",
+    "result": {
+      "payment_intent": "pi_7845553454865256",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5477036574551599",
+    "first_seen_at": "2026-08-07T19:09:49.917Z",
+    "result": {
+      "payment_intent": "pi_2015479429662821",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9560988046833788",
+    "first_seen_at": "2026-06-21T03:36:15.357Z",
+    "result": {
+      "payment_intent": "pi_3640021411365563",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3132808676194611",
+    "first_seen_at": "2026-06-19T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_2616335163047971",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0273137579842189",
+    "first_seen_at": "2026-06-15T22:55:55.274Z",
+    "result": {
+      "payment_intent": "pi_8796652122440121",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5727038311141036",
+    "first_seen_at": "2026-06-17T11:30:20.880Z",
+    "result": {
+      "payment_intent": "pi_9631155958515170",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0739768062477854",
+    "first_seen_at": "2026-07-29T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_7331423027639846",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5032434339943325",
+    "first_seen_at": "2026-06-17T00:58:59.622Z",
+    "result": {
+      "payment_intent": "pi_5082701586802658",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_4760321182362813",
+    "first_seen_at": "2026-07-17T18:51:46.996Z",
+    "result": {
+      "payment_intent": "pi_2772633273714254",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_1885937149914039",
+    "first_seen_at": "2026-08-02T23:18:26.967Z",
+    "result": {
+      "payment_intent": "pi_0729645557674416",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_7949761629171519",
+    "first_seen_at": "2026-06-27T16:37:15.162Z",
+    "result": {
+      "payment_intent": "pi_2410420709115030",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_8430437911346966",
+    "first_seen_at": "2026-08-08T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_4452416022198313",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3163774589874368",
+    "first_seen_at": "2026-06-22T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_9053320371631945",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3319103788197841",
+    "first_seen_at": "2026-08-31T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_7223310087617112",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_8297211899801032",
+    "first_seen_at": "2026-06-13T02:06:41.833Z",
+    "result": {
+      "payment_intent": "pi_5018011636391211",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0788160830463634",
+    "first_seen_at": "2026-08-18T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_9077038028878846",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9467416871529944",
+    "first_seen_at": "2026-07-15T11:20:01.360Z",
+    "result": {
+      "payment_intent": "pi_9174495381784368",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2036991616845322",
+    "first_seen_at": "2026-07-05T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_5835684587656268",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0543297835577782",
+    "first_seen_at": "2026-07-20T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_7008769024872936",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9586714071700337",
+    "first_seen_at": "2026-07-18T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_1406249503522413",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2586173522643913",
+    "first_seen_at": "2026-07-01T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_6479994441092699",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2884583312750842",
+    "first_seen_at": "2026-08-21T15:05:44.861Z",
+    "result": {
+      "payment_intent": "pi_6499351404461068",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_4268971282116219",
+    "first_seen_at": "2026-07-12T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_9197235670980310",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3148879503258912",
+    "first_seen_at": "2026-09-01T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_4275734368698408",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5638235475502716",
+    "first_seen_at": "2026-08-20T08:59:32.206Z",
+    "result": {
+      "payment_intent": "pi_4830063883710808",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_6085515429584139",
+    "first_seen_at": "2026-07-21T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_8704010778212827",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3652143774453124",
+    "first_seen_at": "2026-07-20T12:45:05.037Z",
+    "result": {
+      "payment_intent": "pi_0652800415866206",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_8710980448006696",
+    "first_seen_at": "2026-06-26T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_0019373205260180",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_6869551987947896",
+    "first_seen_at": "2026-08-19T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_9711173803211321",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5308234428836232",
+    "first_seen_at": "2026-06-23T06:09:46.760Z",
+    "result": {
+      "payment_intent": "pi_5193135558715734",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5863908230136157",
+    "first_seen_at": "2026-07-01T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_7510584343603134",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_8431922101935721",
+    "first_seen_at": "2026-06-09T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_1995279681054562",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_4652451819586627",
+    "first_seen_at": "2026-07-24T22:05:20.757Z",
+    "result": {
+      "payment_intent": "pi_1652122333173511",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_4570162551974198",
+    "first_seen_at": "2026-08-08T06:53:01.652Z",
+    "result": {
+      "payment_intent": "pi_1498733413912614",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5395729612014073",
+    "first_seen_at": "2026-08-28T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_4480459148699766",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3693298740047834",
+    "first_seen_at": "2026-08-05T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_7029887744758350",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_4106320643777123",
+    "first_seen_at": "2026-09-02T17:46:45.949Z",
+    "result": {
+      "payment_intent": "pi_2354918700368338",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5145999567881934",
+    "first_seen_at": "2026-06-24T22:12:23.279Z",
+    "result": {
+      "payment_intent": "pi_2787285795624020",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3000350226865609",
+    "first_seen_at": "2026-07-05T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_4275432195076184",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2333684696084203",
+    "first_seen_at": "2026-07-26T08:02:33.965Z",
+    "result": {
+      "payment_intent": "pi_8633887623922872",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_6939323135333204",
+    "first_seen_at": "2026-06-24T23:12:25.592Z",
+    "result": {
+      "payment_intent": "pi_8854075617197214",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_7837637985752948",
+    "first_seen_at": "2026-06-22T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_6485282116887363",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0513243256252249",
+    "first_seen_at": "2026-08-11T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_1833865075692436",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2015194861880074",
+    "first_seen_at": "2026-07-22T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_4758293758620128",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9096551903000440",
+    "first_seen_at": "2026-06-13T14:37:10.463Z",
+    "result": {
+      "payment_intent": "pi_5079688177842996",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_8514783295375487",
+    "first_seen_at": "2026-06-24T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_4534842600965097",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9223469749084527",
+    "first_seen_at": "2026-07-05T02:40:58.165Z",
+    "result": {
+      "payment_intent": "pi_0053726089890695",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_1962119418664927",
+    "first_seen_at": "2026-07-01T07:07:53.910Z",
+    "result": {
+      "payment_intent": "pi_6756129308941520",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5978824804905469",
+    "first_seen_at": "2026-08-16T16:31:34.265Z",
+    "result": {
+      "payment_intent": "pi_1072719277889822",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0667370904876282",
+    "first_seen_at": "2026-09-10T12:24:28.380Z",
+    "result": {
+      "payment_intent": "pi_2469531936094554",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2398895770119521",
+    "first_seen_at": "2026-08-05T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_5721886883371798",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0380341936890131",
+    "first_seen_at": "2026-07-17T01:50:08.890Z",
+    "result": {
+      "payment_intent": "pi_0647364954486969",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0919195987229687",
+    "first_seen_at": "2026-06-23T04:44:39.134Z",
+    "result": {
+      "payment_intent": "pi_9547232961128208",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5348978973470673",
+    "first_seen_at": "2026-08-16T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_7247939228653697",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9740462362508763",
+    "first_seen_at": "2026-08-10T01:08:43.353Z",
+    "result": {
+      "payment_intent": "pi_5262237783057304",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5558142513206137",
+    "first_seen_at": "2026-07-24T17:38:24.241Z",
+    "result": {
+      "payment_intent": "pi_7118192421894576",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9214967070042234",
+    "first_seen_at": "2026-07-31T00:28:12.107Z",
+    "result": {
+      "payment_intent": "pi_4838626945992311",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9400874345225114",
+    "first_seen_at": "2026-08-05T12:55:32.419Z",
+    "result": {
+      "payment_intent": "pi_0569235262313815",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_6812511014913642",
+    "first_seen_at": "2026-07-07T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_8033540439615345",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_4395132404147359",
+    "first_seen_at": "2026-06-26T14:18:16.614Z",
+    "result": {
+      "payment_intent": "pi_9645077327296818",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5852896102432061",
+    "first_seen_at": "2026-07-03T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_0964460092828031",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3090731152433780",
+    "first_seen_at": "2026-06-17T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_0905270538964595",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9492349429634843",
+    "first_seen_at": "2026-06-15T14:38:10.110Z",
+    "result": {
+      "payment_intent": "pi_4602321281645124",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2749745140367403",
+    "first_seen_at": "2026-08-22T04:57:56.198Z",
+    "result": {
+      "payment_intent": "pi_7763895713274780",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9748459693214080",
+    "first_seen_at": "2026-07-28T02:18:13.424Z",
+    "result": {
+      "payment_intent": "pi_6891264340890424",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2640764383852806",
+    "first_seen_at": "2026-06-12T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_3423177584770702",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3486024316089869",
+    "first_seen_at": "2026-07-03T21:33:19.788Z",
+    "result": {
+      "payment_intent": "pi_0451898149496879",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_1555401598475376",
+    "first_seen_at": "2026-08-21T22:59:19.119Z",
+    "result": {
+      "payment_intent": "pi_4698420864694665",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5068389353343354",
+    "first_seen_at": "2026-08-11T20:34:34.453Z",
+    "result": {
+      "payment_intent": "pi_0124916892808726",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3520276505789999",
+    "first_seen_at": "2026-08-26T21:19:35.907Z",
+    "result": {
+      "payment_intent": "pi_3407631943112809",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9171372566283113",
+    "first_seen_at": "2026-08-08T04:32:33.254Z",
+    "result": {
+      "payment_intent": "pi_5944185108604432",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2103768796707246",
+    "first_seen_at": "2026-07-26T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_6240753294711899",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3907422028664298",
+    "first_seen_at": "2026-08-23T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_1288965191919732",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3203172433580391",
+    "first_seen_at": "2026-08-27T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_6290185053519579",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2913832326472924",
+    "first_seen_at": "2026-08-21T19:38:21.583Z",
+    "result": {
+      "payment_intent": "pi_8080305245897930",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0613462925011404",
+    "first_seen_at": "2026-07-30T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_4469155100251061",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_6657756822513758",
+    "first_seen_at": "2026-07-21T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_9012121826270039",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_1237805133205585",
+    "first_seen_at": "2026-08-13T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_7906808710251703",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_7970709370177223",
+    "first_seen_at": "2026-06-23T14:10:16.113Z",
+    "result": {
+      "payment_intent": "pi_1091527406089628",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_6227591555404505",
+    "first_seen_at": "2026-07-14T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_7263642621630299",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_4114734621085823",
+    "first_seen_at": "2026-07-08T10:18:41.038Z",
+    "result": {
+      "payment_intent": "pi_2566599008951940",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_7669330972432578",
+    "first_seen_at": "2026-07-27T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_1436846176494376",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9774581370194822",
+    "first_seen_at": "2026-06-11T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_1724002800212834",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2289587230189974",
+    "first_seen_at": "2026-08-18T14:41:00.383Z",
+    "result": {
+      "payment_intent": "pi_7162718644152389",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_7626509535296697",
+    "first_seen_at": "2026-08-09T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_1418383857270223",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_7333620962398808",
+    "first_seen_at": "2026-07-24T03:56:05.807Z",
+    "result": {
+      "payment_intent": "pi_5729631232227298",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_7294308907176797",
+    "first_seen_at": "2026-09-05T16:03:42.462Z",
+    "result": {
+      "payment_intent": "pi_9872412193156285",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5896545337741513",
+    "first_seen_at": "2026-09-01T09:38:35.219Z",
+    "result": {
+      "payment_intent": "pi_6849793280759948",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_7470614150783176",
+    "first_seen_at": "2026-08-18T21:52:07.836Z",
+    "result": {
+      "payment_intent": "pi_7144997817552479",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9171583062883883",
+    "first_seen_at": "2026-08-17T01:27:57.129Z",
+    "result": {
+      "payment_intent": "pi_6209386812208794",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_6073567846148720",
+    "first_seen_at": "2026-08-16T11:43:18.918Z",
+    "result": {
+      "payment_intent": "pi_3475260047470187",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3544924177553399",
+    "first_seen_at": "2026-09-01T21:50:08.131Z",
+    "result": {
+      "payment_intent": "pi_9766910052454635",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3855186547452501",
+    "first_seen_at": "2026-08-05T12:53:30.349Z",
+    "result": {
+      "payment_intent": "pi_6373467858693409",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5028195662166068",
+    "first_seen_at": "2026-08-10T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_5048750495509285",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_7209855032822528",
+    "first_seen_at": "2026-08-13T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_2259951792608942",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_4145002135271052",
+    "first_seen_at": "2026-07-06T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_7655291654467723",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_2007838353859289",
+    "first_seen_at": "2026-07-10T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_8445171524328630",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5299244131122572",
+    "first_seen_at": "2026-08-26T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_3649746467636093",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_9251348012483280",
+    "first_seen_at": "2026-09-13T22:21:41.096Z",
+    "result": {
+      "payment_intent": "pi_2406671685058676",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_0396970707404027",
+    "first_seen_at": "2026-08-26T10:05:52.776Z",
+    "result": {
+      "payment_intent": "pi_8418876841388937",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_1300439339202464",
+    "first_seen_at": "2026-08-08T01:54:11.492Z",
+    "result": {
+      "payment_intent": "pi_4353654898941718",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_3359459850874181",
+    "first_seen_at": "2026-08-27T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_2696778373268662",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_1501730335836904",
+    "first_seen_at": "2026-08-13T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_3825990091618507",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_4416565197917345",
+    "first_seen_at": "2026-07-31T00:00:00.000Z",
+    "result": {
+      "payment_intent": "pi_6719426019747532",
+      "status": "succeeded"
+    }
+  },
+  {
+    "source": "stripe",
+    "event_id": "evt_5073702569584360",
+    "first_seen_at": "2026-07-17T07:41:35.434Z",
+    "result": {
+      "payment_intent": "pi_3040126025259194",
+      "status": "succeeded"
+    }
+  }
+]

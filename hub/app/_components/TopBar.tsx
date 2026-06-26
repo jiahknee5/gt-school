@@ -1,0 +1,112 @@
+"use client";
+
+import Link from "next/link";
+import { usePathname, useSearchParams } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import { MODULES, moduleHref } from "@/lib/modules";
+import { DEMO_USERS, demoUserByRole } from "@/lib/phase2";
+
+function daysToCutoff() {
+  const cutoff = new Date("2026-08-17T00:00:00-05:00").getTime();
+  return Math.max(0, Math.ceil((cutoff - Date.now()) / 86_400_000));
+}
+
+function roleHref(pathname: string, role: string) {
+  return `${pathname}?role=${role}`;
+}
+
+export function TopBar() {
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const [dark, setDark] = useState(false);
+  const role = searchParams.get("role");
+  const viewer = demoUserByRole(role);
+  const isHome = pathname === "/";
+  const days = useMemo(() => daysToCutoff(), []);
+
+  useEffect(() => {
+    document.documentElement.classList.toggle("dark", dark);
+  }, [dark]);
+
+  return (
+    <header className="sticky top-0 z-30 border-b border-hairline bg-topbar/95 backdrop-blur">
+      <div className="flex min-h-[58px] items-center gap-3 px-4 sm:px-6 lg:px-8">
+        <Link href="/" className="flex shrink-0 items-center gap-2 lg:hidden">
+          <span className="grid h-7 w-7 place-items-center rounded-card bg-gold text-[12px] font-bold text-white">
+            GT
+          </span>
+          <span className="text-[14px] font-semibold text-ink">Marketing Hub</span>
+        </Link>
+
+        <div className="hidden min-w-0 items-center gap-3 lg:flex">
+          <p className="mono text-[11px] font-semibold uppercase tracking-[0.1em] text-label">
+            Week of
+          </p>
+          <select className="h-8 rounded-card border border-border bg-canvas px-2 text-[12px] font-semibold text-ink">
+            <option>Jun 29, 2026</option>
+            <option>Jul 6, 2026</option>
+            <option>Jul 13, 2026</option>
+          </select>
+          <span className="mono rounded-card bg-fill px-2 py-1 text-[11px] font-semibold text-slate">
+            {days} days to cutoff
+          </span>
+        </div>
+
+        <div className="ml-auto flex min-w-0 items-center gap-2">
+          {isHome && (
+            <button className="hidden h-8 rounded-card bg-gold px-3 text-[12px] font-semibold text-white transition-transform active:translate-y-px sm:inline-flex sm:items-center">
+              + Add widget
+            </button>
+          )}
+
+          <div className="hidden items-center rounded-card border border-hairline bg-canvas p-0.5 md:flex">
+            {DEMO_USERS.map((user) => (
+              <Link
+                key={user.id}
+                href={roleHref(pathname, user.role)}
+                className={`rounded-[6px] px-2.5 py-1 text-[11px] font-semibold ${
+                  viewer.role === user.role
+                    ? "bg-ink-cta text-on-cta"
+                    : "text-muted hover:text-ink"
+                }`}
+              >
+                {user.role}
+              </Link>
+            ))}
+          </div>
+
+          <div className="hidden min-w-0 sm:block">
+            <p className="truncate text-right text-[12px] font-semibold text-ink">{viewer.name}</p>
+            <p className="mono truncate text-right text-[10px] text-label">{viewer.title}</p>
+          </div>
+
+          <button
+            type="button"
+            aria-pressed={dark}
+            onClick={() => setDark((v) => !v)}
+            className="h-8 rounded-card border border-border bg-canvas px-2.5 text-[12px] font-semibold text-ink transition-transform active:translate-y-px"
+          >
+            {dark ? "Light" : "Dark"}
+          </button>
+        </div>
+      </div>
+
+      <nav className="flex gap-1 overflow-x-auto border-t border-hairline px-3 py-2 lg:hidden">
+        {MODULES.slice(0, 8).map((module) => {
+          const active = module.slug === "home" ? pathname === "/" : pathname === moduleHref(module.slug);
+          return (
+            <Link
+              key={module.slug}
+              href={moduleHref(module.slug)}
+              className={`shrink-0 rounded-card px-2.5 py-1.5 text-[12px] font-semibold ${
+                active ? "bg-ink-cta text-on-cta" : "bg-canvas text-muted"
+              }`}
+            >
+              {module.short}
+            </Link>
+          );
+        })}
+      </nav>
+    </header>
+  );
+}

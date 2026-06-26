@@ -1,0 +1,42 @@
+{
+  "name": "gt-marketing-hub",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "test": "vitest run",
+    "test:report": "vitest run --reporter=json --outputFile=seed-data/test-results.json",
+    "test:data": "vitest run tests/seed.test.ts tests/matchkey.test.ts tests/seed-hubspot.test.ts tests/catalog.test.ts tests/opendata.test.ts tests/seed-fixtures.test.ts",
+    "test:backend": "vitest run tests/reconcile.test.ts tests/payments.test.ts tests/hubspot-webhook.test.ts tests/outbox-worker.test.ts tests/parity.test.ts tests/r1-connection.test.ts",
+    "test:e2e": "vitest run tests/brief-usecases.test.ts tests/phase2.test.ts",
+    "test:frontend": "echo 'No front-end tests yet — see tests/README.md' && exit 0",
+    "test:ci": "vitest run tests/seed.test.ts tests/matchkey.test.ts tests/seed-hubspot.test.ts tests/catalog.test.ts tests/opendata.test.ts tests/brief-usecases.test.ts tests/phase2.test.ts",
+    "test:live": "vitest run tests/seed-fixtures.test.ts tests/reconcile.test.ts tests/payments.test.ts tests/hubspot-webhook.test.ts tests/outbox-worker.test.ts tests/parity.test.ts tests/r1-connection.test.ts",
+    "seed": "esbuild scripts/seed.ts --bundle --platform=node --format=esm --packages=external --outfile=.seed-build/seed.mjs && node .seed-build/seed.mjs",
+    "seed:hubspot": "esbuild scripts/seed-hubspot.ts --bundle --platform=node --format=esm --packages=external --outfile=.seed-build/seed-hubspot.mjs && node .seed-build/seed-hubspot.mjs",
+    "reset": "esbuild scripts/reset.ts --bundle --platform=node --format=esm --packages=external --outfile=.seed-build/reset.mjs && node .seed-build/reset.mjs",
+    "seed:fixtures": "esbuild scripts/gen-fixtures.ts --bundle --platform=node --format=esm --packages=external --outfile=.seed-build/gen.mjs && node .seed-build/gen.mjs",
+    "seed:validate": "esbuild scripts/gen-fixtures.ts --bundle --platform=node --format=esm --packages=external --outfile=.seed-build/gen.mjs && node .seed-build/gen.mjs --validate",
+    "verify": "npm run build && npm run lint && npm run test"
+  },
+  "dependencies": {
+    "next": "16.2.9",
+    "postgres": "^3.4.7",
+    "react": "19.2.4",
+    "react-dom": "19.2.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.9",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vitest": "^3.2.4"
+  }
+}

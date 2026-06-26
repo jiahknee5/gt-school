@@ -1,0 +1,173 @@
+[
+  {
+    "_standIn": true,
+    "_source": "community_gt_school",
+    "community_id": "cgs_468289",
+    "name": "Aisha Chen",
+    "email": "aisha.chen7@example.com",
+    "status": "prospect",
+    "match_key": "57a20e058849d263873def9a5fd9f852213b57ab3af64e7d1b89c8a31b747949"
+  },
+  {
+    "_standIn": true,
+    "_source": "community_gt_school",
+    "community_id": "cgs_657584",
+    "name": "Elena Schwartz",
+    "email": "elena.schwartz335@example.com",
+    "status": "prospect",
+    "match_key": "51883e44df49b83ff2aa324cd8ab92ceb1c85a806e9bf2b78b950acdaaa49994"
+  },
+  {
+    "_standIn": true,
+    "_source": "community_gt_school",
+    "community_id": "cgs_331033",
+    "name": "Nina Schwartz",
+    "email": "nina.schwartz856@example.com",
+    "status": "prospect",
+    "match_key": "63eafc839c79f4107d91b15894301daba3ca5096934786dcfd90711ab7c407ce"
+  },
+  {
+    "_standIn": true,
+    "_source": "community_gt_school",
+    "community_id": "cgs_989796",
+    "name": "Liam Nguyen",
+    "email": "liam.nguyen338@example.com",
+    "status": "onboarded",
+    "match_key": "a44f9b83fd4d73293e0f3f8aa80cf29fa8938e7eeb7a42ba635faf9bf9fbb7ce"
+  },
+  {
+    "_standIn": true,
+    "_source": "community_gt_school",
+    "community_id": "cgs_496180",
+    "name": "Ethan Adams",
+    "email": "ethan.adams526@example.com",
+    "status": "active",
+    "match_key": "2eb65d329a7e10fce8d1f650f682005182a920ad8c0adce7d776bd76edcffa6c"
+  },
+  {
+    "_standIn": true,
+    "_source": "community_gt_school",
+    "community_id": "cgs_648556",
+    "name": "Eli Adams",
+    "email": "eli.adams1127@example.com",
+    "status": "prospect",
+    "match_key": "e4a2ab4b29eec229467df8170c20439604119593a27c7d07ccba7b70632fe63e"
+  },
+  {
+    "_standIn": true,
+    "_source": "community_gt_school",
+    "community_id": "cgs_976081",
+    "name": "Ethan Nguyen",
+    "email": "ethan.nguyen588@example.com",
+    "status": "champion",
+    "match_key": "26bb53b665ef60f53d32209e4451e91e44ceff1029f76b5e7c69cec58857b076"
+  },
+  {
+    "_standIn": true,
+    "_source": "community_gt_school",
+    "community_id": "cgs_015303",
+    "name": "Kai Schwartz",
+    "email": "kai.schwartz104@example.com",
+    "status": "onboarded",
+    "match_key": "9f73939c9012d9099be9519af16f41d123096d1ed0d9374867a13185ce7e0ef4"
+  },
+  {
+    "_standIn": true,
+    "_source": "community_gt_school",
+    "community_id": "cgs_434315",
+    "name": "Layla Schwartz",
+    "email": "layla.schwartz49@example.com",
+    "status": "champion",
+    "match_key": "931d1d5011ba1922ff3960879a76f6acd5490fe40f1f0c29131c03bcc04bb392"
+  },
+  {
+    "_standIn": true,
+    "_source": "community_gt_school",
+    "community_id": "cgs_999715",
+    "name": "Elena Khan",
+    "email": "elena.khan977@example.com",
+    "status": "prospect",
+    "match_key": "6350a3d61aa2cfb2fb856c6188f83411bd96a25a38d779427248dd9494168a98"
+  },
+  {
+    "_standIn": true,
+    "_source": "community_gt_school",
+    "community_id": "cgs_031088",
+    "name": "Ethan Kim",
+    "email": "ethan.kim1018@example.com",
+    "status": "prospect",
+    "match_key": "636bd5349e188e8ee005d8364dd09791ab1580bcad7c56c0748e90a199e32b74"
+  },
+  {
+    "_standIn": true,
+    "_source": "community_gt_school",
+    "community_id": "cgs_100522",
+    "name": "Marcus Johnson",
+    "email": "marcus.johnson667@example.com",
+    "status": "champion",
+    "match_key": "3f1e6dea70d500420f79517f5c055bb33347fcfca92c92a534f08d6ba44aaea4"
+  },
+  {
+    "_standIn": true,
+    "_source": "community_gt_school",
+    "community_id": "cgs_170672",
+    "name": "Noah Patel",
+    "email": "noah.patel217@example.com",
+    "status": "onboarded",
+    "match_key": "5a4ccb650d0e882ea733c1e14f93c5f0cbe6907ad4bc94078e138ed927be2587"
+  },
+  {
+    "_standIn": true,
+    "_source": "community_gt_school",
+    "community_id": "cgs_480565",
+    "name": "Mateo Kim",
+    "email": "mateo.kim157@example.com",
+    "status": "onboarded",
+    "match_key": "6e41373487270962bfc3c20a2d84a7b3f9c95cd503c29137cc51de1e6f3bd6ee"
+  },
+  {
+    "_standIn": true,
+    "_source": "community_gt_school",
+    "community_id": "cgs_362020",
+    "name": "Omar Okafor",
+    "email": "omar.okafor818@example.com",
+    "status": "prospect",
+    "match_key": "8ed9c0b85e91c5bc9856dcdd11ef5741749392c13324093e752ba2c8c0c30fd9"
+  },
+  {
+    "_standIn": true,
+    "_source": "community_gt_school",
+    "community_id": "cgs_213443",
+    "name": "Ethan Nguyen",
+    "email": "ethan.nguyen66@example.com",
+    "status": "champion",
+    "match_key": "064b0c244f5b1d2e4df0e2be1cfa49a8e65af6ecfddc747d0e6b2483253ff297"
+  },
+  {
+    "_standIn": true,
+    "_source": "community_gt_school",
+    "community_id": "cgs_226882",
+    "name": "Chloe Reyes",
+    "email": "chloe.reyes231@example.com",
+    "status": "active",
+    "match_key": "9fa9e14830a9ac0e51bf129879b04bf94ced88a75eee5095cbac4debfc4fd945"
+  },
+  {
+    "_standIn": true,
+    "_source": "community_gt_school",
+    "community_id": "cgs_155884",
+    "name": "Ibrahim Reyes",
+    "email": "ibrahim.reyes248@example.com",
+    "status": "active",
+    "match_key": "95202ffc15b2704d0e890340aeec8d0abab9ce4f1ba98da38ab6e587d24c9c30"
+  },
+  {
+    "_standIn": true,
+    "_source": "community_gt_school",
+    "community_id": "cgs_686989",
+    "name": "Diego Cohen",
+    "email": "diego.cohen98@example.com",
+    "status": "active",
+    "match_key": "e9ef283e5c1c2ff4a920d153897a444d33ddc887e21d2887de44d6a6f449e1c7"
+  }
+]

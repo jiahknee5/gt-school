@@ -1,0 +1,158 @@
+[
+  {
+    "id": "f7ff4859-caec-40b6-b308-ff9d60eab2da",
+    "taken_at": "2026-06-01T00:00:00.000Z",
+    "scope": "overall",
+    "overall_pct": 97.14,
+    "fields": {
+      "tefa_status": 93.14,
+      "income_band": 94.14,
+      "source": 91.14,
+      "funnel_stage": 98.14
+    }
+  },
+  {
+    "id": "e56a70cb-1820-49a1-8ecf-eaedd0509d33",
+    "taken_at": "2026-06-08T00:00:00.000Z",
+    "scope": "overall",
+    "overall_pct": 96.61,
+    "fields": {
+      "tefa_status": 92.61,
+      "income_band": 93.61,
+      "source": 90.61,
+      "funnel_stage": 97.61
+    }
+  },
+  {
+    "id": "1f376219-1d59-4dc1-9345-a2f019f59a83",
+    "taken_at": "2026-06-15T00:00:00.000Z",
+    "scope": "overall",
+    "overall_pct": 97.59,
+    "fields": {
+      "tefa_status": 93.59,
+      "income_band": 94.59,
+      "source": 91.59,
+      "funnel_stage": 98.59
+    }
+  },
+  {
+    "id": "26b77bdc-fe59-4f30-91a9-b8bc5484d635",
+    "taken_at": "2026-06-22T00:00:00.000Z",
+    "scope": "overall",
+    "overall_pct": 96.8,
+    "fields": {
+      "tefa_status": 92.8,
+      "income_band": 93.8,
+      "source": 90.8,
+      "funnel_stage": 97.8
+    }
+  },
+  {
+    "id": "ddc87da5-6113-4094-a54e-59cfbc816253",
+    "taken_at": "2026-06-29T00:00:00.000Z",
+    "scope": "overall",
+    "overall_pct": 96.87,
+    "fields": {
+      "tefa_status": 92.87,
+      "income_band": 93.87,
+      "source": 90.87,
+      "funnel_stage": 97.87
+    }
+  },
+  {
+    "id": "8f74f974-b9c1-46ef-ae4d-386d5e2b22fe",
+    "taken_at": "2026-07-06T00:00:00.000Z",
+    "scope": "overall",
+    "overall_pct": 97.09,
+    "fields": {
+      "tefa_status": 93.09,
+      "income_band": 94.09,
+      "source": 91.09,
+      "funnel_stage": 98.09
+    }
+  },
+  {
+    "id": "db90ee7b-1767-46c8-9037-ea26e0cfd26d",
+    "taken_at": "2026-07-13T00:00:00.000Z",
+    "scope": "overall",
+    "overall_pct": 91.2,
+    "fields": {
+      "tefa_status": 87.2,
+      "income_band": 88.2,
+      "source": 85.2,
+      "funnel_stage": 92.2
+    }
+  },
+  {
+    "id": "d40159b4-1d84-4850-8422-c00eff0865b5",
+    "taken_at": "2026-07-20T00:00:00.000Z",
+    "scope": "overall",
+    "overall_pct": 97.91,
+    "fields": {
+      "tefa_status": 93.91,
+      "income_band": 94.91,
+      "source": 91.91,
+      "funnel_stage": 98.91
+    }
+  },
+  {
+    "id": "aa66b1fb-ff3b-437d-9e90-f06a035a76e8",
+    "taken_at": "2026-07-27T00:00:00.000Z",
+    "scope": "overall",
+    "overall_pct": 96.85,
+    "fields": {
+      "tefa_status": 92.85,
+      "income_band": 93.85,
+      "source": 90.85,
+      "funnel_stage": 97.85
+    }
+  },
+  {
+    "id": "04d562f2-36b2-4693-8894-b9fff916af6a",
+    "taken_at": "2026-08-03T00:00:00.000Z",
+    "scope": "overall",
+    "overall_pct": 97.55,
+    "fields": {
+      "tefa_status": 93.55,
+      "income_band": 94.55,
+      "source": 91.55,
+      "funnel_stage": 98.55
+    }
+  },
+  {
+    "id": "664eb484-2609-464a-af7a-8c0856a962c2",
+    "taken_at": "2026-08-10T00:00:00.000Z",
+    "scope": "overall",
+    "overall_pct": 98.36,
+    "fields": {
+      "tefa_status": 94.36,
+      "income_band": 95.36,
+      "source": 92.36,
+      "funnel_stage": 99.36
+    }
+  },
+  {
+    "id": "e15dc514-74c5-4033-88a6-771b4a89a1d6",
+    "taken_at": "2026-08-17T00:00:00.000Z",
+    "scope": "overall",
+    "overall_pct": 98.33,
+    "fields": {
+      "tefa_status": 94.33,
+      "income_band": 95.33,
+      "source": 92.33,
+      "funnel_stage": 99.33
+    }
+  },
+  {
+    "id": "4cf7e881-2ea4-4f0c-b243-07739d5902e6",
+    "taken_at": "2026-08-24T00:00:00.000Z",
+    "scope": "overall",
+    "overall_pct": 98.09,
+    "fields": {
+      "tefa_status": 94.09,
+      "income_band": 95.09,
+      "source": 92.09,
+      "funnel_stage": 99.09
+    }
+  }
+]

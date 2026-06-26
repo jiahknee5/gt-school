@@ -1,0 +1,5980 @@
+[
+  {
+    "id": "a109ea31-10b2-4bc6-b818-50548b2e3582",
+    "local_table": "enrollments",
+    "local_id": "529b2474-5b3e-4c1a-8710-56f9764b43d0",
+    "system": "hubspot",
+    "external_id": "deal_52590993"
+  },
+  {
+    "id": "7d9f7bf4-7726-4f42-9c51-4d3180f31d39",
+    "local_table": "enrollments",
+    "local_id": "af98e89e-b1c4-4505-a24f-1ca27e8ad574",
+    "system": "hubspot",
+    "external_id": "deal_62689810"
+  },
+  {
+    "id": "23fea5ec-0479-4c09-a999-d9cb37f51c60",
+    "local_table": "enrollments",
+    "local_id": "96ea6a39-82e1-412f-9979-999b3da4e64a",
+    "system": "hubspot",
+    "external_id": "deal_33223633"
+  },
+  {
+    "id": "34375e4a-be21-48ed-b6e1-080df574aaba",
+    "local_table": "enrollments",
+    "local_id": "33ed952c-9e56-4933-a554-69a85602ed09",
+    "system": "hubspot",
+    "external_id": "deal_10648030"
+  },
+  {
+    "id": "59b7a0b0-7375-4e0f-9c58-ceb605c210f3",
+    "local_table": "enrollments",
+    "local_id": "a3f61cf0-98d5-423f-802e-a97ac2771a9c",
+    "system": "hubspot",
+    "external_id": "deal_07900576"
+  },
+  {
+    "id": "ae48e119-3cab-4411-8bbd-ac0b3d35478b",
+    "local_table": "enrollments",
+    "local_id": "858c3465-e0ee-4c0b-8b2d-c2506c70216a",
+    "system": "hubspot",
+    "external_id": "deal_22531920"
+  },
+  {
+    "id": "1ae3b7d7-d6f3-4bd6-b50c-6cfb85292a46",
+    "local_table": "enrollments",
+    "local_id": "a532f901-aa07-400e-ad3a-add2c81daeee",
+    "system": "hubspot",
+    "external_id": "deal_34190367"
+  },
+  {
+    "id": "dcbec8a1-1428-495e-896e-e8118b70a699",
+    "local_table": "enrollments",
+    "local_id": "a827b9e2-9be6-4d47-b0c0-6af02b8a9869",
+    "system": "hubspot",
+    "external_id": "deal_97581174"
+  },
+  {
+    "id": "806162ea-17c6-49ea-bc86-a5d7d00659ce",
+    "local_table": "enrollments",
+    "local_id": "d6879ffe-7ac5-4ba7-b27d-cf9d9b99ab96",
+    "system": "hubspot",
+    "external_id": "deal_93829560"
+  },
+  {
+    "id": "2c0c811b-269f-43dd-8694-4c41c78a46db",
+    "local_table": "enrollments",
+    "local_id": "173d473d-48b0-4caf-ad4c-b50ddade4273",
+    "system": "hubspot",
+    "external_id": "deal_98378220"
+  },
+  {
+    "id": "6c95f7fc-f63d-4597-8a73-9c059608b1d6",
+    "local_table": "enrollments",
+    "local_id": "236be363-b8c8-455a-8212-298847a8a49a",
+    "system": "hubspot",
+    "external_id": "deal_90178436"
+  },
+  {
+    "id": "51403124-5682-4877-a61a-23786bf19d7d",
+    "local_table": "enrollments",
+    "local_id": "1fae5c4d-14a4-436f-9771-c105fd761924",
+    "system": "hubspot",
+    "external_id": "deal_15218686"
+  },
+  {
+    "id": "d893cc2a-4727-4b0c-8731-cdab88705b72",
+    "local_table": "enrollments",
+    "local_id": "8b7068fb-bb53-48b7-ae58-9355a6415dea",
+    "system": "hubspot",
+    "external_id": "deal_88050616"
+  },
+  {
+    "id": "f4640b5c-e08f-4809-b706-82a134fd5cf6",
+    "local_table": "enrollments",
+    "local_id": "dd9431d0-dd5e-47b4-b041-03d9c0d3f572",
+    "system": "hubspot",
+    "external_id": "deal_94466509"
+  },
+  {
+    "id": "c97eab7f-181e-49a3-a391-935cd48889f8",
+    "local_table": "enrollments",
+    "local_id": "638b7c69-abfd-48b4-8c1a-26aaaae2d8b8",
+    "system": "hubspot",
+    "external_id": "deal_93487532"
+  },
+  {
+    "id": "522288ab-10f3-457d-ba7f-8ad4a5793921",
+    "local_table": "enrollments",
+    "local_id": "70035660-caf8-422c-85af-a90970f08b65",
+    "system": "hubspot",
+    "external_id": "deal_66235216"
+  },
+  {
+    "id": "7d26320b-bd19-436c-884c-f08cef15d7a0",
+    "local_table": "enrollments",
+    "local_id": "04f4cd9e-2c71-43d1-ae2e-3a4d1982e75e",
+    "system": "hubspot",
+    "external_id": "deal_92779594"
+  },
+  {
+    "id": "47386b50-11f1-40d8-9852-ae82f0f4f105",
+    "local_table": "enrollments",
+    "local_id": "905d604b-27ba-4143-ad9f-180768fe8438",
+    "system": "hubspot",
+    "external_id": "deal_72538857"
+  },
+  {
+    "id": "86a865b8-4af2-40c4-8a15-b768ae6b7602",
+    "local_table": "enrollments",
+    "local_id": "b2a89622-1f61-4b10-b2d1-9e5584942117",
+    "system": "hubspot",
+    "external_id": "deal_80422555"
+  },
+  {
+    "id": "2f0dfb83-fb15-410d-ba14-85b1a3ac6816",
+    "local_table": "enrollments",
+    "local_id": "25723ff5-27d6-47d4-9545-a1d2513614e7",
+    "system": "hubspot",
+    "external_id": "deal_67345487"
+  },
+  {
+    "id": "7733b468-2dc4-4d9b-8978-0386f72575fb",
+    "local_table": "enrollments",
+    "local_id": "3427ef10-7380-4a2d-bba1-0cab772e9f30",
+    "system": "hubspot",
+    "external_id": "deal_87569193"
+  },
+  {
+    "id": "7524c2d3-1754-4a47-b426-5de9865d8a6e",
+    "local_table": "enrollments",
+    "local_id": "3d87261d-eec2-47b5-b9bc-11d29d0634ad",
+    "system": "hubspot",
+    "external_id": "deal_52458953"
+  },
+  {
+    "id": "575394c1-5f2d-4fe7-951a-b632c33fedf0",
+    "local_table": "enrollments",
+    "local_id": "14633b8c-1b6c-446d-9537-7621e2c708a0",
+    "system": "hubspot",
+    "external_id": "deal_94004538"
+  },
+  {
+    "id": "cb6eb0d6-a39f-4849-9f4f-dfbacea4072e",
+    "local_table": "enrollments",
+    "local_id": "863cab10-08dc-449f-9925-f4eba768f778",
+    "system": "hubspot",
+    "external_id": "deal_00400717"
+  },
+  {
+    "id": "26468583-23b8-4a7c-b47a-704a7fb694ff",
+    "local_table": "enrollments",
+    "local_id": "e1ca0c71-a3d3-4a27-957a-e9115e59a55d",
+    "system": "hubspot",
+    "external_id": "deal_30545656"
+  },
+  {
+    "id": "04a2c5d4-94d0-4605-9be0-5a870f533577",
+    "local_table": "enrollments",
+    "local_id": "6e5b2b61-35fe-4b46-bfbc-071e9402043d",
+    "system": "hubspot",
+    "external_id": "deal_82526554"
+  },
+  {
+    "id": "5ce34870-732c-42de-abdd-9baf44323e51",
+    "local_table": "enrollments",
+    "local_id": "6607c755-a5c7-4212-b5c6-2839aca26070",
+    "system": "hubspot",
+    "external_id": "deal_36410775"
+  },
+  {
+    "id": "d798e8e4-1e99-410c-894f-9c9fad1b1479",
+    "local_table": "enrollments",
+    "local_id": "37526808-4a13-4b87-9333-55d1008576f5",
+    "system": "hubspot",
+    "external_id": "deal_73520746"
+  },
+  {
+    "id": "d94dd062-0059-4c70-bc28-0e1aa09455cc",
+    "local_table": "enrollments",
+    "local_id": "2b6254db-8ead-4cef-8bc4-bb94cc547de3",
+    "system": "hubspot",
+    "external_id": "deal_86647147"
+  },
+  {
+    "id": "2c454ba2-31c1-447b-96a2-cac133ba9530",
+    "local_table": "enrollments",
+    "local_id": "47560877-4cd4-43b6-931f-b771cad9130a",
+    "system": "hubspot",
+    "external_id": "deal_51334031"
+  },
+  {
+    "id": "dabb6624-cd0d-4bbc-9209-31f573feeddd",
+    "local_table": "enrollments",
+    "local_id": "89201411-de97-4f6c-be05-00cedab2b6c9",
+    "system": "hubspot",
+    "external_id": "deal_43337234"
+  },
+  {
+    "id": "8b43ea43-75f8-4890-ae77-e290e2667fc2",
+    "local_table": "enrollments",
+    "local_id": "6c2304b4-1ec0-4de2-afea-edaf94bf5f86",
+    "system": "hubspot",
+    "external_id": "deal_72867319"
+  },
+  {
+    "id": "c6346df4-d1be-4aba-a099-e79e98c37ae1",
+    "local_table": "enrollments",
+    "local_id": "e4b9d32e-633f-42a2-86d2-7cb603681fb2",
+    "system": "hubspot",
+    "external_id": "deal_97561857"
+  },
+  {
+    "id": "130cf5d9-7b0a-4211-909e-5d8cfb1e3679",
+    "local_table": "enrollments",
+    "local_id": "0e93de5e-f7d5-4fd6-a95f-260dff826545",
+    "system": "hubspot",
+    "external_id": "deal_26503097"
+  },
+  {
+    "id": "f1c5d76c-16aa-4ecf-aa44-a42a712e82b2",
+    "local_table": "enrollments",
+    "local_id": "24c99f95-b2ba-43c9-a8db-1af3eb738da6",
+    "system": "hubspot",
+    "external_id": "deal_97136432"
+  },
+  {
+    "id": "873415f0-5518-449a-831b-cb8bdfbce981",
+    "local_table": "enrollments",
+    "local_id": "08c9a3d8-bdde-4751-aa45-d7055ee6388e",
+    "system": "hubspot",
+    "external_id": "deal_48381235"
+  },
+  {
+    "id": "55eae9ff-d5c9-4e86-a174-cf164c56c4c8",
+    "local_table": "enrollments",
+    "local_id": "ecf8db3a-07c6-41af-b9c8-dce9d1c52dbf",
+    "system": "hubspot",
+    "external_id": "deal_52942232"
+  },
+  {
+    "id": "6cac7d38-a280-4252-b36b-dacf0415c674",
+    "local_table": "enrollments",
+    "local_id": "0608b5c8-7de6-434f-b400-b202431eeb57",
+    "system": "hubspot",
+    "external_id": "deal_44700530"
+  },
+  {
+    "id": "e5da556e-d07d-4ab4-96d3-a92b6f4cb946",
+    "local_table": "enrollments",
+    "local_id": "b6f84994-8de6-45f4-a230-0377476f1d5c",
+    "system": "hubspot",
+    "external_id": "deal_83981824"
+  },
+  {
+    "id": "67db021d-455f-4a11-88ad-3c910982df41",
+    "local_table": "enrollments",
+    "local_id": "ca6b0134-4a46-465d-abca-7e57524bdad2",
+    "system": "hubspot",
+    "external_id": "deal_54304301"
+  },
+  {
+    "id": "a0d5583d-705c-4fe8-bca6-34e67457078c",
+    "local_table": "enrollments",
+    "local_id": "be83671d-db73-4584-b636-f6ebffb3d326",
+    "system": "hubspot",
+    "external_id": "deal_87121250"
+  },
+  {
+    "id": "3781aa68-38b8-48af-9af9-f25056ccaf64",
+    "local_table": "enrollments",
+    "local_id": "c6dafecf-bfcc-465d-b631-82a72228fafc",
+    "system": "hubspot",
+    "external_id": "deal_17257276"
+  },
+  {
+    "id": "48139ac0-d6e8-407d-89d8-e4bd0f8473cb",
+    "local_table": "enrollments",
+    "local_id": "b1503eed-f1d1-4d44-9110-8b70805a08db",
+    "system": "hubspot",
+    "external_id": "deal_73688714"
+  },
+  {
+    "id": "c5b8da09-811f-45e5-9939-b43ada484541",
+    "local_table": "enrollments",
+    "local_id": "7feb101c-0361-4cba-a1f9-e3a51301c21a",
+    "system": "hubspot",
+    "external_id": "deal_53034982"
+  },
+  {
+    "id": "69a4c913-3cbb-4f96-9a07-fdde8f930938",
+    "local_table": "enrollments",
+    "local_id": "6a087cbe-01eb-4512-a2a6-0da548a3fbd9",
+    "system": "hubspot",
+    "external_id": "deal_42333364"
+  },
+  {
+    "id": "3155eaca-ea4c-4498-873e-e69268acf60e",
+    "local_table": "enrollments",
+    "local_id": "f854cf25-24b9-4eb2-bd8f-0cf1335769c5",
+    "system": "hubspot",
+    "external_id": "deal_99359904"
+  },
+  {
+    "id": "b3eebfdc-2dca-4bdd-a558-a57a849e043d",
+    "local_table": "enrollments",
+    "local_id": "8e0943dd-0d6f-4f90-a153-4a6de6d6d532",
+    "system": "hubspot",
+    "external_id": "deal_60327965"
+  },
+  {
+    "id": "09b590c9-f2ab-4e68-bc93-48be19e9d143",
+    "local_table": "enrollments",
+    "local_id": "b6e1db54-48c2-46e8-91db-0d2680df6ded",
+    "system": "hubspot",
+    "external_id": "deal_12897265"
+  },
+  {
+    "id": "33b550f6-0f8d-405a-b2d3-dd7702abb8af",
+    "local_table": "enrollments",
+    "local_id": "10b26132-05c3-42d9-9371-a94852d4ddba",
+    "system": "hubspot",
+    "external_id": "deal_44380257"
+  },
+  {
+    "id": "9df4087b-7d74-452a-bc30-adc945056c03",
+    "local_table": "enrollments",
+    "local_id": "12fcb8ef-2d3a-4df1-81a0-70c1607e2242",
+    "system": "hubspot",
+    "external_id": "deal_62175731"
+  },
+  {
+    "id": "42fc6bbf-808f-4c61-a0e0-5123861751b9",
+    "local_table": "enrollments",
+    "local_id": "388d1a89-5124-42f7-b04c-78500e72a510",
+    "system": "hubspot",
+    "external_id": "deal_87028908"
+  },
+  {
+    "id": "6f630823-ca99-4498-bdad-61d85c33bbe5",
+    "local_table": "enrollments",
+    "local_id": "c4a2085c-f94b-40be-b77f-c3d460f3467f",
+    "system": "hubspot",
+    "external_id": "deal_91242083"
+  },
+  {
+    "id": "32484c5a-4060-4710-90a6-d27a108caa01",
+    "local_table": "enrollments",
+    "local_id": "6e212626-fbbe-47ba-85ce-e97c0d9efd29",
+    "system": "hubspot",
+    "external_id": "deal_24967174"
+  },
+  {
+    "id": "760201d8-a88b-4a02-9bc0-d6b3ea2970c5",
+    "local_table": "enrollments",
+    "local_id": "b1c28bc0-6b20-4f44-b099-6c8f4510b5d1",
+    "system": "hubspot",
+    "external_id": "deal_67440974"
+  },
+  {
+    "id": "4ad04578-487c-49b1-a4ae-df415efd1099",
+    "local_table": "enrollments",
+    "local_id": "151a6bff-d883-4a92-a376-ee81c1f2dd74",
+    "system": "hubspot",
+    "external_id": "deal_88832851"
+  },
+  {
+    "id": "2478eab9-429e-4407-a350-da91dd3fcf97",
+    "local_table": "enrollments",
+    "local_id": "77a40a35-e7bc-4e0f-88a7-0b193285c849",
+    "system": "hubspot",
+    "external_id": "deal_54632156"
+  },
+  {
+    "id": "8974c0cc-577c-4e96-8ea7-8cb6eb398e68",
+    "local_table": "enrollments",
+    "local_id": "13bdb174-8351-4475-a8c8-c43899b6a4c2",
+    "system": "hubspot",
+    "external_id": "deal_10803707"
+  },
+  {
+    "id": "484a17a2-7b7c-413f-be1d-41e72095ec18",
+    "local_table": "enrollments",
+    "local_id": "ae9241c5-aaad-4585-8631-9c0351088c92",
+    "system": "hubspot",
+    "external_id": "deal_68149570"
+  },
+  {
+    "id": "8aa0b6ba-26b2-4851-b96c-7f077b95f693",
+    "local_table": "enrollments",
+    "local_id": "b69de1d4-5e39-4377-ab6d-2f94a2077050",
+    "system": "hubspot",
+    "external_id": "deal_07645735"
+  },
+  {
+    "id": "bffbb545-b38f-42a8-8de1-fb60d0af06e6",
+    "local_table": "enrollments",
+    "local_id": "a7632131-821a-4549-89f0-19c4d097d1ae",
+    "system": "hubspot",
+    "external_id": "deal_41724747"
+  },
+  {
+    "id": "53fac65a-990f-4a4b-98f4-094cdc28af80",
+    "local_table": "enrollments",
+    "local_id": "29958e70-990b-40a6-ac69-5d59f74dc172",
+    "system": "hubspot",
+    "external_id": "deal_33194006"
+  },
+  {
+    "id": "26bed9e7-c6ae-461d-8564-a826c4c0a58d",
+    "local_table": "enrollments",
+    "local_id": "6c189725-be1c-4b17-8dc6-3813658ef68d",
+    "system": "hubspot",
+    "external_id": "deal_56205358"
+  },
+  {
+    "id": "ff1d69c5-8fba-4a12-9399-11c433474a0a",
+    "local_table": "enrollments",
+    "local_id": "51652257-915f-4000-a0cc-9e1985050894",
+    "system": "hubspot",
+    "external_id": "deal_44024096"
+  },
+  {
+    "id": "73e16f34-bedc-4d7e-b560-4c2fc20df39e",
+    "local_table": "enrollments",
+    "local_id": "aab93c5c-4f05-477c-ba9d-d17abda8b1a1",
+    "system": "hubspot",
+    "external_id": "deal_58426728"
+  },
+  {
+    "id": "4804f676-2916-458c-8d5c-67dfc996dce0",
+    "local_table": "enrollments",
+    "local_id": "984a0807-fb95-46b5-b623-769354f11df3",
+    "system": "hubspot",
+    "external_id": "deal_08500822"
+  },
+  {
+    "id": "d402e1ee-4ea7-4104-80bb-c6b19c12d106",
+    "local_table": "enrollments",
+    "local_id": "cf1d5d94-a6a4-4c95-b2e8-eda119068ea9",
+    "system": "hubspot",
+    "external_id": "deal_84626938"
+  },
+  {
+    "id": "f9399f64-83d2-4d0f-b981-bfa6317ff6f7",
+    "local_table": "enrollments",
+    "local_id": "b27b0134-46d1-475f-9168-3532e3e71baa",
+    "system": "hubspot",
+    "external_id": "deal_01300687"
+  },
+  {
+    "id": "9ff4defd-7917-4b9a-b16c-fa785a3d2417",
+    "local_table": "enrollments",
+    "local_id": "c71fd984-9dd8-4cac-a48e-83e9280c8dbf",
+    "system": "hubspot",
+    "external_id": "deal_88948001"
+  },
+  {
+    "id": "b665db35-d771-405a-9041-b69fa4da2863",
+    "local_table": "enrollments",
+    "local_id": "2000d260-7758-408b-9eb1-3338a76b4ec6",
+    "system": "hubspot",
+    "external_id": "deal_99708128"
+  },
+  {
+    "id": "ad43c5a2-3bbb-4b62-a1fd-27e7685f730c",
+    "local_table": "enrollments",
+    "local_id": "5aee6e56-bcd2-4b86-8ac7-82903591a8e6",
+    "system": "hubspot",
+    "external_id": "deal_19819222"
+  },
+  {
+    "id": "2d7cda2c-cfc9-4f8d-9822-b529eaa80d2f",
+    "local_table": "enrollments",
+    "local_id": "f4d04eec-1c86-403a-9b8b-9e5a29d8b80a",
+    "system": "hubspot",
+    "external_id": "deal_13335233"
+  },
+  {
+    "id": "9fa212ef-82e3-4bd6-a7b8-7c0237a308e5",
+    "local_table": "enrollments",
+    "local_id": "740a1880-50af-40ed-95c4-252505bf5d15",
+    "system": "hubspot",
+    "external_id": "deal_92898625"
+  },
+  {
+    "id": "0f4b4952-5d61-4794-96d0-6964dd69b2b1",
+    "local_table": "enrollments",
+    "local_id": "17e3512a-bb2b-4f0a-84e1-4c8449f77150",
+    "system": "hubspot",
+    "external_id": "deal_67825172"
+  },
+  {
+    "id": "89b575b0-7370-4521-b05e-24acc2d77c53",
+    "local_table": "enrollments",
+    "local_id": "75e4959b-0bcb-47f1-a36f-c280c1435f21",
+    "system": "hubspot",
+    "external_id": "deal_49284579"
+  },
+  {
+    "id": "2d2ea39b-c90a-4577-ae78-d5cf90929580",
+    "local_table": "enrollments",
+    "local_id": "ec9d4b69-77b8-4a80-b70d-9ae28e773447",
+    "system": "hubspot",
+    "external_id": "deal_97596130"
+  },
+  {
+    "id": "91e5afa3-1caa-4008-aef1-c286cc50232c",
+    "local_table": "enrollments",
+    "local_id": "90b931e9-913e-4d88-93f0-77250d4d195f",
+    "system": "hubspot",
+    "external_id": "deal_80779861"
+  },
+  {
+    "id": "4e1c2b7f-e531-4055-aa2c-808478c96f97",
+    "local_table": "enrollments",
+    "local_id": "13107fd6-d6dc-403c-8778-43350469a48d",
+    "system": "hubspot",
+    "external_id": "deal_97324208"
+  },
+  {
+    "id": "af38114d-7cd7-4f7f-88ed-d72e651bcbd5",
+    "local_table": "enrollments",
+    "local_id": "e722ae25-f111-4cd6-8d16-6a609e73898f",
+    "system": "hubspot",
+    "external_id": "deal_58438155"
+  },
+  {
+    "id": "508357d4-fcee-477e-a269-a169377ae009",
+    "local_table": "enrollments",
+    "local_id": "2e1de4dc-03fb-47ff-9b7d-252bc8300045",
+    "system": "hubspot",
+    "external_id": "deal_08129312"
+  },
+  {
+    "id": "c67a4133-6dbf-4b02-81ae-7ed32832a2e6",
+    "local_table": "enrollments",
+    "local_id": "489a7543-be99-4e4d-a873-d3d25eba6c82",
+    "system": "hubspot",
+    "external_id": "deal_85380872"
+  },
+  {
+    "id": "2668bfa8-d3a6-4030-97ad-c439984e46d9",
+    "local_table": "enrollments",
+    "local_id": "e7547982-6c87-4590-9871-168a878fa226",
+    "system": "hubspot",
+    "external_id": "deal_11472785"
+  },
+  {
+    "id": "fa045907-30da-4251-9c09-1c7617226e35",
+    "local_table": "enrollments",
+    "local_id": "592996df-e113-47e1-b9ff-edcd44b50b42",
+    "system": "hubspot",
+    "external_id": "deal_96102143"
+  },
+  {
+    "id": "0ad204ea-071b-49aa-b130-6a7c201c1c49",
+    "local_table": "enrollments",
+    "local_id": "b4adce11-d7ed-4977-acf8-a913bb4c2500",
+    "system": "hubspot",
+    "external_id": "deal_95617280"
+  },
+  {
+    "id": "3262c6de-033b-44c8-a5c4-d133a07b352f",
+    "local_table": "enrollments",
+    "local_id": "2f4afa02-9948-4008-8b8a-8b8cd685e0ce",
+    "system": "hubspot",
+    "external_id": "deal_48495230"
+  },
+  {
+    "id": "1369f829-d5a5-4635-9281-020db7903d81",
+    "local_table": "enrollments",
+    "local_id": "4eaa1e14-25e7-47dc-ab5b-0879ef941551",
+    "system": "hubspot",
+    "external_id": "deal_72334330"
+  },
+  {
+    "id": "37f744fe-a687-4c8e-bd6e-158c232aa3d2",
+    "local_table": "enrollments",
+    "local_id": "cab0ab37-a1ca-4d5d-bc93-f2142c3922fc",
+    "system": "hubspot",
+    "external_id": "deal_04607248"
+  },
+  {
+    "id": "8006d943-e039-471b-9986-dfae9ff12c1a",
+    "local_table": "enrollments",
+    "local_id": "e415170b-8df3-4566-bacb-78c715346e5d",
+    "system": "hubspot",
+    "external_id": "deal_10296894"
+  },
+  {
+    "id": "9f035690-ede8-45d4-b56e-edf962ea3349",
+    "local_table": "enrollments",
+    "local_id": "7bdc25c7-35eb-4c41-8b93-9f445463a472",
+    "system": "hubspot",
+    "external_id": "deal_79211404"
+  },
+  {
+    "id": "ba6373e1-5cdf-4ba7-be3a-7f3adcbf51b3",
+    "local_table": "enrollments",
+    "local_id": "1faa26fb-aad9-4f22-beb6-f612df76f28d",
+    "system": "hubspot",
+    "external_id": "deal_77392644"
+  },
+  {
+    "id": "69c58d49-67ba-4bcb-a512-36bac0da9f44",
+    "local_table": "enrollments",
+    "local_id": "a11f982b-c3a7-4cb7-bd01-68457f34f004",
+    "system": "hubspot",
+    "external_id": "deal_93634831"
+  },
+  {
+    "id": "ea62c5a2-31bd-48ba-9f1c-4e8e32070caf",
+    "local_table": "enrollments",
+    "local_id": "eba806e9-a60e-4a18-9b43-20f5ff1c104b",
+    "system": "hubspot",
+    "external_id": "deal_72463882"
+  },
+  {
+    "id": "191bfd25-0fb5-4a5c-bdcf-c7805be065a1",
+    "local_table": "enrollments",
+    "local_id": "89818c87-8c15-4fc0-b84b-6ca22b4575a1",
+    "system": "hubspot",
+    "external_id": "deal_61112307"
+  },
+  {
+    "id": "4a177d4f-55ff-4a09-aa59-9f596e4fd38a",
+    "local_table": "enrollments",
+    "local_id": "f470f70e-407d-44f8-853d-e1d6ffa0822c",
+    "system": "hubspot",
+    "external_id": "deal_96238579"
+  },
+  {
+    "id": "4ed91954-daf9-4888-b3ff-3cd28a88cf6e",
+    "local_table": "enrollments",
+    "local_id": "164764ec-86a0-4602-b1d0-127c695bbf1d",
+    "system": "hubspot",
+    "external_id": "deal_82898466"
+  },
+  {
+    "id": "f42b0229-f08c-4bd4-bf6f-976db15909bf",
+    "local_table": "enrollments",
+    "local_id": "893c2725-eb7d-42e3-ad45-7819210027a0",
+    "system": "hubspot",
+    "external_id": "deal_89031447"
+  },
+  {
+    "id": "d532d4bd-b20e-4837-813e-3cbed5286744",
+    "local_table": "enrollments",
+    "local_id": "51cca0c3-5203-4f73-b87e-22736a7f1a11",
+    "system": "hubspot",
+    "external_id": "deal_75023045"
+  },
+  {
+    "id": "3079447e-9505-4c16-beed-37063584cd87",
+    "local_table": "enrollments",
+    "local_id": "30f5fa9c-8b3e-441e-8036-1cafe51d170e",
+    "system": "hubspot",
+    "external_id": "deal_53478897"
+  },
+  {
+    "id": "43eb1440-539e-4dfd-93b2-d23f69aa364b",
+    "local_table": "enrollments",
+    "local_id": "6b651c6f-4495-4287-a32f-2aad211df85d",
+    "system": "hubspot",
+    "external_id": "deal_94668743"
+  },
+  {
+    "id": "c577fd17-898f-4390-bcff-d162d9c7ff5e",
+    "local_table": "enrollments",
+    "local_id": "1093c708-aea2-4d55-ab6a-2bbfbca6a5a3",
+    "system": "hubspot",
+    "external_id": "deal_19191560"
+  },
+  {
+    "id": "464cca46-dd66-412d-ac76-a6698d651155",
+    "local_table": "enrollments",
+    "local_id": "db6b8ba9-5253-4587-83aa-bde48274abe2",
+    "system": "hubspot",
+    "external_id": "deal_24119996"
+  },
+  {
+    "id": "71bb6533-b743-4653-ad05-0e6ad1929a3c",
+    "local_table": "enrollments",
+    "local_id": "5f105dd3-52b7-4282-b733-d79eaf9f6b8a",
+    "system": "hubspot",
+    "external_id": "deal_04760607"
+  },
+  {
+    "id": "ef20056b-f45e-49ef-a313-456f9f04c5f3",
+    "local_table": "enrollments",
+    "local_id": "6fcb8760-c771-4cae-b8b4-889b801e9ae7",
+    "system": "hubspot",
+    "external_id": "deal_64406565"
+  },
+  {
+    "id": "6a029bc5-dab4-4190-b723-cda147052975",
+    "local_table": "enrollments",
+    "local_id": "f041d28c-aa27-4a6f-89f8-f0ae75cc3ce1",
+    "system": "hubspot",
+    "external_id": "deal_19127950"
+  },
+  {
+    "id": "3d8a0388-6c6e-4e29-9c56-fd15ce623533",
+    "local_table": "enrollments",
+    "local_id": "1f20fdf3-9df9-4708-bbaf-a4b5d86793c8",
+    "system": "hubspot",
+    "external_id": "deal_50794403"
+  },
+  {
+    "id": "38933ac2-5fe4-4785-a3d0-63e652a65eb4",
+    "local_table": "enrollments",
+    "local_id": "3830648f-83eb-4dc8-93ec-28a49f838e9a",
+    "system": "hubspot",
+    "external_id": "deal_03332867"
+  },
+  {
+    "id": "b16ad9fd-e9bb-460e-8cda-0b5e366b40fa",
+    "local_table": "enrollments",
+    "local_id": "21a2cb8b-823c-4523-b97c-7a127b4b6eb5",
+    "system": "hubspot",
+    "external_id": "deal_09741520"
+  },
+  {
+    "id": "f71ad317-2007-4ce3-b417-62a8b95936e0",
+    "local_table": "enrollments",
+    "local_id": "4dcfd5c9-5f1a-487d-90be-99c1805a1f20",
+    "system": "hubspot",
+    "external_id": "deal_41660482"
+  },
+  {
+    "id": "93c963e6-e4d5-4f1b-aaa7-7357d13584b3",
+    "local_table": "enrollments",
+    "local_id": "379ef6d7-3e3c-451e-8ca9-19de6b43b3e1",
+    "system": "hubspot",
+    "external_id": "deal_12098483"
+  },
+  {
+    "id": "b6395943-4a1e-4a80-b7d6-0f5ba2546fb8",
+    "local_table": "enrollments",
+    "local_id": "fb2f0e34-3ac3-41c1-9c77-7294fd320425",
+    "system": "hubspot",
+    "external_id": "deal_74865749"
+  },
+  {
+    "id": "7fc390ed-c7c7-473d-bbdf-5bf958484fe6",
+    "local_table": "enrollments",
+    "local_id": "f8239d8f-03c2-4254-ba52-a33329236aaa",
+    "system": "hubspot",
+    "external_id": "deal_89056494"
+  },
+  {
+    "id": "cc431a70-b35e-4ed4-adbd-1278581a7a12",
+    "local_table": "enrollments",
+    "local_id": "af8c769c-c1fb-4db7-b719-7a95755c2581",
+    "system": "hubspot",
+    "external_id": "deal_08596684"
+  },
+  {
+    "id": "66d1d66f-7f14-4638-828e-fb0901ed84f2",
+    "local_table": "enrollments",
+    "local_id": "3730870d-c5b8-42f4-8186-afd36e15966e",
+    "system": "hubspot",
+    "external_id": "deal_31302906"
+  },
+  {
+    "id": "6d25ae95-69c2-444d-8168-38dc414f63da",
+    "local_table": "enrollments",
+    "local_id": "56049a79-f847-4c59-9aa4-598e37b6d035",
+    "system": "hubspot",
+    "external_id": "deal_12774316"
+  },
+  {
+    "id": "c144a1fb-7801-4826-8eaa-ff89cb6f0b0d",
+    "local_table": "enrollments",
+    "local_id": "58b3d3db-c6c9-4adf-bd35-ba64c82a826c",
+    "system": "hubspot",
+    "external_id": "deal_70165306"
+  },
+  {
+    "id": "d651448d-6cea-4d0b-9a2f-68a87ded6787",
+    "local_table": "enrollments",
+    "local_id": "0ed1d6a4-9413-452e-9581-5349d8173df4",
+    "system": "hubspot",
+    "external_id": "deal_02881348"
+  },
+  {
+    "id": "c3e688af-cd78-497f-a90a-8a890b329922",
+    "local_table": "enrollments",
+    "local_id": "5e6a4ba6-f812-4978-9419-f490e70ef64c",
+    "system": "hubspot",
+    "external_id": "deal_39371571"
+  },
+  {
+    "id": "a1161393-091f-46ad-bc52-ce37121146bc",
+    "local_table": "enrollments",
+    "local_id": "21cfb656-7dde-433d-b7af-a5113485a67c",
+    "system": "hubspot",
+    "external_id": "deal_12304222"
+  },
+  {
+    "id": "88bdaf20-b7d3-4035-ae53-bec8d4740821",
+    "local_table": "enrollments",
+    "local_id": "1be74609-ebb1-41c5-84aa-3723fd81103c",
+    "system": "hubspot",
+    "external_id": "deal_22075542"
+  },
+  {
+    "id": "7bd8f40d-7655-4c5d-b75b-b14dce2c34fd",
+    "local_table": "enrollments",
+    "local_id": "8ee46cfb-5040-403f-bbaf-d21feb2ac61a",
+    "system": "hubspot",
+    "external_id": "deal_66290726"
+  },
+  {
+    "id": "21f2fdbe-9535-4db0-afe1-ecad25607639",
+    "local_table": "enrollments",
+    "local_id": "77c11fde-6bd4-4384-be04-16e44e90ace1",
+    "system": "hubspot",
+    "external_id": "deal_05892893"
+  },
+  {
+    "id": "2f64b0fb-d13e-43bd-b1b5-7cf498705da2",
+    "local_table": "enrollments",
+    "local_id": "0896583b-f006-4dd1-82b7-134b6128922b",
+    "system": "hubspot",
+    "external_id": "deal_86195905"
+  },
+  {
+    "id": "ff293f39-87c8-403b-a21e-8db0d34ef7e8",
+    "local_table": "enrollments",
+    "local_id": "0bafe603-1e70-4e96-88bd-76cc1172056e",
+    "system": "hubspot",
+    "external_id": "deal_41827540"
+  },
+  {
+    "id": "c48e9673-352c-4402-871d-45ae5930b4d6",
+    "local_table": "enrollments",
+    "local_id": "3f5c46f8-3117-455e-9922-49bb57319219",
+    "system": "hubspot",
+    "external_id": "deal_25532847"
+  },
+  {
+    "id": "b6502d4d-b5fe-45f2-8b07-5222a3fa72a7",
+    "local_table": "enrollments",
+    "local_id": "2fb20036-4273-4c34-8dc9-a785ca4b02d3",
+    "system": "hubspot",
+    "external_id": "deal_83115239"
+  },
+  {
+    "id": "a53ab683-d1a0-4c89-ae3c-b010cd3113b7",
+    "local_table": "enrollments",
+    "local_id": "0f467db5-d04c-472e-a339-62d84d0e78e2",
+    "system": "hubspot",
+    "external_id": "deal_24734707"
+  },
+  {
+    "id": "4f6ea521-9fcf-44ba-a6b4-ab7b3bf58910",
+    "local_table": "enrollments",
+    "local_id": "72f6f5ba-922c-4b40-b1d3-c1a866853478",
+    "system": "hubspot",
+    "external_id": "deal_32635804"
+  },
+  {
+    "id": "7a59468e-a7d8-46cc-94dd-19464e09fbd9",
+    "local_table": "enrollments",
+    "local_id": "d3781b42-19ee-4115-8883-3ca50860c46d",
+    "system": "hubspot",
+    "external_id": "deal_12376668"
+  },
+  {
+    "id": "9afd6080-7641-4ee9-837d-0cf8bbeb173d",
+    "local_table": "enrollments",
+    "local_id": "cb51738b-55e6-43ce-8028-26302b583c09",
+    "system": "hubspot",
+    "external_id": "deal_32608813"
+  },
+  {
+    "id": "de0b34f7-9899-4e24-9f31-c66e925df9f8",
+    "local_table": "enrollments",
+    "local_id": "c7a282b3-8ffb-4aea-a129-d8b9473e1f1e",
+    "system": "hubspot",
+    "external_id": "deal_52798401"
+  },
+  {
+    "id": "96278c95-e378-485b-8fc6-252a0f81dbe2",
+    "local_table": "enrollments",
+    "local_id": "661eb1b8-4f70-44c4-ab0a-354aa63eafa2",
+    "system": "hubspot",
+    "external_id": "deal_95774661"
+  },
+  {
+    "id": "ad84d12f-810d-4a05-950e-3608defb8545",
+    "local_table": "enrollments",
+    "local_id": "dea8fe33-eef0-4a7b-a305-380af41efa5a",
+    "system": "hubspot",
+    "external_id": "deal_48525393"
+  },
+  {
+    "id": "9fbb81c8-7a7f-40fd-bb1f-438df4025bce",
+    "local_table": "enrollments",
+    "local_id": "41dee87b-08c6-4721-a4e9-cd7bd5429ec4",
+    "system": "hubspot",
+    "external_id": "deal_48171171"
+  },
+  {
+    "id": "523df06b-2264-4d5b-82f5-4037e157237b",
+    "local_table": "enrollments",
+    "local_id": "5966d567-5a2e-4788-a3a0-3fb88899b2ff",
+    "system": "hubspot",
+    "external_id": "deal_50161171"
+  },
+  {
+    "id": "5e131e15-be34-48c6-89a3-6a9df65e1b76",
+    "local_table": "enrollments",
+    "local_id": "b9352d3d-eb67-4010-83a6-e5c3da84176b",
+    "system": "hubspot",
+    "external_id": "deal_40930661"
+  },
+  {
+    "id": "3f3c9169-0797-4e56-8c55-5fb3299cdfff",
+    "local_table": "enrollments",
+    "local_id": "c1b48ae1-94ca-4076-8fc0-fdcb22487265",
+    "system": "hubspot",
+    "external_id": "deal_17440688"
+  },
+  {
+    "id": "24a95656-f63f-4303-8779-288a54e59e17",
+    "local_table": "enrollments",
+    "local_id": "0e938281-c011-4aee-a317-da947f4c5f3c",
+    "system": "hubspot",
+    "external_id": "deal_35448936"
+  },
+  {
+    "id": "1433d91e-92c8-4c7f-aa61-bd9157365d4a",
+    "local_table": "enrollments",
+    "local_id": "e9627789-06a7-4edb-9f80-a80d3482fa82",
+    "system": "hubspot",
+    "external_id": "deal_00356039"
+  },
+  {
+    "id": "90247cc8-33e3-4880-ae0b-add37c3d0361",
+    "local_table": "enrollments",
+    "local_id": "57408323-263c-4035-92e7-f1b11df5bca8",
+    "system": "hubspot",
+    "external_id": "deal_90223221"
+  },
+  {
+    "id": "719e64d8-8e1a-4b48-8cc3-64aa68de4b51",
+    "local_table": "enrollments",
+    "local_id": "d367b201-1415-4c07-9e5c-8f1fa4b2c243",
+    "system": "hubspot",
+    "external_id": "deal_83308151"
+  },
+  {
+    "id": "538ddee2-6763-4f0a-a5ea-1356816db55e",
+    "local_table": "enrollments",
+    "local_id": "698e5f35-0400-4b4f-941e-f6db48dd51fc",
+    "system": "hubspot",
+    "external_id": "deal_84466503"
+  },
+  {
+    "id": "cbe59919-64be-416e-b579-706e9913e9cc",
+    "local_table": "enrollments",
+    "local_id": "64367e67-8e9f-4a36-9e7f-079b47f0314f",
+    "system": "hubspot",
+    "external_id": "deal_38069167"
+  },
+  {
+    "id": "c71cdc2d-09fb-4c8f-93e0-883fc47ca54b",
+    "local_table": "enrollments",
+    "local_id": "21fa04c2-4cb7-45b4-918a-011e39e3331f",
+    "system": "hubspot",
+    "external_id": "deal_70601996"
+  },
+  {
+    "id": "1a9bfd3a-1cc6-4eda-b259-26dfde7688c0",
+    "local_table": "enrollments",
+    "local_id": "35abb774-54a0-4b28-8721-8f99b4178442",
+    "system": "hubspot",
+    "external_id": "deal_14111961"
+  },
+  {
+    "id": "cc95c914-abd1-4113-a66e-ddf2f3b923ec",
+    "local_table": "enrollments",
+    "local_id": "4c33d920-3fcd-4bf8-be95-4e23b354b68c",
+    "system": "hubspot",
+    "external_id": "deal_77313492"
+  },
+  {
+    "id": "a5edc3fe-be2e-4b3e-b531-16b61d64fda4",
+    "local_table": "enrollments",
+    "local_id": "77514f67-247b-4ad6-9014-6d227f6eb682",
+    "system": "hubspot",
+    "external_id": "deal_89693780"
+  },
+  {
+    "id": "4fba7593-0bd9-45e3-81a5-c0687684e200",
+    "local_table": "enrollments",
+    "local_id": "7fad6cb0-066f-454f-be12-a2973489d9a8",
+    "system": "hubspot",
+    "external_id": "deal_48623592"
+  },
+  {
+    "id": "c6645c88-e3d6-4d7a-8c3c-9560c53e348f",
+    "local_table": "enrollments",
+    "local_id": "ba67c3f9-16e1-4c72-9107-0828f5fdd66e",
+    "system": "hubspot",
+    "external_id": "deal_53419998"
+  },
+  {
+    "id": "8aacfa56-945f-4d88-a3e1-d3d821f049f0",
+    "local_table": "enrollments",
+    "local_id": "fd8dd738-572e-4106-9e15-f9680706949d",
+    "system": "hubspot",
+    "external_id": "deal_32685685"
+  },
+  {
+    "id": "326348d1-1cb4-41e2-927a-0d5656998156",
+    "local_table": "enrollments",
+    "local_id": "522e85a4-fa68-408d-a5d8-745d445a140d",
+    "system": "hubspot",
+    "external_id": "deal_99481163"
+  },
+  {
+    "id": "fca1db74-c815-4043-a125-37287e5a2086",
+    "local_table": "enrollments",
+    "local_id": "b62c1f14-263d-4b66-8366-09614b6b5c9d",
+    "system": "hubspot",
+    "external_id": "deal_60697422"
+  },
+  {
+    "id": "e2260899-989d-4229-868c-db3974e3c13d",
+    "local_table": "enrollments",
+    "local_id": "d17451c0-0de4-402f-89c7-555fc590095a",
+    "system": "hubspot",
+    "external_id": "deal_29510056"
+  },
+  {
+    "id": "fbb2a9b8-c1fa-47ab-9130-3e9775e22379",
+    "local_table": "enrollments",
+    "local_id": "561c7a83-1cc3-4e41-a920-a179a56191b3",
+    "system": "hubspot",
+    "external_id": "deal_61398214"
+  },
+  {
+    "id": "85e8222d-6f9f-45e0-ba36-6274f7805518",
+    "local_table": "enrollments",
+    "local_id": "031a3078-7a36-4759-8786-c3dc5a821893",
+    "system": "hubspot",
+    "external_id": "deal_72731931"
+  },
+  {
+    "id": "b34388f4-976d-4214-ae9a-8864fff7ad17",
+    "local_table": "enrollments",
+    "local_id": "57dee94c-fd39-4ad6-b239-735e0532a4d8",
+    "system": "hubspot",
+    "external_id": "deal_12002883"
+  },
+  {
+    "id": "233bcf1d-634e-4110-bcee-1f6a4394a5aa",
+    "local_table": "enrollments",
+    "local_id": "b0ec743e-83a4-41fd-8fec-b22ea2c8468b",
+    "system": "hubspot",
+    "external_id": "deal_23604147"
+  },
+  {
+    "id": "407616aa-52a6-41d3-b12a-57c3262b861e",
+    "local_table": "enrollments",
+    "local_id": "05192aca-1250-4d4d-9fcc-ac4b7daae839",
+    "system": "hubspot",
+    "external_id": "deal_24800299"
+  },
+  {
+    "id": "50037a22-3fe5-4ded-bb43-44258ecefc42",
+    "local_table": "enrollments",
+    "local_id": "cfa7b230-c1cf-40d3-95c8-e81100cb2ccb",
+    "system": "hubspot",
+    "external_id": "deal_06262958"
+  },
+  {
+    "id": "c58dea24-8c16-4591-b403-5250663e4ea0",
+    "local_table": "enrollments",
+    "local_id": "c0809bfa-3b48-4632-a665-85f6be3053ae",
+    "system": "hubspot",
+    "external_id": "deal_60334760"
+  },
+  {
+    "id": "728375f2-d399-49ba-84a9-66e409f39b67",
+    "local_table": "enrollments",
+    "local_id": "32f80182-26ad-46fd-adbc-af727c6ad830",
+    "system": "hubspot",
+    "external_id": "deal_44384814"
+  },
+  {
+    "id": "2635f3bc-79aa-43a5-8c99-cbb067e99ac4",
+    "local_table": "enrollments",
+    "local_id": "4d2b0f3a-149c-4cad-a669-c5b5662c6172",
+    "system": "hubspot",
+    "external_id": "deal_51065125"
+  },
+  {
+    "id": "da694221-dade-4879-b677-8097a486f285",
+    "local_table": "enrollments",
+    "local_id": "69054dbb-00b7-4e5b-9970-a8abdcb3eab1",
+    "system": "hubspot",
+    "external_id": "deal_91039643"
+  },
+  {
+    "id": "20256d91-e940-422d-ac04-c071581d8069",
+    "local_table": "enrollments",
+    "local_id": "d40ff717-a59a-4516-950f-4efd408cb917",
+    "system": "hubspot",
+    "external_id": "deal_68180396"
+  },
+  {
+    "id": "aa6638d9-12ab-4339-9bb1-01c4a3cb3d44",
+    "local_table": "enrollments",
+    "local_id": "68701941-0071-4484-9e05-7d8f5b0f53d4",
+    "system": "hubspot",
+    "external_id": "deal_92750185"
+  },
+  {
+    "id": "4374f5b6-6cf1-4157-a4b0-aad94899c0a8",
+    "local_table": "enrollments",
+    "local_id": "9258a672-50c4-43bc-8d00-c9b0f16f266e",
+    "system": "hubspot",
+    "external_id": "deal_09605981"
+  },
+  {
+    "id": "485341b6-2ffb-4eb6-b45b-9eba44537ad6",
+    "local_table": "enrollments",
+    "local_id": "1fa7e9da-8275-46ce-b251-fd0bed91b825",
+    "system": "hubspot",
+    "external_id": "deal_83367693"
+  },
+  {
+    "id": "2e8a632b-39aa-4ee5-b4b7-7a3b1904fc63",
+    "local_table": "enrollments",
+    "local_id": "9c83d01d-5560-4795-be42-737266f59d6a",
+    "system": "hubspot",
+    "external_id": "deal_12472295"
+  },
+  {
+    "id": "e2f5d5b1-fda2-4094-8b10-380809d10a47",
+    "local_table": "enrollments",
+    "local_id": "9acdfe37-f280-4c45-a5aa-e438ae423f80",
+    "system": "hubspot",
+    "external_id": "deal_40963194"
+  },
+  {
+    "id": "6e058da1-0ffb-4496-94f6-d6e86e5e931b",
+    "local_table": "enrollments",
+    "local_id": "a20732ad-81f0-41a9-b056-100a7cc73624",
+    "system": "hubspot",
+    "external_id": "deal_12979095"
+  },
+  {
+    "id": "638849bc-cf82-4620-b7ef-9264b14626ae",
+    "local_table": "enrollments",
+    "local_id": "68d39072-9fc5-494a-9e59-9be112f26128",
+    "system": "hubspot",
+    "external_id": "deal_10579305"
+  },
+  {
+    "id": "f36b25b2-1bee-4067-b1f8-3126fb35ec70",
+    "local_table": "enrollments",
+    "local_id": "369df070-a77c-4f9e-9959-03e8d3f6c977",
+    "system": "hubspot",
+    "external_id": "deal_51728107"
+  },
+  {
+    "id": "07eb757a-c39b-43e5-aa1e-e506f4836cef",
+    "local_table": "enrollments",
+    "local_id": "0b313c59-077c-4bb1-82af-1a3a908ba49c",
+    "system": "hubspot",
+    "external_id": "deal_43771448"
+  },
+  {
+    "id": "50c276f8-2eae-4a03-8104-0afcbc658733",
+    "local_table": "enrollments",
+    "local_id": "ccce906a-9689-4c73-ad84-45f30e641090",
+    "system": "hubspot",
+    "external_id": "deal_62268363"
+  },
+  {
+    "id": "443c9443-1737-436f-ab1e-c8f134e1bd3e",
+    "local_table": "enrollments",
+    "local_id": "d4c12468-8f48-4c45-bc7d-c21f0a7c107f",
+    "system": "hubspot",
+    "external_id": "deal_60344535"
+  },
+  {
+    "id": "ed5e4925-e847-48f9-8bb1-be2d9610d778",
+    "local_table": "enrollments",
+    "local_id": "ae33d009-0a3d-40df-834e-6fb2560d1c0d",
+    "system": "hubspot",
+    "external_id": "deal_23959944"
+  },
+  {
+    "id": "d71249e2-2adc-4091-b72e-06170103bba0",
+    "local_table": "enrollments",
+    "local_id": "48e4b10e-a04e-419d-ad5a-fe1364cb8b85",
+    "system": "hubspot",
+    "external_id": "deal_23511617"
+  },
+  {
+    "id": "a5b36f1b-a266-47ed-8a60-e4ef9cf1ba4e",
+    "local_table": "enrollments",
+    "local_id": "54c95cdb-0b1f-4e36-a57e-3c7000144caa",
+    "system": "hubspot",
+    "external_id": "deal_68718721"
+  },
+  {
+    "id": "309b1fa3-6b01-49a0-9573-0d3238f8fdd4",
+    "local_table": "enrollments",
+    "local_id": "8d725409-2f18-4232-b3f9-3443995b06ec",
+    "system": "hubspot",
+    "external_id": "deal_16098261"
+  },
+  {
+    "id": "c4dbfd28-62e6-4647-a884-8b0e08151901",
+    "local_table": "enrollments",
+    "local_id": "3d24153f-ccf4-4321-937e-0ee2b142ac38",
+    "system": "hubspot",
+    "external_id": "deal_74025918"
+  },
+  {
+    "id": "4969d739-e5c8-488b-a27e-74a44a38056e",
+    "local_table": "enrollments",
+    "local_id": "64c48861-bab8-4a61-a5a9-07c8d214dfdb",
+    "system": "hubspot",
+    "external_id": "deal_14638200"
+  },
+  {
+    "id": "b7d7550a-fccf-4161-a047-fc6585ce4257",
+    "local_table": "enrollments",
+    "local_id": "e2b45f63-9e8f-4a49-aac1-faa8a78d8d84",
+    "system": "hubspot",
+    "external_id": "deal_92988341"
+  },
+  {
+    "id": "d007f19e-9152-4d33-a32d-2b83482f5e8f",
+    "local_table": "enrollments",
+    "local_id": "1ecb3774-c11b-4b9c-8e1e-4da3cd0b55ae",
+    "system": "hubspot",
+    "external_id": "deal_19588138"
+  },
+  {
+    "id": "1ef11ee0-4704-4003-a690-b8edd2aa8df8",
+    "local_table": "enrollments",
+    "local_id": "3ab915f3-61ef-4ebf-83f3-78acb5655db3",
+    "system": "hubspot",
+    "external_id": "deal_41331617"
+  },
+  {
+    "id": "55698080-0837-4e4c-b5d8-2040a6475526",
+    "local_table": "enrollments",
+    "local_id": "9e73e14e-018e-4fc4-8a16-c618f0ab7b4f",
+    "system": "hubspot",
+    "external_id": "deal_05039740"
+  },
+  {
+    "id": "8de06dbf-aefd-4754-92fe-9410be211ba0",
+    "local_table": "enrollments",
+    "local_id": "17dd6b9e-fe59-4ba1-a505-573ae23b365d",
+    "system": "hubspot",
+    "external_id": "deal_24632862"
+  },
+  {
+    "id": "56735b2e-8ed7-4105-88c9-28755e1a9a6e",
+    "local_table": "enrollments",
+    "local_id": "96bd571e-1f5d-4a20-a9bf-e58152cf2505",
+    "system": "hubspot",
+    "external_id": "deal_05945881"
+  },
+  {
+    "id": "6b7982af-1705-4dcb-8b71-98fc3721d25a",
+    "local_table": "enrollments",
+    "local_id": "198e17f2-6b32-4d95-993d-c964032a3904",
+    "system": "hubspot",
+    "external_id": "deal_76963701"
+  },
+  {
+    "id": "d03612db-fdbb-4e8d-a81f-20d3b8a02141",
+    "local_table": "enrollments",
+    "local_id": "5ebb01e2-ed88-4531-beae-5e49dd2ab9af",
+    "system": "hubspot",
+    "external_id": "deal_79441675"
+  },
+  {
+    "id": "2e68fcaf-169b-4a7f-b096-0736a8feb841",
+    "local_table": "enrollments",
+    "local_id": "cdb1d566-339c-45bd-a24e-758686a0f16c",
+    "system": "hubspot",
+    "external_id": "deal_94352853"
+  },
+  {
+    "id": "e20121d1-0ed3-42ed-a0f8-e2e574fa599e",
+    "local_table": "enrollments",
+    "local_id": "a80b1f0c-893d-4fd7-b045-8b1f8218f2e1",
+    "system": "hubspot",
+    "external_id": "deal_60378854"
+  },
+  {
+    "id": "cb451990-2cc4-4d0d-ab0f-3312b1fd398e",
+    "local_table": "enrollments",
+    "local_id": "4b179a4e-36cd-435d-91da-1c35aec5da78",
+    "system": "hubspot",
+    "external_id": "deal_92061390"
+  },
+  {
+    "id": "f9da9f55-213a-4509-9037-85d4296a9c62",
+    "local_table": "enrollments",
+    "local_id": "d5476458-9932-4bb7-9c29-499d20c1bcf0",
+    "system": "hubspot",
+    "external_id": "deal_41688018"
+  },
+  {
+    "id": "911be03c-815e-41b3-af45-7aeae226858e",
+    "local_table": "enrollments",
+    "local_id": "1ab89484-0162-45d9-bcf2-07748bed76c3",
+    "system": "hubspot",
+    "external_id": "deal_11469659"
+  },
+  {
+    "id": "2d164589-43e3-4c51-8d63-67731a33d864",
+    "local_table": "enrollments",
+    "local_id": "a6fc92e4-e1f3-47c8-8207-88d5fd1d1c54",
+    "system": "hubspot",
+    "external_id": "deal_30899801"
+  },
+  {
+    "id": "313c6523-f6bc-4d6b-ae44-b6e6cae5fe89",
+    "local_table": "enrollments",
+    "local_id": "30e542fc-9ad2-42b3-aaf6-4d252def8fd5",
+    "system": "hubspot",
+    "external_id": "deal_11898654"
+  },
+  {
+    "id": "f55fda76-ed36-40e6-a9b7-559df0343b1f",
+    "local_table": "enrollments",
+    "local_id": "2cb43741-a9c5-483c-bc6d-f514a49c0f65",
+    "system": "hubspot",
+    "external_id": "deal_06437330"
+  },
+  {
+    "id": "ba1a9341-4466-4aff-8a75-800c2df07e36",
+    "local_table": "enrollments",
+    "local_id": "6390473c-6509-446a-ae1d-b3fcd33b269a",
+    "system": "hubspot",
+    "external_id": "deal_37372341"
+  },
+  {
+    "id": "2864ba9a-d249-4907-9b75-cc6370deca98",
+    "local_table": "enrollments",
+    "local_id": "bd926106-f553-4894-983c-5d9d739b9df5",
+    "system": "hubspot",
+    "external_id": "deal_34711403"
+  },
+  {
+    "id": "dce03192-1688-4a35-8916-703de1664ff0",
+    "local_table": "enrollments",
+    "local_id": "bb1934f8-ba99-49d9-a9eb-ec3b769e315d",
+    "system": "hubspot",
+    "external_id": "deal_95597129"
+  },
+  {
+    "id": "ed8cb5d7-e2d8-4d8f-a7e1-211c684b5027",
+    "local_table": "enrollments",
+    "local_id": "8f8cbccc-1392-42b9-9f6c-70416af821a6",
+    "system": "hubspot",
+    "external_id": "deal_98156584"
+  },
+  {
+    "id": "04069268-ce77-46bb-b10b-289981f15821",
+    "local_table": "enrollments",
+    "local_id": "8d319f79-d3bf-4e82-b26e-f747e49903a7",
+    "system": "hubspot",
+    "external_id": "deal_19725742"
+  },
+  {
+    "id": "3448a942-4cb3-411b-aef9-4c0a782c7fbe",
+    "local_table": "enrollments",
+    "local_id": "4c87819c-12b4-4750-ac98-ce55fbe0cfc9",
+    "system": "hubspot",
+    "external_id": "deal_18063358"
+  },
+  {
+    "id": "f11a386f-cad3-41d0-a890-dfecbf190c40",
+    "local_table": "enrollments",
+    "local_id": "f9e968ae-0060-4cfc-bc03-7bd8fbd30172",
+    "system": "hubspot",
+    "external_id": "deal_83346672"
+  },
+  {
+    "id": "f59afeff-9321-48b4-a29e-3fb1272b88c3",
+    "local_table": "enrollments",
+    "local_id": "4daaf321-0e2d-42ac-811b-ee3de3d031dc",
+    "system": "hubspot",
+    "external_id": "deal_52859678"
+  },
+  {
+    "id": "bee8f5d2-8e99-47ee-9033-ab3126a7363f",
+    "local_table": "enrollments",
+    "local_id": "56c75a59-d279-48dc-995f-3a59e3716aa4",
+    "system": "hubspot",
+    "external_id": "deal_94162045"
+  },
+  {
+    "id": "7968f5b1-e2a5-4339-8072-650dcd58e4f2",
+    "local_table": "enrollments",
+    "local_id": "67f7f5b8-8b6d-4751-8153-aa07e70b17ad",
+    "system": "hubspot",
+    "external_id": "deal_75871227"
+  },
+  {
+    "id": "a6890c9f-1043-45ba-86de-18d9daee1670",
+    "local_table": "enrollments",
+    "local_id": "493298a1-e624-4771-a41b-6f582f3149f0",
+    "system": "hubspot",
+    "external_id": "deal_11342856"
+  },
+  {
+    "id": "e279ae24-0259-4b07-ac85-5d5c81d36796",
+    "local_table": "enrollments",
+    "local_id": "80875de1-5e37-4223-8b3a-b7923542f4ee",
+    "system": "hubspot",
+    "external_id": "deal_00850165"
+  },
+  {
+    "id": "8238fc43-8b62-4c5e-b2f6-787e430d247a",
+    "local_table": "enrollments",
+    "local_id": "44194b34-cade-46c7-94f3-3974d6611683",
+    "system": "hubspot",
+    "external_id": "deal_27773063"
+  },
+  {
+    "id": "8118c9b4-5064-4e93-ab1e-5e80433af7b2",
+    "local_table": "enrollments",
+    "local_id": "5516dcac-cc3f-4350-be53-cec9a10fb726",
+    "system": "hubspot",
+    "external_id": "deal_69008115"
+  },
+  {
+    "id": "53046a84-b70f-47d8-9181-2e0a61e2b088",
+    "local_table": "enrollments",
+    "local_id": "953db52e-2951-4650-a43d-9a3da0f245e7",
+    "system": "hubspot",
+    "external_id": "deal_64338099"
+  },
+  {
+    "id": "95412e47-f0f6-4c7f-81cc-2489fc7002f0",
+    "local_table": "enrollments",
+    "local_id": "4935fd8b-2925-4403-8316-b044b9ff9cfd",
+    "system": "hubspot",
+    "external_id": "deal_62233629"
+  },
+  {
+    "id": "6e9bfbb5-a212-4028-9346-f434c19ca566",
+    "local_table": "enrollments",
+    "local_id": "8b666269-a95d-4f82-a0e5-b2f77f7e0723",
+    "system": "hubspot",
+    "external_id": "deal_61729971"
+  },
+  {
+    "id": "ee020c91-fc0a-40c3-a234-907b6814b6db",
+    "local_table": "enrollments",
+    "local_id": "93fa3be3-d051-43ae-94ef-d889e50497d9",
+    "system": "hubspot",
+    "external_id": "deal_81574443"
+  },
+  {
+    "id": "ae0e02d2-7325-446d-8633-3baa19c4058e",
+    "local_table": "enrollments",
+    "local_id": "78d1668f-08d1-4edd-bf71-22bc27700b9e",
+    "system": "hubspot",
+    "external_id": "deal_42119329"
+  },
+  {
+    "id": "ab9c9808-76ab-4899-928d-d06d2b70446c",
+    "local_table": "enrollments",
+    "local_id": "df546fe2-5764-48fd-9f4f-423bdf33aaa0",
+    "system": "hubspot",
+    "external_id": "deal_83036705"
+  },
+  {
+    "id": "c0882c75-91dd-42ff-94a7-7d9494e28663",
+    "local_table": "enrollments",
+    "local_id": "2f915417-b1ae-45d4-92dc-02e4b478575d",
+    "system": "hubspot",
+    "external_id": "deal_87899668"
+  },
+  {
+    "id": "879e8635-7154-4751-9196-2f99aae66495",
+    "local_table": "enrollments",
+    "local_id": "f17d47e5-8a35-46f1-aa36-6fcc35d693ee",
+    "system": "hubspot",
+    "external_id": "deal_84517326"
+  },
+  {
+    "id": "a91ac440-d475-4d5a-b7be-f8434133899e",
+    "local_table": "enrollments",
+    "local_id": "88b806e9-be74-41c6-ab2b-af231868a6b5",
+    "system": "hubspot",
+    "external_id": "deal_59833631"
+  },
+  {
+    "id": "09a56063-9004-41c5-9e2e-9f332a91e06b",
+    "local_table": "enrollments",
+    "local_id": "356a9d37-205e-47de-860e-91fa1ed76551",
+    "system": "hubspot",
+    "external_id": "deal_22661719"
+  },
+  {
+    "id": "654c0324-70ac-440d-8fb3-dab4c4b70d00",
+    "local_table": "enrollments",
+    "local_id": "6e3e5c38-1cdb-4a44-91d1-c2eccebb0992",
+    "system": "hubspot",
+    "external_id": "deal_29990832"
+  },
+  {
+    "id": "78a45134-2422-4464-a941-89f011714f7b",
+    "local_table": "enrollments",
+    "local_id": "277330ea-e766-4bb2-a228-43b13c5e607a",
+    "system": "hubspot",
+    "external_id": "deal_38905148"
+  },
+  {
+    "id": "921f0975-b6b9-4b5d-9028-daf73633ca67",
+    "local_table": "enrollments",
+    "local_id": "c9e3c19d-e257-4fa2-a9f4-775446f73664",
+    "system": "hubspot",
+    "external_id": "deal_97554036"
+  },
+  {
+    "id": "ee311fe0-98f1-41cd-828c-5ffcd0dede96",
+    "local_table": "enrollments",
+    "local_id": "ce2d8c51-5f48-4726-a296-e3ed6331b22f",
+    "system": "hubspot",
+    "external_id": "deal_17782030"
+  },
+  {
+    "id": "b61cee5f-7450-4962-bd26-4d78ed33c393",
+    "local_table": "enrollments",
+    "local_id": "0e64f515-b2ad-4a19-bb19-937d66a8c87a",
+    "system": "hubspot",
+    "external_id": "deal_85826514"
+  },
+  {
+    "id": "fb7f472a-8cd8-4105-93cc-3b8f05a54cda",
+    "local_table": "enrollments",
+    "local_id": "e6f58504-5635-4d93-868e-1690b3ab115b",
+    "system": "hubspot",
+    "external_id": "deal_03920342"
+  },
+  {
+    "id": "1c805c4d-a27c-4209-94dc-38ef3cc6fd4e",
+    "local_table": "enrollments",
+    "local_id": "72403b96-1132-431f-891b-a2f2bb29f9d7",
+    "system": "hubspot",
+    "external_id": "deal_77329837"
+  },
+  {
+    "id": "7676b4e0-ee53-45dc-9a55-4fe64f2fdcd3",
+    "local_table": "enrollments",
+    "local_id": "88c4f677-b7f4-4f5e-bd35-7230d58f2ddd",
+    "system": "hubspot",
+    "external_id": "deal_40070803"
+  },
+  {
+    "id": "fe49a5eb-7cb4-4565-b199-e4513555fe10",
+    "local_table": "enrollments",
+    "local_id": "01c25bc1-87a6-482b-8a2c-81269d0efa40",
+    "system": "hubspot",
+    "external_id": "deal_06214206"
+  },
+  {
+    "id": "273fb3ad-49f6-4fb9-9def-ec6aad306f4b",
+    "local_table": "enrollments",
+    "local_id": "c9538b7b-032d-4918-b415-fb605a21636e",
+    "system": "hubspot",
+    "external_id": "deal_07903814"
+  },
+  {
+    "id": "5379dfe5-da51-400a-a998-082e09c5e5ed",
+    "local_table": "enrollments",
+    "local_id": "d9e93359-afd2-4b74-880e-58fb680bbd83",
+    "system": "hubspot",
+    "external_id": "deal_55575044"
+  },
+  {
+    "id": "db5f3411-2d24-46a0-9b0e-e0eb5b8dce86",
+    "local_table": "enrollments",
+    "local_id": "5520fc7f-1d54-4733-9984-7da15b32e68d",
+    "system": "hubspot",
+    "external_id": "deal_35107900"
+  },
+  {
+    "id": "4dbedbd2-770f-4fcb-9c07-0c65b4be3427",
+    "local_table": "enrollments",
+    "local_id": "f3f03050-58e1-41ff-b64d-8d44c5a487f4",
+    "system": "hubspot",
+    "external_id": "deal_77542031"
+  },
+  {
+    "id": "3f676c21-e264-4b23-99ed-05276b6d6379",
+    "local_table": "enrollments",
+    "local_id": "dc621d96-2a1b-4865-b35d-cd9ceefbad50",
+    "system": "hubspot",
+    "external_id": "deal_22970829"
+  },
+  {
+    "id": "d399808c-cfd2-4412-a2d1-69a211c1dd7a",
+    "local_table": "enrollments",
+    "local_id": "9d92d57d-7fd5-4a3b-927f-103e5ad7d40a",
+    "system": "hubspot",
+    "external_id": "deal_36821554"
+  },
+  {
+    "id": "b5c8a285-8908-49e7-bda3-3b2b5784eba5",
+    "local_table": "enrollments",
+    "local_id": "3e7f2806-87a7-4a90-a43d-8fc4c6ed697c",
+    "system": "hubspot",
+    "external_id": "deal_16235869"
+  },
+  {
+    "id": "61748694-2d19-471a-ab12-ad0557f923bb",
+    "local_table": "enrollments",
+    "local_id": "09492253-982d-4831-a729-1885b44a57b9",
+    "system": "hubspot",
+    "external_id": "deal_85052712"
+  },
+  {
+    "id": "1ffba260-abd2-40f6-97d8-39eaa5355c7e",
+    "local_table": "enrollments",
+    "local_id": "efefd5d9-e77c-4723-b964-ea8ac5f3c3a6",
+    "system": "hubspot",
+    "external_id": "deal_77830914"
+  },
+  {
+    "id": "fa0a3b26-8a93-4cba-b990-ca3f4ed3dfd6",
+    "local_table": "enrollments",
+    "local_id": "ef56e4a1-d9a1-414d-acc9-4cc7ffa2b33e",
+    "system": "hubspot",
+    "external_id": "deal_16128700"
+  },
+  {
+    "id": "e61f1a62-dd1a-4988-b24d-d145e2809b15",
+    "local_table": "enrollments",
+    "local_id": "116d1e32-3871-4e29-8ccf-fe0a25531d9f",
+    "system": "hubspot",
+    "external_id": "deal_33817801"
+  },
+  {
+    "id": "bdd03ffd-8840-40a2-b123-b3f8a25ccc65",
+    "local_table": "enrollments",
+    "local_id": "db614fc7-fbd4-48ae-a420-0157b8547b6e",
+    "system": "hubspot",
+    "external_id": "deal_49103378"
+  },
+  {
+    "id": "cbf55100-7cff-4941-8c14-d9336cef4477",
+    "local_table": "enrollments",
+    "local_id": "3059b442-a00f-4b1d-9cc2-48a62c3cf8eb",
+    "system": "hubspot",
+    "external_id": "deal_22777070"
+  },
+  {
+    "id": "e96081f3-c044-44c1-a76c-ba6659b5599d",
+    "local_table": "enrollments",
+    "local_id": "6b1ab233-d5d3-49d2-bfb2-2d90ef0b6e5e",
+    "system": "hubspot",
+    "external_id": "deal_58884560"
+  },
+  {
+    "id": "98d32352-02e0-4ee4-b044-de157f9f7d2c",
+    "local_table": "enrollments",
+    "local_id": "20e812cf-f058-459c-9c14-14565358cd16",
+    "system": "hubspot",
+    "external_id": "deal_42472947"
+  },
+  {
+    "id": "de558fd9-1f17-4261-98d6-ead67e9e8858",
+    "local_table": "enrollments",
+    "local_id": "34429ed4-5959-4a8d-ba0e-73faf826a3e3",
+    "system": "hubspot",
+    "external_id": "deal_99805574"
+  },
+  {
+    "id": "e7c01e14-5d2f-4b32-abe1-d86ef2dc2353",
+    "local_table": "enrollments",
+    "local_id": "d7293ef5-8085-4733-a2f2-282967585223",
+    "system": "hubspot",
+    "external_id": "deal_01004628"
+  },
+  {
+    "id": "c7c70da4-6ca0-486c-a806-5cb120d3f0dc",
+    "local_table": "enrollments",
+    "local_id": "7d34b193-ddca-414b-b1f6-3ed69e967067",
+    "system": "hubspot",
+    "external_id": "deal_59830997"
+  },
+  {
+    "id": "e99a68c5-79f5-454f-9048-db3614bb8477",
+    "local_table": "enrollments",
+    "local_id": "8e3b46c9-1249-420f-b46f-f3c6ea04e5d5",
+    "system": "hubspot",
+    "external_id": "deal_87567349"
+  },
+  {
+    "id": "dfefc48b-211a-4033-84db-67f48041dcba",
+    "local_table": "enrollments",
+    "local_id": "3a63f794-aa35-467c-b985-c675f90673c4",
+    "system": "hubspot",
+    "external_id": "deal_21218008"
+  },
+  {
+    "id": "035d52b2-faa8-4768-9e00-09aebbb631ea",
+    "local_table": "enrollments",
+    "local_id": "4cfd0f64-a040-4482-98a2-7a50c06e32f2",
+    "system": "hubspot",
+    "external_id": "deal_67010810"
+  },
+  {
+    "id": "66735c6e-2c0e-4982-ace2-154cd2ab20d6",
+    "local_table": "enrollments",
+    "local_id": "69188a45-cee2-4dce-8561-a4e668a4b15a",
+    "system": "hubspot",
+    "external_id": "deal_31119939"
+  },
+  {
+    "id": "857971e0-e72f-43d0-8cfb-b6034afa0f16",
+    "local_table": "enrollments",
+    "local_id": "4f366c1a-322c-4d39-a24d-a9af9edc5231",
+    "system": "hubspot",
+    "external_id": "deal_40859867"
+  },
+  {
+    "id": "31d30cd5-12ed-4bdd-a052-b842382d06a0",
+    "local_table": "enrollments",
+    "local_id": "6687abfd-85ca-4906-97ea-5d2c413ed6b0",
+    "system": "hubspot",
+    "external_id": "deal_33768734"
+  },
+  {
+    "id": "5f80ab88-3971-43c9-9073-5bf1b6075353",
+    "local_table": "enrollments",
+    "local_id": "0b2afedd-a797-4a0d-91bb-2d058df77851",
+    "system": "hubspot",
+    "external_id": "deal_57582034"
+  },
+  {
+    "id": "34b7900b-7d08-48e3-9190-7bd43746814d",
+    "local_table": "enrollments",
+    "local_id": "4710700c-c185-449c-acf3-b08ae8832fa0",
+    "system": "hubspot",
+    "external_id": "deal_08499579"
+  },
+  {
+    "id": "d5ce986a-0f59-4373-b02c-e4effae7fcfa",
+    "local_table": "enrollments",
+    "local_id": "4e752ed5-5051-42e4-bda8-599c177bb4ad",
+    "system": "hubspot",
+    "external_id": "deal_49849622"
+  },
+  {
+    "id": "cf4b708e-36f8-4b06-872a-752d20c84ec3",
+    "local_table": "enrollments",
+    "local_id": "008c2a51-43bb-4a31-abd3-c286ab094b74",
+    "system": "hubspot",
+    "external_id": "deal_21165742"
+  },
+  {
+    "id": "f0b924db-c4db-4659-bce2-94e32c4c1ce2",
+    "local_table": "enrollments",
+    "local_id": "222d79be-41a1-4f5d-bcf1-07377db978ee",
+    "system": "hubspot",
+    "external_id": "deal_01227824"
+  },
+  {
+    "id": "9efcb972-d55f-43db-9354-d6af81f4354a",
+    "local_table": "enrollments",
+    "local_id": "f93adab4-9b14-407c-a5cd-04b6e770ad8c",
+    "system": "hubspot",
+    "external_id": "deal_77363247"
+  },
+  {
+    "id": "8659378e-0e39-46f6-bbb2-23a5e2d8109b",
+    "local_table": "enrollments",
+    "local_id": "54e50f77-bf30-48b6-81f8-f4e5e13da77f",
+    "system": "hubspot",
+    "external_id": "deal_38369883"
+  },
+  {
+    "id": "8ae7eb07-ea00-430b-9688-bca56697aa5b",
+    "local_table": "enrollments",
+    "local_id": "361a3605-9ce4-48a9-8174-b66bc4117dd8",
+    "system": "hubspot",
+    "external_id": "deal_47921391"
+  },
+  {
+    "id": "5714ebe2-6f4d-4587-aa3d-5a094703eec7",
+    "local_table": "enrollments",
+    "local_id": "5fa85dc5-1680-4304-a7c9-2e0ce12d694c",
+    "system": "hubspot",
+    "external_id": "deal_40588809"
+  },
+  {
+    "id": "d5c73438-65a5-495f-8fa2-fa42c85dbb4f",
+    "local_table": "enrollments",
+    "local_id": "10b68c8b-01d2-4f87-97bf-dd49cf2ca4f9",
+    "system": "hubspot",
+    "external_id": "deal_67130973"
+  },
+  {
+    "id": "4f15dcfd-9d2c-4f45-96c8-1610a885398d",
+    "local_table": "enrollments",
+    "local_id": "1f1a4dbb-f406-4d16-88a7-30c1023337f4",
+    "system": "hubspot",
+    "external_id": "deal_92643093"
+  },
+  {
+    "id": "a1ce9e80-cb4a-40e5-a586-5227728f7c51",
+    "local_table": "enrollments",
+    "local_id": "781c68cd-f927-4653-bbe1-e23d2534ab8e",
+    "system": "hubspot",
+    "external_id": "deal_01679415"
+  },
+  {
+    "id": "26db3b47-8a70-4137-bbd1-8371590c5d24",
+    "local_table": "enrollments",
+    "local_id": "f2096b38-22b7-47a4-8c17-c9711ae08320",
+    "system": "hubspot",
+    "external_id": "deal_92840250"
+  },
+  {
+    "id": "f03431dc-63f8-4689-b5be-42e7c576d31b",
+    "local_table": "enrollments",
+    "local_id": "64ca2411-d7b5-445a-afeb-54fb508db901",
+    "system": "hubspot",
+    "external_id": "deal_48588837"
+  },
+  {
+    "id": "b7a65344-5671-4d6f-94d4-b128ba81339e",
+    "local_table": "enrollments",
+    "local_id": "6245009a-1ae1-4e0c-a472-5b8e3828d5ac",
+    "system": "hubspot",
+    "external_id": "deal_07018233"
+  },
+  {
+    "id": "9b407b37-9f9d-4fb3-8a1c-bdc968275260",
+    "local_table": "enrollments",
+    "local_id": "9ececa0d-d0f1-4e10-af04-81906cd1fb4f",
+    "system": "hubspot",
+    "external_id": "deal_27882171"
+  },
+  {
+    "id": "db845abc-6c63-4b0e-a33f-358f25c7c235",
+    "local_table": "enrollments",
+    "local_id": "7f343bb4-7eba-4a47-b48e-8fcbad8a73e3",
+    "system": "hubspot",
+    "external_id": "deal_18596819"
+  },
+  {
+    "id": "e5b14940-a268-4a88-bcfa-9e2289b9d4f4",
+    "local_table": "enrollments",
+    "local_id": "37d8ef6f-d361-41ca-929a-fc19abaea42d",
+    "system": "hubspot",
+    "external_id": "deal_65082420"
+  },
+  {
+    "id": "154e351c-d6dc-47bc-9c86-ee4f0d938654",
+    "local_table": "enrollments",
+    "local_id": "7209c0f5-8901-4310-9f82-b6265f79ee28",
+    "system": "hubspot",
+    "external_id": "deal_95178981"
+  },
+  {
+    "id": "10033e7c-f471-4a12-afa3-322a240711d5",
+    "local_table": "enrollments",
+    "local_id": "b6a513ca-c8e4-4768-8f63-7ed1ae5c9d16",
+    "system": "hubspot",
+    "external_id": "deal_97587283"
+  },
+  {
+    "id": "21fcc172-5e45-45d6-b4c6-4a7664ca137b",
+    "local_table": "enrollments",
+    "local_id": "fe18b7bb-8e14-43c1-a1d6-82a23e54c721",
+    "system": "hubspot",
+    "external_id": "deal_22547630"
+  },
+  {
+    "id": "14267732-c585-43a3-a248-65cc30405144",
+    "local_table": "enrollments",
+    "local_id": "01d3f06f-95ca-46f3-ad40-87c19a9fc32a",
+    "system": "hubspot",
+    "external_id": "deal_90709824"
+  },
+  {
+    "id": "88eda818-1b8a-4773-bb7d-1a450bc2a1f2",
+    "local_table": "enrollments",
+    "local_id": "efc96e62-47c2-45c0-baa3-9179f467a3eb",
+    "system": "hubspot",
+    "external_id": "deal_77953037"
+  },
+  {
+    "id": "1075f685-f179-47b5-ab56-5bd7c17e13fa",
+    "local_table": "enrollments",
+    "local_id": "b3cf6a59-7b21-49a9-8c5c-80414b3cc5e8",
+    "system": "hubspot",
+    "external_id": "deal_19023611"
+  },
+  {
+    "id": "68e1b581-acb9-4d98-b79e-fffea5aeaeab",
+    "local_table": "enrollments",
+    "local_id": "1d402b91-76d4-4b17-9c82-e30afdf8917a",
+    "system": "hubspot",
+    "external_id": "deal_98339609"
+  },
+  {
+    "id": "ac4bdb94-ece5-433f-9121-db6b0db89f86",
+    "local_table": "enrollments",
+    "local_id": "05173738-3faf-49dd-83cf-05207cb239ae",
+    "system": "hubspot",
+    "external_id": "deal_51945716"
+  },
+  {
+    "id": "cdc9f07b-5974-408b-8203-cf1163fb8b20",
+    "local_table": "enrollments",
+    "local_id": "3835328a-7ccd-45c9-b932-202f55deb821",
+    "system": "hubspot",
+    "external_id": "deal_42950903"
+  },
+  {
+    "id": "0b0e6d5b-c88f-4b06-817f-eadd97a3b6c1",
+    "local_table": "enrollments",
+    "local_id": "231dad6c-2170-45d3-b5bf-9229f1218b30",
+    "system": "hubspot",
+    "external_id": "deal_73822209"
+  },
+  {
+    "id": "e646db86-16c7-4149-87bc-17b34d1dc4f8",
+    "local_table": "enrollments",
+    "local_id": "e5d3881a-0e85-4544-a219-419c360a8639",
+    "system": "hubspot",
+    "external_id": "deal_94205370"
+  },
+  {
+    "id": "e2184ae9-85ea-4654-8bfc-09bb031e9b4d",
+    "local_table": "enrollments",
+    "local_id": "cfa543ce-e039-4958-bb12-9172c6d75145",
+    "system": "hubspot",
+    "external_id": "deal_38344061"
+  },
+  {
+    "id": "e82cb54f-f978-4f5f-b689-0dac9780e27e",
+    "local_table": "enrollments",
+    "local_id": "20db9b4a-f900-4cc2-bb19-c640ab9b482f",
+    "system": "hubspot",
+    "external_id": "deal_00736458"
+  },
+  {
+    "id": "622dcf97-2197-4faf-b866-aaf6a5cf74f5",
+    "local_table": "enrollments",
+    "local_id": "7fe5f22b-85ba-4f33-8da1-4bf7d7773b0d",
+    "system": "hubspot",
+    "external_id": "deal_59293908"
+  },
+  {
+    "id": "fc69606b-c652-47a2-b538-c18f6f1d8f76",
+    "local_table": "enrollments",
+    "local_id": "455801de-b1c6-4f70-bad3-7d525d51a5b7",
+    "system": "hubspot",
+    "external_id": "deal_84475546"
+  },
+  {
+    "id": "12b31e6b-3ca1-453b-b947-0ed1a1d6ef09",
+    "local_table": "enrollments",
+    "local_id": "66999ed2-b9fe-4488-97cf-c33fe877890e",
+    "system": "hubspot",
+    "external_id": "deal_63935947"
+  },
+  {
+    "id": "51b048a7-c68e-474f-b6e0-b75ed7120fb5",
+    "local_table": "enrollments",
+    "local_id": "5b888dbd-5a88-4670-bf1a-fb4adcfa32bc",
+    "system": "hubspot",
+    "external_id": "deal_39370230"
+  },
+  {
+    "id": "86ae4f2d-ce89-4b04-a246-b7ee7bb7de59",
+    "local_table": "enrollments",
+    "local_id": "acea1074-6fa8-4a26-9c79-be656bd5a3e0",
+    "system": "hubspot",
+    "external_id": "deal_39791811"
+  },
+  {
+    "id": "13906d46-1b05-4056-acda-3ac53dfc47f3",
+    "local_table": "enrollments",
+    "local_id": "494bc5eb-476a-458c-b475-7387d949aecf",
+    "system": "hubspot",
+    "external_id": "deal_34691725"
+  },
+  {
+    "id": "160d6835-e800-47f2-8eba-8b00e4391ba0",
+    "local_table": "enrollments",
+    "local_id": "0620f0a5-0d89-4ff6-b2a1-011424de7066",
+    "system": "hubspot",
+    "external_id": "deal_95896167"
+  },
+  {
+    "id": "cc410be9-bc96-4b0d-85b3-f88b0022bdff",
+    "local_table": "enrollments",
+    "local_id": "ef94c100-7f98-4da9-b9da-7b4d373e2154",
+    "system": "hubspot",
+    "external_id": "deal_13918991"
+  },
+  {
+    "id": "dca3786c-712c-46ee-98ca-9111890d7dd0",
+    "local_table": "enrollments",
+    "local_id": "1af45efa-fc17-438a-bb97-23a914c5aa8a",
+    "system": "hubspot",
+    "external_id": "deal_23148713"
+  },
+  {
+    "id": "ae30c68d-7817-4831-b4e6-19c3f6733f93",
+    "local_table": "enrollments",
+    "local_id": "d3601242-b499-4cb5-9847-7c7d0520ef42",
+    "system": "hubspot",
+    "external_id": "deal_66357441"
+  },
+  {
+    "id": "5145c8cd-9060-49cc-84f0-c50108fbd1eb",
+    "local_table": "enrollments",
+    "local_id": "0f26a5d1-415c-4277-8e1f-3ed01ed28e74",
+    "system": "hubspot",
+    "external_id": "deal_49919147"
+  },
+  {
+    "id": "5324d6e4-b9cb-4ec3-bd0c-163557b8c687",
+    "local_table": "enrollments",
+    "local_id": "f5a601f7-66d4-4fd5-b184-7a0190412ca8",
+    "system": "hubspot",
+    "external_id": "deal_93199641"
+  },
+  {
+    "id": "6f0e5ee7-e45f-4187-9fcb-299aa59f7734",
+    "local_table": "enrollments",
+    "local_id": "b8a5d69b-b69d-4a34-bcdf-12b0e277e3a5",
+    "system": "hubspot",
+    "external_id": "deal_67324419"
+  },
+  {
+    "id": "afa4cdd3-005e-4299-aed9-6fa7e3e1eb86",
+    "local_table": "enrollments",
+    "local_id": "ce7078db-5f5e-42c3-aca0-ba829382d925",
+    "system": "hubspot",
+    "external_id": "deal_03557982"
+  },
+  {
+    "id": "3676e410-6563-43d5-8192-1ead60b0a147",
+    "local_table": "enrollments",
+    "local_id": "fe8d28b9-de84-4d88-835c-c24d5387efad",
+    "system": "hubspot",
+    "external_id": "deal_53816987"
+  },
+  {
+    "id": "d822520d-3699-4514-8aff-8882285100ab",
+    "local_table": "enrollments",
+    "local_id": "80f893d9-5114-43df-8f00-4a9612f3e8b6",
+    "system": "hubspot",
+    "external_id": "deal_11939773"
+  },
+  {
+    "id": "4489da3a-23f3-414e-97ab-462556077264",
+    "local_table": "enrollments",
+    "local_id": "090db526-61b6-4f88-a197-09477294aee9",
+    "system": "hubspot",
+    "external_id": "deal_54351393"
+  },
+  {
+    "id": "352b8510-5aff-4404-af6d-094f67ad0721",
+    "local_table": "enrollments",
+    "local_id": "d157774e-ab42-4a21-9753-5ca1cfa5ec04",
+    "system": "hubspot",
+    "external_id": "deal_95203629"
+  },
+  {
+    "id": "9b4494d6-e4a0-43dc-8c2e-d0e4380dec78",
+    "local_table": "enrollments",
+    "local_id": "dfc7cad3-d8ff-49d0-ae07-9c6106cd2167",
+    "system": "hubspot",
+    "external_id": "deal_85337982"
+  },
+  {
+    "id": "39f069d7-534c-4fc8-ac74-204027cfde0a",
+    "local_table": "enrollments",
+    "local_id": "2201b124-5319-44f7-9096-66f28133a1e9",
+    "system": "hubspot",
+    "external_id": "deal_62795287"
+  },
+  {
+    "id": "e456cbc1-d70d-4593-b940-973b376d62a5",
+    "local_table": "enrollments",
+    "local_id": "15d7c26d-11dd-4011-b438-3790a4b3463f",
+    "system": "hubspot",
+    "external_id": "deal_35510303"
+  },
+  {
+    "id": "0235a34f-8c18-4cd6-85a7-383dbfe54ee3",
+    "local_table": "enrollments",
+    "local_id": "e95528f1-a880-4b8a-adaf-f9eeb18a82e7",
+    "system": "hubspot",
+    "external_id": "deal_44624161"
+  },
+  {
+    "id": "14350906-a691-4255-807b-c031abf8fdfc",
+    "local_table": "enrollments",
+    "local_id": "ca74dd8b-6e41-487c-b4b2-6b252f6c244f",
+    "system": "hubspot",
+    "external_id": "deal_57873418"
+  },
+  {
+    "id": "0882e44b-8da1-404b-a463-997e3d65f9be",
+    "local_table": "enrollments",
+    "local_id": "b16af59d-f839-47a1-9571-fac8cacfabb0",
+    "system": "hubspot",
+    "external_id": "deal_58729691"
+  },
+  {
+    "id": "d4bc1915-bc99-4bab-86bb-4a1cc2a32fd8",
+    "local_table": "enrollments",
+    "local_id": "ff07adc5-8428-4f41-ae68-044916686226",
+    "system": "hubspot",
+    "external_id": "deal_39007712"
+  },
+  {
+    "id": "7aae1ad9-d6a3-4479-b90a-e2bca475d8d5",
+    "local_table": "enrollments",
+    "local_id": "f56fd082-5e4c-4a07-9f3f-c25e9367e2ad",
+    "system": "hubspot",
+    "external_id": "deal_47266309"
+  },
+  {
+    "id": "1ea8446e-899a-45fb-8bd4-892d559d9be2",
+    "local_table": "enrollments",
+    "local_id": "6cef0f52-ad9a-4711-bdc7-b64bf0b6e93d",
+    "system": "hubspot",
+    "external_id": "deal_35478593"
+  },
+  {
+    "id": "1379fab4-d69a-4f47-bc9e-e1e52b551b28",
+    "local_table": "enrollments",
+    "local_id": "9d25763a-d3d7-427e-a735-1e4ccff6ea90",
+    "system": "hubspot",
+    "external_id": "deal_07006641"
+  },
+  {
+    "id": "5b784b22-fcf7-4ae3-bd10-efedd302fb66",
+    "local_table": "enrollments",
+    "local_id": "f942d44c-eb63-454a-9971-83def4d862ac",
+    "system": "hubspot",
+    "external_id": "deal_78010231"
+  },
+  {
+    "id": "bd56e64d-82f8-44bc-a653-eb88b731ccf9",
+    "local_table": "enrollments",
+    "local_id": "a1c5dacb-27ab-4856-968c-078fa905f908",
+    "system": "hubspot",
+    "external_id": "deal_81752104"
+  },
+  {
+    "id": "10acfa77-7a85-4329-8d09-e3103b456057",
+    "local_table": "enrollments",
+    "local_id": "b9255c13-913c-4532-9f92-528d81e52cb3",
+    "system": "hubspot",
+    "external_id": "deal_52683263"
+  },
+  {
+    "id": "309a1a83-467d-4eb0-bdf8-172cd97b419c",
+    "local_table": "enrollments",
+    "local_id": "4c45febe-5f02-44e4-bacc-647297ad5c2c",
+    "system": "hubspot",
+    "external_id": "deal_35709077"
+  },
+  {
+    "id": "190b8703-9996-4745-9531-17402a414f31",
+    "local_table": "enrollments",
+    "local_id": "e37a53ed-d007-495a-8406-d71afadc7af2",
+    "system": "hubspot",
+    "external_id": "deal_59031296"
+  },
+  {
+    "id": "c21f090f-ce3e-4e18-8d8c-703556caac5c",
+    "local_table": "enrollments",
+    "local_id": "491ad41f-af7c-4298-9fe4-f0f5d2aff163",
+    "system": "hubspot",
+    "external_id": "deal_37841809"
+  },
+  {
+    "id": "9e44a3a2-c3bc-4183-9e75-b5820839683d",
+    "local_table": "enrollments",
+    "local_id": "cf88372e-ffcb-4985-a2e4-2b535c045de8",
+    "system": "hubspot",
+    "external_id": "deal_86501526"
+  },
+  {
+    "id": "0a00bac5-586f-4c60-b7fa-8e1e006391cb",
+    "local_table": "enrollments",
+    "local_id": "482fde05-53bd-4371-b6ca-ddb4f24b38ad",
+    "system": "hubspot",
+    "external_id": "deal_81758522"
+  },
+  {
+    "id": "decbd25e-f466-45ce-afbc-2419e2a3efea",
+    "local_table": "enrollments",
+    "local_id": "1394f820-3ebd-4c6c-8baa-e486ea8029d1",
+    "system": "hubspot",
+    "external_id": "deal_27066270"
+  },
+  {
+    "id": "15f44edd-ceb4-41eb-b1cf-76740a983240",
+    "local_table": "enrollments",
+    "local_id": "ad8eca76-286c-41ac-88f5-9daf7230a3d5",
+    "system": "hubspot",
+    "external_id": "deal_44964366"
+  },
+  {
+    "id": "78e7b04b-df3b-4065-b2b3-a2b3f9744a6d",
+    "local_table": "enrollments",
+    "local_id": "427e8283-b7c5-4c92-a7ea-a7551cbb2f79",
+    "system": "hubspot",
+    "external_id": "deal_18218679"
+  },
+  {
+    "id": "b32e289e-f083-4c7c-ad1c-f9077676e39c",
+    "local_table": "enrollments",
+    "local_id": "c4b522b2-47f0-4704-a1c5-f2c05b4b9819",
+    "system": "hubspot",
+    "external_id": "deal_70939361"
+  },
+  {
+    "id": "dae03a7c-877e-4bfc-8e09-31fb276c322e",
+    "local_table": "enrollments",
+    "local_id": "76608e78-46c3-4232-bad3-50ee36fc519e",
+    "system": "hubspot",
+    "external_id": "deal_28904859"
+  },
+  {
+    "id": "26c8fca9-e4f5-48e0-9688-0a495cf6888b",
+    "local_table": "enrollments",
+    "local_id": "2d8b8ece-64c5-455b-81fd-16dc798d0e03",
+    "system": "hubspot",
+    "external_id": "deal_62854887"
+  },
+  {
+    "id": "b38ba77f-9831-4066-86c5-3b1841ab19d5",
+    "local_table": "enrollments",
+    "local_id": "e74d60ae-6754-415e-b333-4425b96c8baf",
+    "system": "hubspot",
+    "external_id": "deal_87870994"
+  },
+  {
+    "id": "ea724bc8-a5b5-4a29-8678-61d8e21649d3",
+    "local_table": "enrollments",
+    "local_id": "e3894187-f7bc-4855-9476-e7107caeb0f4",
+    "system": "hubspot",
+    "external_id": "deal_01237702"
+  },
+  {
+    "id": "3d4de96b-302c-4df1-9c11-d74179efe0ae",
+    "local_table": "enrollments",
+    "local_id": "d98c2638-5678-44c2-9212-1119bb689db2",
+    "system": "hubspot",
+    "external_id": "deal_77518366"
+  },
+  {
+    "id": "f75d3fc7-60f1-4ef8-aeaa-365d9f60a51a",
+    "local_table": "enrollments",
+    "local_id": "5c75269e-a835-4482-a4da-cb866805db81",
+    "system": "hubspot",
+    "external_id": "deal_51426580"
+  },
+  {
+    "id": "a92bd6b2-9533-46cc-b52b-31303d992b34",
+    "local_table": "enrollments",
+    "local_id": "8cd244d3-c85b-45eb-b10e-d4a447e83f38",
+    "system": "hubspot",
+    "external_id": "deal_81650895"
+  },
+  {
+    "id": "88895083-02bf-49a2-89ec-f8926c655788",
+    "local_table": "enrollments",
+    "local_id": "fc4300c2-a695-4e0e-b9ed-f5fb80d44f45",
+    "system": "hubspot",
+    "external_id": "deal_96543062"
+  },
+  {
+    "id": "63e220e9-609c-4610-8f66-10021da1fd43",
+    "local_table": "enrollments",
+    "local_id": "3c84e394-08bd-4c1c-a9b9-bc8ea67e1208",
+    "system": "hubspot",
+    "external_id": "deal_35249579"
+  },
+  {
+    "id": "d69458bd-1712-44e9-b1dd-1f2ed135d48a",
+    "local_table": "enrollments",
+    "local_id": "46ab828e-d5ec-4cc6-b0a1-526e60a23ab0",
+    "system": "hubspot",
+    "external_id": "deal_54713231"
+  },
+  {
+    "id": "174782a7-7b6c-4991-99fd-86e15fa5ee86",
+    "local_table": "enrollments",
+    "local_id": "ef0e6015-9f87-4c71-8c64-ab81ba43b9e9",
+    "system": "hubspot",
+    "external_id": "deal_14387046"
+  },
+  {
+    "id": "8fd04b2b-9187-40ee-a774-82741c4f3a28",
+    "local_table": "enrollments",
+    "local_id": "41ffeb58-0921-4a07-84f7-2631c2a1f308",
+    "system": "hubspot",
+    "external_id": "deal_28135041"
+  },
+  {
+    "id": "48138c58-2f65-4b08-b23a-a7ef23f7096d",
+    "local_table": "enrollments",
+    "local_id": "3b430645-a531-49c6-a141-5a5de3a6c8e3",
+    "system": "hubspot",
+    "external_id": "deal_96589079"
+  },
+  {
+    "id": "1b0082ee-1bc1-47ee-b785-184f6c8c416a",
+    "local_table": "enrollments",
+    "local_id": "f8ca0aa3-36ef-4895-b12a-87c33140df65",
+    "system": "hubspot",
+    "external_id": "deal_47175953"
+  },
+  {
+    "id": "680fc0dc-bb2e-46ad-98af-d004ba31899f",
+    "local_table": "enrollments",
+    "local_id": "dcebdcb5-b659-4120-9267-9d3e04506958",
+    "system": "hubspot",
+    "external_id": "deal_28215234"
+  },
+  {
+    "id": "849883a6-be4f-413e-a438-14ec4ac97687",
+    "local_table": "enrollments",
+    "local_id": "9c79e77d-0e5b-4687-8dbe-6c5c9a1e4f4f",
+    "system": "hubspot",
+    "external_id": "deal_50764417"
+  },
+  {
+    "id": "f0571895-9542-4cba-a229-9574ee44b90e",
+    "local_table": "enrollments",
+    "local_id": "86db205f-495b-48fc-bc87-34c0043aac82",
+    "system": "hubspot",
+    "external_id": "deal_60947389"
+  },
+  {
+    "id": "abad5105-0603-4a47-8634-71cd3cb3e285",
+    "local_table": "enrollments",
+    "local_id": "b409b246-22ad-40d2-96d8-115e231afecb",
+    "system": "hubspot",
+    "external_id": "deal_73899510"
+  },
+  {
+    "id": "97d5eaa1-4544-4900-b78f-050274009b0b",
+    "local_table": "enrollments",
+    "local_id": "f3507821-72e4-44cc-ac34-3c4fe9cd9876",
+    "system": "hubspot",
+    "external_id": "deal_73936078"
+  },
+  {
+    "id": "9c75931c-9580-48b6-9ec6-d84575df051b",
+    "local_table": "enrollments",
+    "local_id": "8ca8d112-f49e-4c96-a596-5f74e05341d4",
+    "system": "hubspot",
+    "external_id": "deal_78797660"
+  },
+  {
+    "id": "4a83c20d-9a65-47a9-b28c-f1b80b906c25",
+    "local_table": "enrollments",
+    "local_id": "9fc6364c-3b51-45f5-b40e-c29176227b1f",
+    "system": "hubspot",
+    "external_id": "deal_03329613"
+  },
+  {
+    "id": "2eba6ab4-e1c4-4aa5-842f-e305bdc97c4c",
+    "local_table": "enrollments",
+    "local_id": "6edc900d-2d77-4226-8309-dcb89abe6ded",
+    "system": "hubspot",
+    "external_id": "deal_73031655"
+  },
+  {
+    "id": "43511253-017c-47ca-b479-4ae6653eeb4c",
+    "local_table": "enrollments",
+    "local_id": "58605bb1-a875-4373-a964-9ddee11721d1",
+    "system": "hubspot",
+    "external_id": "deal_71255848"
+  },
+  {
+    "id": "ef87414c-2666-4e5f-8ee6-e2caa10bd810",
+    "local_table": "enrollments",
+    "local_id": "c47896c0-5609-4884-af3c-b94ae9a4e3a7",
+    "system": "hubspot",
+    "external_id": "deal_90734433"
+  },
+  {
+    "id": "9508f1c3-8a4f-476f-bbb1-3e171adbbfda",
+    "local_table": "enrollments",
+    "local_id": "ef402806-832f-40e6-976a-33a71178f200",
+    "system": "hubspot",
+    "external_id": "deal_66644559"
+  },
+  {
+    "id": "42c45350-daf8-43de-a588-e032ee286683",
+    "local_table": "enrollments",
+    "local_id": "ab17a60b-1829-4a5b-b74f-73d3b1c980f0",
+    "system": "hubspot",
+    "external_id": "deal_41629030"
+  },
+  {
+    "id": "753a4490-9313-42ef-a1fe-1d3dc65bc0bf",
+    "local_table": "enrollments",
+    "local_id": "bf6d8adf-9571-4482-821f-80a0b6591ec0",
+    "system": "hubspot",
+    "external_id": "deal_59170854"
+  },
+  {
+    "id": "8bb255f8-de3d-41fe-863a-6248562beb16",
+    "local_table": "enrollments",
+    "local_id": "9d7597f9-4a47-437c-ae0d-f821d32b7dec",
+    "system": "hubspot",
+    "external_id": "deal_25990550"
+  },
+  {
+    "id": "99f52ceb-f8ec-40cc-84d8-d589dfcbe9dd",
+    "local_table": "enrollments",
+    "local_id": "494d4524-d552-4b1c-ba6e-7dd01f62dd19",
+    "system": "hubspot",
+    "external_id": "deal_81823449"
+  },
+  {
+    "id": "f90d326c-1fe8-4a35-b88b-926eb7230ff8",
+    "local_table": "enrollments",
+    "local_id": "9524db12-fdd6-45dd-9ca7-e9382ffa7a8b",
+    "system": "hubspot",
+    "external_id": "deal_13593228"
+  },
+  {
+    "id": "ad6df775-48b4-4d5d-a583-d9f26309e0d7",
+    "local_table": "enrollments",
+    "local_id": "4303f97a-0757-4cdc-a83a-ac275bd60ee3",
+    "system": "hubspot",
+    "external_id": "deal_29635513"
+  },
+  {
+    "id": "4d13315e-5217-4c9c-9ac4-692a6e27e2a9",
+    "local_table": "enrollments",
+    "local_id": "c3460033-1d84-4ce5-9da2-0145334917c3",
+    "system": "hubspot",
+    "external_id": "deal_69766009"
+  },
+  {
+    "id": "dd321c6e-25ad-4e7e-b59e-253d56b5d17c",
+    "local_table": "enrollments",
+    "local_id": "c720a422-b777-4ed0-9069-d2f25bf06db1",
+    "system": "hubspot",
+    "external_id": "deal_62690480"
+  },
+  {
+    "id": "ec46b5ac-dd97-450f-bc9b-27fe3d6c7250",
+    "local_table": "enrollments",
+    "local_id": "e1bb899c-0993-4b13-9186-540820ac5e82",
+    "system": "hubspot",
+    "external_id": "deal_57571338"
+  },
+  {
+    "id": "6048416d-7b6e-4812-9133-fa7a29c389e7",
+    "local_table": "enrollments",
+    "local_id": "1f09b2d2-270a-46d4-8d75-e2827eee0b96",
+    "system": "hubspot",
+    "external_id": "deal_34883351"
+  },
+  {
+    "id": "57f130c4-e4f8-4858-8636-83194c6ef883",
+    "local_table": "enrollments",
+    "local_id": "b43da183-a955-40d9-9494-98282b66f2c7",
+    "system": "hubspot",
+    "external_id": "deal_02655974"
+  },
+  {
+    "id": "e0e037d4-8fcb-4a3b-8ea4-57b6116350ed",
+    "local_table": "enrollments",
+    "local_id": "5e0304b4-8999-4f15-9f06-4da1fde9ce6a",
+    "system": "hubspot",
+    "external_id": "deal_40970633"
+  },
+  {
+    "id": "e40e5330-4277-4c11-b53e-c20757686a42",
+    "local_table": "enrollments",
+    "local_id": "830db516-d537-479e-9c66-75f0e201b395",
+    "system": "hubspot",
+    "external_id": "deal_34915427"
+  },
+  {
+    "id": "fefb979d-e51d-483e-9654-f20da0084332",
+    "local_table": "enrollments",
+    "local_id": "a25b782a-e2bd-4f2b-8d19-ae3f29094a66",
+    "system": "hubspot",
+    "external_id": "deal_37011774"
+  },
+  {
+    "id": "6789445e-afce-45c5-9a45-3c7770b60f23",
+    "local_table": "enrollments",
+    "local_id": "8dc27ab8-a540-4e28-8643-5c35c3d4129b",
+    "system": "hubspot",
+    "external_id": "deal_80018956"
+  },
+  {
+    "id": "8640dd5f-2754-4a99-9b35-1d78715b8e6c",
+    "local_table": "enrollments",
+    "local_id": "16c0b034-889d-4a38-8b7d-8f857b2e1311",
+    "system": "hubspot",
+    "external_id": "deal_65142375"
+  },
+  {
+    "id": "e280d1e1-4b41-4502-a267-94294c7c67d7",
+    "local_table": "enrollments",
+    "local_id": "057a35fd-639e-49b5-8bc3-dda2d4fe208b",
+    "system": "hubspot",
+    "external_id": "deal_47018270"
+  },
+  {
+    "id": "103a53ca-638b-491f-98dd-962a9ebc442f",
+    "local_table": "enrollments",
+    "local_id": "1aa871bd-0a07-41e3-9cc1-edad5777e79b",
+    "system": "hubspot",
+    "external_id": "deal_14298349"
+  },
+  {
+    "id": "30900bf1-eccb-4de2-a397-ea73ff3f8fb5",
+    "local_table": "enrollments",
+    "local_id": "1b834179-ccc4-45c2-8624-d2e0c6852914",
+    "system": "hubspot",
+    "external_id": "deal_64790533"
+  },
+  {
+    "id": "870e8ad8-ad99-4db8-8066-4528009e7bc2",
+    "local_table": "enrollments",
+    "local_id": "b08674fe-f8a5-4745-bdad-3ecbf5d26893",
+    "system": "hubspot",
+    "external_id": "deal_67558643"
+  },
+  {
+    "id": "f351fcc5-d1f6-4bb0-8fb0-4f4730bf9b18",
+    "local_table": "enrollments",
+    "local_id": "f8f9c510-4d9a-41c7-8ce9-00daa7977fb9",
+    "system": "hubspot",
+    "external_id": "deal_21385921"
+  },
+  {
+    "id": "6bf6e410-0f58-42c9-b707-c4de1003327f",
+    "local_table": "enrollments",
+    "local_id": "b27bb392-f0bc-41b6-83db-d6cef7abd635",
+    "system": "hubspot",
+    "external_id": "deal_78259256"
+  },
+  {
+    "id": "cf17e1e7-9245-478b-a4b6-8ecc0a3ac3a1",
+    "local_table": "enrollments",
+    "local_id": "d77eea7e-bba5-49dd-b7b9-6687f7873ac3",
+    "system": "hubspot",
+    "external_id": "deal_48217231"
+  },
+  {
+    "id": "4bc996f2-1947-41a0-a137-16c1453ba00a",
+    "local_table": "enrollments",
+    "local_id": "87976f53-3883-413d-8171-07c80fafea58",
+    "system": "hubspot",
+    "external_id": "deal_01274883"
+  },
+  {
+    "id": "bbfb9769-9225-4ac3-83b5-ad30ff12d5a1",
+    "local_table": "enrollments",
+    "local_id": "a8d4e651-be8b-4231-92b5-6f048576ae3b",
+    "system": "hubspot",
+    "external_id": "deal_69110653"
+  },
+  {
+    "id": "c151942c-f554-4a7c-aa37-dd5f902df152",
+    "local_table": "enrollments",
+    "local_id": "b3ee17e3-ca24-42a7-9253-bd9719696097",
+    "system": "hubspot",
+    "external_id": "deal_12402261"
+  },
+  {
+    "id": "130b86fa-c97b-41b0-a52f-658de4c24bb3",
+    "local_table": "enrollments",
+    "local_id": "d91d4ee2-d08a-4553-b7bb-74392ba31852",
+    "system": "hubspot",
+    "external_id": "deal_12219264"
+  },
+  {
+    "id": "6067981a-f628-46f5-84d8-54fc70cf3892",
+    "local_table": "enrollments",
+    "local_id": "fb6f36ea-ed9a-44fd-ad93-bb807ddb0d6e",
+    "system": "hubspot",
+    "external_id": "deal_45853516"
+  },
+  {
+    "id": "55975dfb-ebd4-4978-9cfc-b5d3c1e99769",
+    "local_table": "enrollments",
+    "local_id": "afc74756-5e9b-4f70-8c19-375452e871f0",
+    "system": "hubspot",
+    "external_id": "deal_86917466"
+  },
+  {
+    "id": "5948facb-428c-43b1-9d6e-ac71722b512e",
+    "local_table": "enrollments",
+    "local_id": "99605647-0d50-4d89-9038-5a35749b808b",
+    "system": "hubspot",
+    "external_id": "deal_41599599"
+  },
+  {
+    "id": "4cc9ec5f-f390-48ae-a245-7b0d71349dc8",
+    "local_table": "enrollments",
+    "local_id": "478a5941-2dc2-4559-a58c-829d2cb90473",
+    "system": "hubspot",
+    "external_id": "deal_63501037"
+  },
+  {
+    "id": "12d0eeb9-8c6e-4305-bf6e-b764355b0852",
+    "local_table": "enrollments",
+    "local_id": "d2b89c09-f03c-4cf1-9045-444740a3f117",
+    "system": "hubspot",
+    "external_id": "deal_35864016"
+  },
+  {
+    "id": "43a19c43-c1ee-4d83-b2e2-240da4362078",
+    "local_table": "enrollments",
+    "local_id": "b520fb51-0a61-4e54-9933-4bd504bce227",
+    "system": "hubspot",
+    "external_id": "deal_14809475"
+  },
+  {
+    "id": "7fc5708e-c83f-473c-856e-ea5756a5fd59",
+    "local_table": "enrollments",
+    "local_id": "c7df6b86-ed76-465d-aa93-a4b989fa88c5",
+    "system": "hubspot",
+    "external_id": "deal_64469972"
+  },
+  {
+    "id": "d4bcfd9a-5202-416f-a1f9-ee14c9b92cd6",
+    "local_table": "enrollments",
+    "local_id": "c8f89d6d-bb13-4aab-aebc-ac495688762e",
+    "system": "hubspot",
+    "external_id": "deal_82772634"
+  },
+  {
+    "id": "a7095d3a-30d9-4523-a14f-a553110e6ddc",
+    "local_table": "enrollments",
+    "local_id": "70be4d5a-d2c5-44bf-81a1-056ed19556c1",
+    "system": "hubspot",
+    "external_id": "deal_54604161"
+  },
+  {
+    "id": "a1ba19de-8f0a-4339-9e3f-bd88710a9144",
+    "local_table": "enrollments",
+    "local_id": "4b95b1d0-adc1-44fa-85c0-a554945cc7df",
+    "system": "hubspot",
+    "external_id": "deal_91690417"
+  },
+  {
+    "id": "d92a0af5-3499-4060-b6bf-648e7b6bcf67",
+    "local_table": "enrollments",
+    "local_id": "013347d7-02b2-4d8d-b893-93f19e29d1be",
+    "system": "hubspot",
+    "external_id": "deal_73895480"
+  },
+  {
+    "id": "a87b9272-b705-4c48-bb7e-75c9fa0e816b",
+    "local_table": "enrollments",
+    "local_id": "d4057e23-f1ce-4830-b3b3-cebf4f8b6843",
+    "system": "hubspot",
+    "external_id": "deal_81770166"
+  },
+  {
+    "id": "66ffa074-c90f-49b0-90f5-301721956f58",
+    "local_table": "enrollments",
+    "local_id": "d461af99-6e68-4c41-ac08-1f91f9081d4f",
+    "system": "hubspot",
+    "external_id": "deal_88169616"
+  },
+  {
+    "id": "80fd57da-84ae-4075-a28f-2c5f40bd25d9",
+    "local_table": "enrollments",
+    "local_id": "18a7a7b5-4415-4b30-958e-ce4f67e61e1a",
+    "system": "hubspot",
+    "external_id": "deal_94761775"
+  },
+  {
+    "id": "b4561300-f81c-4ada-b086-f84d4a1128b3",
+    "local_table": "enrollments",
+    "local_id": "c50d99c7-d3da-46d6-a71e-7c17f9ebb3dc",
+    "system": "hubspot",
+    "external_id": "deal_48907754"
+  },
+  {
+    "id": "b1fc1cfc-19b3-445a-b03e-e79f285f371b",
+    "local_table": "enrollments",
+    "local_id": "1d730db9-248d-47b2-b700-a85138379f85",
+    "system": "hubspot",
+    "external_id": "deal_65013513"
+  },
+  {
+    "id": "f325b0c9-56a6-47e2-ad2f-f935deaf5755",
+    "local_table": "enrollments",
+    "local_id": "3d1e44fe-7730-4734-8b55-214bbfc4fee3",
+    "system": "hubspot",
+    "external_id": "deal_17928180"
+  },
+  {
+    "id": "db19dd1b-f3e0-49b2-a1a2-60c5261f1482",
+    "local_table": "enrollments",
+    "local_id": "6c0cc21d-89e4-406a-9504-39139e6377b8",
+    "system": "hubspot",
+    "external_id": "deal_15243684"
+  },
+  {
+    "id": "da562f54-0f8e-4347-85ac-a9ea4273159c",
+    "local_table": "enrollments",
+    "local_id": "02757cbb-cca6-4160-8bf9-61f0f0bec433",
+    "system": "hubspot",
+    "external_id": "deal_21378656"
+  },
+  {
+    "id": "a9958103-6729-44f4-b80b-245889c16c25",
+    "local_table": "enrollments",
+    "local_id": "5f8cc99f-f902-4bd9-a115-73f46282ea1b",
+    "system": "hubspot",
+    "external_id": "deal_38420419"
+  },
+  {
+    "id": "7da9a10e-0d5b-46c6-8352-1c7644246720",
+    "local_table": "enrollments",
+    "local_id": "0d4d3e1b-fb08-4734-9171-c5fc54dd41fa",
+    "system": "hubspot",
+    "external_id": "deal_23683561"
+  },
+  {
+    "id": "82ef9be5-51ab-4260-9bc4-c7cbed545d23",
+    "local_table": "enrollments",
+    "local_id": "feca220c-288d-4cc9-82b4-9cc74c862eba",
+    "system": "hubspot",
+    "external_id": "deal_32498564"
+  },
+  {
+    "id": "c493e003-f697-4329-835d-7ad33636a428",
+    "local_table": "enrollments",
+    "local_id": "9481401f-d015-4fd2-b8ce-49ceb5435d07",
+    "system": "hubspot",
+    "external_id": "deal_13101420"
+  },
+  {
+    "id": "002abb73-b2e1-4da0-990e-824aaa715c06",
+    "local_table": "enrollments",
+    "local_id": "c08aa6bf-6a7e-4cdf-8183-800c3a81d7cf",
+    "system": "hubspot",
+    "external_id": "deal_90338730"
+  },
+  {
+    "id": "eee0a241-5714-48ff-9b38-17a4b451ab0a",
+    "local_table": "enrollments",
+    "local_id": "18f3cf12-448b-4020-bddd-1d10addfc462",
+    "system": "hubspot",
+    "external_id": "deal_96931183"
+  },
+  {
+    "id": "e6b6c38d-713f-4ee0-93ea-ef28ad6aef66",
+    "local_table": "enrollments",
+    "local_id": "1562edf2-1b20-4c27-9efb-623a8a92d72b",
+    "system": "hubspot",
+    "external_id": "deal_11078635"
+  },
+  {
+    "id": "93838991-ffb8-495e-927e-2330955e394f",
+    "local_table": "enrollments",
+    "local_id": "8ad89d3a-cb1f-4cf4-ac83-c1a98f2cf142",
+    "system": "hubspot",
+    "external_id": "deal_90706447"
+  },
+  {
+    "id": "5200ace3-251f-4818-8b37-dc88e3cbf81f",
+    "local_table": "enrollments",
+    "local_id": "68f44d33-46a4-4a11-ae4b-abea3c752464",
+    "system": "hubspot",
+    "external_id": "deal_29803844"
+  },
+  {
+    "id": "662df5f6-e7f3-459f-8f91-0ce929d82b71",
+    "local_table": "enrollments",
+    "local_id": "608a326d-bb46-4b03-9a1d-b9f255c72fdc",
+    "system": "hubspot",
+    "external_id": "deal_47074013"
+  },
+  {
+    "id": "52c90df4-3fc5-461f-823b-34947f01a992",
+    "local_table": "enrollments",
+    "local_id": "23b99009-70f1-412d-bbf2-5e5275ab1793",
+    "system": "hubspot",
+    "external_id": "deal_80082037"
+  },
+  {
+    "id": "80842758-5a51-42fb-996b-90cd6f8faad2",
+    "local_table": "enrollments",
+    "local_id": "818694e7-d9d7-47d6-b6bd-3d523c28e5be",
+    "system": "hubspot",
+    "external_id": "deal_13856933"
+  },
+  {
+    "id": "918e61bd-1aec-4871-b06e-7d404c1623ab",
+    "local_table": "enrollments",
+    "local_id": "2beb97ff-663f-4f8a-82b8-dc7bff84b9df",
+    "system": "hubspot",
+    "external_id": "deal_01597141"
+  },
+  {
+    "id": "71e859fb-842b-4b90-a162-2c62e35799fa",
+    "local_table": "enrollments",
+    "local_id": "d6831568-516c-47b1-89f9-b65119bf8a10",
+    "system": "hubspot",
+    "external_id": "deal_31636936"
+  },
+  {
+    "id": "146d621a-27ea-4eee-9c40-77fcc040ae4d",
+    "local_table": "enrollments",
+    "local_id": "61c34255-c6b8-40ab-abf7-163d1c2f95f3",
+    "system": "hubspot",
+    "external_id": "deal_71411320"
+  },
+  {
+    "id": "ab4206cf-1292-4d61-8fe1-9d4d2a9aea90",
+    "local_table": "enrollments",
+    "local_id": "c0bde67e-1a71-43e9-acd1-8194e9493e0d",
+    "system": "hubspot",
+    "external_id": "deal_84982080"
+  },
+  {
+    "id": "8de0615e-5280-42b2-8320-4f1ef8a61da9",
+    "local_table": "enrollments",
+    "local_id": "11cf0adc-7e30-457d-8410-000435e9a395",
+    "system": "hubspot",
+    "external_id": "deal_41176866"
+  },
+  {
+    "id": "cffcf6e3-7be7-44ad-91ba-6854c5544798",
+    "local_table": "enrollments",
+    "local_id": "22c71165-cc7c-4d85-ac49-80fe6f3c6c88",
+    "system": "hubspot",
+    "external_id": "deal_35353085"
+  },
+  {
+    "id": "b29d165b-aae8-457d-b6b0-a0b2cc28155c",
+    "local_table": "enrollments",
+    "local_id": "5424f7cd-70fe-4572-a180-678c1481e413",
+    "system": "hubspot",
+    "external_id": "deal_15217158"
+  },
+  {
+    "id": "be6c0afb-6a5c-4f16-86b7-a9127d5ef919",
+    "local_table": "enrollments",
+    "local_id": "bef5e97a-5c1d-40cd-a847-e7230799dd6d",
+    "system": "hubspot",
+    "external_id": "deal_97626356"
+  },
+  {
+    "id": "d17ffbca-f9f6-4a9d-a683-f8c4cb4def90",
+    "local_table": "enrollments",
+    "local_id": "5485bb6b-1465-4638-8073-e2fdda278178",
+    "system": "hubspot",
+    "external_id": "deal_63237373"
+  },
+  {
+    "id": "e2c2a76d-cbb9-4e21-a6be-63d37f7b23b1",
+    "local_table": "enrollments",
+    "local_id": "2fbc2881-d926-4e42-8198-d8ff1a4fd7dd",
+    "system": "hubspot",
+    "external_id": "deal_13485916"
+  },
+  {
+    "id": "0f83abeb-8219-49b4-8ab9-74d08f4f4c0e",
+    "local_table": "enrollments",
+    "local_id": "81a8c51e-1434-44e7-af7e-df7b847e35b1",
+    "system": "hubspot",
+    "external_id": "deal_36766579"
+  },
+  {
+    "id": "08213f6d-5414-4907-9621-d2992e4fa24d",
+    "local_table": "enrollments",
+    "local_id": "da116fb0-e930-4c17-b64d-0eafb7578809",
+    "system": "hubspot",
+    "external_id": "deal_38143529"
+  },
+  {
+    "id": "425551a0-5fb4-466f-86d5-f9edab62665e",
+    "local_table": "enrollments",
+    "local_id": "51ab62d1-0c71-4e6b-b766-1ab74c78f8f7",
+    "system": "hubspot",
+    "external_id": "deal_01588744"
+  },
+  {
+    "id": "01d7912c-4666-4f7f-af65-a443d71005bb",
+    "local_table": "enrollments",
+    "local_id": "b4c9a632-7b3b-4e78-aa0b-44caf04ab1aa",
+    "system": "hubspot",
+    "external_id": "deal_30344655"
+  },
+  {
+    "id": "1c1b76b6-b5dd-43a8-badf-b2837365ba4e",
+    "local_table": "enrollments",
+    "local_id": "a51d56e3-0dc8-41d0-a289-158a24975e70",
+    "system": "hubspot",
+    "external_id": "deal_81124911"
+  },
+  {
+    "id": "e7c688a9-14e3-47b4-b0fd-59749e69c102",
+    "local_table": "enrollments",
+    "local_id": "ea1ceef7-9f52-40bf-812f-bd7f3c978f15",
+    "system": "hubspot",
+    "external_id": "deal_84092696"
+  },
+  {
+    "id": "cc4ef172-e3b6-4646-b49d-913e256ef0f2",
+    "local_table": "enrollments",
+    "local_id": "053af1de-5cce-435b-a22c-95337c55ffb9",
+    "system": "hubspot",
+    "external_id": "deal_07666534"
+  },
+  {
+    "id": "dac6065d-e37f-49b8-8d20-ca1ed98b9a19",
+    "local_table": "enrollments",
+    "local_id": "6105dd1d-eb1d-43f4-86f5-7bfef3c09afc",
+    "system": "hubspot",
+    "external_id": "deal_31993160"
+  },
+  {
+    "id": "b3f6e30a-8f86-4405-8c97-1cec0dd15843",
+    "local_table": "enrollments",
+    "local_id": "19c18c66-ce1b-4305-8d7e-d0f4e0d6189a",
+    "system": "hubspot",
+    "external_id": "deal_86406222"
+  },
+  {
+    "id": "5e0fa771-32c1-4cd3-9e84-f960c5606120",
+    "local_table": "enrollments",
+    "local_id": "3a8d1f21-8850-48c8-b410-267068298cf1",
+    "system": "hubspot",
+    "external_id": "deal_26098536"
+  },
+  {
+    "id": "5474c7e5-80de-41cc-8e77-dffeccea0474",
+    "local_table": "enrollments",
+    "local_id": "4a6d8575-a0d8-4db5-be94-c9ad60e82982",
+    "system": "hubspot",
+    "external_id": "deal_73746288"
+  },
+  {
+    "id": "615a591f-59f5-4b79-affb-e758b713a360",
+    "local_table": "enrollments",
+    "local_id": "943a3c1e-0092-4974-aa71-26ac5a96fdc7",
+    "system": "hubspot",
+    "external_id": "deal_48916766"
+  },
+  {
+    "id": "c35f8c1a-a0d8-4e52-b9f3-1bf08391e157",
+    "local_table": "enrollments",
+    "local_id": "0ffa8e6b-2370-45e4-807d-cd17ce4c9a98",
+    "system": "hubspot",
+    "external_id": "deal_25127082"
+  },
+  {
+    "id": "20db1ad1-f14e-48ed-9d8b-d6101c55c577",
+    "local_table": "enrollments",
+    "local_id": "8083d421-9ba4-4c67-a3f1-aa7a267fdda1",
+    "system": "hubspot",
+    "external_id": "deal_35768364"
+  },
+  {
+    "id": "34442553-d8c5-4162-8fdc-1225e9933a48",
+    "local_table": "enrollments",
+    "local_id": "48bfdcad-08ec-4f42-88d6-089d5a91962f",
+    "system": "hubspot",
+    "external_id": "deal_45960090"
+  },
+  {
+    "id": "20b2c3c7-8236-4958-bf31-59ed6dde7be1",
+    "local_table": "enrollments",
+    "local_id": "03875107-b67b-4487-b408-7a3398bd98ec",
+    "system": "hubspot",
+    "external_id": "deal_11824178"
+  },
+  {
+    "id": "bab2822c-0f47-460e-b22b-261b75637f26",
+    "local_table": "enrollments",
+    "local_id": "35f5f7ab-ba3f-4af6-b46e-40a97aca0bb6",
+    "system": "hubspot",
+    "external_id": "deal_94951038"
+  },
+  {
+    "id": "2a1786a5-71e4-4e87-b552-ae29a80be222",
+    "local_table": "enrollments",
+    "local_id": "5cf815d9-bd06-447d-a4e6-5fec38b63324",
+    "system": "hubspot",
+    "external_id": "deal_00915939"
+  },
+  {
+    "id": "08b2684e-6a11-46b2-8bbe-b647216d80fa",
+    "local_table": "enrollments",
+    "local_id": "9413f99f-fec1-452f-84b2-27b55181a986",
+    "system": "hubspot",
+    "external_id": "deal_92190991"
+  },
+  {
+    "id": "14b6b715-e76b-4ced-bf3d-8ff4a7d9f362",
+    "local_table": "enrollments",
+    "local_id": "7e40a54e-a6ae-44e4-9dfb-87a9c8c9d00d",
+    "system": "hubspot",
+    "external_id": "deal_23652073"
+  },
+  {
+    "id": "508beeca-d642-4e45-934a-94127f567c82",
+    "local_table": "enrollments",
+    "local_id": "dcb82a44-4405-4fba-bff6-1f898c414ee8",
+    "system": "hubspot",
+    "external_id": "deal_86496795"
+  },
+  {
+    "id": "9c7cfb91-cf0a-40b0-9a44-8f256e35a139",
+    "local_table": "enrollments",
+    "local_id": "25b3c7c1-9479-4daa-a1e6-4f894b86153d",
+    "system": "hubspot",
+    "external_id": "deal_60171050"
+  },
+  {
+    "id": "6ecf642c-0967-42f7-bdaa-f9aa7b8e8d2f",
+    "local_table": "enrollments",
+    "local_id": "449f2d60-d817-43a7-bfc4-9a525cf2858d",
+    "system": "hubspot",
+    "external_id": "deal_46977232"
+  },
+  {
+    "id": "af120f5d-e1a4-4946-9016-c731d7934f06",
+    "local_table": "enrollments",
+    "local_id": "9cbd98dd-caf1-4b44-99a6-3f2452be410b",
+    "system": "hubspot",
+    "external_id": "deal_14175757"
+  },
+  {
+    "id": "22cae33a-161e-45b2-b1ab-f90e5bc113c3",
+    "local_table": "enrollments",
+    "local_id": "37a62e82-07b1-42db-be29-5883e0485d60",
+    "system": "hubspot",
+    "external_id": "deal_23671388"
+  },
+  {
+    "id": "1640fe30-a817-4431-8532-4a80747fcf5c",
+    "local_table": "enrollments",
+    "local_id": "525ae5cb-3607-4e41-8b46-9d1bb93937cb",
+    "system": "hubspot",
+    "external_id": "deal_60555717"
+  },
+  {
+    "id": "5b4ced03-4b89-4b0a-b523-69190ab0c80a",
+    "local_table": "enrollments",
+    "local_id": "5b727e0f-c642-498c-86a6-69e5101cc084",
+    "system": "hubspot",
+    "external_id": "deal_84891915"
+  },
+  {
+    "id": "d06f3a44-941f-426c-8c01-c6c601e1d9ee",
+    "local_table": "enrollments",
+    "local_id": "6cab45af-942e-4fe6-be2b-9c40f145bedb",
+    "system": "hubspot",
+    "external_id": "deal_71242183"
+  },
+  {
+    "id": "205fbf50-c937-4d89-8154-571bfb82fdab",
+    "local_table": "enrollments",
+    "local_id": "26beeae6-7c2d-4073-8d75-5033c657db7f",
+    "system": "hubspot",
+    "external_id": "deal_35259619"
+  },
+  {
+    "id": "e8d90b36-20bb-4b9e-a021-88ec94936b46",
+    "local_table": "enrollments",
+    "local_id": "f5b8191b-69a2-49c3-9f56-8cae161cc618",
+    "system": "hubspot",
+    "external_id": "deal_84400192"
+  },
+  {
+    "id": "ad4e0f7f-6bcb-4c7d-a779-73a4beca67d9",
+    "local_table": "enrollments",
+    "local_id": "bc913627-d2d2-4a8a-bd00-f39eb9825528",
+    "system": "hubspot",
+    "external_id": "deal_00725257"
+  },
+  {
+    "id": "494df1fc-d238-4588-b5cc-0627f29b2219",
+    "local_table": "enrollments",
+    "local_id": "ad4f5a7f-21a0-4dc5-8c75-2d44af6a91f7",
+    "system": "hubspot",
+    "external_id": "deal_09640476"
+  },
+  {
+    "id": "73f3696a-232e-4b2e-8206-7b012614198f",
+    "local_table": "enrollments",
+    "local_id": "c1fb65aa-6db3-442e-bd02-6b0387e94b91",
+    "system": "hubspot",
+    "external_id": "deal_87514549"
+  },
+  {
+    "id": "a57c4caf-0a99-4151-b978-39d4823212ab",
+    "local_table": "enrollments",
+    "local_id": "817d9662-d1b1-4428-94b1-1ad2aabd09f4",
+    "system": "hubspot",
+    "external_id": "deal_28919349"
+  },
+  {
+    "id": "f4e36b42-7d3a-4b6a-9c87-e56fac32453b",
+    "local_table": "enrollments",
+    "local_id": "69c74f33-3ef2-4a3f-bf4e-2b12cb37553f",
+    "system": "hubspot",
+    "external_id": "deal_95315861"
+  },
+  {
+    "id": "8abcab0c-a4fb-49ea-999d-b4916b5b1ff9",
+    "local_table": "enrollments",
+    "local_id": "1135ad87-1823-4202-ac54-034e924c1f1d",
+    "system": "hubspot",
+    "external_id": "deal_72906286"
+  },
+  {
+    "id": "86e93b44-e213-46ec-aebb-54f71b877828",
+    "local_table": "enrollments",
+    "local_id": "4a350995-8229-4143-9b15-fdab64d91f47",
+    "system": "hubspot",
+    "external_id": "deal_89924089"
+  },
+  {
+    "id": "dc4c5fed-071e-43d8-ad49-3731f7f64371",
+    "local_table": "enrollments",
+    "local_id": "6b4a55d4-2ee6-441c-affe-344b1119d9ea",
+    "system": "hubspot",
+    "external_id": "deal_15899288"
+  },
+  {
+    "id": "dae73d37-00d7-4316-aa85-1a95511898f6",
+    "local_table": "enrollments",
+    "local_id": "9ce6ee2a-a735-40db-a35a-c780e53c3c89",
+    "system": "hubspot",
+    "external_id": "deal_08456100"
+  },
+  {
+    "id": "5246807d-ca90-4bdc-9e9d-443d0df84188",
+    "local_table": "enrollments",
+    "local_id": "4798d5ee-580f-4061-8ac0-6d1a678ffe46",
+    "system": "hubspot",
+    "external_id": "deal_07835422"
+  },
+  {
+    "id": "eb5b0058-b45e-4377-89bb-65803df170e6",
+    "local_table": "enrollments",
+    "local_id": "e72c1b4f-e9d0-4ff5-b680-8a88fd9f6da0",
+    "system": "hubspot",
+    "external_id": "deal_29507704"
+  },
+  {
+    "id": "3c6d9b51-03bb-4b19-8a3d-82c3c931b6b1",
+    "local_table": "enrollments",
+    "local_id": "05ad07c3-0001-43aa-8d1f-c14940c90594",
+    "system": "hubspot",
+    "external_id": "deal_77723269"
+  },
+  {
+    "id": "4ad624dd-f58e-41b1-ac14-a7034f635c4e",
+    "local_table": "enrollments",
+    "local_id": "ba70ff45-60d3-434e-8e99-bdb6cc8fa247",
+    "system": "hubspot",
+    "external_id": "deal_31692208"
+  },
+  {
+    "id": "87dd6ecc-6131-4feb-ab34-e6cc413a1777",
+    "local_table": "enrollments",
+    "local_id": "0ded0927-bb47-481e-addf-6566bdaf2ec1",
+    "system": "hubspot",
+    "external_id": "deal_28308187"
+  },
+  {
+    "id": "eda1f071-9e94-4605-9fb2-89b66070904a",
+    "local_table": "enrollments",
+    "local_id": "c35d36f3-45a9-4fbc-b399-0c79b0af55ae",
+    "system": "hubspot",
+    "external_id": "deal_99607919"
+  },
+  {
+    "id": "fbe5a895-9db0-49b7-8321-72a619f183b0",
+    "local_table": "enrollments",
+    "local_id": "f9dc9899-b03f-49da-abbc-351ec6de9f4f",
+    "system": "hubspot",
+    "external_id": "deal_17069947"
+  },
+  {
+    "id": "4bbd8837-1049-4744-9856-f0e03f9688cc",
+    "local_table": "enrollments",
+    "local_id": "4e28673d-33ba-4999-85f0-e4feb63fa875",
+    "system": "hubspot",
+    "external_id": "deal_43561747"
+  },
+  {
+    "id": "f098fc43-7e66-4db4-be35-c05a0f9f4471",
+    "local_table": "enrollments",
+    "local_id": "827696d8-a811-4324-8f7c-1b5a155e744b",
+    "system": "hubspot",
+    "external_id": "deal_77927396"
+  },
+  {
+    "id": "e51a5208-fecd-431b-8d84-3ca3611634e0",
+    "local_table": "enrollments",
+    "local_id": "ba1ef9f2-8c0c-45d8-aad6-7feb6d64d9fc",
+    "system": "hubspot",
+    "external_id": "deal_07732146"
+  },
+  {
+    "id": "82e8e21e-7df1-407b-b170-ae043faa417f",
+    "local_table": "enrollments",
+    "local_id": "f536a2a5-9dd1-47e0-a112-27551ce2e859",
+    "system": "hubspot",
+    "external_id": "deal_09651939"
+  },
+  {
+    "id": "af89ab4d-5c5b-4849-9fec-1f0b301677cb",
+    "local_table": "enrollments",
+    "local_id": "2403044f-e2c6-4755-ac54-2e749a2144df",
+    "system": "hubspot",
+    "external_id": "deal_24194531"
+  },
+  {
+    "id": "ac319ccc-720f-41ae-9a59-9ae478468af1",
+    "local_table": "enrollments",
+    "local_id": "77949292-55ed-473c-b748-a87222c92dbd",
+    "system": "hubspot",
+    "external_id": "deal_56711868"
+  },
+  {
+    "id": "b897a0a7-b5ef-4a54-8e10-55706078196e",
+    "local_table": "enrollments",
+    "local_id": "795bf553-b368-4d5f-955f-f959a526d0b4",
+    "system": "hubspot",
+    "external_id": "deal_71688071"
+  },
+  {
+    "id": "19966c9f-0270-4428-80be-b887d823295f",
+    "local_table": "enrollments",
+    "local_id": "332223da-8e83-43fc-8645-d206a67e5a86",
+    "system": "hubspot",
+    "external_id": "deal_65660908"
+  },
+  {
+    "id": "65936d92-8157-4a71-9858-b5feb9cc1f2a",
+    "local_table": "enrollments",
+    "local_id": "b7ab0c1c-6fe4-4146-bea7-890e25dc78d1",
+    "system": "hubspot",
+    "external_id": "deal_45691102"
+  },
+  {
+    "id": "929080f6-48cc-43d0-bb11-09fc62d94bb8",
+    "local_table": "enrollments",
+    "local_id": "d672cf99-a08b-4c99-ab76-78851ea3493b",
+    "system": "hubspot",
+    "external_id": "deal_01122123"
+  },
+  {
+    "id": "b8dfaf0c-ec53-4c6d-b438-ab774145a561",
+    "local_table": "enrollments",
+    "local_id": "baac379d-41a6-4375-8677-cd8348cdf2b0",
+    "system": "hubspot",
+    "external_id": "deal_07458088"
+  },
+  {
+    "id": "c747d9ae-cb6e-4cf8-85e5-b557617d63ed",
+    "local_table": "enrollments",
+    "local_id": "b53db1b2-d095-4b02-9891-5c52e7833fe0",
+    "system": "hubspot",
+    "external_id": "deal_86163987"
+  },
+  {
+    "id": "9da18de3-2bac-46be-a33f-7850f195ef31",
+    "local_table": "enrollments",
+    "local_id": "4e54a104-5dc3-43e2-bb81-eb2b99530c0c",
+    "system": "hubspot",
+    "external_id": "deal_72704627"
+  },
+  {
+    "id": "bf899ec5-1355-4f08-83a5-8af456009c4a",
+    "local_table": "enrollments",
+    "local_id": "6ec79e75-4e22-4d5f-8362-561ae87e3551",
+    "system": "hubspot",
+    "external_id": "deal_96978392"
+  },
+  {
+    "id": "077bc022-fc60-46ae-9900-ab0ce2677dff",
+    "local_table": "enrollments",
+    "local_id": "f2f287cd-3a6a-4c23-ba64-f9d144f6e667",
+    "system": "hubspot",
+    "external_id": "deal_38420224"
+  },
+  {
+    "id": "54d0aa12-fc5c-49e0-9c99-ef3c92768f29",
+    "local_table": "enrollments",
+    "local_id": "dcb7be8f-aa48-4076-994a-704e035a5b40",
+    "system": "hubspot",
+    "external_id": "deal_64632999"
+  },
+  {
+    "id": "e53663a5-89ba-4bbd-b097-07aed2ce6558",
+    "local_table": "enrollments",
+    "local_id": "c968d49e-0b2a-42d3-90be-65687e87a4eb",
+    "system": "hubspot",
+    "external_id": "deal_91645483"
+  },
+  {
+    "id": "37e8f441-ffc2-4423-a36a-c0d2ebcddb00",
+    "local_table": "enrollments",
+    "local_id": "8bb8e7ee-4141-4b78-a3c6-70eb66739949",
+    "system": "hubspot",
+    "external_id": "deal_17725834"
+  },
+  {
+    "id": "dd44dbd1-87e7-47c8-a207-c1bedf20684d",
+    "local_table": "enrollments",
+    "local_id": "7371a502-fa68-4a25-8818-26603b3ee5f9",
+    "system": "hubspot",
+    "external_id": "deal_53845218"
+  },
+  {
+    "id": "dbe3e4b3-bd51-4ad1-a283-6f9fd64dc901",
+    "local_table": "enrollments",
+    "local_id": "3e93471f-a37b-4657-baa9-0739bd44ad13",
+    "system": "hubspot",
+    "external_id": "deal_17843020"
+  },
+  {
+    "id": "bc1c59b3-b5b0-43bd-9bc9-9fbde4ac1593",
+    "local_table": "enrollments",
+    "local_id": "ad60fbd6-3cb6-427e-ad39-b684b071a4bc",
+    "system": "hubspot",
+    "external_id": "deal_00636606"
+  },
+  {
+    "id": "4b919a64-ee04-491e-b77b-cba8eb30c8f3",
+    "local_table": "enrollments",
+    "local_id": "d2b0d10d-e045-4b1a-9228-8d61f7af7306",
+    "system": "hubspot",
+    "external_id": "deal_52432209"
+  },
+  {
+    "id": "870e4108-9cc4-482a-9d2b-655a6ee116e1",
+    "local_table": "enrollments",
+    "local_id": "07fe212e-6d2c-4654-bd08-fc67d55b8965",
+    "system": "hubspot",
+    "external_id": "deal_11521484"
+  },
+  {
+    "id": "69309e96-d51e-4ff8-a95b-dd857c5a7207",
+    "local_table": "enrollments",
+    "local_id": "2a32b500-9213-4be2-951f-63b36dd5ccdc",
+    "system": "hubspot",
+    "external_id": "deal_23334139"
+  },
+  {
+    "id": "7dbdc8d6-cb62-44aa-9030-38236306f960",
+    "local_table": "enrollments",
+    "local_id": "1e9e6c3b-0a54-4f61-827d-e367220b9a56",
+    "system": "hubspot",
+    "external_id": "deal_55496420"
+  },
+  {
+    "id": "16e7ca06-3d76-4600-a5e1-013819e9b38b",
+    "local_table": "enrollments",
+    "local_id": "8a1ba1e0-35be-47a9-a5f0-5cf1c9727d71",
+    "system": "hubspot",
+    "external_id": "deal_81814051"
+  },
+  {
+    "id": "e905a54d-4d2b-4eb2-81f3-bec25f1054fa",
+    "local_table": "enrollments",
+    "local_id": "c1a58af4-8038-47eb-bcbb-de2cb61d30b8",
+    "system": "hubspot",
+    "external_id": "deal_88618568"
+  },
+  {
+    "id": "0adf544d-b857-4fa8-a377-1eb2b6fa9adf",
+    "local_table": "enrollments",
+    "local_id": "201096ee-f736-46ac-9739-4c3352c353c6",
+    "system": "hubspot",
+    "external_id": "deal_60262957"
+  },
+  {
+    "id": "b2342a83-c685-48e8-ba78-e85441767553",
+    "local_table": "enrollments",
+    "local_id": "186d390b-fab6-4081-81c6-d898a59cc35f",
+    "system": "hubspot",
+    "external_id": "deal_69346209"
+  },
+  {
+    "id": "47b7eaef-3801-4662-ae45-5357dd49b9fa",
+    "local_table": "enrollments",
+    "local_id": "6c9fe6fa-929e-4f86-805d-91e5b34c73f8",
+    "system": "hubspot",
+    "external_id": "deal_45600192"
+  },
+  {
+    "id": "fa869922-1130-43d0-99c4-bdaf87d9aba5",
+    "local_table": "enrollments",
+    "local_id": "3dd3920a-193d-4d0b-aaaa-f06c25880023",
+    "system": "hubspot",
+    "external_id": "deal_25956710"
+  },
+  {
+    "id": "726ead43-cea1-442f-adbc-d2640b724ac9",
+    "local_table": "enrollments",
+    "local_id": "2a670b16-5aea-4079-8404-ec69c5994f44",
+    "system": "hubspot",
+    "external_id": "deal_48703654"
+  },
+  {
+    "id": "a1f3444b-fd3f-4639-8f43-f14b07326708",
+    "local_table": "enrollments",
+    "local_id": "3b3a237e-de67-4fbb-a6ae-b7efb3c3a1ea",
+    "system": "hubspot",
+    "external_id": "deal_49316883"
+  },
+  {
+    "id": "98d17d55-ee0d-4892-bf94-8708d0fcaf16",
+    "local_table": "enrollments",
+    "local_id": "a19b69ba-7931-49bd-bc47-ccb156ebd476",
+    "system": "hubspot",
+    "external_id": "deal_00529524"
+  },
+  {
+    "id": "c6bbe027-f96e-4357-ad6f-011d40e901c8",
+    "local_table": "enrollments",
+    "local_id": "8c423b85-c4c0-451b-bd7c-d9bb68234995",
+    "system": "hubspot",
+    "external_id": "deal_29940908"
+  },
+  {
+    "id": "04fa18c7-bead-4538-a362-323828d52faa",
+    "local_table": "enrollments",
+    "local_id": "a47e8c82-0887-43cd-bc99-512473ee3d5f",
+    "system": "hubspot",
+    "external_id": "deal_64896955"
+  },
+  {
+    "id": "631d26eb-1a5e-4700-b4c0-c75e31e3a140",
+    "local_table": "enrollments",
+    "local_id": "570d6173-fcd2-419d-b8c4-0d298d1bf643",
+    "system": "hubspot",
+    "external_id": "deal_35411777"
+  },
+  {
+    "id": "f727eca6-23b0-42c1-bb94-0dc6b5c0329c",
+    "local_table": "enrollments",
+    "local_id": "b98440d4-9912-4f3f-9c43-7151b96f3c40",
+    "system": "hubspot",
+    "external_id": "deal_36941602"
+  },
+  {
+    "id": "acb744c5-5c0e-4c49-a809-66ca2fba3704",
+    "local_table": "enrollments",
+    "local_id": "cdf525f6-a727-44b4-9a63-be9d65935998",
+    "system": "hubspot",
+    "external_id": "deal_25735177"
+  },
+  {
+    "id": "0521287f-821d-4d6d-ade5-ce7e63d31c17",
+    "local_table": "enrollments",
+    "local_id": "223a0d8a-d487-413c-a234-de7284c0a27a",
+    "system": "hubspot",
+    "external_id": "deal_82591619"
+  },
+  {
+    "id": "91f00a8f-1e63-4d44-9725-336ea46063d9",
+    "local_table": "enrollments",
+    "local_id": "2d07a27b-b8cb-478c-8002-206f32481824",
+    "system": "hubspot",
+    "external_id": "deal_60163384"
+  },
+  {
+    "id": "4d2bf281-a770-417a-a424-6259a86fcbec",
+    "local_table": "enrollments",
+    "local_id": "6cff0b65-bec7-4d85-af21-3b0daf66aefb",
+    "system": "hubspot",
+    "external_id": "deal_16912958"
+  },
+  {
+    "id": "0c90bea3-cb6d-45d3-a0af-461d7d460335",
+    "local_table": "enrollments",
+    "local_id": "e3a2ad4b-9eee-46b4-bf96-1b41d3304943",
+    "system": "hubspot",
+    "external_id": "deal_61217465"
+  },
+  {
+    "id": "5266dd05-888b-4317-9a2c-030961b46fea",
+    "local_table": "enrollments",
+    "local_id": "e5da57ac-8e16-4a40-b43e-d95fda0932bf",
+    "system": "hubspot",
+    "external_id": "deal_71796258"
+  },
+  {
+    "id": "3381276f-2a0a-4c76-8745-8b4ae4af2f88",
+    "local_table": "enrollments",
+    "local_id": "a7494ac7-a741-485a-9a3e-eb1675762676",
+    "system": "hubspot",
+    "external_id": "deal_12719812"
+  },
+  {
+    "id": "c9943800-cef2-41ef-9847-6f6887582b06",
+    "local_table": "enrollments",
+    "local_id": "cc37f75e-d57a-43b5-9145-985d186bfd1f",
+    "system": "hubspot",
+    "external_id": "deal_92849570"
+  },
+  {
+    "id": "7d08e8b4-668d-4422-b3a0-c14559dac61a",
+    "local_table": "enrollments",
+    "local_id": "6f4fd2f4-6981-4cd2-b6b4-ed2755734c6e",
+    "system": "hubspot",
+    "external_id": "deal_47880260"
+  },
+  {
+    "id": "63ac7b02-7bf9-41ba-937c-858412708c2f",
+    "local_table": "enrollments",
+    "local_id": "9863ca5a-793c-4736-8422-9182b553fdfe",
+    "system": "hubspot",
+    "external_id": "deal_89657730"
+  },
+  {
+    "id": "e77d097b-9feb-46a0-abd6-54352fff6c11",
+    "local_table": "enrollments",
+    "local_id": "d4bd2964-8706-461f-99a6-8022016df491",
+    "system": "hubspot",
+    "external_id": "deal_44995667"
+  },
+  {
+    "id": "dfa79425-a26e-47a0-808b-94ff020286ac",
+    "local_table": "enrollments",
+    "local_id": "a4177a7d-d32e-419a-9830-408a746f3370",
+    "system": "hubspot",
+    "external_id": "deal_54046877"
+  },
+  {
+    "id": "0f03cb40-7d94-4a3f-ae36-c9c2be0ba7cf",
+    "local_table": "enrollments",
+    "local_id": "438b6d84-e238-4a04-ad3e-0917b28ed18a",
+    "system": "hubspot",
+    "external_id": "deal_23018307"
+  },
+  {
+    "id": "00932d63-cc2b-44b7-b9a8-f34e4729470a",
+    "local_table": "enrollments",
+    "local_id": "d09a2a45-4307-46d6-a8aa-695cee9ea4fc",
+    "system": "hubspot",
+    "external_id": "deal_41624411"
+  },
+  {
+    "id": "ec95c792-ce9e-4cc8-95b3-936cf8d1ef72",
+    "local_table": "enrollments",
+    "local_id": "7ec2f757-981c-4d02-a920-5c95db7006a9",
+    "system": "hubspot",
+    "external_id": "deal_52447446"
+  },
+  {
+    "id": "589e279d-811f-4e28-973c-5ba2d5affaa9",
+    "local_table": "enrollments",
+    "local_id": "55ed121d-f703-4e58-aba4-3f1af3f84244",
+    "system": "hubspot",
+    "external_id": "deal_80855996"
+  },
+  {
+    "id": "b9ea2168-7ba4-454a-9075-38f798963206",
+    "local_table": "enrollments",
+    "local_id": "22a9e441-81de-4924-b13a-201abca62b6b",
+    "system": "hubspot",
+    "external_id": "deal_17758317"
+  },
+  {
+    "id": "00733ade-f2bd-423d-8ac7-876994eb6a60",
+    "local_table": "enrollments",
+    "local_id": "0498eb17-d0c2-4cf8-847f-311e0f66dcea",
+    "system": "hubspot",
+    "external_id": "deal_65371949"
+  },
+  {
+    "id": "a9dc0e1e-c760-4791-98fc-e6ca0fee367a",
+    "local_table": "enrollments",
+    "local_id": "5503b448-435d-41af-99fd-2849336ceae9",
+    "system": "hubspot",
+    "external_id": "deal_08968661"
+  },
+  {
+    "id": "0a247a05-4968-4807-92e2-063eafc23cad",
+    "local_table": "enrollments",
+    "local_id": "78f6d281-2522-483b-ac03-79dd11f380d3",
+    "system": "hubspot",
+    "external_id": "deal_00915363"
+  },
+  {
+    "id": "35c9d2d1-34f6-454c-a1be-6fa966cd1364",
+    "local_table": "enrollments",
+    "local_id": "d8a6fe92-acb1-4370-8f26-f3aebcdb6105",
+    "system": "hubspot",
+    "external_id": "deal_95928900"
+  },
+  {
+    "id": "8f673bfb-d819-451c-a270-a9bd362e1cb4",
+    "local_table": "enrollments",
+    "local_id": "48f876e1-d11b-482d-a9d4-9c2d3925add2",
+    "system": "hubspot",
+    "external_id": "deal_06883278"
+  },
+  {
+    "id": "54bdefbe-639b-41ce-994e-23c358a55464",
+    "local_table": "enrollments",
+    "local_id": "0abcf3b5-e432-4679-ad6c-75fe56487966",
+    "system": "hubspot",
+    "external_id": "deal_75658094"
+  },
+  {
+    "id": "96b4cbc3-e260-4d7d-8a3d-71a3be715230",
+    "local_table": "enrollments",
+    "local_id": "73eb257a-3d9f-4551-b3df-b6ac4a49373a",
+    "system": "hubspot",
+    "external_id": "deal_63149109"
+  },
+  {
+    "id": "3be7c2d5-2c84-4f45-aad6-045595ac7d36",
+    "local_table": "enrollments",
+    "local_id": "f66523fd-a567-4059-90ae-97211e7396cb",
+    "system": "hubspot",
+    "external_id": "deal_68484236"
+  },
+  {
+    "id": "9b34d475-034a-40d4-89ba-260862216a72",
+    "local_table": "enrollments",
+    "local_id": "140c8c5a-ce1a-4fd0-afc3-b3f22e99cc7c",
+    "system": "hubspot",
+    "external_id": "deal_14101949"
+  },
+  {
+    "id": "6739d0d8-be85-46ae-a737-78f7b4462f20",
+    "local_table": "enrollments",
+    "local_id": "693eb1c6-3740-4922-a321-c87eb92c793b",
+    "system": "hubspot",
+    "external_id": "deal_35591908"
+  },
+  {
+    "id": "ad6a465d-67dd-4e60-b5d2-392184a6a0dd",
+    "local_table": "enrollments",
+    "local_id": "aac66a79-69ac-4333-9d50-4eccd92ec2f2",
+    "system": "hubspot",
+    "external_id": "deal_99291743"
+  },
+  {
+    "id": "fe597bf8-d8bc-41e3-a99b-62d1d3df0024",
+    "local_table": "enrollments",
+    "local_id": "286aab95-787f-40cd-9dda-4be7764b9253",
+    "system": "hubspot",
+    "external_id": "deal_80242315"
+  },
+  {
+    "id": "28e6d8e8-7b5b-410c-979a-24d6e840cb0c",
+    "local_table": "enrollments",
+    "local_id": "4fcad93e-02e9-4559-bbe3-7ca8dbcee71c",
+    "system": "hubspot",
+    "external_id": "deal_92839037"
+  },
+  {
+    "id": "81296820-2f0a-41e2-bc43-f05686c9fd4b",
+    "local_table": "enrollments",
+    "local_id": "aae6aed3-8646-49ef-a8a3-623985b23f54",
+    "system": "hubspot",
+    "external_id": "deal_93906527"
+  },
+  {
+    "id": "9e8eded7-6e0a-4648-a03b-103d3f43ab3e",
+    "local_table": "enrollments",
+    "local_id": "afae6fa1-4bb9-4f73-87a3-5f4b22efd4f0",
+    "system": "hubspot",
+    "external_id": "deal_17861233"
+  },
+  {
+    "id": "28f7e2e0-6fdf-4404-adbe-c3d4def0b6f1",
+    "local_table": "enrollments",
+    "local_id": "203859c2-f669-4802-b5bf-262791a948a8",
+    "system": "hubspot",
+    "external_id": "deal_93291473"
+  },
+  {
+    "id": "300ec2b9-a9e7-45b9-b023-5ee91fac6441",
+    "local_table": "enrollments",
+    "local_id": "41db9a26-c85a-4e30-808d-8572c10e9572",
+    "system": "hubspot",
+    "external_id": "deal_42663019"
+  },
+  {
+    "id": "ee061a13-c647-4d9a-a785-3fa135700cbb",
+    "local_table": "enrollments",
+    "local_id": "3d8363ac-6799-4522-9a0a-563e07c12877",
+    "system": "hubspot",
+    "external_id": "deal_62738960"
+  },
+  {
+    "id": "7536bf97-bc1b-4e07-a5e4-fe4f3bbbc9e7",
+    "local_table": "enrollments",
+    "local_id": "b2d68584-5ead-4c7f-8228-5915b8c017eb",
+    "system": "hubspot",
+    "external_id": "deal_79097304"
+  },
+  {
+    "id": "75b78c27-321d-405b-9eb7-a12faf18a983",
+    "local_table": "enrollments",
+    "local_id": "24bb0f65-7ae1-4ebe-aadb-821ee56fc3aa",
+    "system": "hubspot",
+    "external_id": "deal_45760380"
+  },
+  {
+    "id": "b0bd56b8-b86c-4fa3-ba3b-728e854c3076",
+    "local_table": "enrollments",
+    "local_id": "b0b20625-7478-4f5f-91d7-95713fa18cb9",
+    "system": "hubspot",
+    "external_id": "deal_22412051"
+  },
+  {
+    "id": "570ad9f0-aa85-42d2-885a-0b542c622f0b",
+    "local_table": "enrollments",
+    "local_id": "dd0ff722-9116-4b47-8df1-7c2223759482",
+    "system": "hubspot",
+    "external_id": "deal_69525643"
+  },
+  {
+    "id": "dbec0259-502f-4c97-a1bb-6b51366cce00",
+    "local_table": "enrollments",
+    "local_id": "4cd252c5-bc12-4196-9834-b008f7aee400",
+    "system": "hubspot",
+    "external_id": "deal_65000631"
+  },
+  {
+    "id": "692b3930-3fcc-43be-b675-a31dac68e94f",
+    "local_table": "enrollments",
+    "local_id": "ea4402ef-7f59-480f-9718-a79f30e6ed01",
+    "system": "hubspot",
+    "external_id": "deal_89256723"
+  },
+  {
+    "id": "3c17fcd1-7795-48bc-882f-b9f720247e2e",
+    "local_table": "enrollments",
+    "local_id": "baf0e7f6-bd2a-4ead-881c-23518b1f5e3b",
+    "system": "hubspot",
+    "external_id": "deal_37096428"
+  },
+  {
+    "id": "c45e72c1-3220-4c4d-84b6-41c98703d62a",
+    "local_table": "enrollments",
+    "local_id": "8f04cce5-dae2-452c-9149-039a7ed367cd",
+    "system": "hubspot",
+    "external_id": "deal_07913335"
+  },
+  {
+    "id": "c14c9200-4afb-4637-b11e-88f243c35f3e",
+    "local_table": "enrollments",
+    "local_id": "f4144d81-38d9-4daa-b338-6eac964b3eed",
+    "system": "hubspot",
+    "external_id": "deal_87645565"
+  },
+  {
+    "id": "17e7d08a-eea7-4e02-848a-4ebd9ac3158c",
+    "local_table": "enrollments",
+    "local_id": "503aeb59-6e0a-430d-8c23-caaa493aa077",
+    "system": "hubspot",
+    "external_id": "deal_89342579"
+  },
+  {
+    "id": "56c64c54-c174-4011-aa0b-860f711ef17c",
+    "local_table": "enrollments",
+    "local_id": "6029bd7f-a3a8-4059-a4ec-a8c79a774e42",
+    "system": "hubspot",
+    "external_id": "deal_33097368"
+  },
+  {
+    "id": "6c0af45a-a4cd-43ec-a827-436856ffc843",
+    "local_table": "enrollments",
+    "local_id": "6366ffb5-c3af-45f8-9b22-3b1d4c713522",
+    "system": "hubspot",
+    "external_id": "deal_20846790"
+  },
+  {
+    "id": "acfdb941-28d7-4e94-a713-5c324bb3541d",
+    "local_table": "enrollments",
+    "local_id": "090409c0-aedf-4922-9028-adc74661bfba",
+    "system": "hubspot",
+    "external_id": "deal_09007022"
+  },
+  {
+    "id": "194b05f2-973c-40f0-8bc9-73e7acd512fa",
+    "local_table": "enrollments",
+    "local_id": "7806c931-2ecb-483f-8bb1-6ba76313f9da",
+    "system": "hubspot",
+    "external_id": "deal_51005041"
+  },
+  {
+    "id": "f31896c2-1e17-4f8a-bfb9-941949db98fc",
+    "local_table": "enrollments",
+    "local_id": "d4fcd7cd-7055-4d39-afc4-c2ed4252b14f",
+    "system": "hubspot",
+    "external_id": "deal_86608979"
+  },
+  {
+    "id": "650ce1b3-2e76-49fe-b157-0fbd0f3322c8",
+    "local_table": "enrollments",
+    "local_id": "9990a888-a077-414d-8476-2696a7c3e73a",
+    "system": "hubspot",
+    "external_id": "deal_68761043"
+  },
+  {
+    "id": "bfbb1331-d73f-490d-af36-612ab9b93ed1",
+    "local_table": "enrollments",
+    "local_id": "e46bd702-6e02-4538-ab1a-90a9be27833d",
+    "system": "hubspot",
+    "external_id": "deal_07724124"
+  },
+  {
+    "id": "f59a76e2-0649-4faa-8512-036b17cbd49d",
+    "local_table": "enrollments",
+    "local_id": "0432bff7-dd9d-4e40-97f3-5e3f8c4a4df1",
+    "system": "hubspot",
+    "external_id": "deal_73329960"
+  },
+  {
+    "id": "6ef30faa-8e81-4306-95d6-7a38205cb2fa",
+    "local_table": "enrollments",
+    "local_id": "7df09525-6f72-4786-adfc-ccec72246f77",
+    "system": "hubspot",
+    "external_id": "deal_99206613"
+  },
+  {
+    "id": "3f3ef088-01d4-4738-9926-547b24ef5162",
+    "local_table": "enrollments",
+    "local_id": "c3e28f70-488c-4c5c-b86b-f088197eac9a",
+    "system": "hubspot",
+    "external_id": "deal_96045714"
+  },
+  {
+    "id": "bf2c3a81-47ba-464d-b73f-667c0fbe825f",
+    "local_table": "enrollments",
+    "local_id": "d1bbe315-e25d-4f4c-9c95-11b14e9f1c9e",
+    "system": "hubspot",
+    "external_id": "deal_48212548"
+  },
+  {
+    "id": "59056fc5-d080-4b1d-8e25-8e44883eee46",
+    "local_table": "enrollments",
+    "local_id": "fe6782d1-e951-43eb-860b-e8fc8ac3844a",
+    "system": "hubspot",
+    "external_id": "deal_69546286"
+  },
+  {
+    "id": "215785ab-6706-40a9-bbc4-fb8d8ca15ef3",
+    "local_table": "enrollments",
+    "local_id": "7781c5db-e15d-481b-a011-3d97f923b2ea",
+    "system": "hubspot",
+    "external_id": "deal_03049601"
+  },
+  {
+    "id": "3c101f63-5370-4cee-853c-38d5dc44bf40",
+    "local_table": "enrollments",
+    "local_id": "6140e928-0a1b-4577-8eff-3e6ce7763faf",
+    "system": "hubspot",
+    "external_id": "deal_10052528"
+  },
+  {
+    "id": "3e60c266-e8ef-49cb-90a1-2c3071750fb5",
+    "local_table": "enrollments",
+    "local_id": "e401053f-1146-43c4-b87e-7659b537ef8f",
+    "system": "hubspot",
+    "external_id": "deal_95874471"
+  },
+  {
+    "id": "d9ed995a-6859-4538-a683-497b898aa443",
+    "local_table": "enrollments",
+    "local_id": "5ff88c18-7f19-481a-a373-7c9075a6a463",
+    "system": "hubspot",
+    "external_id": "deal_35805113"
+  },
+  {
+    "id": "73e747f4-7184-4d5f-b7bd-e1a5554f41a4",
+    "local_table": "enrollments",
+    "local_id": "6f2b6233-b6e2-46da-a1b2-68335e10cc2f",
+    "system": "hubspot",
+    "external_id": "deal_85936280"
+  },
+  {
+    "id": "327c8b21-b555-49f8-8b34-4f35be4316d9",
+    "local_table": "enrollments",
+    "local_id": "da5e95f2-4893-4549-a563-6e9f0bd14f0e",
+    "system": "hubspot",
+    "external_id": "deal_61040713"
+  },
+  {
+    "id": "47a04ad6-ea54-4274-94b7-17572d4cec39",
+    "local_table": "enrollments",
+    "local_id": "8aab4e2f-b73b-4a38-bd5d-823b82f53978",
+    "system": "hubspot",
+    "external_id": "deal_96588968"
+  },
+  {
+    "id": "bd8104fe-5c0a-4bda-9fc3-ade0d08ab062",
+    "local_table": "enrollments",
+    "local_id": "ecc21547-dabe-42a7-bc6f-52516e1fe147",
+    "system": "hubspot",
+    "external_id": "deal_62049830"
+  },
+  {
+    "id": "c21cbe33-fd56-4acc-8f8e-5ca85773a486",
+    "local_table": "enrollments",
+    "local_id": "fb6bd72f-93b8-4718-91ab-d2c7a1453bea",
+    "system": "hubspot",
+    "external_id": "deal_92707152"
+  },
+  {
+    "id": "a78b9e5e-4888-491f-b9c0-22917cb5711b",
+    "local_table": "enrollments",
+    "local_id": "8634eae3-f036-49ac-9eff-67ede271113c",
+    "system": "hubspot",
+    "external_id": "deal_01319015"
+  },
+  {
+    "id": "f8e6ce0e-4037-452d-86e9-163a993f286e",
+    "local_table": "enrollments",
+    "local_id": "8ec16790-7af2-4e76-9fd7-547a593e546a",
+    "system": "hubspot",
+    "external_id": "deal_49368557"
+  },
+  {
+    "id": "6f924e93-723f-403d-8459-d21cca724cf3",
+    "local_table": "enrollments",
+    "local_id": "ecc6d2eb-f0a6-41ff-9983-7dee74f6c6a3",
+    "system": "hubspot",
+    "external_id": "deal_78373883"
+  },
+  {
+    "id": "e58dc447-7946-459f-90b2-3613cf953141",
+    "local_table": "enrollments",
+    "local_id": "154f5a66-d2a0-40cf-b10d-53012d59a5ec",
+    "system": "hubspot",
+    "external_id": "deal_49969818"
+  },
+  {
+    "id": "64717065-d732-43e4-a94b-ffcd713a4a3a",
+    "local_table": "enrollments",
+    "local_id": "015517be-f3ab-4d35-b238-d7bc19b69b59",
+    "system": "hubspot",
+    "external_id": "deal_88291127"
+  },
+  {
+    "id": "25527a20-2771-4ece-b41a-1867051e3ad1",
+    "local_table": "enrollments",
+    "local_id": "f5154452-605c-46fa-afdc-d160df17decb",
+    "system": "hubspot",
+    "external_id": "deal_99411352"
+  },
+  {
+    "id": "8f04ef96-d65e-440b-9468-b377781ad985",
+    "local_table": "enrollments",
+    "local_id": "e5d6ad85-0fd5-4a48-859b-eda1ca8511f7",
+    "system": "hubspot",
+    "external_id": "deal_42159422"
+  },
+  {
+    "id": "bd99d1f1-15c1-4b67-aabe-220b29d5ee94",
+    "local_table": "enrollments",
+    "local_id": "b620889d-9010-4e88-a2ca-d50695f461cd",
+    "system": "hubspot",
+    "external_id": "deal_36133256"
+  },
+  {
+    "id": "6152d19c-b5e1-4bd3-bed1-a28a7d1de1ba",
+    "local_table": "enrollments",
+    "local_id": "f5b8a8be-dd86-491b-8b03-de60d013d381",
+    "system": "hubspot",
+    "external_id": "deal_06684874"
+  },
+  {
+    "id": "df859c57-60ae-48af-8ff7-624d194057ef",
+    "local_table": "enrollments",
+    "local_id": "b68b1435-d02b-420e-9db2-6ec92b8569ad",
+    "system": "hubspot",
+    "external_id": "deal_70977211"
+  },
+  {
+    "id": "77fdb6cb-0f90-4da9-b321-eb1c96e1ad85",
+    "local_table": "enrollments",
+    "local_id": "21d9fa74-e32a-436c-a1bf-8cc0e6d0cd74",
+    "system": "hubspot",
+    "external_id": "deal_43715059"
+  },
+  {
+    "id": "ba99cdeb-464f-41fa-ad1d-d1795e4c3442",
+    "local_table": "enrollments",
+    "local_id": "b3754f88-e91e-450c-84ba-0923870dc459",
+    "system": "hubspot",
+    "external_id": "deal_95815274"
+  },
+  {
+    "id": "7b92a4a9-7eb6-4108-a0ed-aaabee25aaff",
+    "local_table": "enrollments",
+    "local_id": "27427817-8ffa-431d-8de4-b750ece5f8c8",
+    "system": "hubspot",
+    "external_id": "deal_47937953"
+  },
+  {
+    "id": "c2c7e528-d0e4-43d6-8d7a-7af386f41b63",
+    "local_table": "enrollments",
+    "local_id": "b493a8c3-8d34-48d2-85d1-6ce5afe248e8",
+    "system": "hubspot",
+    "external_id": "deal_44101035"
+  },
+  {
+    "id": "e4506493-c203-4297-9f09-5205847727ae",
+    "local_table": "enrollments",
+    "local_id": "7953b4be-cdf0-4350-86e2-a2a31efb6e94",
+    "system": "hubspot",
+    "external_id": "deal_23230292"
+  },
+  {
+    "id": "c981e892-2e72-447b-8091-ea4b890f9a1a",
+    "local_table": "enrollments",
+    "local_id": "684d58c4-f477-462b-a54b-9b4bd39a4d1c",
+    "system": "hubspot",
+    "external_id": "deal_26112147"
+  },
+  {
+    "id": "3d51d07b-fa1b-4c56-93cf-e96684f1f1a1",
+    "local_table": "enrollments",
+    "local_id": "03c7ae26-dc5f-47fb-a84d-5cdadcfbbef4",
+    "system": "hubspot",
+    "external_id": "deal_46818433"
+  },
+  {
+    "id": "214cee89-1579-4474-9cb3-4ea843e6bfe0",
+    "local_table": "enrollments",
+    "local_id": "1389b2ed-af0d-401f-b772-c9adcb86e0c8",
+    "system": "hubspot",
+    "external_id": "deal_40817640"
+  },
+  {
+    "id": "3e671f98-ed2f-4148-9ee8-39598b2985f6",
+    "local_table": "enrollments",
+    "local_id": "20cd1643-af4a-4b7c-950a-e8387f99602d",
+    "system": "hubspot",
+    "external_id": "deal_52779529"
+  },
+  {
+    "id": "caa2e274-273d-4878-ab3e-61be4902f89b",
+    "local_table": "enrollments",
+    "local_id": "778cca2d-a000-435a-9210-27522081da2a",
+    "system": "hubspot",
+    "external_id": "deal_65483330"
+  },
+  {
+    "id": "4ca28dfc-55bb-4c20-a3c6-80784ccb30bf",
+    "local_table": "enrollments",
+    "local_id": "7cb53c7e-2648-47d3-8ac4-13c806ff6571",
+    "system": "hubspot",
+    "external_id": "deal_86604151"
+  },
+  {
+    "id": "8d0412e0-91b8-4ddd-a97f-2c3375a3fe40",
+    "local_table": "enrollments",
+    "local_id": "fb58ae56-0956-4388-a757-c84507ad5ec6",
+    "system": "hubspot",
+    "external_id": "deal_47872497"
+  },
+  {
+    "id": "a656285c-7fc5-4243-9f84-45e8c915d902",
+    "local_table": "enrollments",
+    "local_id": "a7824a14-19a5-4072-85f6-29c06910735f",
+    "system": "hubspot",
+    "external_id": "deal_95095689"
+  },
+  {
+    "id": "4b157311-f653-4a70-8fc1-eecb812e1688",
+    "local_table": "enrollments",
+    "local_id": "9942c119-3f93-4926-aff0-4d4ffd5f2fef",
+    "system": "hubspot",
+    "external_id": "deal_89580180"
+  },
+  {
+    "id": "13c62080-5f9b-4cef-b2d0-bc891ad5f015",
+    "local_table": "enrollments",
+    "local_id": "a55a1151-36e3-4fc0-859d-1402d45e5db5",
+    "system": "hubspot",
+    "external_id": "deal_98688354"
+  },
+  {
+    "id": "bf6ff949-a21a-4755-9e93-d28c50cca956",
+    "local_table": "enrollments",
+    "local_id": "ddcc54f7-e9a2-4805-a625-9fb6c10ff2cb",
+    "system": "hubspot",
+    "external_id": "deal_36436559"
+  },
+  {
+    "id": "86862f55-6f7f-454c-9efc-4f3da1578635",
+    "local_table": "enrollments",
+    "local_id": "2456fe83-532a-454b-9e2a-69b534b523f9",
+    "system": "hubspot",
+    "external_id": "deal_54080295"
+  },
+  {
+    "id": "82e6903c-0f92-42a7-b8c4-01f4f76cb36a",
+    "local_table": "enrollments",
+    "local_id": "31598edd-3ef1-4e1e-84e8-9afb30a756c9",
+    "system": "hubspot",
+    "external_id": "deal_72332912"
+  },
+  {
+    "id": "890888a3-e67e-4e80-be54-fbec7efc3e36",
+    "local_table": "enrollments",
+    "local_id": "d0680543-55aa-4f8c-b10f-a341f357cf90",
+    "system": "hubspot",
+    "external_id": "deal_23482760"
+  },
+  {
+    "id": "ac5915a7-43a8-453b-86d2-fa146ed5ad7b",
+    "local_table": "enrollments",
+    "local_id": "e8973ffe-bf19-41fd-9168-6dcf48dc76cc",
+    "system": "hubspot",
+    "external_id": "deal_34059758"
+  },
+  {
+    "id": "6c691aa2-22d4-4fe8-8bda-138aa9630d69",
+    "local_table": "enrollments",
+    "local_id": "574c1585-da73-4e60-9008-fe18648987eb",
+    "system": "hubspot",
+    "external_id": "deal_91948931"
+  },
+  {
+    "id": "98764d8a-3170-46da-8c06-3c52cd5c0b49",
+    "local_table": "enrollments",
+    "local_id": "6261814e-7104-4c90-9fdf-b0a5891565ce",
+    "system": "hubspot",
+    "external_id": "deal_46797131"
+  },
+  {
+    "id": "0a1193b8-9f76-4f91-b242-7353735a3a99",
+    "local_table": "enrollments",
+    "local_id": "423946f3-b8c0-4b4e-a98f-5a3e35399c1f",
+    "system": "hubspot",
+    "external_id": "deal_84985832"
+  },
+  {
+    "id": "2a5b6a08-32e0-4d84-9dfe-29e245ec8fb2",
+    "local_table": "enrollments",
+    "local_id": "59af3e35-5204-46e3-8ecd-4a6ce0242d84",
+    "system": "hubspot",
+    "external_id": "deal_51333581"
+  },
+  {
+    "id": "51a20421-ec1d-442b-9e47-b614968757e6",
+    "local_table": "enrollments",
+    "local_id": "e42645cd-6e83-4a23-9cae-bf5ef0a1af92",
+    "system": "hubspot",
+    "external_id": "deal_54354220"
+  },
+  {
+    "id": "43c90efb-d842-4f70-95d7-4a89820e0662",
+    "local_table": "enrollments",
+    "local_id": "ea683348-6d20-438a-8403-c93eb5b944d7",
+    "system": "hubspot",
+    "external_id": "deal_55542952"
+  },
+  {
+    "id": "e5185fca-8c25-4881-98f0-54e25afcbc50",
+    "local_table": "enrollments",
+    "local_id": "ea123f11-8c58-41fb-8fcb-896810122459",
+    "system": "hubspot",
+    "external_id": "deal_27313546"
+  },
+  {
+    "id": "3f4e6385-2336-427f-95a3-227a9987d33a",
+    "local_table": "enrollments",
+    "local_id": "e85e4bca-c908-4218-b165-e8e0d81b211d",
+    "system": "hubspot",
+    "external_id": "deal_92738803"
+  },
+  {
+    "id": "4fe953e8-ced7-4b23-87ab-75b2ddb5ed56",
+    "local_table": "enrollments",
+    "local_id": "11e27c04-fba2-466a-a32f-be254b8f45dd",
+    "system": "hubspot",
+    "external_id": "deal_30227347"
+  },
+  {
+    "id": "5a91de0a-e62d-4a68-a6b4-8d504c08727a",
+    "local_table": "enrollments",
+    "local_id": "421910a6-72f9-4a5e-ad11-83f4055b30ce",
+    "system": "hubspot",
+    "external_id": "deal_28374876"
+  },
+  {
+    "id": "2bc596cd-9eeb-4b6c-9508-aec0ef53a592",
+    "local_table": "enrollments",
+    "local_id": "3d84cb6b-353f-46ea-9298-7640a927910c",
+    "system": "hubspot",
+    "external_id": "deal_99594399"
+  },
+  {
+    "id": "64a5b1ec-404e-4d07-8c59-233f68172cae",
+    "local_table": "enrollments",
+    "local_id": "ba27e08e-81d4-4141-b514-a9571399c15c",
+    "system": "hubspot",
+    "external_id": "deal_95276914"
+  },
+  {
+    "id": "b0b23714-aa95-4b6d-b2e2-f2f247646f89",
+    "local_table": "enrollments",
+    "local_id": "a1fbb9c1-6630-4958-98cd-686a2b93d946",
+    "system": "hubspot",
+    "external_id": "deal_55221189"
+  },
+  {
+    "id": "61f17cf7-64ee-477b-a8c4-7cfafb1d12e8",
+    "local_table": "enrollments",
+    "local_id": "341d8003-95d4-4e54-9c96-9d91659e63a1",
+    "system": "hubspot",
+    "external_id": "deal_70664964"
+  },
+  {
+    "id": "1b1caeea-4b67-47ec-8ffc-8a04b108794a",
+    "local_table": "enrollments",
+    "local_id": "4b8903d6-8c6b-4be6-a9f2-26bcf8e983de",
+    "system": "hubspot",
+    "external_id": "deal_11747675"
+  },
+  {
+    "id": "7e7a0029-c12f-45e3-95cb-5b68e5cb49d6",
+    "local_table": "enrollments",
+    "local_id": "e81ff10b-9ec7-4094-a7dd-25d6dfa7d461",
+    "system": "hubspot",
+    "external_id": "deal_25620686"
+  },
+  {
+    "id": "e1ce285f-760b-443b-9ef0-d33ae035338b",
+    "local_table": "enrollments",
+    "local_id": "7ad88fd3-ceb8-4de8-95ac-067fac2e4325",
+    "system": "hubspot",
+    "external_id": "deal_05962779"
+  },
+  {
+    "id": "114f5453-3b0f-4d3a-84e2-b2ec79ec8566",
+    "local_table": "enrollments",
+    "local_id": "da5e1f02-1ee1-4294-a951-342cb9fc60a2",
+    "system": "hubspot",
+    "external_id": "deal_56702986"
+  },
+  {
+    "id": "33bd1af4-6c17-4ce7-b5e2-f3546370b6b3",
+    "local_table": "enrollments",
+    "local_id": "d747e72a-de5c-4a0c-8e24-e8d335faf7d7",
+    "system": "hubspot",
+    "external_id": "deal_13291823"
+  },
+  {
+    "id": "73169f9f-d97c-4c01-9deb-1db3059b32f1",
+    "local_table": "enrollments",
+    "local_id": "b3899842-0089-42ee-aa4e-b7fbed2dccce",
+    "system": "hubspot",
+    "external_id": "deal_35380579"
+  },
+  {
+    "id": "5ff07379-ae8a-4f9a-95f8-a2a12ef3bc62",
+    "local_table": "enrollments",
+    "local_id": "fb2573f9-7486-4054-acfd-ba5bc25fd4c0",
+    "system": "hubspot",
+    "external_id": "deal_15450244"
+  },
+  {
+    "id": "bb7055fd-5d5c-4c99-b16d-30d7d7b5158c",
+    "local_table": "enrollments",
+    "local_id": "8e86a956-5073-4266-815b-cbd0dc0ec933",
+    "system": "hubspot",
+    "external_id": "deal_74823319"
+  },
+  {
+    "id": "1d487ded-3b9f-4a2d-b0cf-104af8042b66",
+    "local_table": "enrollments",
+    "local_id": "26509f54-d6c3-4537-9bc0-aa037d6f9c1f",
+    "system": "hubspot",
+    "external_id": "deal_75201059"
+  },
+  {
+    "id": "8ea02bf3-5d88-422b-a2d3-64e66a96e031",
+    "local_table": "enrollments",
+    "local_id": "e22c44d3-ce25-4e54-95be-5d52c4ae12e6",
+    "system": "hubspot",
+    "external_id": "deal_70801235"
+  },
+  {
+    "id": "fd840012-3ecc-4e50-abd9-8abad72b4551",
+    "local_table": "enrollments",
+    "local_id": "233300f6-29d2-4628-a731-02cfa300a533",
+    "system": "hubspot",
+    "external_id": "deal_64130072"
+  },
+  {
+    "id": "da3099c9-0348-43d5-98da-6e2e4d275372",
+    "local_table": "enrollments",
+    "local_id": "f3a42dd2-d09d-48ef-9e8b-d7645cfe25d7",
+    "system": "hubspot",
+    "external_id": "deal_89253374"
+  },
+  {
+    "id": "34a49034-4589-4772-b874-21176173fd30",
+    "local_table": "enrollments",
+    "local_id": "838a0c06-b2f8-4529-82df-d90663b8e0ec",
+    "system": "hubspot",
+    "external_id": "deal_34824983"
+  },
+  {
+    "id": "b715b84b-3cd4-42ca-9402-3a4d9938c139",
+    "local_table": "enrollments",
+    "local_id": "12e49b30-3222-41de-9864-1dbfd2af2f60",
+    "system": "hubspot",
+    "external_id": "deal_44517258"
+  },
+  {
+    "id": "52d914d5-ce1e-4d14-b7d1-436233292d26",
+    "local_table": "enrollments",
+    "local_id": "6730bb67-b47d-4695-a151-b0241e6b9fe9",
+    "system": "hubspot",
+    "external_id": "deal_49410049"
+  },
+  {
+    "id": "5762f533-de77-4065-8d2f-8341c87d4ac7",
+    "local_table": "enrollments",
+    "local_id": "ad228d90-de36-4dbc-b126-1a1f82f4fe49",
+    "system": "hubspot",
+    "external_id": "deal_25611540"
+  },
+  {
+    "id": "850ae978-a4df-45e9-8f5e-3206dbf06d88",
+    "local_table": "enrollments",
+    "local_id": "da9cdbcf-a2f3-4e12-a829-f6cdf74a7b86",
+    "system": "hubspot",
+    "external_id": "deal_83514565"
+  },
+  {
+    "id": "78293d3c-72a2-457e-a858-18fcc1c46464",
+    "local_table": "enrollments",
+    "local_id": "80d0de74-98a0-4d09-b45e-79661b571ffd",
+    "system": "hubspot",
+    "external_id": "deal_10767147"
+  },
+  {
+    "id": "70617a01-d32a-4eea-b6cc-1f6b80dbf76b",
+    "local_table": "enrollments",
+    "local_id": "3588d6f4-dd0b-487a-a15f-a300d77ec259",
+    "system": "hubspot",
+    "external_id": "deal_54356387"
+  },
+  {
+    "id": "4310f588-3530-47df-86b1-8b1eff5da7bf",
+    "local_table": "enrollments",
+    "local_id": "9808e3ad-3454-4188-8089-959026b338dd",
+    "system": "hubspot",
+    "external_id": "deal_04201431"
+  },
+  {
+    "id": "de54ab55-21e1-415d-91d1-bc2014c34b73",
+    "local_table": "enrollments",
+    "local_id": "1c902e4d-847a-4a08-a365-615ffc110ce2",
+    "system": "hubspot",
+    "external_id": "deal_34140846"
+  },
+  {
+    "id": "f32565e3-b4cc-435d-b19e-61a7da79fb21",
+    "local_table": "enrollments",
+    "local_id": "cef23ecd-719d-4519-9b16-9487c5c255ae",
+    "system": "hubspot",
+    "external_id": "deal_20169104"
+  },
+  {
+    "id": "4365c1db-d834-492b-a8d6-6b406839c4cf",
+    "local_table": "enrollments",
+    "local_id": "8fab1ecf-77d5-4d60-8d25-e4ce10c9c9da",
+    "system": "hubspot",
+    "external_id": "deal_08635390"
+  },
+  {
+    "id": "d56dca3c-3559-4eef-9276-ff88fbfc9cef",
+    "local_table": "enrollments",
+    "local_id": "cfd32a91-06c1-48ab-819d-4275db50e8d2",
+    "system": "hubspot",
+    "external_id": "deal_72450198"
+  },
+  {
+    "id": "65040234-e726-41e8-ac6e-57b393bb9189",
+    "local_table": "enrollments",
+    "local_id": "e72a07e5-29a3-4540-ace0-5cc0f7fe4402",
+    "system": "hubspot",
+    "external_id": "deal_39531706"
+  },
+  {
+    "id": "476336d7-53a4-4d73-825c-a7e599cce638",
+    "local_table": "enrollments",
+    "local_id": "1f929844-65bb-4873-a421-cb74678a4dbd",
+    "system": "hubspot",
+    "external_id": "deal_32916229"
+  },
+  {
+    "id": "c4c8788f-c194-461f-b304-8faf9e252c81",
+    "local_table": "enrollments",
+    "local_id": "6e1ab6f5-fb5f-41dd-85bc-0dc22c6762a8",
+    "system": "hubspot",
+    "external_id": "deal_01011186"
+  },
+  {
+    "id": "6b6c62df-70a1-4549-9ec4-78e307e84bb6",
+    "local_table": "enrollments",
+    "local_id": "02a502d9-8e59-4d13-b9d3-e73fdbbd2693",
+    "system": "hubspot",
+    "external_id": "deal_68256410"
+  },
+  {
+    "id": "21318d04-0be3-44ec-be07-c32b45ef0b61",
+    "local_table": "enrollments",
+    "local_id": "4be79b47-3fc1-4c56-b78b-04c782457bcd",
+    "system": "hubspot",
+    "external_id": "deal_09562586"
+  },
+  {
+    "id": "d494fe5f-dd7a-4686-a1ad-67821b674cbd",
+    "local_table": "enrollments",
+    "local_id": "dc0433f5-13e0-4226-a726-1dc7334c9aa4",
+    "system": "hubspot",
+    "external_id": "deal_10571293"
+  },
+  {
+    "id": "5c8bdd8c-7eff-4ec7-a182-022ff99f5cb3",
+    "local_table": "enrollments",
+    "local_id": "b4a3620e-32ec-4103-80c5-84ad3cc3f113",
+    "system": "hubspot",
+    "external_id": "deal_28141153"
+  },
+  {
+    "id": "72cbc3c0-b923-4015-8fbe-cfd4814aa15b",
+    "local_table": "enrollments",
+    "local_id": "e9bca7b3-c53a-4e3c-aaf3-5c7f9770fb5e",
+    "system": "hubspot",
+    "external_id": "deal_72393588"
+  },
+  {
+    "id": "5d25a2ae-5e8d-4e66-b803-aa493e5584bb",
+    "local_table": "enrollments",
+    "local_id": "40206d2f-0568-415d-a7cd-746c33fe59f6",
+    "system": "hubspot",
+    "external_id": "deal_15832580"
+  },
+  {
+    "id": "142a1575-4634-4bd4-892e-16660331cbd6",
+    "local_table": "enrollments",
+    "local_id": "531d4b3f-dfd5-4035-a331-01714ce8cdd5",
+    "system": "hubspot",
+    "external_id": "deal_91166245"
+  },
+  {
+    "id": "4cc4942a-5c6f-4888-86a5-ad545132303f",
+    "local_table": "enrollments",
+    "local_id": "3ee52b40-0fb6-4d35-8c49-5691fd0b1cba",
+    "system": "hubspot",
+    "external_id": "deal_16298685"
+  },
+  {
+    "id": "b5f0aa87-c6be-4552-a753-5b6a62a17435",
+    "local_table": "enrollments",
+    "local_id": "b5a75fab-c797-4372-b4df-7354ca375e7c",
+    "system": "hubspot",
+    "external_id": "deal_13696009"
+  },
+  {
+    "id": "8cf0d9b7-9403-4833-8537-5676b5bee095",
+    "local_table": "enrollments",
+    "local_id": "f9dcce9a-5ed7-4c44-a6f6-fe20ae6c0b59",
+    "system": "hubspot",
+    "external_id": "deal_36655475"
+  },
+  {
+    "id": "1aaa1abe-38ff-47fc-8742-c472ac33a135",
+    "local_table": "enrollments",
+    "local_id": "386a913c-1f52-4e2a-b6c0-2c30a90349d8",
+    "system": "hubspot",
+    "external_id": "deal_09371041"
+  },
+  {
+    "id": "44cef208-ba30-4916-a977-a0c8e6ec3876",
+    "local_table": "enrollments",
+    "local_id": "75e7a322-ca17-40aa-9573-f1b69fcad5e1",
+    "system": "hubspot",
+    "external_id": "deal_75375738"
+  },
+  {
+    "id": "dfd662d1-9da7-4318-8b95-cfd6afd68f50",
+    "local_table": "enrollments",
+    "local_id": "8a3d5908-48db-4234-9928-15db3bcd7451",
+    "system": "hubspot",
+    "external_id": "deal_57861142"
+  },
+  {
+    "id": "95da8a7c-3e63-48b0-91fc-b4e3881f8817",
+    "local_table": "enrollments",
+    "local_id": "072c88fd-95bb-48ae-8f15-e4b9eff0d8a0",
+    "system": "hubspot",
+    "external_id": "deal_11406111"
+  },
+  {
+    "id": "2ed51fd4-66c5-40e7-a8ba-f537b822c8f9",
+    "local_table": "enrollments",
+    "local_id": "d4c0b0bf-9917-41cf-ad4f-ae94b7ccd447",
+    "system": "hubspot",
+    "external_id": "deal_82011486"
+  },
+  {
+    "id": "ea3358f5-9999-4fc9-8076-b6547cb4e52b",
+    "local_table": "enrollments",
+    "local_id": "8d5c42db-db8b-41ca-900c-e50079842b41",
+    "system": "hubspot",
+    "external_id": "deal_82152608"
+  },
+  {
+    "id": "cdf7f3e0-9421-440d-98f8-eca9a95d4ce7",
+    "local_table": "enrollments",
+    "local_id": "ad78b569-4a83-4152-bc3b-af6948c62af1",
+    "system": "hubspot",
+    "external_id": "deal_07915022"
+  },
+  {
+    "id": "ef04f061-f5c9-4d9e-aac1-c7b8c1d59e27",
+    "local_table": "enrollments",
+    "local_id": "fb707e19-867a-47a3-9f9a-552a6e7b326e",
+    "system": "hubspot",
+    "external_id": "deal_28478571"
+  },
+  {
+    "id": "2e78d73c-b3fe-47ca-a675-1679c7b9584a",
+    "local_table": "enrollments",
+    "local_id": "18d50a4f-2025-4f8c-92bb-237a2a419f9d",
+    "system": "hubspot",
+    "external_id": "deal_04440894"
+  },
+  {
+    "id": "599281e1-1172-42e7-b7e0-d91a4b11799c",
+    "local_table": "enrollments",
+    "local_id": "6d1d9e8b-7c72-4b48-90e2-7618538d7083",
+    "system": "hubspot",
+    "external_id": "deal_61158153"
+  },
+  {
+    "id": "ef32258f-a4c5-42f1-8289-086dcf8a0ebe",
+    "local_table": "enrollments",
+    "local_id": "3c7ca223-502e-4c22-bb78-f2792b04a1c4",
+    "system": "hubspot",
+    "external_id": "deal_77923991"
+  },
+  {
+    "id": "bb509f1a-1890-4e6d-9f58-ac520ce4300e",
+    "local_table": "enrollments",
+    "local_id": "c0632bc4-035c-4e17-bb75-a16995cda783",
+    "system": "hubspot",
+    "external_id": "deal_02825846"
+  },
+  {
+    "id": "478fd5c3-2b8a-4959-8362-63b50318d8f2",
+    "local_table": "enrollments",
+    "local_id": "681eb1d5-5686-4cb2-b7d0-7018986b10e1",
+    "system": "hubspot",
+    "external_id": "deal_86509587"
+  },
+  {
+    "id": "c1688b60-a6e3-4d08-9d53-da70f58a5a5d",
+    "local_table": "enrollments",
+    "local_id": "bdf5f7ae-b2aa-44c9-b336-bfc60f01fd19",
+    "system": "hubspot",
+    "external_id": "deal_23739804"
+  },
+  {
+    "id": "66b453cc-df5d-4f02-8cde-b079e3d0ddee",
+    "local_table": "enrollments",
+    "local_id": "194d8dda-82c9-4552-a487-152ec79d0620",
+    "system": "hubspot",
+    "external_id": "deal_40303683"
+  },
+  {
+    "id": "74e96332-027c-4b2b-a9ed-3975a1cc5447",
+    "local_table": "enrollments",
+    "local_id": "d93ec860-fcd5-4d07-bdc2-6e99fed20aac",
+    "system": "hubspot",
+    "external_id": "deal_00204903"
+  },
+  {
+    "id": "20b98124-7934-4efe-b627-19541e4577cf",
+    "local_table": "enrollments",
+    "local_id": "e44ef1e0-b2a9-417b-b21f-21026871a7e0",
+    "system": "hubspot",
+    "external_id": "deal_29046126"
+  },
+  {
+    "id": "24917af5-40ec-4c3e-8910-ac0807776ebe",
+    "local_table": "enrollments",
+    "local_id": "35f39d8e-9452-46c4-82d8-15ac2e86c1ad",
+    "system": "hubspot",
+    "external_id": "deal_28690311"
+  },
+  {
+    "id": "5351a695-617d-4c20-8615-b828b14ac21a",
+    "local_table": "enrollments",
+    "local_id": "425d76ac-e8b1-43ae-922e-83ebae99f1ce",
+    "system": "hubspot",
+    "external_id": "deal_05311073"
+  },
+  {
+    "id": "180da064-503a-43e2-8473-df33ff0f1b26",
+    "local_table": "enrollments",
+    "local_id": "486f20ae-28c6-4b8a-b978-4d22a72c9fc7",
+    "system": "hubspot",
+    "external_id": "deal_00158885"
+  },
+  {
+    "id": "0e6efba3-4012-4a38-8417-156070672893",
+    "local_table": "enrollments",
+    "local_id": "11b8eadd-af97-4f18-abb8-24900c5da330",
+    "system": "hubspot",
+    "external_id": "deal_75041134"
+  },
+  {
+    "id": "35277495-d80c-4d6a-8037-fc1d1432f8f6",
+    "local_table": "enrollments",
+    "local_id": "7496ba47-07f0-442d-bd5e-a60b141ae563",
+    "system": "hubspot",
+    "external_id": "deal_87030607"
+  },
+  {
+    "id": "5976b966-3012-4cb8-9dde-1acdbec980d9",
+    "local_table": "enrollments",
+    "local_id": "6d09649b-013b-440b-8a6c-8a41100504fd",
+    "system": "hubspot",
+    "external_id": "deal_51754729"
+  },
+  {
+    "id": "4eee78b4-e5b6-4840-8de7-23d7edebcdaf",
+    "local_table": "enrollments",
+    "local_id": "dffa0c67-6182-4073-8c09-cb559052b829",
+    "system": "hubspot",
+    "external_id": "deal_69731412"
+  },
+  {
+    "id": "c9294b94-e49b-4a23-bd8a-80ac2b801768",
+    "local_table": "enrollments",
+    "local_id": "baf508b2-8638-4d00-bd6f-5f5e5a84f7c0",
+    "system": "hubspot",
+    "external_id": "deal_26260327"
+  },
+  {
+    "id": "a1c05857-2a80-4d75-a6fb-906372351d8c",
+    "local_table": "enrollments",
+    "local_id": "00f69dad-c0db-496d-b1fa-34355a0f1e40",
+    "system": "hubspot",
+    "external_id": "deal_43831660"
+  },
+  {
+    "id": "fde4ea36-9a6d-495e-ba5e-f6d53c692422",
+    "local_table": "enrollments",
+    "local_id": "c89ec963-8561-4678-81a1-41b2915b2dca",
+    "system": "hubspot",
+    "external_id": "deal_55312965"
+  },
+  {
+    "id": "cacaae6e-247f-4fd3-987c-8054d2fc5018",
+    "local_table": "enrollments",
+    "local_id": "b09eacaa-28b5-4804-94d6-2c1867b8883a",
+    "system": "hubspot",
+    "external_id": "deal_69700979"
+  },
+  {
+    "id": "a2bf9129-bd96-4aa7-afaf-c0ca4d731264",
+    "local_table": "enrollments",
+    "local_id": "fded508d-4094-4d87-9866-5b1f55f8bc93",
+    "system": "hubspot",
+    "external_id": "deal_31791593"
+  },
+  {
+    "id": "8c9f5404-daeb-4946-8343-1714812f563c",
+    "local_table": "enrollments",
+    "local_id": "3442c8ac-3a9b-494e-872b-590029ae0a87",
+    "system": "hubspot",
+    "external_id": "deal_94611264"
+  },
+  {
+    "id": "129afdda-23a1-4fef-8b06-264e9a027689",
+    "local_table": "enrollments",
+    "local_id": "545d1c82-cf68-42cd-ae15-0ebcff23e5c3",
+    "system": "hubspot",
+    "external_id": "deal_27455318"
+  },
+  {
+    "id": "7dc7f78b-e7ca-41c7-b3c0-bf3148397dd8",
+    "local_table": "enrollments",
+    "local_id": "f1406d1b-5455-4cf0-9ced-56c702f77513",
+    "system": "hubspot",
+    "external_id": "deal_79561669"
+  },
+  {
+    "id": "a087a499-250d-4a16-b0c3-a3d2b64e3a4b",
+    "local_table": "enrollments",
+    "local_id": "b1239361-6d40-422d-8d26-9edc755e01c0",
+    "system": "hubspot",
+    "external_id": "deal_82544001"
+  },
+  {
+    "id": "4c734288-980e-493d-8e89-07126947f2e9",
+    "local_table": "enrollments",
+    "local_id": "b268ae94-7e99-4a5f-ac2a-cb92939eb363",
+    "system": "hubspot",
+    "external_id": "deal_09302955"
+  },
+  {
+    "id": "6289fee2-abf2-4173-a20e-bbccf10daf66",
+    "local_table": "enrollments",
+    "local_id": "0269781c-71a5-41a7-b0fa-d2a1d02dabe4",
+    "system": "hubspot",
+    "external_id": "deal_17619111"
+  },
+  {
+    "id": "efe4c19d-04be-4525-960c-a75d24d1dbb1",
+    "local_table": "enrollments",
+    "local_id": "805e8adf-a6fe-4079-8eeb-4658ff743643",
+    "system": "hubspot",
+    "external_id": "deal_77919991"
+  },
+  {
+    "id": "ddc85710-85c2-4a81-9c53-5318c63ca4c0",
+    "local_table": "enrollments",
+    "local_id": "5d057bf2-cf20-4f4d-affd-dae409843cb5",
+    "system": "hubspot",
+    "external_id": "deal_80484258"
+  },
+  {
+    "id": "1e211294-ae4d-408f-8df5-06861d80d1b3",
+    "local_table": "enrollments",
+    "local_id": "a9c097e0-9ae1-42d5-ab9f-525b1f2ac5ed",
+    "system": "hubspot",
+    "external_id": "deal_14158134"
+  },
+  {
+    "id": "8e7c4f89-b862-4bb5-a441-98bf5bad6503",
+    "local_table": "enrollments",
+    "local_id": "243c979a-94c2-457b-be76-49e2866bb64e",
+    "system": "hubspot",
+    "external_id": "deal_22837663"
+  },
+  {
+    "id": "6d780e89-8bc9-4062-a751-3cff9158867f",
+    "local_table": "enrollments",
+    "local_id": "81ee63e4-bae2-4aa9-af1b-65706c8ab24b",
+    "system": "hubspot",
+    "external_id": "deal_89394933"
+  },
+  {
+    "id": "f610caa0-ccfc-4d6a-96e3-cb2aec03e150",
+    "local_table": "enrollments",
+    "local_id": "84768ea1-df93-488f-ac5a-41c55b9b15dc",
+    "system": "hubspot",
+    "external_id": "deal_05231022"
+  },
+  {
+    "id": "f7922c28-b6a0-43ed-a9dc-5b32d4afb228",
+    "local_table": "enrollments",
+    "local_id": "bbdea0c9-eddc-4841-9856-f0711fed07ea",
+    "system": "hubspot",
+    "external_id": "deal_64559733"
+  },
+  {
+    "id": "ef370602-4b74-43d2-8b83-7b329f576f00",
+    "local_table": "enrollments",
+    "local_id": "eb05cc9a-0fc6-47ff-864d-0510edba6b27",
+    "system": "hubspot",
+    "external_id": "deal_91227002"
+  },
+  {
+    "id": "baa0b527-dc81-4df5-abb7-7506923b8406",
+    "local_table": "enrollments",
+    "local_id": "6a3ff87c-df47-4df7-a665-528297009d32",
+    "system": "hubspot",
+    "external_id": "deal_90835388"
+  },
+  {
+    "id": "a5ca4c7f-6a67-4f12-ad32-f05c6d1b1c23",
+    "local_table": "enrollments",
+    "local_id": "c76ecd1f-b708-4607-a30d-9e10f9e1eb1b",
+    "system": "hubspot",
+    "external_id": "deal_45262379"
+  },
+  {
+    "id": "a2a2253d-663a-4cb4-986a-d118831c402a",
+    "local_table": "enrollments",
+    "local_id": "13632c6e-a8f7-4cb0-a44a-6edc6d87a8c1",
+    "system": "hubspot",
+    "external_id": "deal_92471730"
+  },
+  {
+    "id": "3818f310-2bf5-4eb7-9b38-27a9b395e96a",
+    "local_table": "enrollments",
+    "local_id": "181dbcb4-eee1-4548-8eb4-3f3a3e764511",
+    "system": "hubspot",
+    "external_id": "deal_84397398"
+  },
+  {
+    "id": "138d1bad-3f29-47fe-bcde-8ef20d9478fa",
+    "local_table": "enrollments",
+    "local_id": "88c03a97-de83-41b4-b50e-5b54ca39e013",
+    "system": "hubspot",
+    "external_id": "deal_64855895"
+  },
+  {
+    "id": "6a5814b1-0058-4f51-8392-cc6c29c48247",
+    "local_table": "enrollments",
+    "local_id": "4ba6a6a1-ba50-4c45-bc29-434373074330",
+    "system": "hubspot",
+    "external_id": "deal_78464328"
+  },
+  {
+    "id": "9611934d-5846-40f7-b190-b05d79eba6d5",
+    "local_table": "enrollments",
+    "local_id": "1f847808-83ee-46ee-a09e-0caaf0ec323e",
+    "system": "hubspot",
+    "external_id": "deal_59324849"
+  },
+  {
+    "id": "5e4e811f-8edd-45d0-9366-4c3633d299a7",
+    "local_table": "enrollments",
+    "local_id": "2bab5054-e959-4227-8050-afa13a9e9e5a",
+    "system": "hubspot",
+    "external_id": "deal_30796621"
+  },
+  {
+    "id": "71a9c768-f0a7-4e75-b2b7-f19ce924f257",
+    "local_table": "enrollments",
+    "local_id": "cd4ed40f-7a74-4d38-bbfe-c958c2f76d85",
+    "system": "hubspot",
+    "external_id": "deal_38631459"
+  },
+  {
+    "id": "2bede555-6e4e-47ed-9bd5-6def4707933a",
+    "local_table": "enrollments",
+    "local_id": "dbba23d9-7336-4f16-af69-20c0d16f5454",
+    "system": "hubspot",
+    "external_id": "deal_28402692"
+  },
+  {
+    "id": "e31360d8-65c0-45c8-8c61-17e26b97bf5b",
+    "local_table": "enrollments",
+    "local_id": "57dae945-8c67-4848-9d73-7e3570b95d6b",
+    "system": "hubspot",
+    "external_id": "deal_09840276"
+  },
+  {
+    "id": "7cd9c493-f69d-42f5-b954-5113c2f28560",
+    "local_table": "enrollments",
+    "local_id": "88ca2a17-ce78-4deb-81e5-c94b7c7b3b77",
+    "system": "hubspot",
+    "external_id": "deal_76187382"
+  },
+  {
+    "id": "724dee9b-fbb6-4aee-8755-ff7e8cb8c673",
+    "local_table": "enrollments",
+    "local_id": "967b4b3d-d772-404c-8ee6-ad93224af5c8",
+    "system": "hubspot",
+    "external_id": "deal_18333379"
+  },
+  {
+    "id": "49bf4606-ce04-41a5-b2aa-189373743985",
+    "local_table": "enrollments",
+    "local_id": "6581207e-3243-40b1-bac2-51202c78d811",
+    "system": "hubspot",
+    "external_id": "deal_37314702"
+  },
+  {
+    "id": "ba84c941-2733-40b1-ab76-2b7b81f9f849",
+    "local_table": "enrollments",
+    "local_id": "e7542e26-250b-42ef-bd14-888e3fd5873d",
+    "system": "hubspot",
+    "external_id": "deal_63254180"
+  },
+  {
+    "id": "3155b197-1d01-44d5-8a76-d1daf728788a",
+    "local_table": "enrollments",
+    "local_id": "0e558754-384d-48ee-b0eb-6489dc7162ed",
+    "system": "hubspot",
+    "external_id": "deal_80857518"
+  },
+  {
+    "id": "136120bd-fccf-4ca1-a123-aa66e03a13ac",
+    "local_table": "enrollments",
+    "local_id": "74bf9396-a4f3-4581-be0e-77a3cae3a59d",
+    "system": "hubspot",
+    "external_id": "deal_00990991"
+  },
+  {
+    "id": "b23d1e03-4673-45ef-a530-0391e334886a",
+    "local_table": "enrollments",
+    "local_id": "91d3c479-f246-4b09-84b1-52e4a02b51d6",
+    "system": "hubspot",
+    "external_id": "deal_10020586"
+  },
+  {
+    "id": "41817e3d-03ff-43a4-a3f3-60d06ebe37aa",
+    "local_table": "enrollments",
+    "local_id": "fa6e7456-f53d-4e44-8691-b4fef1830659",
+    "system": "hubspot",
+    "external_id": "deal_64548666"
+  },
+  {
+    "id": "509214b8-0f7f-4b00-aa6e-e39e81d62acb",
+    "local_table": "enrollments",
+    "local_id": "89af0da5-66d0-4cd0-b974-619c522cbf5e",
+    "system": "hubspot",
+    "external_id": "deal_42506925"
+  },
+  {
+    "id": "78107a97-cdfc-4161-98c6-3b40dd32d2f4",
+    "local_table": "enrollments",
+    "local_id": "3fc39782-7e76-4832-b51e-75d1d8e9fe24",
+    "system": "hubspot",
+    "external_id": "deal_59150885"
+  },
+  {
+    "id": "69ceeae5-12b9-4e44-a551-2828db27ecd5",
+    "local_table": "enrollments",
+    "local_id": "ba3097a9-40cf-4cd3-9e36-23a652b850b0",
+    "system": "hubspot",
+    "external_id": "deal_43993717"
+  },
+  {
+    "id": "4c5e337a-adfa-4f88-8754-25ab482a691c",
+    "local_table": "enrollments",
+    "local_id": "82768adf-cbbd-4f31-acde-68d0c5a2cf8b",
+    "system": "hubspot",
+    "external_id": "deal_25304999"
+  },
+  {
+    "id": "7065aff2-d1cd-405b-95cd-86a0d8a99ec6",
+    "local_table": "enrollments",
+    "local_id": "d7db3917-223a-40d8-b5c8-29bddd50d7ff",
+    "system": "hubspot",
+    "external_id": "deal_61876256"
+  },
+  {
+    "id": "1b482d05-af69-42af-97bd-8d9f54fdd812",
+    "local_table": "enrollments",
+    "local_id": "49b3013b-a5e0-4c75-a7dd-613dc22f0d79",
+    "system": "hubspot",
+    "external_id": "deal_93269235"
+  },
+  {
+    "id": "c1e95bb0-ab0c-4fb7-a108-e4a5a72f1d12",
+    "local_table": "enrollments",
+    "local_id": "60643d8d-fd17-4b19-beb9-98ecde45e67e",
+    "system": "hubspot",
+    "external_id": "deal_87629224"
+  },
+  {
+    "id": "2a2a3892-8aad-4495-bdb8-ef87b45b5b87",
+    "local_table": "enrollments",
+    "local_id": "23433d2b-f8a2-4eab-927e-40f17451b885",
+    "system": "hubspot",
+    "external_id": "deal_41314395"
+  },
+  {
+    "id": "0f0de652-47c6-4dcd-b569-c0c39c959eea",
+    "local_table": "enrollments",
+    "local_id": "aa740793-08ca-42bd-b43c-b435691e8756",
+    "system": "hubspot",
+    "external_id": "deal_58617424"
+  },
+  {
+    "id": "797e4f1e-e499-4c1c-9fed-b625d524de93",
+    "local_table": "enrollments",
+    "local_id": "30704ee3-59fd-4c65-bc40-c461f9ceaee8",
+    "system": "hubspot",
+    "external_id": "deal_49455307"
+  },
+  {
+    "id": "9399c7b1-0c41-474c-b100-13da8ffbbb7b",
+    "local_table": "enrollments",
+    "local_id": "01ddea4d-2112-4f38-8bc1-a5b9872d0d29",
+    "system": "hubspot",
+    "external_id": "deal_56474358"
+  },
+  {
+    "id": "a0a766f1-dbdf-43e3-a5d8-5ad1d9ea2eb0",
+    "local_table": "enrollments",
+    "local_id": "c6a68a44-3480-49cc-8164-54abd83f4031",
+    "system": "hubspot",
+    "external_id": "deal_78927227"
+  },
+  {
+    "id": "757379b5-f9c4-489d-b86e-6b89d32babaa",
+    "local_table": "enrollments",
+    "local_id": "7cdc45f3-764e-4f32-8db0-238ebf094bce",
+    "system": "hubspot",
+    "external_id": "deal_86677123"
+  },
+  {
+    "id": "564a8e2e-d379-4bc4-b0cc-fb849c1e8631",
+    "local_table": "enrollments",
+    "local_id": "6c45915c-7ea6-4153-928d-846a9c46dd32",
+    "system": "hubspot",
+    "external_id": "deal_46903723"
+  },
+  {
+    "id": "a68d8262-518a-41a7-8ea7-18861a4cc17e",
+    "local_table": "enrollments",
+    "local_id": "46d4b47f-66bf-4c9f-a839-3367a84215c0",
+    "system": "hubspot",
+    "external_id": "deal_40179557"
+  },
+  {
+    "id": "155ebfe6-b257-440f-8f6a-8e2850e809db",
+    "local_table": "enrollments",
+    "local_id": "03da9515-d80e-4c15-86a6-57727148749a",
+    "system": "hubspot",
+    "external_id": "deal_06299203"
+  },
+  {
+    "id": "9c82ffc2-0311-44d9-babf-12f0987e85ab",
+    "local_table": "enrollments",
+    "local_id": "96815f8e-87ad-4533-a4f9-acc388bde45e",
+    "system": "hubspot",
+    "external_id": "deal_01889768"
+  },
+  {
+    "id": "9a1ed9e5-be93-49cf-882e-de3048d48cd3",
+    "local_table": "enrollments",
+    "local_id": "2074a63d-84a1-48e7-9260-5fa07fb0614f",
+    "system": "hubspot",
+    "external_id": "deal_97055265"
+  },
+  {
+    "id": "cd9dbbe2-a5c0-4025-86d5-cb012d40edec",
+    "local_table": "enrollments",
+    "local_id": "7c13f147-0a60-44f0-9127-6dc68bca1293",
+    "system": "hubspot",
+    "external_id": "deal_52892211"
+  },
+  {
+    "id": "6a32b880-ae59-48cb-9f62-effa6b15fbef",
+    "local_table": "enrollments",
+    "local_id": "b3db7c23-4c57-42f3-b385-20441c0cf858",
+    "system": "hubspot",
+    "external_id": "deal_47963522"
+  },
+  {
+    "id": "82528212-5e46-4d10-9ab3-2f3ab6324213",
+    "local_table": "enrollments",
+    "local_id": "c0a4adf4-ab2d-4564-bc6e-09f9dd904a85",
+    "system": "hubspot",
+    "external_id": "deal_10367817"
+  },
+  {
+    "id": "3e2b1c48-b822-4d00-aa9d-1f98e3022d4f",
+    "local_table": "enrollments",
+    "local_id": "dddf0f42-11d1-42fb-99e4-ecf02fb2a085",
+    "system": "hubspot",
+    "external_id": "deal_94669227"
+  },
+  {
+    "id": "7c3a20ef-0f37-4359-8ff2-1c779b31dc9b",
+    "local_table": "enrollments",
+    "local_id": "e080e65d-72c8-415a-adcd-6e905888d242",
+    "system": "hubspot",
+    "external_id": "deal_08931511"
+  },
+  {
+    "id": "3ede6b44-6838-41c2-8848-69eb0135d57b",
+    "local_table": "enrollments",
+    "local_id": "fe4c1150-afdf-47db-bdeb-4b526c1baf63",
+    "system": "hubspot",
+    "external_id": "deal_88402711"
+  },
+  {
+    "id": "9c64063d-1509-42e2-a5aa-dcb92d3ed184",
+    "local_table": "enrollments",
+    "local_id": "ebd72ffd-8be1-4bec-b67e-105aa4547a71",
+    "system": "hubspot",
+    "external_id": "deal_97955426"
+  },
+  {
+    "id": "05474231-f432-4025-8894-a7affd265cc1",
+    "local_table": "enrollments",
+    "local_id": "310d8d5f-7c8f-4ab3-9c96-8f723853bb8b",
+    "system": "hubspot",
+    "external_id": "deal_91725339"
+  },
+  {
+    "id": "3ddd59f0-6712-48df-9312-e9bf9e720d6c",
+    "local_table": "enrollments",
+    "local_id": "d751a663-b0a4-4b28-8861-76e6135efc49",
+    "system": "hubspot",
+    "external_id": "deal_37037642"
+  },
+  {
+    "id": "ec9a9296-36e4-40db-bbe3-128d026e0f4a",
+    "local_table": "enrollments",
+    "local_id": "95fcf2c1-30f9-4fcc-b1ad-19d40b13e8a1",
+    "system": "hubspot",
+    "external_id": "deal_19509178"
+  },
+  {
+    "id": "9d7d4285-d73b-4f51-be4e-1f3c68d94f19",
+    "local_table": "enrollments",
+    "local_id": "d0cd50ea-a790-4a61-bdf1-4effdd589c91",
+    "system": "hubspot",
+    "external_id": "deal_56932135"
+  },
+  {
+    "id": "07dd0999-b07e-4e54-bfb5-85bc48fcf874",
+    "local_table": "enrollments",
+    "local_id": "01bfaa91-889c-4ed2-ac6c-4f115589b123",
+    "system": "hubspot",
+    "external_id": "deal_09333196"
+  },
+  {
+    "id": "732559f3-8e00-4bdb-b110-2fe7436b80d8",
+    "local_table": "enrollments",
+    "local_id": "1f4f1225-25bd-4aac-ba00-c16bc739f4f6",
+    "system": "hubspot",
+    "external_id": "deal_29731428"
+  },
+  {
+    "id": "5435da39-f6bf-414e-8a70-d94546c06094",
+    "local_table": "enrollments",
+    "local_id": "56470bb3-0a05-4d3c-8ffc-1874248a1985",
+    "system": "hubspot",
+    "external_id": "deal_33918260"
+  },
+  {
+    "id": "f8e03306-b80f-4700-bf08-952d2d00257d",
+    "local_table": "enrollments",
+    "local_id": "75924332-bf52-49e2-8faf-31bbbcd7e7e1",
+    "system": "hubspot",
+    "external_id": "deal_80836995"
+  },
+  {
+    "id": "93e18a1e-5f8d-4f82-93ef-154307fbb44b",
+    "local_table": "enrollments",
+    "local_id": "68b4adc4-2814-4338-a4b0-3205eb35f4d5",
+    "system": "hubspot",
+    "external_id": "deal_77078355"
+  },
+  {
+    "id": "f50623d3-9c1c-4031-aa84-c1c2286e1787",
+    "local_table": "enrollments",
+    "local_id": "5b3597f1-aba4-40f8-8a3c-dd44f8e118a7",
+    "system": "hubspot",
+    "external_id": "deal_23767949"
+  },
+  {
+    "id": "658bdf30-312c-47a1-b449-ffa61fe1354a",
+    "local_table": "enrollments",
+    "local_id": "b4c29a32-1f5b-4f02-ae63-8032e06c2821",
+    "system": "hubspot",
+    "external_id": "deal_69385421"
+  },
+  {
+    "id": "5d76a04f-8eb7-4351-9916-5e60a0de30ea",
+    "local_table": "enrollments",
+    "local_id": "361bcf38-4490-4146-8c69-794f562e3280",
+    "system": "hubspot",
+    "external_id": "deal_02278292"
+  },
+  {
+    "id": "ef585a46-79d9-46b3-9279-9821d4caee5a",
+    "local_table": "enrollments",
+    "local_id": "7fa115b4-107a-4d4f-859d-0c0317f4dba4",
+    "system": "hubspot",
+    "external_id": "deal_89480141"
+  },
+  {
+    "id": "1453fff1-1ce6-4608-a306-86c4cbcddcac",
+    "local_table": "enrollments",
+    "local_id": "9203db77-7a5e-4536-8027-15ab777fb94c",
+    "system": "hubspot",
+    "external_id": "deal_65713031"
+  },
+  {
+    "id": "af559100-a874-431a-a974-ffe643cdf54a",
+    "local_table": "enrollments",
+    "local_id": "506b2244-99a9-49a0-8fa7-02f23200903d",
+    "system": "hubspot",
+    "external_id": "deal_94253954"
+  },
+  {
+    "id": "fd821103-d099-4414-b0bd-590a3b3704c4",
+    "local_table": "enrollments",
+    "local_id": "dbfe32b5-91d2-47dd-bed4-cd185cc91ab7",
+    "system": "hubspot",
+    "external_id": "deal_73033138"
+  },
+  {
+    "id": "12923d5d-b222-4562-972b-65b7760bc7bc",
+    "local_table": "enrollments",
+    "local_id": "cacd4c92-7b77-41dc-b029-0ca7a166f2a0",
+    "system": "hubspot",
+    "external_id": "deal_02456424"
+  },
+  {
+    "id": "09e3431d-cc1d-4785-923c-f60fc59310fc",
+    "local_table": "enrollments",
+    "local_id": "ff158550-90a8-42d6-bda0-af8248b374e5",
+    "system": "hubspot",
+    "external_id": "deal_92911617"
+  },
+  {
+    "id": "a4aacf0b-02ec-41e1-8435-f591ab9ca512",
+    "local_table": "enrollments",
+    "local_id": "2defac05-abb9-4342-9af2-9030f3b72b58",
+    "system": "hubspot",
+    "external_id": "deal_61219102"
+  },
+  {
+    "id": "cd4f1009-a651-4f41-bf7a-2357ad2e8a04",
+    "local_table": "enrollments",
+    "local_id": "1650cfad-b40f-4f40-8c59-6c159cc36740",
+    "system": "hubspot",
+    "external_id": "deal_10953165"
+  },
+  {
+    "id": "37745f67-d9ea-4950-b770-0508480ed40f",
+    "local_table": "enrollments",
+    "local_id": "70e748c3-9232-41b8-ad6a-39a3758bfccf",
+    "system": "hubspot",
+    "external_id": "deal_72906335"
+  },
+  {
+    "id": "6be59c8f-b4e6-48ac-8af7-8c7704eb011d",
+    "local_table": "enrollments",
+    "local_id": "ee202381-d143-4f94-beec-99eee068dce4",
+    "system": "hubspot",
+    "external_id": "deal_68956981"
+  },
+  {
+    "id": "d9dee557-0749-4ae0-862c-12922e3bd994",
+    "local_table": "enrollments",
+    "local_id": "597f7c9f-2d9d-4c95-9953-8452b1896eaa",
+    "system": "hubspot",
+    "external_id": "deal_71641431"
+  },
+  {
+    "id": "648352ca-272b-487b-8260-a55afa84a15b",
+    "local_table": "enrollments",
+    "local_id": "75ef8a62-c567-4bcc-9b33-0612e338d18b",
+    "system": "hubspot",
+    "external_id": "deal_31848936"
+  },
+  {
+    "id": "305305c6-a406-449b-8d91-4d45a863f628",
+    "local_table": "enrollments",
+    "local_id": "f1e26e35-a507-444b-aa76-6c198dd83124",
+    "system": "hubspot",
+    "external_id": "deal_76711532"
+  },
+  {
+    "id": "eaf0318f-778e-47a2-9f44-16f7af397ecd",
+    "local_table": "enrollments",
+    "local_id": "99ac7f34-b03d-4a6a-b81f-0cb172d3c404",
+    "system": "hubspot",
+    "external_id": "deal_26974297"
+  },
+  {
+    "id": "dc62025b-616b-47f0-96c1-91f9801cbee1",
+    "local_table": "enrollments",
+    "local_id": "9d5ef634-44f4-42e5-8ba1-2155939c4652",
+    "system": "hubspot",
+    "external_id": "deal_90968637"
+  },
+  {
+    "id": "8f701e1b-61b7-48ad-a0c0-fd2855f11bb8",
+    "local_table": "enrollments",
+    "local_id": "a25a3e6a-7172-4b04-800f-54060f69d405",
+    "system": "hubspot",
+    "external_id": "deal_49267574"
+  },
+  {
+    "id": "8eefee40-e5ad-4aa4-8a40-51f7153b791c",
+    "local_table": "enrollments",
+    "local_id": "d58faaa6-2248-4851-9339-363b6474198a",
+    "system": "hubspot",
+    "external_id": "deal_65649584"
+  },
+  {
+    "id": "e5e1a51d-466d-42fe-bc94-e96b1e24ed23",
+    "local_table": "enrollments",
+    "local_id": "4b274c75-b3b9-4fae-a7e4-137396d558db",
+    "system": "hubspot",
+    "external_id": "deal_64504050"
+  },
+  {
+    "id": "6e1f0aa2-7435-48a7-be7d-92217b58e404",
+    "local_table": "enrollments",
+    "local_id": "5163b54c-70ff-4092-93e0-5550735e1517",
+    "system": "hubspot",
+    "external_id": "deal_23194207"
+  },
+  {
+    "id": "d6ec638d-7a3b-419f-8ce4-318502486e4f",
+    "local_table": "enrollments",
+    "local_id": "92d6882e-2ce9-4d21-9ad8-50bf1cfc21ac",
+    "system": "hubspot",
+    "external_id": "deal_00248839"
+  },
+  {
+    "id": "62402eb5-80b6-4a37-851b-bc73cb334f0d",
+    "local_table": "enrollments",
+    "local_id": "74840582-1fe7-4227-be9e-7159531e4fd0",
+    "system": "hubspot",
+    "external_id": "deal_72576581"
+  },
+  {
+    "id": "d9b6a912-5cdf-4b8f-a570-fa3f93343883",
+    "local_table": "enrollments",
+    "local_id": "5c742729-8450-440e-8175-8a9f82a527e8",
+    "system": "hubspot",
+    "external_id": "deal_16708259"
+  },
+  {
+    "id": "8fac8215-c810-4bd1-815c-e7bd36f416b7",
+    "local_table": "enrollments",
+    "local_id": "89715b9a-8e59-4ba1-933e-c73da9e643f1",
+    "system": "hubspot",
+    "external_id": "deal_88581862"
+  },
+  {
+    "id": "ae3ac515-1c33-4ab6-b329-96c1ee34207b",
+    "local_table": "enrollments",
+    "local_id": "9d6e0766-6c6a-46c9-b097-8953b6600245",
+    "system": "hubspot",
+    "external_id": "deal_50764690"
+  },
+  {
+    "id": "5403f3d1-5930-4d1e-8212-99410a1a25af",
+    "local_table": "enrollments",
+    "local_id": "19ec3c45-d67c-4805-9d6d-19f697ad8e9e",
+    "system": "hubspot",
+    "external_id": "deal_00181191"
+  },
+  {
+    "id": "bd6cf5da-8683-4908-acfc-22c230659e58",
+    "local_table": "enrollments",
+    "local_id": "da83ad92-1c0f-4051-8ee3-ff1d6b2c6f0c",
+    "system": "hubspot",
+    "external_id": "deal_90901237"
+  },
+  {
+    "id": "01847aab-938e-497b-bffb-c171bfe3bb4a",
+    "local_table": "enrollments",
+    "local_id": "03007d6a-b611-4a92-84f1-9af2913b22d6",
+    "system": "hubspot",
+    "external_id": "deal_47324004"
+  },
+  {
+    "id": "4de558be-c49d-48cc-b690-59c6e87b29ae",
+    "local_table": "enrollments",
+    "local_id": "791fc0b7-f2c3-4c1f-ab83-1a507ea18b78",
+    "system": "hubspot",
+    "external_id": "deal_14080578"
+  },
+  {
+    "id": "16449902-43c3-497d-9718-f4d2213195be",
+    "local_table": "enrollments",
+    "local_id": "2532dc8e-7f2c-4687-bdb4-6188054f6902",
+    "system": "hubspot",
+    "external_id": "deal_53622840"
+  },
+  {
+    "id": "da0d4a17-ea38-4390-8d9d-dc4bf9f29b0f",
+    "local_table": "enrollments",
+    "local_id": "6f9b511b-bb2e-4768-8485-e7caf93cf718",
+    "system": "hubspot",
+    "external_id": "deal_93959044"
+  },
+  {
+    "id": "ef6414ff-f67c-48fa-b712-0fe589b74c13",
+    "local_table": "enrollments",
+    "local_id": "848a2a3a-7665-41a2-a3e7-f869825dc209",
+    "system": "hubspot",
+    "external_id": "deal_14815472"
+  },
+  {
+    "id": "278c7708-580a-42b5-8e44-d51fc4e49e40",
+    "local_table": "enrollments",
+    "local_id": "7266c830-02f1-4873-bb7a-2bbebc281c99",
+    "system": "hubspot",
+    "external_id": "deal_36426521"
+  },
+  {
+    "id": "6edc941f-5417-429f-9638-816c162a6953",
+    "local_table": "enrollments",
+    "local_id": "a87c6fab-702f-4872-9aab-bf4c8e96df83",
+    "system": "hubspot",
+    "external_id": "deal_76818947"
+  },
+  {
+    "id": "37b80126-b6bf-4d88-9608-1c38314629fa",
+    "local_table": "enrollments",
+    "local_id": "f31a2b81-8c3a-4c93-a924-8ce440683537",
+    "system": "hubspot",
+    "external_id": "deal_51259959"
+  },
+  {
+    "id": "a1ff5a7e-e12a-4b64-a437-9a65e0ea3b0a",
+    "local_table": "enrollments",
+    "local_id": "14cdf30f-c677-42b1-b103-cf2d3e482802",
+    "system": "hubspot",
+    "external_id": "deal_84449125"
+  },
+  {
+    "id": "af5df4dd-2083-4b52-b198-bd6afc0240bc",
+    "local_table": "enrollments",
+    "local_id": "bef36409-1502-442c-827e-201e5948c5b9",
+    "system": "hubspot",
+    "external_id": "deal_41697591"
+  },
+  {
+    "id": "c339495f-2236-4472-93d3-7064ad4c0903",
+    "local_table": "enrollments",
+    "local_id": "c464420a-4929-4f34-8f80-d178512a35b6",
+    "system": "hubspot",
+    "external_id": "deal_50718354"
+  },
+  {
+    "id": "6418ae04-09d7-4c8c-90c3-3d5435267d95",
+    "local_table": "enrollments",
+    "local_id": "e479e6a9-e8b0-40a0-b0f2-3b9233cace24",
+    "system": "hubspot",
+    "external_id": "deal_49336259"
+  },
+  {
+    "id": "b6575e03-43ff-411c-9983-d1b2163afdd0",
+    "local_table": "enrollments",
+    "local_id": "cab59a3e-9967-46cb-8326-fd23aa6777ed",
+    "system": "hubspot",
+    "external_id": "deal_04332538"
+  },
+  {
+    "id": "5da4650c-3f73-48bf-99b5-19daab346a1f",
+    "local_table": "enrollments",
+    "local_id": "9435a5a6-95a1-473a-b46a-91088596a4a6",
+    "system": "hubspot",
+    "external_id": "deal_76203496"
+  },
+  {
+    "id": "736b0469-6ced-4ac0-b586-0d6f98ec3a7d",
+    "local_table": "enrollments",
+    "local_id": "6ee248ef-30a7-46af-930a-decdc85e0546",
+    "system": "hubspot",
+    "external_id": "deal_27549282"
+  },
+  {
+    "id": "455d55b3-54cb-4c0d-a316-a87e2e1d903a",
+    "local_table": "enrollments",
+    "local_id": "e99750b5-f737-4539-98d2-59044317bc73",
+    "system": "hubspot",
+    "external_id": "deal_94274219"
+  },
+  {
+    "id": "1707a180-5822-4849-868a-81048183fbb4",
+    "local_table": "enrollments",
+    "local_id": "c8e2a362-f735-4099-930e-11e183923fb3",
+    "system": "hubspot",
+    "external_id": "deal_68279168"
+  },
+  {
+    "id": "9ffe76d9-ca7a-46ce-aa45-b77093ece0c2",
+    "local_table": "enrollments",
+    "local_id": "1681e8a6-7b78-4cfa-8df6-f08a26541675",
+    "system": "hubspot",
+    "external_id": "deal_10295309"
+  },
+  {
+    "id": "6a4aeaba-2c16-429d-826a-24c16786ba82",
+    "local_table": "enrollments",
+    "local_id": "d9dae9fd-d588-4ebc-a8c4-c7c923ff1a57",
+    "system": "hubspot",
+    "external_id": "deal_00083574"
+  },
+  {
+    "id": "d2f07657-4c29-464e-b475-b0a1cba55703",
+    "local_table": "enrollments",
+    "local_id": "b1ab40b1-1138-48ae-9b0b-3520379aa148",
+    "system": "hubspot",
+    "external_id": "deal_36239413"
+  },
+  {
+    "id": "73e532d9-41e9-4b58-ae15-676ccf8f74c2",
+    "local_table": "enrollments",
+    "local_id": "0dd441d7-a85c-41f2-be97-5a0cf620fc5a",
+    "system": "hubspot",
+    "external_id": "deal_24049775"
+  },
+  {
+    "id": "a74070a0-214a-42d1-848f-341918c4e473",
+    "local_table": "enrollments",
+    "local_id": "24bb9d4d-ed42-4024-a884-67051dc01096",
+    "system": "hubspot",
+    "external_id": "deal_06809664"
+  },
+  {
+    "id": "f4d88f5b-83bf-44ab-8241-6ed1bc2f7d2c",
+    "local_table": "enrollments",
+    "local_id": "75f2a933-5016-4ada-9ec6-263841f8500d",
+    "system": "hubspot",
+    "external_id": "deal_76764292"
+  },
+  {
+    "id": "9ec7df1a-278c-4e2b-a0f0-faff53f05a78",
+    "local_table": "enrollments",
+    "local_id": "2bce8ab1-1359-4735-9e19-daaa4b51a1af",
+    "system": "hubspot",
+    "external_id": "deal_31035153"
+  },
+  {
+    "id": "3932dbe1-69c5-443f-9d8a-6e7b62982007",
+    "local_table": "enrollments",
+    "local_id": "1292f42c-4583-49a4-b29b-d65cabb1e5ff",
+    "system": "hubspot",
+    "external_id": "deal_16218658"
+  },
+  {
+    "id": "0e2bafcc-f5f4-43e6-b92e-26777b9695cf",
+    "local_table": "enrollments",
+    "local_id": "9b0c69bd-c3e7-4b4b-92f5-0848e1dc1226",
+    "system": "hubspot",
+    "external_id": "deal_86556704"
+  },
+  {
+    "id": "5345ec29-56b3-435d-a54b-f2ef2d1876de",
+    "local_table": "enrollments",
+    "local_id": "3f79c967-a765-4aa2-a7ff-5a3e539077f6",
+    "system": "hubspot",
+    "external_id": "deal_02523121"
+  },
+  {
+    "id": "ef11a2d5-dba1-4104-a164-44854e34b8b0",
+    "local_table": "enrollments",
+    "local_id": "fd6fac93-0b51-402b-b4b9-1aa20b7abe4b",
+    "system": "hubspot",
+    "external_id": "deal_34421995"
+  },
+  {
+    "id": "773b8004-b2fe-4f80-8a39-4e3efbf6b123",
+    "local_table": "enrollments",
+    "local_id": "a3cc4f94-3c55-4341-b169-a65afae87e7f",
+    "system": "hubspot",
+    "external_id": "deal_52749863"
+  },
+  {
+    "id": "2088d23b-b9c9-453a-b18d-d201360373d5",
+    "local_table": "enrollments",
+    "local_id": "6be8c91c-d6ed-467c-870f-8419ce853de9",
+    "system": "hubspot",
+    "external_id": "deal_14914303"
+  },
+  {
+    "id": "90b06c5e-0681-4c45-a978-33eea6adf410",
+    "local_table": "enrollments",
+    "local_id": "2dd86ead-6342-4d8e-be11-df6e6ab2ad73",
+    "system": "hubspot",
+    "external_id": "deal_72639917"
+  },
+  {
+    "id": "819522a7-91f6-43fd-9960-f4434310e148",
+    "local_table": "enrollments",
+    "local_id": "23d374ae-7b29-40c7-b50d-41b623c5fbd2",
+    "system": "hubspot",
+    "external_id": "deal_79837953"
+  },
+  {
+    "id": "1ab8dfc2-cba2-43eb-89fd-20089a4b39ce",
+    "local_table": "enrollments",
+    "local_id": "49a13752-055e-4218-8aed-e354d4c05960",
+    "system": "hubspot",
+    "external_id": "deal_49818009"
+  },
+  {
+    "id": "ef9e5c90-d3f7-4409-97bb-3481c1f31cce",
+    "local_table": "enrollments",
+    "local_id": "98be3392-5917-48a3-b6ca-cd0c49c22a6e",
+    "system": "hubspot",
+    "external_id": "deal_19405579"
+  },
+  {
+    "id": "ada6a91b-d184-4ec2-b6ee-c08760e344ec",
+    "local_table": "enrollments",
+    "local_id": "914ab2bb-1ff6-4222-9462-bb9d4da0e65b",
+    "system": "hubspot",
+    "external_id": "deal_20350515"
+  },
+  {
+    "id": "9118c5c5-f84d-46ef-bf31-8441542ad246",
+    "local_table": "enrollments",
+    "local_id": "1a1d6d39-53be-49cb-a5fe-d35a77779bd5",
+    "system": "hubspot",
+    "external_id": "deal_37162124"
+  },
+  {
+    "id": "50745f4f-b143-4d4b-8953-7704e040e538",
+    "local_table": "enrollments",
+    "local_id": "92298b3d-4f88-4498-ae1a-cc3afd7667ce",
+    "system": "hubspot",
+    "external_id": "deal_53404491"
+  },
+  {
+    "id": "514d9272-c1e1-4942-8c89-ac17ae787aa1",
+    "local_table": "enrollments",
+    "local_id": "6bb8336c-7f37-4d7d-b945-f1cca4f47ac2",
+    "system": "hubspot",
+    "external_id": "deal_83933843"
+  },
+  {
+    "id": "1fec555f-df33-41e8-8333-b4648947221b",
+    "local_table": "enrollments",
+    "local_id": "1abd9176-92cb-42b5-a6f3-ade27ef37dad",
+    "system": "hubspot",
+    "external_id": "deal_04076874"
+  },
+  {
+    "id": "b222f932-772a-45af-a6f7-b069610817e8",
+    "local_table": "enrollments",
+    "local_id": "bbcd23d8-9b15-4a24-a282-3c75e9c04aac",
+    "system": "hubspot",
+    "external_id": "deal_55617564"
+  },
+  {
+    "id": "8dd41cd7-3d85-42b8-87b2-9575ff30e833",
+    "local_table": "enrollments",
+    "local_id": "4046f734-d4ba-45e1-93cf-294b18f8d38c",
+    "system": "hubspot",
+    "external_id": "deal_72440937"
+  },
+  {
+    "id": "39d54e5a-2263-47f4-8f97-771468a11cfc",
+    "local_table": "enrollments",
+    "local_id": "56eabd63-207b-4af6-9fd6-6087313d2239",
+    "system": "hubspot",
+    "external_id": "deal_15642380"
+  },
+  {
+    "id": "ee19a456-e4de-4c85-b25d-df43c02d847d",
+    "local_table": "enrollments",
+    "local_id": "1a7d96c9-d3f6-461e-b5d2-f2d27d13d0e0",
+    "system": "hubspot",
+    "external_id": "deal_11702637"
+  },
+  {
+    "id": "63aa4e3c-7fbf-430d-87ca-0a8260385922",
+    "local_table": "enrollments",
+    "local_id": "471e22ef-8bc5-4a54-b11d-b4db3a432096",
+    "system": "hubspot",
+    "external_id": "deal_27367505"
+  },
+  {
+    "id": "009b7a71-c3e2-42dd-bfb2-5da8c9073bb3",
+    "local_table": "enrollments",
+    "local_id": "75e25c7c-a315-44f9-af42-4580dadc6af2",
+    "system": "hubspot",
+    "external_id": "deal_47913760"
+  },
+  {
+    "id": "3d7cbba2-1cc4-4e8b-a38b-549b26f99f0e",
+    "local_table": "enrollments",
+    "local_id": "6d46da32-3461-4d59-ad63-4133bcd172ed",
+    "system": "hubspot",
+    "external_id": "deal_95578396"
+  },
+  {
+    "id": "9c38b851-37a9-4ccc-98d8-d3df8c628e62",
+    "local_table": "enrollments",
+    "local_id": "d13dc3d4-ac05-4d6a-bced-e130c507767a",
+    "system": "hubspot",
+    "external_id": "deal_32486975"
+  },
+  {
+    "id": "6f58187e-9ed7-44f9-bf6b-97341b062f66",
+    "local_table": "enrollments",
+    "local_id": "817a152b-4ec7-4fda-8d8f-75a8d329e9ac",
+    "system": "hubspot",
+    "external_id": "deal_85453186"
+  },
+  {
+    "id": "13108b37-7bdd-4c15-9127-82eee165a901",
+    "local_table": "enrollments",
+    "local_id": "ef8661c6-ce28-47ee-b449-f367d31593d0",
+    "system": "hubspot",
+    "external_id": "deal_89714504"
+  },
+  {
+    "id": "fa87bcd4-f0d6-4e4c-969b-4d6997491e77",
+    "local_table": "enrollments",
+    "local_id": "32579fab-7c7d-4202-9ff2-bd19dc557aa9",
+    "system": "hubspot",
+    "external_id": "deal_15424258"
+  },
+  {
+    "id": "6cdfa0cc-1951-4b8e-8a7d-d9b25c733a74",
+    "local_table": "enrollments",
+    "local_id": "307dec0c-356c-4269-8ef4-ff2f129a651e",
+    "system": "hubspot",
+    "external_id": "deal_54259747"
+  },
+  {
+    "id": "30d4c41a-f2be-4a1f-8919-2e883b7c9e23",
+    "local_table": "enrollments",
+    "local_id": "6abd3720-9f39-4a12-affe-d38d11c4ac73",
+    "system": "hubspot",
+    "external_id": "deal_64297563"
+  },
+  {
+    "id": "9a167663-1ce2-4f16-9c1a-e8ebac41e544",
+    "local_table": "enrollments",
+    "local_id": "ebfc7ce4-cb57-4457-a751-5c2e0bfc0c27",
+    "system": "hubspot",
+    "external_id": "deal_92657005"
+  },
+  {
+    "id": "92f1f706-0379-42c5-a45f-b0710cbffa1d",
+    "local_table": "enrollments",
+    "local_id": "2f1e3467-220e-43e5-b445-51e312c4f0ee",
+    "system": "hubspot",
+    "external_id": "deal_19527878"
+  },
+  {
+    "id": "58c8d115-b57b-4526-9c25-61cb471dc53c",
+    "local_table": "enrollments",
+    "local_id": "4a712154-9649-404c-b2f3-8db50c32fe3b",
+    "system": "hubspot",
+    "external_id": "deal_93109542"
+  },
+  {
+    "id": "46629fd9-7978-49ec-80be-a2f062dc2b3b",
+    "local_table": "enrollments",
+    "local_id": "c2a13f09-322e-44f9-a7fc-3b0654407bc7",
+    "system": "hubspot",
+    "external_id": "deal_26006750"
+  },
+  {
+    "id": "b4532495-eb47-47be-a532-675dcf92f672",
+    "local_table": "enrollments",
+    "local_id": "fcd21a05-7ad2-49fe-97df-6f4592210777",
+    "system": "hubspot",
+    "external_id": "deal_57778082"
+  },
+  {
+    "id": "a49bfa3d-92b0-4a9f-a36a-250ed1cef6ae",
+    "local_table": "enrollments",
+    "local_id": "f525e691-aa48-4634-af89-9f3978febb1a",
+    "system": "hubspot",
+    "external_id": "deal_61241983"
+  },
+  {
+    "id": "89cc8917-b075-48c7-84bd-773d183e57b0",
+    "local_table": "enrollments",
+    "local_id": "c9d68936-1d99-4e83-ae37-0905f313e80f",
+    "system": "hubspot",
+    "external_id": "deal_58939997"
+  },
+  {
+    "id": "7c5c7126-caab-4970-9e05-837eb8f51adc",
+    "local_table": "enrollments",
+    "local_id": "23b1a6fc-b74f-40e3-b419-9d6b894b240f",
+    "system": "hubspot",
+    "external_id": "deal_74075659"
+  },
+  {
+    "id": "fb4ad155-73b9-46b4-a7db-6c58cfdebfe4",
+    "local_table": "enrollments",
+    "local_id": "44895709-251b-4fb0-9fd2-83116214bee8",
+    "system": "hubspot",
+    "external_id": "deal_46785891"
+  },
+  {
+    "id": "f5a2ecfd-9999-48ef-980c-4362e70afeb6",
+    "local_table": "enrollments",
+    "local_id": "04165efd-894c-4aeb-9a50-fb8ebbd23e70",
+    "system": "hubspot",
+    "external_id": "deal_07226380"
+  },
+  {
+    "id": "7f169ff6-dac8-42c1-a017-4257d081b4a4",
+    "local_table": "enrollments",
+    "local_id": "a2bd2a68-c3c9-480a-85b9-f4b20433bed3",
+    "system": "hubspot",
+    "external_id": "deal_52105029"
+  },
+  {
+    "id": "3b6fac3c-3456-4a20-9b14-5e6564d6ed13",
+    "local_table": "enrollments",
+    "local_id": "10c34638-45b2-452d-999a-7b3dd70b80e5",
+    "system": "hubspot",
+    "external_id": "deal_13509273"
+  },
+  {
+    "id": "54d83b55-8511-48bf-9ed2-1b82d61b765c",
+    "local_table": "enrollments",
+    "local_id": "fd84fb83-0bfc-444b-9e1e-b7c46c3139dd",
+    "system": "hubspot",
+    "external_id": "deal_87278032"
+  },
+  {
+    "id": "20f49e55-b003-4e4c-970c-32467ea32177",
+    "local_table": "enrollments",
+    "local_id": "11bdc3ff-9aec-4854-ac28-e6ea2b24db5e",
+    "system": "hubspot",
+    "external_id": "deal_36232086"
+  },
+  {
+    "id": "d1c9e59c-1789-48f0-8b67-ce8f2b0f3d7c",
+    "local_table": "enrollments",
+    "local_id": "ed45a845-c4e8-4f00-9542-b87f4e53dca6",
+    "system": "hubspot",
+    "external_id": "deal_87275671"
+  },
+  {
+    "id": "b661c7a1-90fb-4e55-8c8c-f990fedf131f",
+    "local_table": "enrollments",
+    "local_id": "6839bb18-4abc-4313-8459-6bb949f07c1c",
+    "system": "hubspot",
+    "external_id": "deal_04193142"
+  },
+  {
+    "id": "f39f3566-01d9-4c04-a8d9-de65230ff7cb",
+    "local_table": "enrollments",
+    "local_id": "17fa151c-bda7-4f9c-a43f-041917da5aa2",
+    "system": "hubspot",
+    "external_id": "deal_28179163"
+  },
+  {
+    "id": "7ab17510-39e8-4dd8-9a04-57aaf1bfe281",
+    "local_table": "enrollments",
+    "local_id": "00119a63-bda8-4f14-af7d-09c154376a3e",
+    "system": "hubspot",
+    "external_id": "deal_09471838"
+  },
+  {
+    "id": "b63f5bea-4983-426f-b903-5fd550b4c23a",
+    "local_table": "enrollments",
+    "local_id": "8df98d14-b7eb-45f3-8ed1-1f1a5e9c3a53",
+    "system": "hubspot",
+    "external_id": "deal_20947586"
+  },
+  {
+    "id": "d61471ca-fe10-4a9b-a2c9-3582da80f655",
+    "local_table": "enrollments",
+    "local_id": "d128f6e0-852d-4da3-ab29-df19db131a83",
+    "system": "hubspot",
+    "external_id": "deal_94748786"
+  },
+  {
+    "id": "f35b3877-6fda-466d-96b0-18b408ba5023",
+    "local_table": "enrollments",
+    "local_id": "6431abf3-d353-4420-911e-6456604a1bd4",
+    "system": "hubspot",
+    "external_id": "deal_67800301"
+  },
+  {
+    "id": "3bd178d4-2992-47fc-bcc0-820d5b82c329",
+    "local_table": "enrollments",
+    "local_id": "62e85464-b3a2-47e2-99f3-1c357c9470b8",
+    "system": "hubspot",
+    "external_id": "deal_03268282"
+  },
+  {
+    "id": "9d181a5e-0ef0-4582-9757-226fe082576d",
+    "local_table": "enrollments",
+    "local_id": "b51ce825-8361-40aa-8e09-53fb3851e312",
+    "system": "hubspot",
+    "external_id": "deal_28368968"
+  },
+  {
+    "id": "576372ca-14cd-4bcc-a378-6dc83509e364",
+    "local_table": "enrollments",
+    "local_id": "0b345ad6-3f10-41cd-9add-f0e372c0885a",
+    "system": "hubspot",
+    "external_id": "deal_95714577"
+  },
+  {
+    "id": "5e0a546c-e213-4177-9fd8-c1689c3741a4",
+    "local_table": "enrollments",
+    "local_id": "d7471e99-f433-4c03-a870-f9010e90a695",
+    "system": "hubspot",
+    "external_id": "deal_82886418"
+  },
+  {
+    "id": "7752dba8-883f-46ae-8230-eb1f5d604f6d",
+    "local_table": "enrollments",
+    "local_id": "8cc27bd6-ef39-4490-ab66-ad1bde70aeb3",
+    "system": "hubspot",
+    "external_id": "deal_02118671"
+  },
+  {
+    "id": "448fa8f8-fa9b-4daa-836f-6f59187be699",
+    "local_table": "enrollments",
+    "local_id": "7df24daf-4cbe-4e60-b777-e06d72e3bbb9",
+    "system": "hubspot",
+    "external_id": "deal_53655070"
+  },
+  {
+    "id": "c8f330ae-0be1-4b11-b2b0-041e7a5317c2",
+    "local_table": "enrollments",
+    "local_id": "1ecac95b-5da1-4c7f-8a8c-76b5c9e7d8ac",
+    "system": "hubspot",
+    "external_id": "deal_49272092"
+  },
+  {
+    "id": "c8afc9e4-57ad-4b71-a7b2-0ede28f1bd51",
+    "local_table": "enrollments",
+    "local_id": "992fbfaf-98ae-4f3c-8db9-6e2f53f0a32f",
+    "system": "hubspot",
+    "external_id": "deal_93335561"
+  },
+  {
+    "id": "6b1cdbd6-66e8-444a-865a-4e12fa75cffb",
+    "local_table": "enrollments",
+    "local_id": "74ce3644-b8ff-4cdb-802e-67047a64f5b1",
+    "system": "hubspot",
+    "external_id": "deal_51151388"
+  }
+]

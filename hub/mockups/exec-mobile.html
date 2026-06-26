@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GT Marketing Hub — Executive / Mobile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;500;700&family=Inter:wght@400;500;600;700&family=Literata:opsz,wght@7..72,400;7..72,500;7..72,600;7..72,700&display=swap" rel="stylesheet" />
+<style>
+  /* ============ TOKENS ============ */
+  .app{
+    --bg:#FAF7F2;            /* off-white page bg */
+    --surface:#FFFFFF;
+    --surface-2:#F5DDCD;     /* gold 20% accent card */
+    --ink:#002A3A;           /* navy deep — primary text */
+    --ink-soft:#5A6B73;      /* secondary text */
+    --ink-faint:#8A98A0;
+    --gold:#E48B53;          /* brand gold — accents/CTA */
+    --gold-deep:#C96E36;
+    --navy-mid:#003B5C;      /* buttons/cards */
+    --line:rgba(0,42,58,0.09);
+    --line-strong:rgba(0,42,58,0.16);
+    --shadow:0 1px 2px rgba(0,42,58,0.05),0 8px 24px rgba(0,42,58,0.06);
+    --track:rgba(0,42,58,0.10);
+    /* status — high-contrast pairs (no gold-on-offwhite) */
+    --ok:#1B7A4B; --watch:#B26A00; --risk:#C0392B;
+  }
+  .app.dark{
+    --bg:#002A3A;
+    --surface:#013647;
+    --surface-2:rgba(228,139,83,0.16);
+    --ink:#FAF7F2;
+    --ink-soft:#A7BCC6;
+    --ink-faint:#7C95A0;
+    --gold:#E9966A;
+    --gold-deep:#E48B53;
+    --navy-mid:#0A4866;
+    --line:rgba(255,255,255,0.10);
+    --line-strong:rgba(255,255,255,0.18);
+    --shadow:0 1px 2px rgba(0,0,0,0.35),0 10px 28px rgba(0,0,0,0.40);
+    --track:rgba(255,255,255,0.12);
+    --ok:#2E9E66; --watch:#D38A1E; --risk:#E05a4b;
+  }
+
+  *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+  html,body{height:100%;}
+  body{
+    font-family:'Inter',system-ui,sans-serif;
+    background:
+      radial-gradient(1200px 600px at 50% -10%, #efece4 0%, #e3ded4 55%, #d8d2c6 100%);
+    min-height:100vh;
+    display:flex;flex-direction:column;align-items:center;
+    padding:34px 16px 18px;
+    color:#2a2a2a;
+  }
+  .brandline{
+    font-family:'Literata',serif;
+    font-size:13px;letter-spacing:.04em;color:#6a6256;
+    margin-bottom:18px;text-align:center;
+  }
+  .brandline b{color:#3a352c;font-weight:600;}
+  .brandline .dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#E48B53;margin:0 8px 1px;vertical-align:middle;}
+
+  /* ============ PHONE FRAME ============ */
+  .phone{
+    width:390px;max-width:100%;
+    height:min(844px,calc(100vh - 110px));
+    background:#0c1418;
+    border-radius:52px;
+    padding:11px;
+    box-shadow:
+      0 0 0 2px #25323a,
+      0 0 0 11px #0c1418,
+      0 30px 70px -20px rgba(0,30,45,0.55),
+      0 12px 30px rgba(0,0,0,0.25);
+    position:relative;
+  }
+  .phone::after{ /* side buttons */
+    content:"";position:absolute;left:-3px;top:160px;width:3px;height:64px;border-radius:3px;
+    background:#1c272d;box-shadow:0 84px 0 #1c272d,0 -300px 0 0 transparent;
+  }
+  .app{
+    position:relative;
+    height:100%;width:100%;
+    background:var(--bg);
+    border-radius:42px;
+    overflow:hidden;
+    display:flex;flex-direction:column;
+    color:var(--ink);
+    transition:background .3s ease;
+  }
+
+  /* ===== status bar (faux iOS) ===== */
+  .statusbar{
+    flex:0 0 auto;height:46px;
+    display:flex;align-items:flex-end;justify-content:space-between;
+    padding:0 30px 6px;position:relative;
+    font-size:13px;font-weight:600;color:var(--ink);
+  }
+  .notch{
+    position:absolute;top:9px;left:50%;transform:translateX(-50%);
+    width:108px;height:30px;background:#0c1418;border-radius:18px;
+  }
+  .sb-right{display:flex;align-items:center;gap:6px;}
+  .sb-right svg{display:block;}
+
+  /* ===== top app bar ===== */
+  .topbar{flex:0 0 auto;padding:6px 16px 10px;}
+  .topbar-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+  .logo{display:flex;align-items:center;gap:9px;}
+  .logo .mark{
+    width:26px;height:26px;border-radius:8px;
+    background:linear-gradient(135deg,var(--gold),var(--gold-deep));
+    display:grid;place-items:center;color:#fff;font-family:'Literata',serif;font-weight:700;font-size:14px;
+    box-shadow:0 2px 6px rgba(228,139,83,.4);
+  }
+  .logo .name{font-family:'Literata',serif;font-weight:600;font-size:18px;letter-spacing:-.01em;color:var(--ink);}
+  .topbar-tools{display:flex;align-items:center;gap:8px;}
+  .daychip{
+    display:inline-flex;align-items:center;gap:6px;
+    background:var(--navy-mid);color:#fff;
+    font-family:'Inconsolata',monospace;font-weight:700;font-size:12.5px;
+    padding:6px 10px;border-radius:999px;white-space:nowrap;
+  }
+  .daychip .d{color:var(--gold);}
+  .iconbtn{
+    width:38px;height:38px;border-radius:11px;border:1px solid var(--line-strong);
+    background:var(--surface);color:var(--ink);display:grid;place-items:center;cursor:pointer;
+    transition:transform .12s ease, background .2s ease;
+  }
+  .iconbtn:active{transform:scale(.92);}
+
+  /* role segmented control */
+  .seg{
+    margin-top:12px;display:flex;background:var(--track);border-radius:13px;padding:4px;gap:4px;
+  }
+  .seg button{
+    flex:1;border:0;background:transparent;cursor:pointer;
+    font-family:'Inter',sans-serif;font-weight:600;font-size:13px;color:var(--ink-soft);
+    padding:9px 4px;border-radius:10px;transition:all .18s ease;letter-spacing:.01em;
+  }
+  .seg button.on{background:var(--surface);color:var(--ink);box-shadow:var(--shadow);}
+
+  /* ===== data confidence banner ===== */
+  .scroll{flex:1 1 auto;overflow-y:auto;-webkit-overflow-scrolling:touch;}
+  .scroll::-webkit-scrollbar{width:0;}
+  .confidence{
+    position:sticky;top:0;z-index:5;
+    margin:0;padding:11px 16px;
+    background:linear-gradient(180deg, #FCE5D5 0%, #FAE0CB 100%);
+    border-bottom:1px solid rgba(201,110,54,.35);
+    display:flex;align-items:center;gap:10px;cursor:pointer;
+    backdrop-filter:saturate(1.1);
+  }
+  .app.dark .confidence{background:linear-gradient(180deg,#3a2515,#33200f);border-bottom-color:rgba(228,139,83,.4);}
+  .confidence .warn{
+    flex:0 0 auto;width:26px;height:26px;border-radius:8px;background:var(--risk);color:#fff;
+    display:grid;place-items:center;font-size:15px;font-weight:700;
+  }
+  .confidence .ctext{flex:1;min-width:0;line-height:1.25;}
+  .confidence .ctext b{font-size:13px;color:#7a2d12;font-weight:700;}
+  .app.dark .confidence .ctext b{color:#F0C7A8;}
+  .confidence .ctext span{display:block;font-size:11.5px;color:#9a5a3a;}
+  .app.dark .confidence .ctext span{color:#caa489;}
+  .confidence .go{flex:0 0 auto;color:#7a2d12;font-weight:700;font-size:12px;display:flex;align-items:center;gap:3px;}
+  .app.dark .confidence .go{color:#F0C7A8;}
+
+  /* ===== surfaces ===== */
+  .surface{display:none;padding:16px 16px 26px;}
+  .surface.on{display:block;animation:fade .28s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:none;}}
+
+  .sec-head{display:flex;align-items:baseline;justify-content:space-between;margin:2px 2px 12px;}
+  .sec-head h1{font-family:'Literata',serif;font-size:21px;font-weight:600;letter-spacing:-.01em;}
+  .sec-head .sub{font-size:12px;color:var(--ink-soft);font-weight:500;}
+
+  /* cards */
+  .card{
+    background:var(--surface);border:1px solid var(--line);border-radius:20px;
+    padding:18px;box-shadow:var(--shadow);margin-bottom:13px;
+  }
+  .card.accent{background:var(--surface-2);border-color:rgba(228,139,83,.28);}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:13px;margin-bottom:13px;}
+  .grid2 .card{margin-bottom:0;height:100%;}
+
+  .klabel{font-size:11px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--ink-soft);}
+  .ksrc{font-size:10px;color:var(--ink-faint);font-weight:500;}
+  .kvalue{font-family:'Inconsolata',monospace;font-weight:700;color:var(--ink);line-height:1;}
+  .big{font-size:46px;letter-spacing:-.02em;}
+  .mid{font-size:34px;letter-spacing:-.02em;}
+
+  /* pills */
+  .pill{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;
+    padding:4px 9px;border-radius:999px;letter-spacing:.01em;line-height:1;white-space:nowrap;}
+  .pill.ok{background:var(--ok);color:#fff;}
+  .pill.watch{background:var(--watch);color:#fff;}
+  .pill.risk{background:var(--risk);color:#fff;}
+  .pill.info{background:var(--navy-mid);color:#fff;}
+  .pill.soft{background:var(--track);color:var(--ink);}
+
+  /* exec narrative */
+  .narr .top{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+  .narr p{font-family:'Literata',serif;font-size:15.5px;line-height:1.45;color:var(--ink);}
+  .narr p .lead{color:var(--gold-deep);font-weight:700;}
+
+  /* applicants hero */
+  .hero-top{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;}
+  .spark{display:flex;align-items:flex-end;gap:4px;height:38px;margin-top:14px;}
+  .spark i{flex:1;background:var(--track);border-radius:3px 3px 0 0;display:block;}
+  .spark i.hot{background:linear-gradient(180deg,var(--gold),var(--gold-deep));}
+  .micro{font-size:11.5px;color:var(--ink-soft);margin-top:10px;}
+
+  /* ring */
+  .ring-wrap{display:flex;align-items:center;gap:18px;}
+  .ring{position:relative;width:120px;height:120px;flex:0 0 auto;}
+  .ring svg{transform:rotate(-90deg);}
+  .ring .ctr{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+  .ring .ctr .n{font-family:'Inconsolata',monospace;font-weight:700;font-size:30px;color:var(--ink);line-height:1;}
+  .ring .ctr .of{font-family:'Inconsolata',monospace;font-size:12px;color:var(--ink-soft);}
+  .ring-meta .pct{font-family:'Inconsolata',monospace;font-weight:700;font-size:26px;color:var(--gold-deep);}
+
+  /* progress bar */
+  .bar{height:11px;border-radius:999px;background:var(--track);overflow:hidden;display:flex;}
+  .bar > span{display:block;height:100%;}
+  .bar.solid > span{background:linear-gradient(90deg,var(--gold),var(--gold-deep));}
+  .legend{display:flex;flex-wrap:wrap;gap:12px;margin-top:11px;}
+  .legend .lg{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ink-soft);font-weight:500;}
+  .legend .sw{width:11px;height:11px;border-radius:3px;}
+
+  .row-split{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+  hr.sep{border:0;border-top:1px solid var(--line);margin:13px 0;}
+
+  /* list rows (data quality, issues) */
+  .lrow{display:flex;align-items:flex-start;gap:11px;padding:11px 0;border-top:1px solid var(--line);}
+  .lrow:first-of-type{border-top:0;}
+  .lrow .body{flex:1;min-width:0;}
+  .lrow .t{font-size:13.5px;font-weight:600;color:var(--ink);line-height:1.3;}
+  .lrow .m{font-size:11.5px;color:var(--ink-soft);margin-top:2px;}
+
+  .flagrow{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 0;border-top:1px solid var(--line);}
+  .flagrow:first-of-type{border-top:0;}
+  .flagrow .fname{font-family:'Inter';font-weight:600;font-size:14px;}
+  .truth{
+    display:flex;gap:9px;align-items:flex-start;margin-top:4px;padding:11px 13px;border-radius:13px;
+    background:var(--track);font-size:11.5px;color:var(--ink-soft);line-height:1.35;
+  }
+  .truth b{color:var(--ink);}
+
+  /* budget */
+  .bud-total{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;}
+  .ws .ws-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px;}
+  .ws .ws-name{font-weight:600;font-size:14.5px;color:var(--ink);}
+  .ws .nums{display:flex;justify-content:space-between;gap:6px;margin-top:11px;}
+  .ws .nums div{flex:1;}
+  .ws .nums .l{font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);font-weight:600;}
+  .ws .nums .v{font-family:'Inconsolata',monospace;font-weight:700;font-size:14px;color:var(--ink);margin-top:2px;}
+  .ws.over{border-color:rgba(192,57,43,.45);}
+  .toqueue{
+    margin-top:12px;display:flex;align-items:center;justify-content:center;gap:7px;width:100%;
+    background:var(--risk);color:#fff;border:0;border-radius:12px;padding:11px;cursor:pointer;
+    font-weight:700;font-size:13px;
+  }
+  .toqueue:active{transform:scale(.98);}
+
+  /* decisions */
+  .dec-card{position:relative;}
+  .dec-card .q{font-family:'Literata',serif;font-size:16.5px;font-weight:600;line-height:1.32;color:var(--ink);margin-bottom:12px;}
+  .dec-meta{display:grid;grid-template-columns:1fr 1fr;gap:9px 12px;margin-bottom:13px;}
+  .dec-meta .mi .l{font-size:9.5px;letter-spacing:.05em;text-transform:uppercase;color:var(--ink-faint);font-weight:600;}
+  .dec-meta .mi .v{font-size:13px;font-weight:600;color:var(--ink);margin-top:2px;}
+  .dec-meta .mi .v.ask{font-family:'Inconsolata',monospace;color:var(--gold-deep);}
+  .rec{background:var(--track);border-radius:12px;padding:11px 13px;margin-bottom:14px;}
+  .rec .l{font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-faint);font-weight:600;margin-bottom:3px;}
+  .rec .v{font-size:13px;color:var(--ink);line-height:1.4;}
+  .dec-actions{display:flex;gap:8px;}
+  .dec-actions button{
+    flex:1;border:0;border-radius:13px;padding:13px 6px;cursor:pointer;font-weight:700;font-size:13.5px;
+    display:flex;align-items:center;justify-content:center;gap:6px;transition:transform .12s ease,filter .15s ease;
+    min-height:48px;
+  }
+  .dec-actions button:active{transform:scale(.96);}
+  .b-app{background:var(--ok);color:#fff;}
+  .b-info{background:var(--surface-2);color:var(--gold-deep);border:1px solid rgba(201,110,54,.35)!important;}
+  .b-rej{background:transparent;color:var(--risk);border:1.5px solid var(--risk)!important;}
+  .decided{
+    display:none;align-items:center;justify-content:center;gap:8px;
+    padding:13px;border-radius:13px;font-weight:700;font-size:14px;
+  }
+  .decided.show{display:flex;}
+  .dec-prio{position:absolute;top:16px;right:16px;}
+
+  /* gated operator view */
+  .gate{text-align:center;padding:30px 18px;}
+  .gate .lock{width:62px;height:62px;border-radius:18px;margin:0 auto 16px;display:grid;place-items:center;
+    background:var(--surface-2);color:var(--gold-deep);}
+  .gate h2{font-family:'Literata',serif;font-size:20px;font-weight:600;margin-bottom:8px;}
+  .gate p{font-size:13.5px;color:var(--ink-soft);line-height:1.5;max-width:280px;margin:0 auto 20px;}
+  .submit-btn{
+    width:100%;background:var(--gold);color:#fff;border:0;border-radius:14px;padding:15px;
+    font-weight:700;font-size:15px;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;
+    box-shadow:0 6px 18px rgba(228,139,83,.4);min-height:52px;
+  }
+  .submit-btn:active{transform:scale(.98);}
+  .mine{margin-top:22px;text-align:left;}
+  .mine .h{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;margin-bottom:8px;}
+
+  /* ===== bottom tab bar ===== */
+  .tabbar{
+    flex:0 0 auto;display:flex;background:var(--surface);
+    border-top:1px solid var(--line);padding:8px 6px calc(8px + env(safe-area-inset-bottom));
+    box-shadow:0 -6px 20px rgba(0,42,58,.05);
+  }
+  .tab{
+    flex:1;border:0;background:transparent;cursor:pointer;color:var(--ink-faint);
+    display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 2px;border-radius:14px;
+    font-size:10.5px;font-weight:600;letter-spacing:.01em;position:relative;transition:color .18s ease;
+  }
+  .tab svg{display:block;}
+  .tab.on{color:var(--gold-deep);}
+  .tab .badge{
+    position:absolute;top:2px;right:calc(50% - 22px);
+    min-width:17px;height:17px;padding:0 4px;border-radius:999px;background:var(--risk);color:#fff;
+    font-size:10px;font-weight:700;display:grid;place-items:center;
+  }
+  .home-only{display:none;}
+
+  .caption{margin-top:18px;font-size:12.5px;color:#6a6256;text-align:center;max-width:380px;line-height:1.5;}
+  .caption b{color:#3a352c;}
+
+  @media (max-height:720px){ .phone{height:calc(100vh - 90px);} }
+</style>
+</head>
+<body>
+
+<div class="brandline"><b>GT Marketing Hub</b><span class="dot"></span>Executive / mobile-first</div>
+
+<div class="phone">
+  <div class="app" id="app">
+
+    <!-- status bar -->
+    <div class="statusbar">
+      <span>9:41</span>
+      <div class="notch"></div>
+      <div class="sb-right">
+        <svg width="17" height="12" viewBox="0 0 17 12" fill="currentColor"><rect x="0" y="7" width="3" height="5" rx="1"/><rect x="4.5" y="4.5" width="3" height="7.5" rx="1"/><rect x="9" y="2" width="3" height="10" rx="1"/><rect x="13.5" y="0" width="3" height="12" rx="1"/></svg>
+        <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M8 2.4c2 0 3.9.8 5.3 2.1l1.2-1.3C12.7 1.5 10.4.6 8 .6S3.3 1.5 1.5 3.2l1.2 1.3C4.1 3.2 6 2.4 8 2.4Zm0 3.4c1.1 0 2.1.4 2.9 1.2l1.2-1.3C11 4.6 9.6 4 8 4s-3 .6-4.1 1.7l1.2 1.3C5.9 6.2 6.9 5.8 8 5.8Zm0 3.3 1.7-1.8c-.4-.5-1-.8-1.7-.8s-1.3.3-1.7.8L8 9.1Z"/></svg>
+        <svg width="26" height="12" viewBox="0 0 26 12" fill="none"><rect x="1" y="1" width="21" height="10" rx="3" stroke="currentColor" stroke-opacity=".4" stroke-width="1"/><rect x="23.5" y="4" width="1.5" height="4" rx=".75" fill="currentColor" fill-opacity=".4"/><rect x="3" y="3" width="16" height="6" rx="1.5" fill="currentColor"/></svg>
+      </div>
+    </div>
+
+    <!-- top app bar -->
+    <div class="topbar">
+      <div class="topbar-row">
+        <div class="logo">
+          <span class="mark">GT</span>
+          <span class="name">Hub</span>
+        </div>
+        <div class="topbar-tools">
+          <span class="daychip"><span class="d">53d</span> → Aug 17</span>
+          <button class="iconbtn" id="darkBtn" aria-label="Toggle dark mode" onclick="toggleDark()">
+            <svg id="darkIcon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="seg" id="roleSeg">
+        <button data-role="admin" onclick="setRole('admin')">Admin</button>
+        <button data-role="leader" class="on" onclick="setRole('leader')">Leader</button>
+        <button data-role="operator" onclick="setRole('operator')">Operator</button>
+      </div>
+    </div>
+
+    <!-- scroll region -->
+    <div class="scroll" id="scroll">
+
+      <!-- data confidence banner -->
+      <div class="confidence" onclick="setTab('kpi')">
+        <span class="warn">⚠</span>
+        <div class="ctext">
+          <b>Income parity 71% — from HubSpot</b>
+          <span>3 fields unreliable · UTM broken · tap for CRM Ops</span>
+        </div>
+        <span class="go">details ›</span>
+      </div>
+
+      <!-- ============ HOME ============ -->
+      <section class="surface on" id="s-home">
+        <div class="sec-head">
+          <h1>Topline</h1>
+          <span class="sub">Week of Jun 22 · live</span>
+        </div>
+
+        <!-- exec narrative -->
+        <div class="card accent narr">
+          <div class="top"><span class="klabel">Executive narrative</span><span class="pill soft">Marketing Lead</span></div>
+          <p><span class="lead">Topline:</span> Deposits pacing at 62% of the 180 goal with 53 days left. X + ambassador channels are carrying conversion while paid stays dark — the held risk is UTM attribution, still broken.</p>
+        </div>
+
+        <!-- applicants hero -->
+        <div class="card">
+          <div class="hero-top">
+            <div>
+              <span class="klabel">Applicants — total</span>
+              <div class="kvalue big" style="margin-top:8px">1,247</div>
+            </div>
+            <span class="pill ok">▲ +83 w/w · +7.1%</span>
+          </div>
+          <div class="spark" aria-hidden="true">
+            <i style="height:38%"></i><i style="height:45%"></i><i style="height:41%"></i><i style="height:58%"></i><i style="height:52%"></i><i style="height:66%"></i><i style="height:72%"></i><i class="hot" style="height:88%"></i>
+          </div>
+          <div class="micro">8-week trend · K–2 sweet spot leads at 609 apps · <span class="ksrc">Supabase app_form</span></div>
+        </div>
+
+        <!-- deposits ring -->
+        <div class="card">
+          <div class="row-split" style="margin-bottom:14px">
+            <span class="klabel">Deposits vs. Fall goal</span>
+            <span class="pill watch">Watch</span>
+          </div>
+          <div class="ring-wrap">
+            <div class="ring">
+              <svg width="120" height="120">
+                <circle cx="60" cy="60" r="52" fill="none" stroke="var(--track)" stroke-width="13"/>
+                <circle cx="60" cy="60" r="52" fill="none" stroke="url(#gg)" stroke-width="13" stroke-linecap="round"
+                        stroke-dasharray="326.7" stroke-dashoffset="124.1"/>
+                <defs><linearGradient id="gg" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0" stop-color="#E48B53"/><stop offset="1" stop-color="#C96E36"/>
+                </linearGradient></defs>
+              </svg>
+              <div class="ctr"><span class="n">112</span><span class="of">of 180</span></div>
+            </div>
+            <div class="ring-meta">
+              <div class="pct">62%</div>
+              <div class="micro" style="margin-top:2px">68 deposits to goal.<br/>Run-rate needs <b>9/wk</b>; tracking <b>7/wk</b>.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2-up: SLA + GT Challenge -->
+        <div class="grid2">
+          <div class="card">
+            <span class="klabel">24-hr SLA</span>
+            <div class="kvalue mid" style="margin-top:10px">88<span style="font-size:18px">%</span></div>
+            <div style="margin-top:10px"><span class="pill ok">On-track</span></div>
+            <div class="micro">contacted in window · <span class="ksrc">HubSpot</span></div>
+          </div>
+          <div class="card">
+            <span class="klabel">GT Challenge CPQL</span>
+            <div class="kvalue mid" style="margin-top:10px">$42</div>
+            <div style="margin-top:10px"><span class="pill ok">Under $60 target</span></div>
+            <div class="micro">156 qualified · guerrilla/earned</div>
+          </div>
+        </div>
+
+        <!-- engagement tier mix -->
+        <div class="card">
+          <div class="row-split" style="margin-bottom:14px">
+            <span class="klabel">Engagement tier mix</span>
+            <span class="ksrc">HubSpot</span>
+          </div>
+          <div class="bar">
+            <span style="width:28%;background:var(--navy-mid)"></span>
+            <span style="width:41%;background:var(--gold)"></span>
+            <span style="width:31%;background:var(--track)"></span>
+          </div>
+          <div class="legend">
+            <span class="lg"><span class="sw" style="background:var(--navy-mid)"></span>Clicked 28%</span>
+            <span class="lg"><span class="sw" style="background:var(--gold)"></span>Opened 41%</span>
+            <span class="lg"><span class="sw" style="background:var(--track)"></span>Cold 31%</span>
+          </div>
+          <hr class="sep"/>
+          <div class="row-split">
+            <div><div class="kvalue" style="font-size:26px;color:var(--ok)">52%</div><div class="micro">clicked → commit</div></div>
+            <div style="text-align:right"><div class="kvalue" style="font-size:26px;color:var(--ink-soft)">16%</div><div class="micro">cold → commit</div></div>
+          </div>
+          <div class="micro" style="margin-top:10px">Engagement is the top conversion predictor.</div>
+        </div>
+      </section>
+
+      <!-- ============ KPI / CRM OPS ============ -->
+      <section class="surface" id="s-kpi">
+        <div class="sec-head">
+          <h1>CRM Ops</h1>
+          <span class="sub">Data infrastructure health</span>
+        </div>
+
+        <!-- parity score -->
+        <div class="card">
+          <div class="row-split">
+            <span class="klabel">Sync parity — Supabase ⇄ HubSpot</span>
+            <span class="pill ok">Healthy overall</span>
+          </div>
+          <div class="kvalue big" style="margin-top:12px;color:var(--ok)">98%</div>
+          <div class="micro">records matching · but specific fields below are <b>not trustworthy</b></div>
+        </div>
+
+        <!-- UTM broken -->
+        <div class="card" style="border-color:rgba(192,57,43,.45)">
+          <div class="row-split">
+            <span class="klabel">UTM attribution</span>
+            <span class="pill risk">● BROKEN</span>
+          </div>
+          <div class="kvalue mid" style="margin-top:10px;color:var(--risk)">0%</div>
+          <div class="micro">of new leads with valid UTM resolution · permanent red flag until rebuilt — fix tracked here.</div>
+        </div>
+
+        <!-- field reliability -->
+        <div class="card">
+          <span class="klabel" style="display:block;margin-bottom:6px">Field reliability flags</span>
+          <div class="flagrow"><span class="fname">TEFA status</span><span class="pill risk">UNRELIABLE</span></div>
+          <div class="flagrow"><span class="fname">Income</span><span class="pill risk">UNRELIABLE</span></div>
+          <div class="flagrow"><span class="fname">Source</span><span class="pill risk">UNRELIABLE</span></div>
+          <div class="flagrow"><span class="fname">Engagement / open-click</span><span class="pill ok">Reliable</span></div>
+          <div class="truth">
+            <span>📌</span><div><b>Rule of truth:</b> Supabase app_form is the source of truth for funnel / TEFA / income — never HubSpot field values.</div>
+          </div>
+        </div>
+
+        <!-- data quality queue -->
+        <div class="card">
+          <div class="row-split" style="margin-bottom:6px">
+            <span class="klabel">Top data-quality issues</span>
+            <span class="pill soft">4 open</span>
+          </div>
+          <div class="lrow">
+            <span class="pill risk">CRIT</span>
+            <div class="body"><div class="t">UTM resolution broken</div><div class="m">0% of new leads tagged · auto-detected Jun 3</div></div>
+          </div>
+          <div class="lrow">
+            <span class="pill watch">HIGH</span>
+            <div class="body"><div class="t">Income field drift</div><div class="m">Supabase ≠ HubSpot on 29% of records</div></div>
+          </div>
+          <div class="lrow">
+            <span class="pill watch">HIGH</span>
+            <div class="body"><div class="t">Source attribution null</div><div class="m">41% of June leads missing source</div></div>
+          </div>
+          <div class="lrow">
+            <span class="pill info">INFO</span>
+            <div class="body"><div class="t">TEFA cohort frozen</div><div class="m">Closed Jun 1 · historical reference only</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ BUDGET ============ -->
+      <section class="surface" id="s-budget">
+        <div class="sec-head">
+          <h1>Budget</h1>
+          <span class="sub">$365K plan · reconcile</span>
+        </div>
+
+        <!-- total burn -->
+        <div class="card">
+          <div class="bud-total">
+            <div>
+              <span class="klabel">Total actual spend</span>
+              <div class="kvalue big" style="margin-top:8px">$220.9K</div>
+            </div>
+            <div style="text-align:right">
+              <div class="kvalue mid" style="font-size:22px;color:var(--ink-soft)">of $365K</div>
+              <span class="pill watch" style="margin-top:6px">60.5% burned</span>
+            </div>
+          </div>
+          <div class="bar solid" style="margin-top:14px"><span style="width:60.5%"></span></div>
+          <div class="micro">At this pace, fully committed by <b>Aug 9</b> — 8 days before cutoff.</div>
+        </div>
+
+        <!-- grassroots -->
+        <div class="card ws">
+          <div class="ws-head"><span class="ws-name">Grassroots marketing</span><span class="pill ok">On-track</span></div>
+          <div class="bar"><span style="width:58%;background:var(--ok)"></span></div>
+          <div class="nums">
+            <div><div class="l">Recommended</div><div class="v">$210K</div></div>
+            <div><div class="l">Committed</div><div class="v">$168K</div></div>
+            <div><div class="l">Actual</div><div class="v">$121.4K</div></div>
+            <div><div class="l">Left</div><div class="v">$88.6K</div></div>
+          </div>
+        </div>
+
+        <!-- content -->
+        <div class="card ws">
+          <div class="ws-head"><span class="ws-name">Thought leadership + content</span><span class="pill ok">On-track</span></div>
+          <div class="bar"><span style="width:42%;background:var(--ok)"></span></div>
+          <div class="nums">
+            <div><div class="l">Recommended</div><div class="v">$90K</div></div>
+            <div><div class="l">Committed</div><div class="v">$62K</div></div>
+            <div><div class="l">Actual</div><div class="v">$38.2K</div></div>
+            <div><div class="l">Left</div><div class="v">$51.8K</div></div>
+          </div>
+        </div>
+
+        <!-- guerrilla — OVER -->
+        <div class="card ws over">
+          <div class="ws-head"><span class="ws-name">Guerrilla / earned bets</span><span class="pill risk">16% over</span></div>
+          <div class="bar"><span style="width:100%;background:var(--risk)"></span></div>
+          <div class="nums">
+            <div><div class="l">Recommended</div><div class="v">$40K</div></div>
+            <div><div class="l">Committed</div><div class="v">$46.5K</div></div>
+            <div><div class="l">Actual</div><div class="v">$46.5K</div></div>
+            <div><div class="l">Over by</div><div class="v" style="color:var(--risk)">$6.5K</div></div>
+          </div>
+          <button class="toqueue" onclick="setTab('decisions')">⚑ Auto-flagged → Decision Queue ›</button>
+        </div>
+
+        <!-- foundations -->
+        <div class="card ws">
+          <div class="ws-head"><span class="ws-name">Foundations + operations</span><span class="pill ok">On-track</span></div>
+          <div class="bar"><span style="width:59%;background:var(--ok)"></span></div>
+          <div class="nums">
+            <div><div class="l">Recommended</div><div class="v">$25K</div></div>
+            <div><div class="l">Committed</div><div class="v">$19K</div></div>
+            <div><div class="l">Actual</div><div class="v">$14.8K</div></div>
+            <div><div class="l">Left</div><div class="v">$10.2K</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============ DECISIONS (HERO) ============ -->
+      <section class="surface" id="s-decisions">
+        <!-- leader view -->
+        <div id="dec-leader">
+          <div class="sec-head">
+            <h1>Decision Queue</h1>
+            <span class="sub"><b style="color:var(--risk)">3 open</b> · 1 urgent</span>
+          </div>
+
+          <!-- card 1 -->
+          <div class="card dec-card">
+            <span class="pill risk dec-prio">Urgent</span>
+            <div class="q">Approve $6.5K guerrilla/earned overage for the Austin chess-tournament activation?</div>
+            <div class="dec-meta">
+              <div class="mi"><div class="l">Raised by</div><div class="v">Dave · Field &amp; Events</div></div>
+              <div class="mi"><div class="l">Workstream</div><div class="v">Guerrilla / earned</div></div>
+              <div class="mi"><div class="l">Budget ask</div><div class="v ask">$6,500</div></div>
+              <div class="mi"><div class="l">Due</div><div class="v">Jun 27</div></div>
+            </div>
+            <div class="rec"><div class="l">Recommendation</div><div class="v">Approve — CPQL tracking at $42, well under the $60 target. Overage already auto-flagged from Budget.</div></div>
+            <div class="dec-actions">
+              <button class="b-app" onclick="decide(this,'app')">✓ Approve</button>
+              <button class="b-info" onclick="decide(this,'info')">Need info</button>
+              <button class="b-rej" onclick="decide(this,'rej')">✕ Reject</button>
+            </div>
+            <div class="decided"></div>
+          </div>
+
+          <!-- card 2 -->
+          <div class="card dec-card">
+            <span class="pill soft dec-prio">Normal</span>
+            <div class="q">Greenlight the founder sizzle reel with Joe (videographer in Thailand)?</div>
+            <div class="dec-meta">
+              <div class="mi"><div class="l">Raised by</div><div class="v">Content Owner</div></div>
+              <div class="mi"><div class="l">Workstream</div><div class="v">Thought leadership</div></div>
+              <div class="mi"><div class="l">Budget ask</div><div class="v ask">$12,000</div></div>
+              <div class="mi"><div class="l">Due</div><div class="v">Jun 30</div></div>
+            </div>
+            <div class="rec"><div class="l">Recommendation</div><div class="v">Approve — anchors the July scale phase; founder content is the highest-trust asset in the pipeline.</div></div>
+            <div class="dec-actions">
+              <button class="b-app" onclick="decide(this,'app')">✓ Approve</button>
+              <button class="b-info" onclick="decide(this,'info')">Need info</button>
+              <button class="b-rej" onclick="decide(this,'rej')">✕ Reject</button>
+            </div>
+            <div class="decided"></div>
+          </div>
+
+          <!-- card 3 -->
+          <div class="card dec-card">
+            <span class="pill soft dec-prio">Normal</span>
+            <div class="q">Launch a 2-week referral sprint targeting the $160K+ income segment?</div>
+            <div class="dec-meta">
+              <div class="mi"><div class="l">Raised by</div><div class="v">Grassroots Owner</div></div>
+              <div class="mi"><div class="l">Workstream</div><div class="v">Grassroots</div></div>
+              <div class="mi"><div class="l">Budget ask</div><div class="v ask">$0</div></div>
+              <div class="mi"><div class="l">Due</div><div class="v">Jul 1</div></div>
+            </div>
+            <div class="rec"><div class="l">Recommendation</div><div class="v">Approve — $160K+ converts ~25% regardless of geography (income is the master variable). No incremental spend.</div></div>
+            <div class="dec-actions">
+              <button class="b-app" onclick="decide(this,'app')">✓ Approve</button>
+              <button class="b-info" onclick="decide(this,'info')">Need info</button>
+              <button class="b-rej" onclick="decide(this,'rej')">✕ Reject</button>
+            </div>
+            <div class="decided"></div>
+          </div>
+        </div>
+
+        <!-- operator / admin gated view -->
+        <div id="dec-gated" style="display:none">
+          <div class="sec-head"><h1>Decisions</h1><span class="sub">Submit a proposal</span></div>
+          <div class="card gate">
+            <div class="lock">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor"><path d="M12 1a5 5 0 0 0-5 5v3H6a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-9a2 2 0 0 0-2-2h-1V6a5 5 0 0 0-5-5Zm3 8H9V6a3 3 0 0 1 6 0v3Z"/></svg>
+            </div>
+            <h2>Leadership reviews the queue</h2>
+            <p>The full Decision Queue is visible to leadership only. As an operator you can raise proposals from your workstream and track their status.</p>
+            <button class="submit-btn">＋ Submit a proposal</button>
+          </div>
+          <div class="mine">
+            <div class="h">Your open submissions</div>
+            <div class="card" style="margin-bottom:10px">
+              <div class="row-split"><div class="t" style="font-weight:600;font-size:14px">Add a 4th camp session at Austin</div><span class="pill watch">In review</span></div>
+              <div class="micro" style="margin-top:4px">Submitted Jun 23 · Summer Camp · $0 ask</div>
+            </div>
+            <div class="card">
+              <div class="row-split"><div class="t" style="font-weight:600;font-size:14px">Boost ambassador toolkit print run</div><span class="pill ok">Approved</span></div>
+              <div class="micro" style="margin-top:4px">Submitted Jun 18 · Grassroots · $1,200 ask</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div><!-- /scroll -->
+
+    <!-- bottom tab bar -->
+    <nav class="tabbar" id="tabbar">
+      <button class="tab on" data-tab="home" onclick="setTab('home')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>
+        Home
+      </button>
+      <button class="tab" data-tab="kpi" onclick="setTab('kpi')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19V5"/><path d="M4 19h16"/><path d="M8 16v-5"/><path d="M13 16V8"/><path d="M18 16v-7"/></svg>
+        KPI
+      </button>
+      <button class="tab" data-tab="budget" onclick="setTab('budget')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5h4a1.5 1.5 0 0 1 0 3h-3a1.5 1.5 0 0 0 0 3h4"/></svg>
+        Budget
+      </button>
+      <button class="tab" data-tab="decisions" onclick="setTab('decisions')">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11.5 11 14l4.5-5"/><rect x="4" y="4" width="16" height="16" rx="4"/></svg>
+        Decisions
+        <span class="badge" id="decBadge">3</span>
+      </button>
+    </nav>
+
+  </div><!-- /app -->
+</div><!-- /phone -->
+
+<div class="caption"><b>Executive / mobile-first</b> — tap the bottom tabs / role switcher / dark toggle to explore.</div>
+
+<script>
+  var role = 'leader';
+
+  function setTab(name){
+    document.querySelectorAll('.surface').forEach(function(s){ s.classList.remove('on'); });
+    var el = document.getElementById('s-' + name);
+    if(el) el.classList.add('on');
+    document.querySelectorAll('.tab').forEach(function(t){
+      t.classList.toggle('on', t.getAttribute('data-tab') === name);
+    });
+    document.getElementById('scroll').scrollTo({top:0, behavior:'smooth'});
+  }
+
+  function setRole(r){
+    role = r;
+    document.querySelectorAll('#roleSeg button').forEach(function(b){
+      b.classList.toggle('on', b.getAttribute('data-role') === r);
+    });
+    var leaderView = (r === 'leader');
+    document.getElementById('dec-leader').style.display = leaderView ? 'block' : 'none';
+    document.getElementById('dec-gated').style.display  = leaderView ? 'none'  : 'block';
+    // decision badge only matters to leadership
+    document.getElementById('decBadge').style.display = leaderView ? 'grid' : 'none';
+  }
+
+  function toggleDark(){
+    var app = document.getElementById('app');
+    var isDark = app.classList.toggle('dark');
+    document.getElementById('darkIcon').innerHTML = isDark
+      ? '<path d="M12 2v3M12 19v3M5 12H2M22 12h-3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M5.6 18.4l2.1-2.1M16.3 7.7l2.1-2.1"/><circle cx="12" cy="12" r="4" fill="none" stroke="currentColor" stroke-width="2"/>'
+      : '<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>';
+    document.getElementById('darkIcon').setAttribute(isDark ? 'stroke-width' : 'data-x', isDark ? '2' : '0');
+    if(isDark){ document.getElementById('darkIcon').setAttribute('stroke','currentColor'); document.getElementById('darkIcon').setAttribute('fill','none'); }
+    else { document.getElementById('darkIcon').setAttribute('fill','currentColor'); document.getElementById('darkIcon').removeAttribute('stroke'); }
+  }
+
+  function decide(btn, outcome){
+    var card = btn.closest('.dec-card');
+    var actions = card.querySelector('.dec-actions');
+    var result  = card.querySelector('.decided');
+    var map = {
+      app:  {cls:'ok',   txt:'✓ Approved',         bg:'var(--ok)'},
+      info: {cls:'watch', txt:'↩ More info requested', bg:'var(--watch)'},
+      rej:  {cls:'risk', txt:'✕ Rejected',         bg:'var(--risk)'}
+    };
+    var m = map[outcome];
+    actions.style.display = 'none';
+    result.style.background = m.bg;
+    result.style.color = '#fff';
+    result.textContent = m.txt;
+    result.classList.add('show');
+    // decrement open badge / count
+    var badge = document.getElementById('decBadge');
+    var n = Math.max(0, parseInt(badge.textContent, 10) - 1);
+    badge.textContent = n;
+    if(n === 0) badge.style.visibility = 'hidden';
+    var sub = document.querySelector('#dec-leader .sec-head .sub');
+    if(sub) sub.innerHTML = '<b style="color:var(--risk)">' + n + ' open</b> · acting one-thumb';
+  }
+</script>
+</body>
+</html>

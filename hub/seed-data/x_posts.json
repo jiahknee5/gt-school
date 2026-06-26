@@ -1,0 +1,90 @@
+[
+  {
+    "_standIn": true,
+    "_source": "x_api_v2",
+    "id": "455578534129314708",
+    "created_at": "2026-06-17T17:00:00.000Z",
+    "text": "Gifted kids don't need more worksheets. They need no ceiling. → anywhere.gt.school?utm_campaign=x_conviction_june",
+    "public_metrics": {
+      "impression_count": 65400,
+      "like_count": 2029,
+      "retweet_count": 289,
+      "reply_count": 229,
+      "quote_count": 206,
+      "bookmark_count": 284
+    },
+    "non_public_metrics": {
+      "url_link_clicks": 681,
+      "user_profile_clicks": 196
+    },
+    "utm_campaign": "x_conviction_june",
+    "utm_source": "twitter",
+    "utm_medium": "social"
+  },
+  {
+    "_standIn": true,
+    "_source": "x_api_v2",
+    "id": "582606630455194675",
+    "created_at": "2026-06-05T17:00:00.000Z",
+    "text": "Your district says 'gifted' then puts them back in the same class. We don't.",
+    "public_metrics": {
+      "impression_count": 8702,
+      "like_count": 209,
+      "retweet_count": 102,
+      "reply_count": 16,
+      "quote_count": 15,
+      "bookmark_count": 27
+    },
+    "non_public_metrics": {
+      "url_link_clicks": 103,
+      "user_profile_clicks": 26
+    },
+    "utm_campaign": "x_conviction_june",
+    "utm_source": "twitter",
+    "utm_medium": "social"
+  },
+  {
+    "_standIn": true,
+    "_source": "x_api_v2",
+    "id": "339130443442996480",
+    "created_at": "2026-08-14T15:00:00.000Z",
+    "text": "GT Anywhere is free with the Texas ESA. Elite gifted education, $0 out of pocket.",
+    "public_metrics": {
+      "impression_count": 73949,
+      "like_count": 1488,
+      "retweet_count": 517,
+      "reply_count": 362,
+      "quote_count": 67,
+      "bookmark_count": 489
+    },
+    "non_public_metrics": {
+      "url_link_clicks": 575,
+      "user_profile_clicks": 222
+    },
+    "utm_campaign": "x_esa_thread",
+    "utm_source": "twitter",
+    "utm_medium": "social"
+  },
+  {
+    "_standIn": true,
+    "_source": "x_api_v2",
+    "id": "326706370990553986",
+    "created_at": "2026-08-09T13:00:00.000Z",
+    "text": "Thread: how the TEFA voucher changes the math for gifted families in TX 🧵",
+    "public_metrics": {
+      "impression_count": 24086,
+      "like_count": 352,
+      "retweet_count": 223,
+      "reply_count": 50,
+      "quote_count": 86,
+      "bookmark_count": 130
+    },
+    "non_public_metrics": {
+      "url_link_clicks": 190,
+      "user_profile_clicks": 72
+    },
+    "utm_campaign": "x_esa_thread",
+    "utm_source": "twitter",
+    "utm_medium": "social"
+  }
+]

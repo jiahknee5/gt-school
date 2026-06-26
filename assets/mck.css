@@ -1,0 +1,212 @@
+/* ============================================================================
+   GT School — shared McKinsey-style theme (classic light deck)
+   White ground · deep navy ink · single blue accent · thin keylines ·
+   action titles · gray source lines. Link this on every page:
+     <link rel="stylesheet" href="assets/mck.css">
+   Class names match the existing component system so pages reskin by linking.
+   ========================================================================== */
+:root{
+  --navy:#042234; --navy-2:#0b3350; --ink:#1f2d3a; --body:#33424f; --muted:#647386; --faint:#94a2b2;
+  --page:#ffffff; --panel:#f5f7fa; --panel-2:#eef2f7; --line:#dde3ea; --line-2:#e8edf3;
+  --blue:#2251ff; --blue-ink:#1a3fd0; --blue-soft:#eaf0ff; --blue-tint:#f2f6ff;
+  --amber:#b45309; --amber-soft:#fdf6ec; --good:#0f7a52; --good-soft:#e9f6f0; --bad:#c0392b; --bad-soft:#fceeec;
+  --shadow:0 1px 2px rgba(16,28,54,.05), 0 8px 24px rgba(16,28,54,.06);
+  --serif:"Bower",Georgia,"Times New Roman",serif;
+  --sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:var(--sans);color:var(--body);background:var(--page);
+  line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100vh;padding-top:52px}
+
+/* top nav ------------------------------------------------------------------ */
+.topbar{position:fixed;top:0;left:0;right:0;height:52px;z-index:100;background:rgba(255,255,255,.94);
+  backdrop-filter:blur(8px);display:flex;align-items:center;gap:16px;padding:0 22px;border-bottom:1px solid var(--line)}
+.topbar .hub{color:var(--navy);font-family:var(--serif);font-weight:600;font-size:15px;text-decoration:none;white-space:nowrap}
+.topbar .hub .d{color:var(--blue)}
+.topnav{display:flex;gap:2px;margin-left:auto;flex-wrap:wrap}
+.topnav a{color:#516072;text-decoration:none;font-size:12.5px;font-weight:600;padding:6px 10px;border-radius:6px;transition:.12s}
+.topnav a:hover{background:var(--panel-2);color:var(--navy)}
+.topnav a.active{background:var(--blue);color:#fff}
+
+/* layout & type ------------------------------------------------------------ */
+.wrap{max-width:none;margin:0;padding:40px clamp(20px,4.5vw,64px) 84px}
+.eyebrow{font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--blue-ink);font-weight:700}
+h1{font-family:var(--serif);font-size:clamp(38px,4.6vw,54px);line-height:1.05;margin:10px 0 6px;font-weight:600;letter-spacing:-.015em;color:var(--navy)}
+h1 + .rule,.actionrule{height:3px;width:64px;background:var(--blue);border:0;margin:14px 0 0;border-radius:3px}
+.sub{font-size:17px;color:var(--muted);max-width:780px;margin:10px 0 0}
+h2{font-family:var(--serif);font-size:26px;color:var(--navy);font-weight:600;margin:0 0 6px}
+h3{font-family:var(--serif);color:var(--navy);font-weight:600}
+
+.thesis{margin:24px 0 6px;background:var(--blue-tint);border:1px solid var(--blue-soft);
+  border-left:3px solid var(--blue);border-radius:0 10px 10px 0;padding:16px 20px;font-family:var(--serif);
+  font-size:16.5px;line-height:1.5;color:var(--navy);max-width:960px}
+.thesis b{color:var(--blue-ink)}
+
+/* section label ------------------------------------------------------------ */
+.seclab{display:flex;align-items:center;gap:12px;margin:48px 0 4px;color:var(--navy);
+  font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:800}
+.seclab::after{content:"";flex:1;height:1px;background:var(--line)}
+.seclab .hint{font-weight:600;letter-spacing:.01em;text-transform:none;color:var(--faint);font-size:11.5px}
+
+/* source / footnote line --------------------------------------------------- */
+.src{margin-top:14px;padding-top:8px;border-top:1px solid var(--line-2);font-size:11px;color:var(--faint);line-height:1.5}
+.src b{color:var(--muted);font-weight:700}
+
+/* KPI scoreboard ----------------------------------------------------------- */
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;margin-top:24px}
+.kpi{background:var(--page);border:1px solid var(--line);border-radius:12px;padding:17px 19px;position:relative;overflow:hidden;box-shadow:var(--shadow)}
+.kpi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--blue)}
+.kpi.good::before{background:var(--good)} .kpi.gold::before{background:var(--amber)} .kpi.warn::before{background:var(--bad)}
+.kpi .n{font-family:var(--serif);font-size:30px;font-weight:600;color:var(--navy);line-height:1.05;letter-spacing:-.01em}
+.kpi .n .u{font-size:15px;color:var(--blue-ink);font-weight:600;font-family:var(--sans)}
+.kpi.good .n .u{color:var(--good)} .kpi.gold .n .u{color:var(--amber)}
+.kpi .l{font-size:12px;color:var(--muted);margin-top:7px;line-height:1.4}
+.kpi .l b{color:var(--ink)}
+
+/* reading-order cards (hub) ------------------------------------------------ */
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px;margin-top:18px}
+.card{display:flex;flex-direction:column;text-decoration:none;background:var(--page);border-radius:13px;padding:22px 24px;
+  box-shadow:var(--shadow);border:1px solid var(--line);transition:transform .14s,box-shadow .14s,border-color .14s;position:relative;overflow:hidden}
+.card::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--blue);opacity:0;transition:.14s}
+.card:hover{transform:translateY(-3px);box-shadow:0 16px 36px rgba(16,28,54,.12);border-color:var(--blue-soft)}
+.card:hover::before{opacity:1}
+.card.feature{border-color:var(--blue-soft);background:var(--blue-tint)}
+.card.feature::before{opacity:1}
+.card .num{font-family:var(--mono);font-size:12px;font-weight:700;color:var(--blue-ink)}
+.card .tag{position:absolute;top:18px;right:20px;font-size:9.5px;font-weight:800;letter-spacing:.1em;
+  text-transform:uppercase;color:#fff;background:var(--blue);padding:4px 9px;border-radius:20px}
+.card .tag.deck{background:var(--amber)} .card .tag.ref{background:#64748b} .card .tag.prep{background:var(--good)}
+.card h3{font-size:22px;margin:8px 0 4px;color:var(--navy);line-height:1.18}
+.card .role{font-size:12.5px;font-weight:700;color:var(--blue-ink);margin-bottom:8px}
+.card .role.deck{color:var(--amber)} .card .role.prep{color:var(--good)} .card .role.ref{color:#64748b}
+.card p{margin:0;font-size:13.8px;color:var(--muted);line-height:1.5}
+.card .go{margin-top:auto;padding-top:14px;font-size:12.5px;font-weight:700;color:var(--blue-ink)}
+
+/* timeline strip ----------------------------------------------------------- */
+.timeline{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));margin-top:18px;border-radius:12px;
+  overflow:hidden;border:1px solid var(--line)}
+.tl{position:relative;background:var(--panel);padding:16px 16px 18px;border-right:1px solid var(--line)}
+.tl:last-child{border-right:none}
+.tl.peak{background:var(--blue-tint)}
+.tl .bar{height:3px;border-radius:3px;background:var(--line);margin-bottom:12px}
+.tl.peak .bar{background:var(--blue)}
+.tl .when{font-family:var(--mono);font-size:11px;color:var(--blue-ink);font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.tl .moment{font-family:var(--serif);font-size:15.5px;color:var(--navy);margin:6px 0 3px;font-weight:600;line-height:1.2}
+.tl .state{font-size:11.5px;color:var(--muted);font-style:italic;margin-bottom:9px}
+.tl .msg{font-size:12.5px;color:var(--body);line-height:1.42}
+.tl .star{position:absolute;top:13px;right:13px;color:var(--blue-ink);font-size:11px;font-weight:800;letter-spacing:.05em}
+
+/* phase / roadmap ribbon --------------------------------------------------- */
+.phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-top:16px}
+.ph{background:var(--page);border:1px solid var(--line);border-radius:12px;padding:15px 17px;border-top:3px solid var(--blue);box-shadow:var(--shadow)}
+.ph .w{font-family:var(--mono);font-size:11px;color:var(--blue-ink);font-weight:700;letter-spacing:.04em}
+.ph .t{font-family:var(--serif);font-size:17px;color:var(--navy);margin:5px 0 6px;font-weight:600;line-height:1.15}
+.ph .d{font-size:12.2px;color:var(--muted);line-height:1.42}
+.ph ul{margin:0;padding-left:16px}
+.ph li{font-size:12.4px;color:var(--muted);line-height:1.48;margin-bottom:4px}
+
+/* JD -> practice rows ------------------------------------------------------ */
+.prow{display:grid;grid-template-columns:minmax(230px,.85fr) 1.25fr;border:1px solid var(--line);
+  border-radius:12px;overflow:hidden;margin-top:14px;box-shadow:var(--shadow)}
+.prow .jd{background:var(--panel);padding:18px 20px;border-right:1px solid var(--line)}
+.prow .jd .k{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);font-weight:700;margin-bottom:8px}
+.prow .jd .t{font-family:var(--serif);font-size:15.5px;color:var(--navy);line-height:1.35}
+.prow .pr{padding:18px 22px;background:var(--page)}
+.prow .pr .k{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--good);font-weight:700;margin-bottom:8px}
+.prow .pr p{margin:0 0 8px;font-size:13.8px;color:var(--body);line-height:1.5}
+.prow .pr ul{margin:6px 0 0;padding-left:17px}
+.prow .pr li{font-size:13.4px;color:var(--body);line-height:1.52;margin-bottom:5px}
+.prow .pr li b{color:var(--navy)}
+@media(max-width:760px){.prow{grid-template-columns:1fr}.prow .jd{border-right:none;border-bottom:1px solid var(--line)}}
+
+/* funnel / loop strips ----------------------------------------------------- */
+.funnel,.loop{display:flex;flex-wrap:wrap;gap:7px;margin-top:16px;align-items:stretch}
+.fstep,.lstep{flex:1 1 120px;background:var(--panel);border:1px solid var(--line);border-radius:11px;padding:12px 13px}
+.fstep.hot,.lstep.hot{background:var(--blue-tint);border-color:var(--blue-soft)}
+.fstep .s,.lstep .s{font-family:var(--mono);font-size:9.5px;letter-spacing:.05em;color:var(--blue-ink);font-weight:700;text-transform:uppercase}
+.fstep .n,.lstep .n{font-family:var(--serif);font-size:13.5px;color:var(--navy);margin-top:5px;line-height:1.2}
+.fstep .m{font-size:11px;color:var(--muted);margin-top:6px;line-height:1.35}
+.lstep .n{font-family:var(--sans);font-size:12px;color:var(--body)}
+.farrow,.larrow{display:flex;align-items:center;color:var(--faint);font-size:15px;font-weight:700}
+
+/* chips -------------------------------------------------------------------- */
+.chips{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-top:16px}
+.chip{background:var(--page);border:1px solid var(--line);border-radius:11px;padding:14px 16px;box-shadow:var(--shadow)}
+.chip .h{font-family:var(--serif);font-size:14.5px;color:var(--navy);margin-bottom:5px;font-weight:600}
+.chip p{margin:0;font-size:12.6px;color:var(--muted);line-height:1.45}
+.chip.no{border-color:#f3cfca;background:var(--bad-soft)}
+.chip.no .h{color:var(--bad)} .chip.no .h::before{content:"\2715  ";font-weight:800}
+
+/* hire / explainer cards --------------------------------------------------- */
+.hires,.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px;margin-top:16px}
+.hire,.ex{background:var(--page);border:1px solid var(--line);border-radius:13px;padding:19px 22px;box-shadow:var(--shadow)}
+.hire{border-top:3px solid var(--good)} .hire:nth-child(2){border-top-color:var(--blue)}
+.hire .role{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--good);font-weight:700;text-transform:uppercase}
+.hire:nth-child(2) .role{color:var(--blue-ink)}
+.hire h3{font-size:20px;color:var(--navy);margin:6px 0 4px}
+.hire .pay{font-size:12px;color:var(--muted);font-family:var(--mono);margin-bottom:10px}
+.hire p,.ex p{margin:0;font-size:13.4px;color:var(--body);line-height:1.5}
+.hire p b,.ex p b,.ex li b{color:var(--navy)}
+.ex h3{font-size:18px;margin:0 0 8px}
+.ex p{margin:0 0 8px}
+.ex ul{margin:6px 0 0;padding-left:17px} .ex li{font-size:13px;color:var(--body);line-height:1.5;margin-bottom:5px}
+.ex code{font-family:var(--mono);font-size:12px;color:var(--blue-ink);background:var(--blue-soft);padding:1px 6px;border-radius:5px}
+
+/* NYC vs national compare -------------------------------------------------- */
+.compare{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:16px}
+@media(max-width:860px){.compare{grid-template-columns:1fr}}
+.col{background:var(--page);border:1px solid var(--line);border-radius:13px;overflow:hidden;box-shadow:var(--shadow)}
+.col .ch{padding:16px 20px 15px;border-bottom:1px solid var(--line)}
+.col.nyc .ch{background:var(--blue-tint)} .col.nat .ch{background:var(--amber-soft)}
+.col .ch .tag{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:700}
+.col.nyc .ch .tag{color:var(--blue-ink)} .col.nat .ch .tag{color:var(--amber)}
+.col .ch .t{font-family:var(--serif);font-size:23px;color:var(--navy);margin:5px 0 3px;font-weight:600}
+.col .ch .s{font-size:12.5px;color:var(--muted);line-height:1.4}
+.col .row{padding:13px 20px;border-bottom:1px solid var(--line-2);display:grid;grid-template-columns:104px 1fr;gap:12px;align-items:start}
+.col .row:last-child{border-bottom:none}
+.col .row .k{font-family:var(--mono);font-size:9.5px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:700;padding-top:2px}
+.col .row .v{font-size:13px;color:var(--body);line-height:1.5} .col .row .v b{color:var(--navy)}
+
+/* segment cards ------------------------------------------------------------ */
+.segs{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:12px;margin-top:16px}
+.seg{background:var(--page);border:1px solid var(--line);border-radius:11px;padding:15px 17px;border-left:3px solid var(--blue);box-shadow:var(--shadow)}
+.seg.nat{border-left-color:var(--amber)}
+.seg .geo{font-family:var(--mono);font-size:9.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:var(--blue-ink)}
+.seg.nat .geo{color:var(--amber)}
+.seg h4{font-family:var(--serif);font-size:16px;color:var(--navy);margin:5px 0 3px;font-weight:600}
+.seg .trig{font-size:11.5px;color:var(--muted);font-style:italic;margin-bottom:8px}
+.seg .msg{font-size:12.6px;color:var(--body);line-height:1.45}
+.seg .tier{margin-top:9px;font-size:10.5px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.seg .tier b{color:var(--good)}
+
+/* Q&A blocks (interview brief) --------------------------------------------- */
+.qa{background:var(--page);border:1px solid var(--line);border-left:3px solid var(--blue);border-radius:0 12px 12px 0;
+  padding:18px 22px;margin-top:14px;box-shadow:var(--shadow)}
+.qa .qn{font-family:var(--mono);font-size:11px;color:var(--blue-ink);font-weight:700;letter-spacing:.04em}
+.qa .q{font-family:var(--serif);font-size:19px;color:var(--navy);margin:6px 0 10px;font-weight:600;line-height:1.25}
+.qa .verdict{display:inline-block;background:var(--navy);color:#fff;font-size:12.5px;font-weight:700;
+  padding:6px 13px;border-radius:7px;margin-bottom:12px;line-height:1.35}
+.qa .verdict.warn{background:var(--amber)} .qa .verdict.good{background:var(--good)}
+.qa p{margin:0 0 9px;font-size:13.8px;color:var(--body);line-height:1.55}
+.qa ul{margin:4px 0 9px;padding-left:18px} .qa li{font-size:13.6px;color:var(--body);line-height:1.5;margin-bottom:5px}
+.qa b{color:var(--navy)}
+
+/* market-by-year table ----------------------------------------------------- */
+.mtable{width:100%;border-collapse:collapse;margin-top:16px;font-size:13px;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.mtable thead th{background:var(--navy);color:#fff;text-align:left;padding:11px 14px;font-size:11px;letter-spacing:.05em;text-transform:uppercase;font-weight:700}
+.mtable thead th.num{text-align:right}
+.mtable td{padding:11px 14px;border-top:1px solid var(--line-2);color:var(--body);vertical-align:top}
+.mtable td.num{text-align:right;font-family:var(--mono);color:var(--navy);font-weight:600}
+.mtable tbody tr:nth-child(even){background:var(--panel)}
+.mtable .segname{font-weight:700;color:var(--navy)} .mtable .segsub{display:block;color:var(--muted);font-size:11.5px;font-weight:400;margin-top:2px}
+.mtable tfoot td{background:var(--blue-tint);border-top:2px solid var(--blue);font-weight:700;color:var(--navy);padding:11px 14px}
+.mtable tfoot td.num{font-family:var(--mono);text-align:right}
+@media(max-width:680px){.mtable{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}}
+
+/* note / footer ------------------------------------------------------------ */
+.note{margin-top:44px;background:var(--amber-soft);border:1px solid #f0dcc0;border-radius:12px;
+  padding:14px 18px;font-size:12.8px;color:#6b4d22;max-width:1000px;line-height:1.55}
+.note b{color:var(--amber)}
+.foot{margin-top:30px;color:var(--faint);font-size:11.5px}

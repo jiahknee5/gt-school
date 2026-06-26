@@ -1,0 +1,39 @@
+@import "tailwindcss";
+
+/* GT "Analog Futurism" design tokens */
+@theme {
+  --color-offwhite: #faf7f2;
+  --color-gold-20: #f5ddcd;
+  --color-gold: #e48b53;
+  --color-navy-mid: #003b5c;
+  --color-navy-deep: #002a3a;
+
+  --font-serif: var(--font-literata), Georgia, serif;
+  --font-sans: var(--font-inter), system-ui, sans-serif;
+  --font-mono: var(--font-inconsolata), ui-monospace, monospace;
+}
+
+/* light (default) + dark surfaces */
+:root {
+  --bg: #faf7f2;
+  --fg: #002a3a;
+  --card: #ffffff;
+  --muted: #5b6b73;
+  --border: #e7ddd0;
+}
+.dark {
+  --bg: #002a3a;
+  --fg: #faf7f2;
+  --card: #013040;
+  --muted: #9fb3bd;
+  --border: #0a4257;
+}
+
+html,
+body {
+  background: var(--bg);
+  color: var(--fg);
+}
+body {
+  font-family: var(--font-sans);
+}

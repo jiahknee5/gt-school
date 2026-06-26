@@ -1,0 +1,50 @@
+[
+  {
+    "id": "1f2831e7-140e-49ea-b68c-44727b35316b",
+    "aggregate_type": "family",
+    "aggregate_id": "0542ea8b-cbd6-4af5-808a-e80304ac9d35",
+    "target_system": "hubspot",
+    "op": "upsert_contact",
+    "payload": {
+      "email": "chloe.hernandez10@example.com",
+      "funnel_stage": "lead"
+    },
+    "dedupe_key": "family:0542ea8b-cbd6-4af5-808a-e80304ac9d35:upsert_contact:1788048000000",
+    "status": "pending",
+    "attempts": 0,
+    "last_error": null,
+    "created_at": "2026-08-30T00:00:00.000Z"
+  },
+  {
+    "id": "dc72464e-9cf4-4cb6-b825-a2ea1c87eb4c",
+    "aggregate_type": "family",
+    "aggregate_id": "9db3d9ee-414d-45b5-8ddf-e5e27823f7e8",
+    "target_system": "hubspot",
+    "op": "upsert_contact",
+    "payload": {
+      "email": "diego.hernandez11@example.com",
+      "funnel_stage": "lead"
+    },
+    "dedupe_key": "family:9db3d9ee-414d-45b5-8ddf-e5e27823f7e8:upsert_contact:1787616000000",
+    "status": "done",
+    "attempts": 1,
+    "last_error": null,
+    "created_at": "2026-08-25T00:00:00.000Z"
+  },
+  {
+    "id": "0c6043c8-c79b-4968-960e-b3a9b2abeac8",
+    "aggregate_type": "family",
+    "aggregate_id": "00cba351-93f7-4cc4-86c6-79436a51ccaf",
+    "target_system": "hubspot",
+    "op": "upsert_contact",
+    "payload": {
+      "email": "priya.rivera12@example.com",
+      "funnel_stage": "deposit"
+    },
+    "dedupe_key": "family:00cba351-93f7-4cc4-86c6-79436a51ccaf:upsert_contact:1787443200000",
+    "status": "dead",
+    "attempts": 5,
+    "last_error": "HubSpot 409: contact merged externally",
+    "created_at": "2026-08-23T00:00:00.000Z"
+  }
+]

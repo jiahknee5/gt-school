@@ -1,0 +1,38 @@
+[
+  {
+    "id": "32415cb4-44dd-40e6-b545-5ea9e95837f0",
+    "key": "grassroots",
+    "name": "Grassroots marketing",
+    "recommended": 210000,
+    "planned": 210000,
+    "committed": 148005,
+    "actual": 138029
+  },
+  {
+    "id": "7c9bfc13-f125-44f4-a544-270d245cff4d",
+    "key": "thought_leadership",
+    "name": "Thought leadership + content engine",
+    "recommended": 90000,
+    "planned": 90000,
+    "committed": 57164,
+    "actual": 52998
+  },
+  {
+    "id": "0d56abc2-3547-42d3-a3d5-4e55c1aa378a",
+    "key": "guerrilla",
+    "name": "Guerrilla / earned media bets",
+    "recommended": 40000,
+    "planned": 40000,
+    "committed": 47200,
+    "actual": 44800
+  },
+  {
+    "id": "7df2bbbf-deac-49b2-aa94-f218b0a2cf97",
+    "key": "foundations",
+    "name": "Marketing foundations + operations",
+    "recommended": 25000,
+    "planned": 25000,
+    "committed": 17340,
+    "actual": 15799
+  }
+]

@@ -1,2 +1,11 @@
 .playwright-mcp/
 .DS_Store
+node_modules/
+.next/
+out/
+dist/
+*.tsbuildinfo
+*.log
+.env
+.env.local
+.env*.local

@@ -1,0 +1,62 @@
+[
+  {
+    "id": "c57b5e0e-8c65-4b51-85ab-9eab397635d8",
+    "category": "utm",
+    "severity": "high",
+    "entity": null,
+    "entity_id": null,
+    "field": null,
+    "description": "UTM attribution broken on 169 contacts (source missing or unrendered template).",
+    "status": "open",
+    "created_at": "2026-08-27T00:00:00.000Z",
+    "resolved_at": null
+  },
+  {
+    "id": "83edc2df-0f1e-4817-b02e-97fb65541d75",
+    "category": "sync",
+    "severity": "medium",
+    "entity": null,
+    "entity_id": null,
+    "field": null,
+    "description": "Sync parity dipped to 91.2% in week 6 (HubSpot tefa_status/source drift).",
+    "status": "open",
+    "created_at": "2026-08-10T00:00:00.000Z",
+    "resolved_at": null
+  },
+  {
+    "id": "2d4e2329-3e01-4e16-9aa7-d36674a930ac",
+    "category": "scoring",
+    "severity": "low",
+    "entity": null,
+    "entity_id": null,
+    "field": null,
+    "description": "53 contacts missing a HubSpot lead_score.",
+    "status": "open",
+    "created_at": "2026-08-22T00:00:00.000Z",
+    "resolved_at": null
+  },
+  {
+    "id": "ecd4891f-dd3b-46d1-8e78-fe1d66e6f1f7",
+    "category": "tracking",
+    "severity": "medium",
+    "entity": null,
+    "entity_id": null,
+    "field": null,
+    "description": "Event-to-consult conversion is uninstrumented (field events have no attribution).",
+    "status": "open",
+    "created_at": "2026-08-01T00:00:00.000Z",
+    "resolved_at": null
+  },
+  {
+    "id": "719abf0b-606d-476f-8055-dcfc09a06ea2",
+    "category": "sync",
+    "severity": "low",
+    "entity": null,
+    "entity_id": null,
+    "field": null,
+    "description": "Resolved: 3 contacts had stale lifecycle_stage; re-synced.",
+    "status": "resolved",
+    "created_at": "2026-07-27T00:00:00.000Z",
+    "resolved_at": "2026-07-29T00:00:00.000Z"
+  }
+]

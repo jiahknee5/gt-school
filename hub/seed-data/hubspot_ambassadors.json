@@ -1,0 +1,164 @@
+[
+  {
+    "_standIn": true,
+    "_source": "hubspot",
+    "hubspot_contact_id": "hs_439822622",
+    "name": "Aisha Chen",
+    "email": "aisha.chen7@example.com",
+    "ambassador_status": "prospect",
+    "match_key": "57a20e058849d263873def9a5fd9f852213b57ab3af64e7d1b89c8a31b747949"
+  },
+  {
+    "_standIn": true,
+    "_source": "hubspot",
+    "hubspot_contact_id": "hs_581084866",
+    "name": "Elena Schwartz",
+    "email": "elena.schwartz335@example.com",
+    "ambassador_status": "prospect",
+    "match_key": "51883e44df49b83ff2aa324cd8ab92ceb1c85a806e9bf2b78b950acdaaa49994"
+  },
+  {
+    "_standIn": true,
+    "_source": "hubspot",
+    "hubspot_contact_id": "hs_848564344",
+    "name": "Nina Schwartz",
+    "email": "nina.schwartz856@example.com",
+    "ambassador_status": "prospect",
+    "match_key": "63eafc839c79f4107d91b15894301daba3ca5096934786dcfd90711ab7c407ce"
+  },
+  {
+    "_standIn": true,
+    "_source": "hubspot",
+    "hubspot_contact_id": "hs_203055177",
+    "name": "Liam Nguyen",
+    "email": "liam.nguyen338@example.com",
+    "ambassador_status": "onboarded",
+    "match_key": "a44f9b83fd4d73293e0f3f8aa80cf29fa8938e7eeb7a42ba635faf9bf9fbb7ce"
+  },
+  {
+    "_standIn": true,
+    "_source": "hubspot",
+    "hubspot_contact_id": "hs_219346016",
+    "name": "Ethan Adams",
+    "email": "ethan.adams526@example.com",
+    "ambassador_status": "active",
+    "match_key": "2eb65d329a7e10fce8d1f650f682005182a920ad8c0adce7d776bd76edcffa6c"
+  },
+  {
+    "_standIn": true,
+    "_source": "hubspot",
+    "hubspot_contact_id": "hs_965847987",
+    "name": "Ethan Nguyen",
+    "email": "ethan.nguyen588@example.com",
+    "ambassador_status": "champion",
+    "match_key": "26bb53b665ef60f53d32209e4451e91e44ceff1029f76b5e7c69cec58857b076"
+  },
+  {
+    "_standIn": true,
+    "_source": "hubspot",
+    "hubspot_contact_id": "hs_847982709",
+    "name": "Noah Johnson",
+    "email": "noah.johnson539@example.com",
+    "ambassador_status": "active",
+    "match_key": "34663084b97d0ec8115f0d328d1651c54dbb0f6784c2ccbe861c1015020d8643"
+  },
+  {
+    "_standIn": true,
+    "_source": "hubspot",
+    "hubspot_contact_id": "hs_616982812",
+    "name": "Kai Schwartz",
+    "email": "kai.schwartz104@example.com",
+    "ambassador_status": "onboarded",
+    "match_key": "9f73939c9012d9099be9519af16f41d123096d1ed0d9374867a13185ce7e0ef4"
+  },
+  {
+    "_standIn": true,
+    "_source": "hubspot",
+    "hubspot_contact_id": "hs_464158834",
+    "name": "Layla Schwartz",
+    "email": "layla.schwartz49@example.com",
+    "ambassador_status": "champion",
+    "match_key": "931d1d5011ba1922ff3960879a76f6acd5490fe40f1f0c29131c03bcc04bb392"
+  },
+  {
+    "_standIn": true,
+    "_source": "hubspot",
+    "hubspot_contact_id": "hs_864999167",
+    "name": "Elena Khan",
+    "email": "elena.khan977@example.com",
+    "ambassador_status": "prospect",
+    "match_key": "6350a3d61aa2cfb2fb856c6188f83411bd96a25a38d779427248dd9494168a98"
+  },
+  {
+    "_standIn": true,
+    "_source": "hubspot",
+    "hubspot_contact_id": "hs_562616742",
+    "name": "Marcus Johnson",
+    "email": "marcus.johnson667@example.com",
+    "ambassador_status": "champion",
+    "match_key": "3f1e6dea70d500420f79517f5c055bb33347fcfca92c92a534f08d6ba44aaea4"
+  },
+  {
+    "_standIn": true,
+    "_source": "hubspot",
+    "hubspot_contact_id": "hs_225365968",
+    "name": "Noah Patel",
+    "email": "noah.patel217@example.com",
+    "ambassador_status": "onboarded",
+    "match_key": "5a4ccb650d0e882ea733c1e14f93c5f0cbe6907ad4bc94078e138ed927be2587"
+  },
+  {
+    "_standIn": true,
+    "_source": "hubspot",
+    "hubspot_contact_id": "hs_679850685",
+    "name": "Mateo Kim",
+    "email": "mateo.kim157@example.com",
+    "ambassador_status": "onboarded",
+    "match_key": "6e41373487270962bfc3c20a2d84a7b3f9c95cd503c29137cc51de1e6f3bd6ee"
+  },
+  {
+    "_standIn": true,
+    "_source": "hubspot",
+    "hubspot_contact_id": "hs_673925974",
+    "name": "Priya Khan",
+    "email": "priya.khan976@example.com",
+    "ambassador_status": "active",
+    "match_key": "f6e44c3baf22ea79f8c534aae79251287f80129c981fc1568efbf411292d90c3"
+  },
+  {
+    "_standIn": true,
+    "_source": "hubspot",
+    "hubspot_contact_id": "hs_236184046",
+    "name": "Omar Okafor",
+    "email": "omar.okafor818@example.com",
+    "ambassador_status": "prospect",
+    "match_key": "8ed9c0b85e91c5bc9856dcdd11ef5741749392c13324093e752ba2c8c0c30fd9"
+  },
+  {
+    "_standIn": true,
+    "_source": "hubspot",
+    "hubspot_contact_id": "hs_085401164",
+    "name": "Chloe Reyes",
+    "email": "chloe.reyes231@example.com",
+    "ambassador_status": "active",
+    "match_key": "9fa9e14830a9ac0e51bf129879b04bf94ced88a75eee5095cbac4debfc4fd945"
+  },
+  {
+    "_standIn": true,
+    "_source": "hubspot",
+    "hubspot_contact_id": "hs_236492498",
+    "name": "Ibrahim Reyes",
+    "email": "ibrahim.reyes248@example.com",
+    "ambassador_status": "active",
+    "match_key": "95202ffc15b2704d0e890340aeec8d0abab9ce4f1ba98da38ab6e587d24c9c30"
+  },
+  {
+    "_standIn": true,
+    "_source": "hubspot",
+    "hubspot_contact_id": "hs_878574485",
+    "name": "Diego Cohen",
+    "email": "diego.cohen98@example.com",
+    "ambassador_status": "active",
+    "match_key": "e9ef283e5c1c2ff4a920d153897a444d33ddc887e21d2887de44d6a6f449e1c7"
+  }
+]

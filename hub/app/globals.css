@@ -1,0 +1,146 @@
+@import "tailwindcss";
+
+/* =========================================================================
+   GT Marketing Hub - Analog Futurism product tokens.
+   PRD colors override the earlier Attio-neutral shell.
+   ========================================================================= */
+
+:root {
+  --paper: #faf7f2;
+  --surface: #fffdf8;
+  --canvas: #faf7f2;
+  --side: #f5ddcd;
+  --topbar: #fffdf8;
+  --hover: #f9eadf;
+  --ink: #002a3a;
+  --slate: #003b5c;
+  --muted: #496779;
+  --label: #7891a0;
+  --hairline: rgba(0, 42, 58, 0.14);
+  --border: rgba(0, 42, 58, 0.26);
+  --fill: #f5ddcd;
+  --signal: #003b5c;
+  --gold: #e48b53;
+  --ink-cta: #002a3a;
+  --on-cta: #ffffff;
+  --violet: #5d4a75;
+  --violet-soft: #eee4ef;
+  --amber: #9b5f2f;
+  --amber-soft: #f8e6d9;
+  --green: #2d6b5d;
+  --green-soft: #e2eee9;
+  --red: #a94334;
+  --red-soft: #f4ddd6;
+  --blue: #003b5c;
+  --blue-soft: #dce9ef;
+  --sh-sm: 0 1px 2px rgba(0, 42, 58, 0.08);
+  --sh-lg: 0 1px 2px rgba(0, 42, 58, 0.08), 0 28px 70px -36px rgba(0, 42, 58, 0.3);
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+}
+
+.dark {
+  --paper: #061721;
+  --surface: #0b2230;
+  --canvas: #061721;
+  --side: #09202d;
+  --topbar: #0b2230;
+  --hover: #103047;
+  --ink: #faf7f2;
+  --slate: #e9d9cd;
+  --muted: #acc0ca;
+  --label: #7891a0;
+  --hairline: rgba(250, 247, 242, 0.14);
+  --border: rgba(250, 247, 242, 0.25);
+  --fill: rgba(245, 221, 205, 0.12);
+  --signal: #f5ddcd;
+  --gold: #e99b68;
+  --ink-cta: #faf7f2;
+  --on-cta: #002a3a;
+  --violet: #d3b9da;
+  --violet-soft: rgba(211, 185, 218, 0.14);
+  --amber: #e9b37f;
+  --amber-soft: rgba(228, 139, 83, 0.15);
+  --green: #98d3c1;
+  --green-soft: rgba(152, 211, 193, 0.14);
+  --red: #f0a08f;
+  --red-soft: rgba(240, 160, 143, 0.14);
+  --blue: #c8dce6;
+  --blue-soft: rgba(200, 220, 230, 0.14);
+  --sh-sm: 0 1px 2px rgba(0, 0, 0, 0.34);
+  --sh-lg: 0 1px 2px rgba(0, 0, 0, 0.36), 0 28px 70px -36px rgba(0, 0, 0, 0.7);
+}
+
+/* Map runtime CSS variables into Tailwind theme utilities. */
+@theme inline {
+  --color-paper: var(--paper);
+  --color-surface: var(--surface);
+  --color-canvas: var(--canvas);
+  --color-side: var(--side);
+  --color-topbar: var(--topbar);
+  --color-hover: var(--hover);
+  --color-ink: var(--ink);
+  --color-slate: var(--slate);
+  --color-muted: var(--muted);
+  --color-label: var(--label);
+  --color-hairline: var(--hairline);
+  --color-border: var(--border);
+  --color-fill: var(--fill);
+  --color-signal: var(--signal);
+  --color-gold: var(--gold);
+  --color-ink-cta: var(--ink-cta);
+  --color-on-cta: var(--on-cta);
+  --color-violet: var(--violet);
+  --color-violet-soft: var(--violet-soft);
+  --color-amber: var(--amber);
+  --color-amber-soft: var(--amber-soft);
+  --color-green: var(--green);
+  --color-green-soft: var(--green-soft);
+  --color-red: var(--red);
+  --color-red-soft: var(--red-soft);
+  --color-blue: var(--blue);
+  --color-blue-soft: var(--blue-soft);
+
+  --font-sans: var(--font-inter), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-inconsolata), ui-monospace, monospace;
+  --font-serif: var(--font-literata), Georgia, serif;
+
+  --shadow-sm: var(--sh-sm);
+  --shadow-lg: var(--sh-lg);
+
+  --radius-card: 8px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--canvas);
+  color: var(--slate);
+  font-family: var(--font-inter), system-ui, -apple-system, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: 0;
+  -webkit-font-smoothing: antialiased;
+  transition: background 0.35s var(--ease), color 0.35s var(--ease);
+}
+
+.mono {
+  font-family: var(--font-inconsolata), ui-monospace, monospace;
+  letter-spacing: 0;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+::selection {
+  background: var(--fill);
+  color: var(--ink);
+}

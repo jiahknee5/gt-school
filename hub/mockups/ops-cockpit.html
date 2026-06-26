@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GT // Marketing-Hub — Ops Cockpit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Literata:ital,opsz@0,7..72;1,7..72&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0d12; --bg-2:#0d1117; --topbar:#0c1016; --sidebar:#0b0f15;
+  --panel:#11161e; --panel-2:#141a23; --panel-3:#0f141b;
+  --border:#1c242f; --border-2:#283341; --border-3:#39465a;
+  --text:#dfe6ee; --text-2:#92a1b3; --text-3:#5d6b7c; --text-4:#414e5d;
+  --accent:#E48B53; --accent-dim:#7a4f30;
+  --green:#46c06a; --green-bg:#0f2417;
+  --yellow:#d7a93c; --yellow-bg:#241f0d;
+  --red:#ef5c6e; --red-bg:#2a1014;
+  --blue:#5aa2f0; --blue-bg:#0e1d2e;
+  --mono:'JetBrains Mono',ui-monospace,monospace;
+  --sans:'Inter',system-ui,sans-serif;
+  --serif:'Literata',Georgia,serif;
+  --shadow:0 1px 0 rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.35);
+}
+body.light{
+  --bg:#FAF7F2; --bg-2:#f3ede2; --topbar:#fbf8f3; --sidebar:#f3ede2;
+  --panel:#ffffff; --panel-2:#faf6ef; --panel-3:#f6f1e8;
+  --border:#e6ddcd; --border-2:#d8cdb9; --border-3:#c4b69e;
+  --text:#002A3A; --text-2:#4d5d66; --text-3:#8a958f; --text-4:#aab2ad;
+  --accent:#c96a2b; --accent-dim:#e9c4a5;
+  --green:#2f9e54; --green-bg:#e7f3ea;
+  --yellow:#a87d18; --yellow-bg:#f6eed5;
+  --red:#cc3346; --red-bg:#fae6e8;
+  --blue:#2f6fd0; --blue-bg:#e6eff9;
+  --shadow:0 1px 2px rgba(0,42,58,.06),0 6px 18px rgba(0,42,58,.06);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  background:var(--bg); color:var(--text); font-family:var(--sans);
+  font-size:13px; line-height:1.4; -webkit-font-smoothing:antialiased;
+  overflow:hidden;
+}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border-2);border-radius:6px;border:2px solid var(--bg)}
+::-webkit-scrollbar-thumb:hover{background:var(--border-3)}
+
+/* ============ TOP BAR ============ */
+.topbar{
+  height:46px; background:var(--topbar); border-bottom:1px solid var(--border);
+  display:flex; align-items:center; gap:14px; padding:0 14px; position:relative; z-index:40;
+}
+.wordmark{font-family:var(--mono);font-weight:700;font-size:14px;letter-spacing:-.3px;white-space:nowrap}
+.wordmark .gt{color:var(--accent)}
+.wordmark .sl{color:var(--text-4)}
+.cmdk{
+  display:flex;align-items:center;gap:8px;background:var(--panel);border:1px solid var(--border-2);
+  border-radius:7px;height:28px;padding:0 9px;cursor:pointer;color:var(--text-3);min-width:230px;
+  font-size:12px;transition:.12s;
+}
+.cmdk:hover{border-color:var(--border-3);color:var(--text-2)}
+.cmdk .ph{flex:1}
+.kbd{
+  font-family:var(--mono);font-size:10.5px;font-weight:600;background:var(--panel-2);
+  border:1px solid var(--border-2);border-bottom-width:2px;border-radius:4px;padding:1px 5px;
+  color:var(--text-2);line-height:1.4;white-space:nowrap;
+}
+.tb-spacer{flex:1}
+.tb-grp{display:flex;align-items:center;gap:8px}
+.weeksel{
+  display:flex;align-items:center;gap:7px;background:var(--panel);border:1px solid var(--border-2);
+  border-radius:7px;height:28px;padding:0 10px;font-family:var(--mono);font-size:12px;cursor:pointer;color:var(--text-2);
+}
+.weeksel:hover{border-color:var(--border-3)}
+.weeksel svg{opacity:.6}
+.countdown{
+  display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:12px;font-weight:600;
+  background:var(--red-bg);color:var(--red);border:1px solid color-mix(in srgb,var(--red) 35%,transparent);
+  border-radius:7px;height:28px;padding:0 10px;white-space:nowrap;
+}
+.countdown .dot{width:6px;height:6px;border-radius:50%;background:var(--red);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.35}}
+.iconbtn{
+  width:28px;height:28px;display:grid;place-items:center;background:var(--panel);border:1px solid var(--border-2);
+  border-radius:7px;cursor:pointer;color:var(--text-2);transition:.12s;
+}
+.iconbtn:hover{border-color:var(--border-3);color:var(--text)}
+.addwidget{
+  display:flex;align-items:center;gap:6px;background:var(--panel);border:1px solid var(--border-2);
+  border-radius:7px;height:28px;padding:0 10px;font-size:12px;font-weight:500;cursor:pointer;color:var(--text-2);transition:.12s;
+}
+.addwidget:hover{border-color:var(--accent);color:var(--accent)}
+/* role switcher */
+.roleswitch{display:flex;background:var(--panel);border:1px solid var(--border-2);border-radius:7px;height:28px;overflow:hidden}
+.roleswitch button{
+  font-family:var(--mono);font-size:11px;font-weight:600;background:transparent;border:none;color:var(--text-3);
+  padding:0 11px;cursor:pointer;transition:.12s;letter-spacing:.2px;
+}
+.roleswitch button:not(:last-child){border-right:1px solid var(--border)}
+.roleswitch button:hover{color:var(--text)}
+.roleswitch button.on{background:var(--accent);color:#1a0f06}
+body.light .roleswitch button.on{color:#fff}
+
+/* ============ LAYOUT ============ */
+.shell{display:flex;height:calc(100vh - 46px - 26px)}
+.sidebar{
+  width:208px;flex-shrink:0;background:var(--sidebar);border-right:1px solid var(--border);
+  padding:8px 8px;overflow-y:auto;display:flex;flex-direction:column;gap:1px;
+}
+.nav-sec{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.8px;color:var(--text-4);
+  text-transform:uppercase;padding:10px 8px 4px}
+.navitem{
+  display:flex;align-items:center;gap:9px;height:29px;padding:0 9px;border-radius:6px;cursor:pointer;
+  color:var(--text-2);font-size:12.5px;font-weight:500;transition:.1s;position:relative;
+}
+.navitem svg{flex-shrink:0;opacity:.8}
+.navitem .lbl{flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.navitem:hover{background:var(--panel);color:var(--text)}
+.navitem.active{background:var(--panel-2);color:var(--text)}
+.navitem.active::before{content:"";position:absolute;left:-8px;top:6px;bottom:6px;width:3px;background:var(--accent);border-radius:0 3px 3px 0}
+.navitem.stub{opacity:.42;cursor:pointer}
+.navitem.stub:hover{opacity:.7}
+.tag-stub{font-family:var(--mono);font-size:8.5px;font-weight:600;background:var(--panel-2);border:1px solid var(--border);
+  color:var(--text-3);border-radius:4px;padding:1px 4px;letter-spacing:.3px}
+.tag-built{font-family:var(--mono);font-size:8.5px;font-weight:600;color:var(--green);letter-spacing:.3px}
+.nav-badge{font-family:var(--mono);font-size:9.5px;font-weight:700;background:var(--accent);color:#1a0f06;
+  border-radius:9px;padding:1px 6px;min-width:18px;text-align:center}
+body.light .nav-badge{color:#fff}
+.navitem .lock{opacity:.55}
+
+/* ============ MAIN ============ */
+.main{flex:1;overflow-y:auto;background:var(--bg);position:relative}
+.surface{display:none;padding:12px 14px 28px}
+.surface.active{display:block}
+.surf-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:8px}
+.surf-title{font-family:var(--mono);font-size:14px;font-weight:600;display:flex;align-items:center;gap:9px}
+.surf-title .crumb{color:var(--text-4)}
+.surf-sub{font-size:11.5px;color:var(--text-3);margin-top:1px}
+.surf-meta{display:flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;color:var(--text-3)}
+
+/* tabs */
+.tabs{display:flex;gap:2px;border-bottom:1px solid var(--border);margin-bottom:12px}
+.tab{font-family:var(--mono);font-size:11.5px;font-weight:500;color:var(--text-3);padding:7px 12px;cursor:pointer;
+  border-bottom:2px solid transparent;margin-bottom:-1px;transition:.1s;white-space:nowrap}
+.tab:hover{color:var(--text)}
+.tab.on{color:var(--text);border-bottom-color:var(--accent)}
+.tabpanel{display:none}
+.tabpanel.on{display:block}
+
+/* banners */
+.banner{display:flex;align-items:center;gap:10px;border-radius:8px;padding:8px 12px;font-size:12px;margin-bottom:10px}
+.banner .b-ic{flex-shrink:0}
+.banner.warn{background:var(--yellow-bg);border:1px solid color-mix(in srgb,var(--yellow) 40%,transparent);color:var(--yellow)}
+.banner.warn b{color:var(--yellow)}
+.banner.truth{background:var(--blue-bg);border:1px solid color-mix(in srgb,var(--blue) 35%,transparent);color:var(--blue)}
+.banner.danger{background:var(--red-bg);border:1px solid color-mix(in srgb,var(--red) 40%,transparent);color:var(--red)}
+.banner .b-link{margin-left:auto;font-family:var(--mono);font-size:11px;font-weight:600;cursor:pointer;
+  display:flex;align-items:center;gap:4px;opacity:.9;border-bottom:1px dotted}
+.banner .b-link:hover{opacity:1}
+.banner .pill{font-family:var(--mono);font-size:10px;font-weight:600;padding:1px 6px;border-radius:4px;
+  background:rgba(255,255,255,.06);border:1px solid currentColor}
+
+/* sprint ribbon */
+.sprint{display:flex;gap:1px;margin-bottom:10px;border-radius:8px;overflow:hidden;border:1px solid var(--border)}
+.sprint .ph{flex:1;padding:7px 10px;background:var(--panel-3);font-size:11px;position:relative}
+.sprint .ph .pn{font-family:var(--mono);font-size:9px;color:var(--text-4);letter-spacing:.4px}
+.sprint .ph .pt{font-weight:600;color:var(--text-2);font-size:11px}
+.sprint .ph.done{background:var(--panel-2)}
+.sprint .ph.done .pt{color:var(--text-3)}
+.sprint .ph.now{background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 22%,var(--panel)),var(--panel));border-top:2px solid var(--accent)}
+.sprint .ph.now .pt{color:var(--accent)}
+.sprint .ph.now .pn{color:var(--accent)}
+
+/* grid */
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:9px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:9px;padding:11px 12px;min-width:0;position:relative}
+.card.tight{padding:10px 11px}
+.c1{grid-column:span 1}.c2{grid-column:span 2}.c3{grid-column:span 3}.c4{grid-column:span 4}
+.c5{grid-column:span 5}.c6{grid-column:span 6}.c7{grid-column:span 7}.c8{grid-column:span 8}.c12{grid-column:span 12}
+.card-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:6px}
+.card-t{font-size:11px;font-weight:600;color:var(--text-2);letter-spacing:.2px;display:flex;align-items:center;gap:6px}
+.src{font-family:var(--mono);font-size:8.5px;font-weight:500;color:var(--text-4);background:var(--panel-3);
+  border:1px solid var(--border);border-radius:4px;padding:1px 5px;white-space:nowrap}
+.src.mock{color:var(--yellow);border-color:color-mix(in srgb,var(--yellow) 30%,transparent)}
+
+/* stat */
+.stat-v{font-family:var(--mono);font-size:27px;font-weight:700;line-height:1;letter-spacing:-1px}
+.stat-row{display:flex;align-items:baseline;gap:8px;margin-top:5px}
+.delta{font-family:var(--mono);font-size:12px;font-weight:600;display:inline-flex;align-items:center;gap:2px}
+.delta.up{color:var(--green)}.delta.dn{color:var(--red)}.delta.flat{color:var(--text-3)}
+.stat-sub{font-size:10.5px;color:var(--text-3)}
+.spark{display:block}
+
+/* progress */
+.pbar{height:8px;background:var(--panel-3);border-radius:5px;overflow:hidden;margin-top:9px;border:1px solid var(--border)}
+.pbar .fill{height:100%;border-radius:5px;background:linear-gradient(90deg,var(--accent-dim),var(--accent))}
+.pbar.g .fill{background:var(--green)}
+.pbar.y .fill{background:var(--yellow)}
+.pbar.r .fill{background:var(--red)}
+.pbar-lbl{display:flex;justify-content:space-between;font-family:var(--mono);font-size:10px;color:var(--text-3);margin-top:5px}
+
+/* mini bars list (conversion, engagement) */
+.barlist{display:flex;flex-direction:column;gap:7px;margin-top:2px}
+.barrow{display:grid;grid-template-columns:74px 1fr 48px;align-items:center;gap:8px;font-size:11px}
+.barrow .bn{color:var(--text-2);font-weight:500;display:flex;align-items:center;gap:5px;white-space:nowrap;overflow:hidden}
+.barrow .bt{height:7px;background:var(--panel-3);border-radius:4px;overflow:hidden;border:1px solid var(--border)}
+.barrow .bt i{display:block;height:100%;border-radius:4px;background:var(--blue)}
+.barrow .bv{font-family:var(--mono);font-size:11px;font-weight:600;text-align:right}
+.flag{font-family:var(--mono);font-size:8px;font-weight:700;border-radius:3px;padding:0 4px;letter-spacing:.3px}
+.flag.trap{background:var(--red-bg);color:var(--red);border:1px solid color-mix(in srgb,var(--red) 35%,transparent)}
+.flag.engine{background:var(--green-bg);color:var(--green);border:1px solid color-mix(in srgb,var(--green) 35%,transparent)}
+
+/* tier rows */
+.tier{display:grid;grid-template-columns:auto 1fr auto;gap:9px;align-items:center;padding:7px 0;border-bottom:1px dashed var(--border)}
+.tier:last-child{border-bottom:none}
+.tier .tk{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--accent)}
+.tier .tinfo{min-width:0}
+.tier .tinfo .nm{font-size:11px;color:var(--text-2);font-weight:500}
+.tier .tinfo .sub{font-size:10px;color:var(--text-4)}
+.tier .tv{font-family:var(--mono);font-size:18px;font-weight:700;text-align:right;line-height:1}
+.tier .tv .reach{display:block;font-size:9.5px;font-weight:500;color:var(--text-3)}
+
+/* exec narrative */
+.narr{display:flex;flex-direction:column;gap:9px}
+.narr .nb{border-left:2px solid var(--border-3);padding-left:9px}
+.narr .nb .nl{font-family:var(--mono);font-size:9.5px;font-weight:700;letter-spacing:.6px;margin-bottom:2px}
+.narr .nb .nt{font-size:11.5px;color:var(--text-2);line-height:1.5}
+.narr .nb.topline{border-color:var(--blue)} .narr .nb.topline .nl{color:var(--blue)}
+.narr .nb.working{border-color:var(--green)} .narr .nb.working .nl{color:var(--green)}
+.narr .nb.stuck{border-color:var(--red)} .narr .nb.stuck .nl{color:var(--red)}
+.narr .nb.decisions{border-color:var(--accent)} .narr .nb.decisions .nl{color:var(--accent)}
+
+/* tables */
+.tbl{width:100%;border-collapse:collapse;font-size:11.5px}
+.tbl th{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.4px;color:var(--text-4);
+  text-transform:uppercase;text-align:left;padding:6px 9px;border-bottom:1px solid var(--border-2);white-space:nowrap;position:sticky;top:0;background:var(--panel)}
+.tbl th.r,.tbl td.r{text-align:right}
+.tbl td{padding:6px 9px;border-bottom:1px solid var(--border);color:var(--text-2);vertical-align:middle}
+.tbl tr:hover td{background:var(--panel-2)}
+.tbl td.num{font-family:var(--mono);font-variant-numeric:tabular-nums;color:var(--text)}
+.tbl .ws{font-weight:600;color:var(--text)}
+.tbl tfoot td,.tbl tr.total td{font-weight:700;color:var(--text);border-top:2px solid var(--border-2);background:var(--panel-2)}
+.tbl tr.total td.num{font-family:var(--mono)}
+.dot{width:8px;height:8px;border-radius:50%;display:inline-block;flex-shrink:0}
+.dot.g{background:var(--green)} .dot.y{background:var(--yellow)} .dot.r{background:var(--red)}
+.status{font-family:var(--mono);font-size:9.5px;font-weight:700;border-radius:4px;padding:2px 7px;letter-spacing:.3px;white-space:nowrap;display:inline-block}
+.status.ok{background:var(--green-bg);color:var(--green)}
+.status.watch{background:var(--yellow-bg);color:var(--yellow)}
+.status.unrel{background:var(--red-bg);color:var(--red)}
+.status.broken{background:var(--red-bg);color:var(--red);border:1px solid var(--red)}
+.status.frozen{background:var(--panel-3);color:var(--text-3);border:1px solid var(--border-2)}
+.sev{font-family:var(--mono);font-size:9.5px;font-weight:700;border-radius:4px;padding:1px 6px}
+.sev.p1{background:var(--red-bg);color:var(--red)}
+.sev.p2{background:var(--yellow-bg);color:var(--yellow)}
+.sev.p3{background:var(--panel-3);color:var(--text-3)}
+.auto-tag{font-family:var(--mono);font-size:8.5px;font-weight:600;color:var(--blue);background:var(--blue-bg);
+  border-radius:3px;padding:1px 5px;border:1px solid color-mix(in srgb,var(--blue) 30%,transparent)}
+.man-tag{font-family:var(--mono);font-size:8.5px;font-weight:600;color:var(--text-3);background:var(--panel-3);
+  border-radius:3px;padding:1px 5px;border:1px solid var(--border)}
+
+/* workstream grid */
+.wsg td .cell-2{display:flex;flex-direction:column}
+.wsg td .ask{color:var(--accent);font-weight:600}
+.wsg td.miss{color:var(--text-4)}
+
+/* connectors */
+.conn{display:flex;flex-direction:column;gap:6px}
+.conn .row{display:flex;align-items:center;gap:9px;padding:7px 9px;background:var(--panel-2);border:1px solid var(--border);border-radius:7px}
+.conn .row .nm{font-weight:600;font-size:11.5px;flex:1;min-width:0}
+.conn .row .nm .sub{font-weight:400;font-size:10px;color:var(--text-4);display:block}
+.conn .row .ts{font-family:var(--mono);font-size:10.5px;color:var(--text-3)}
+
+/* utm health */
+.utmgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.utmgrid .u{background:var(--panel-2);border:1px solid var(--border);border-radius:7px;padding:9px}
+.utmgrid .u .ul{font-family:var(--mono);font-size:10px;color:var(--text-3)}
+.utmgrid .u .uv{font-family:var(--mono);font-size:20px;font-weight:700;color:var(--red);margin-top:3px}
+.utmgrid .u .ub{height:5px;background:var(--panel-3);border-radius:3px;margin-top:6px;overflow:hidden;border:1px solid var(--border)}
+.utmgrid .u .ub i{display:block;height:100%;background:var(--red)}
+
+/* histogram */
+.histo{display:flex;align-items:flex-end;gap:4px;height:70px;margin-top:6px}
+.histo .hb{flex:1;background:var(--blue);border-radius:3px 3px 0 0;min-height:3px;position:relative;opacity:.85}
+.histo .hb:hover{opacity:1}
+.histo-x{display:flex;gap:4px;margin-top:4px}
+.histo-x span{flex:1;text-align:center;font-family:var(--mono);font-size:8.5px;color:var(--text-4)}
+
+/* decision queue */
+.dq-wrap{position:relative}
+.dq-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.dcard{background:var(--panel);border:1px solid var(--border);border-radius:9px;padding:12px;display:flex;flex-direction:column;gap:9px}
+.dcard.urgent{border-color:color-mix(in srgb,var(--accent) 45%,transparent)}
+.dcard .dq-top{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.dcard .dq-q{font-size:13px;font-weight:600;color:var(--text);line-height:1.35}
+.dcard .prio{font-family:var(--mono);font-size:9px;font-weight:700;border-radius:4px;padding:2px 6px;letter-spacing:.4px;white-space:nowrap;height:fit-content}
+.dcard .prio.urgent{background:var(--accent);color:#1a0f06}
+body.light .dcard .prio.urgent{color:#fff}
+.dcard .prio.normal{background:var(--panel-3);color:var(--text-3);border:1px solid var(--border-2)}
+.dcard .dq-meta{display:flex;flex-wrap:wrap;gap:6px 14px;font-family:var(--mono);font-size:10.5px;color:var(--text-3)}
+.dcard .dq-meta b{color:var(--text-2);font-weight:600}
+.dcard .dq-rec{font-size:11px;color:var(--text-2);background:var(--panel-2);border:1px solid var(--border);border-radius:6px;padding:7px 9px;line-height:1.45}
+.dcard .dq-rec .rl{font-family:var(--mono);font-size:9px;font-weight:700;color:var(--text-4);letter-spacing:.4px}
+.dcard .dq-rec .ask{color:var(--accent);font-weight:600;font-family:var(--mono)}
+.dcard .dq-flag{font-family:var(--mono);font-size:9.5px;color:var(--blue);display:flex;align-items:center;gap:5px}
+.dcard .dq-act{display:flex;gap:6px;margin-top:1px}
+.dbtn{flex:1;font-family:var(--mono);font-size:11px;font-weight:600;border-radius:6px;padding:6px 0;cursor:pointer;
+  border:1px solid var(--border-2);background:var(--panel-2);color:var(--text-2);transition:.12s;text-align:center}
+.dbtn:hover{border-color:var(--border-3);color:var(--text)}
+.dbtn.appr:hover{background:var(--green-bg);color:var(--green);border-color:var(--green)}
+.dbtn.info:hover{background:var(--yellow-bg);color:var(--yellow);border-color:var(--yellow)}
+.dbtn.rej:hover{background:var(--red-bg);color:var(--red);border-color:var(--red)}
+.dbtn:disabled{opacity:.38;cursor:not-allowed}
+
+/* role lock overlay */
+.lockwrap{position:relative}
+.locked .dq-cards{filter:blur(5px);pointer-events:none;user-select:none;opacity:.5}
+.lock-overlay{display:none;position:absolute;inset:0;z-index:5;align-items:center;justify-content:center}
+.locked .lock-overlay{display:flex}
+.lock-box{background:var(--panel);border:1px solid var(--border-2);border-radius:12px;padding:22px 26px;text-align:center;max-width:380px;box-shadow:var(--shadow)}
+.lock-box .li{width:38px;height:38px;border-radius:10px;background:var(--red-bg);color:var(--red);display:grid;place-items:center;margin:0 auto 12px}
+.lock-box h3{font-family:var(--mono);font-size:14px;margin-bottom:6px}
+.lock-box p{font-size:12px;color:var(--text-3);line-height:1.5}
+.lock-box .role-now{font-family:var(--mono);font-size:11px;color:var(--accent);margin-top:10px}
+.lock-box .hint{margin-top:12px;font-size:11px;color:var(--text-3)}
+.adminnote{display:none;margin-bottom:10px}
+.role-admin .dq-wrap.dq-decide .adminnote{display:flex}
+
+/* stub surface */
+.stub-box{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;
+  min-height:50vh;gap:10px}
+.stub-box .si{width:46px;height:46px;border-radius:12px;background:var(--panel);border:1px solid var(--border-2);
+  display:grid;place-items:center;color:var(--text-3)}
+.stub-box h2{font-family:var(--mono);font-size:18px}
+.stub-box .tag-stub{font-size:11px;padding:3px 9px}
+.stub-box p{font-size:12.5px;color:var(--text-3);max-width:460px;line-height:1.6}
+
+/* command palette */
+.palette-bg{display:none;position:fixed;inset:0;background:rgba(3,5,8,.55);backdrop-filter:blur(2px);z-index:90;align-items:flex-start;justify-content:center;padding-top:13vh}
+.palette-bg.open{display:flex}
+.palette{width:560px;max-width:92vw;background:var(--panel);border:1px solid var(--border-2);border-radius:13px;
+  box-shadow:0 24px 70px rgba(0,0,0,.55);overflow:hidden}
+.palette .pin{display:flex;align-items:center;gap:10px;padding:13px 15px;border-bottom:1px solid var(--border)}
+.palette .pin svg{color:var(--text-3)}
+.palette .pin input{flex:1;background:none;border:none;outline:none;color:var(--text);font-size:14px;font-family:var(--sans)}
+.palette .pin input::placeholder{color:var(--text-4)}
+.palette .plist{max-height:380px;overflow-y:auto;padding:6px}
+.palette .psec{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.6px;color:var(--text-4);padding:9px 10px 4px;text-transform:uppercase}
+.pcmd{display:flex;align-items:center;gap:11px;padding:8px 10px;border-radius:7px;cursor:pointer;color:var(--text-2)}
+.pcmd svg{opacity:.7;flex-shrink:0}
+.pcmd .pc-l{flex:1;font-size:12.5px}
+.pcmd .pc-l .pc-s{display:block;font-size:10px;color:var(--text-4)}
+.pcmd .pk{font-family:var(--mono);font-size:10px;color:var(--text-4)}
+.pcmd.sel,.pcmd:hover{background:var(--panel-2);color:var(--text)}
+.pcmd.sel{box-shadow:inset 0 0 0 1px var(--border-3)}
+
+/* footer */
+.footbar{height:26px;background:var(--topbar);border-top:1px solid var(--border);display:flex;align-items:center;
+  padding:0 14px;font-family:var(--mono);font-size:10.5px;color:var(--text-4);gap:14px}
+.footbar .fk{display:flex;align-items:center;gap:5px}
+.footbar .fr{margin-left:auto;display:flex;gap:14px;align-items:center}
+.live{display:inline-flex;align-items:center;gap:5px;color:var(--green)}
+.live .d{width:6px;height:6px;border-radius:50%;background:var(--green)}
+
+.role-only-leader{display:none}
+body.role-leader .role-only-leader{display:inline-flex}
+.hide{display:none!important}
+.section-lbl{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.5px;color:var(--text-4);
+  text-transform:uppercase;margin:14px 0 8px}
+.legend{display:flex;gap:12px;font-family:var(--mono);font-size:10px;color:var(--text-3);align-items:center}
+.legend span{display:flex;align-items:center;gap:4px}
+.linkish{color:var(--blue);cursor:pointer;border-bottom:1px dotted;font-family:var(--mono);font-size:11px}
+</style>
+</head>
+<body class="role-admin">
+
+<!-- ================= TOP BAR ================= -->
+<div class="topbar">
+  <div class="wordmark">GT<span class="sl">//</span><span>Marketing-Hub</span></div>
+  <div class="cmdk" onclick="openPalette()">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+    <span class="ph">Search & commands…</span>
+    <span class="kbd">⌘K</span>
+  </div>
+  <div class="tb-spacer"></div>
+  <div class="tb-grp">
+    <div class="weeksel" onclick="openPalette()">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+      Wk of Jun 22
+      <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></svg>
+    </div>
+    <div class="countdown"><span class="dot"></span>T-53d → Aug 17</div>
+    <div class="addwidget" id="addWidget" title="Add a widget to your Home">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg>
+      widget
+    </div>
+    <div class="iconbtn" onclick="toggleTheme()" title="Toggle light / dark" id="themeBtn">
+      <svg id="themeIcon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+    </div>
+    <div class="roleswitch" id="roleSwitch">
+      <button data-role="admin" class="on" onclick="setRole('admin')">ADMIN</button>
+      <button data-role="leader" onclick="setRole('leader')">LEADER</button>
+      <button data-role="operator" onclick="setRole('operator')">OPERATOR</button>
+    </div>
+  </div>
+</div>
+
+<!-- ================= SHELL ================= -->
+<div class="shell">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="nav-sec">Modules</div>
+    <div class="navitem active" data-surface="home" onclick="go('home')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9.5 12 3l9 6.5V21a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1Z"/></svg>
+      <span class="lbl">Home</span><span class="tag-built">●</span>
+    </div>
+    <div class="navitem stub" onclick="goStub('Grassroots Engine','Track the parent-ambassador program, market map, referral sprints, and parent-led events. Dual-source reconcile HubSpot + community.gt.school.')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="3"/><circle cx="17" cy="9" r="2.4"/><path d="M3 21v-1.5A4.5 4.5 0 0 1 7.5 15h3A4.5 4.5 0 0 1 15 19.5V21M15 21v-1a3.5 3.5 0 0 1 3.5-3.5H19"/></svg>
+      <span class="lbl">Grassroots</span><span class="tag-stub">stub</span>
+    </div>
+    <div class="navitem stub" onclick="goStub('Content & Thought Leadership','Editorial calendar, production kanban synced to Google Sheets, per-piece UTM attribution, brand-voice auditor.')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 3h11l3 3v15H5z"/><path d="M9 9h6M9 13h6M9 17h4"/></svg>
+      <span class="lbl">Content</span><span class="tag-stub">stub</span>
+    </div>
+    <div class="navitem stub" onclick="goStub('Summer Camp','Per-campus capacity, registration funnel, revenue vs target — reconciling summer.gt.school + form without double-counting.')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 3 20h18zM7.5 13h9"/></svg>
+      <span class="lbl">Summer Camp</span><span class="tag-stub">stub</span>
+    </div>
+    <div class="navitem stub" onclick="goStub('Nurture & Lifecycle','T1/T2/T3 segments, engagement-tier × attribute heatmap, HubSpot pipeline stages, SMS inbox, 24-hr SLA. Most data-rich module.')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s-7-4.5-9.5-9C1 8.5 3 4.5 7 5c2 .3 3.5 2 5 4 1.5-2 3-3.7 5-4 4-.5 6 3.5 4.5 7C19 16.5 12 21 12 21Z"/></svg>
+      <span class="lbl">Nurture</span><span class="tag-stub">stub</span>
+    </div>
+    <div class="navitem stub" onclick="goStub('Dashboard / KPI Tracking','The canonical weekly scorecard (shared, identical for all), goal-pacing projections, HubSpot dashboard mirror.')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l3-4 3 2 4-6"/></svg>
+      <span class="lbl">Dashboard / KPI</span><span class="tag-stub">stub</span>
+    </div>
+    <div class="navitem" data-surface="crm" onclick="go('crm')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v6c0 1.7 3.6 3 8 3s8-1.3 8-3V5M4 11v6c0 1.7 3.6 3 8 3s8-1.3 8-3v-6"/></svg>
+      <span class="lbl">CRM Ops</span><span class="tag-built">●</span>
+    </div>
+    <div class="navitem stub" onclick="goStub('Field Marketing & Events','GT-organized events — Shadow Days, chess tournaments, AMAs. Read-only cross-link to ambassador events that live in Grassroots.')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-5.3 7-11a7 7 0 1 0-14 0c0 5.7 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>
+      <span class="lbl">Field Marketing</span><span class="tag-stub">stub</span>
+    </div>
+    <div class="navitem stub" onclick="goStub('Admissions & Voice of Customer','Objection log with trends, objection-to-content bridge (auto-stub briefs into Content), family sentiment.')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z"/></svg>
+      <span class="lbl">Admissions / VoC</span><span class="tag-stub">stub</span>
+    </div>
+    <div class="navitem" data-surface="budget" onclick="go('budget')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18M7 15h3"/></svg>
+      <span class="lbl">Budget</span><span class="tag-built">●</span>
+    </div>
+    <div class="navitem" data-surface="decision" onclick="go('decision')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 11l3 3 8-8"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+      <span class="lbl">Decision Queue</span>
+      <span class="nav-badge role-only-leader" id="dqBadge">5</span>
+      <span class="lock hide" id="dqLockIcon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
+    </div>
+    <div class="navitem stub" onclick="goStub('Resource Library','Flat, tag-filterable document shelf — persona dossier, brand strategy, marketing plan, brainlifts.')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h6v16H4zM10 4h6v16h-6zM16 4l4 .5L18 20l-4-.5"/></svg>
+      <span class="lbl">Resource Library</span><span class="tag-stub">stub</span>
+    </div>
+    <div class="navitem stub" onclick="goStub('Website & Digital Analytics','GA4 across gt.school + anywhere.gt.school, subpage performance, PDF downloads, conversion paths.')">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.5 2.5 2.5 15.5 0 18M12 3c-2.5 2.5-2.5 15.5 0 18"/></svg>
+      <span class="lbl">Website</span><span class="tag-stub">stub</span>
+    </div>
+
+    <div style="flex:1"></div>
+    <div class="nav-sec">Slice</div>
+    <div style="padding:4px 9px;font-family:var(--mono);font-size:10px;color:var(--text-4);line-height:1.7">
+      <div><span style="color:var(--green)">●</span> 4 built deep</div>
+      <div><span style="color:var(--text-4)">●</span> 9 stubbed</div>
+      <div style="margin-top:5px;color:var(--text-3)">on the Phase-1 sync backbone</div>
+    </div>
+  </nav>
+
+  <!-- MAIN -->
+  <main class="main">
+
+    <!-- ============ HOME ============ -->
+    <section class="surface active" id="surface-home">
+      <div class="surf-head">
+        <div>
+          <div class="surf-title"><span class="crumb">~/</span>home <span style="color:var(--text-4);font-weight:400;font-size:11px">Executive Command Center</span></div>
+          <div class="surf-sub">the Marketing Lead · personal layout · 9 widgets · starter pack</div>
+        </div>
+        <div class="surf-meta"><span class="live"><span class="d"></span>live</span> · refreshed 38s ago · Wk of Jun 22</div>
+      </div>
+
+      <!-- field-specific data-confidence banner -->
+      <div class="banner warn">
+        <span class="b-ic">⚠</span>
+        <span><b>income_band</b> parity at <b>71%</b> · <span class="mono">src=HubSpot</span> diverging from <span class="mono">app_form</span> source-of-truth — funnel/income figures below trace to Supabase, not HubSpot.</span>
+        <span class="b-link" onclick="go('crm')">details → CRM Ops <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+      </div>
+
+      <!-- sprint ribbon -->
+      <div class="sprint">
+        <div class="ph done"><div class="pn">WK 1-2</div><div class="pt">Build system</div></div>
+        <div class="ph done"><div class="pn">WK 3-4</div><div class="pt">Launch grassroots</div></div>
+        <div class="ph now"><div class="pn">JULY ◀ NOW</div><div class="pt">Scale & deploy</div></div>
+        <div class="ph"><div class="pn">LATE-JUL/AUG</div><div class="pt">Conversion push</div></div>
+        <div class="ph"><div class="pn">END-AUG</div><div class="pt">Review & decide</div></div>
+      </div>
+
+      <div class="grid">
+        <!-- KPI stat row -->
+        <div class="card tight c3">
+          <div class="card-h"><span class="card-t">Applicants — total</span><span class="src">Supabase</span></div>
+          <div class="stat-v">2,847</div>
+          <div class="stat-row"><span class="delta up">▲ +124</span><span class="stat-sub">+4.6% w/w · K-2 = 609</span></div>
+          <svg class="spark" width="100%" height="22" viewBox="0 0 120 22" preserveAspectRatio="none" style="margin-top:6px"><polyline points="0,18 17,16 34,17 51,13 68,14 85,9 102,8 120,4" fill="none" stroke="var(--green)" stroke-width="1.6"/></svg>
+        </div>
+        <div class="card tight c3">
+          <div class="card-h"><span class="card-t">Deposits vs Fall goal</span><span class="src">Supabase</span></div>
+          <div class="stat-v">112<span style="font-size:14px;color:var(--text-3)"> / 180</span></div>
+          <div class="pbar"><div class="fill" style="width:62%"></div></div>
+          <div class="pbar-lbl"><span>62% to goal · +9 w/w</span><span style="color:var(--yellow)">−6 vs req pace</span></div>
+        </div>
+        <div class="card tight c3">
+          <div class="card-h"><span class="card-t">24-hr follow-up SLA</span><span class="src">HubSpot</span></div>
+          <div class="stat-v" style="color:var(--yellow)">87%</div>
+          <div class="stat-row"><span class="delta dn">▼ −4pt</span><span class="stat-sub">late list: 11 · target 95%</span></div>
+          <svg class="spark" width="100%" height="22" viewBox="0 0 120 22" preserveAspectRatio="none" style="margin-top:6px"><polyline points="0,5 17,6 34,4 51,8 68,7 85,10 102,9 120,12" fill="none" stroke="var(--yellow)" stroke-width="1.6"/></svg>
+        </div>
+        <div class="card tight c3">
+          <div class="card-h"><span class="card-t">GT Challenge · cost/qualified-lead</span><span class="src mock">campaign</span></div>
+          <div class="stat-v" style="color:var(--green)">$54<span style="font-size:14px;color:var(--text-3)">.09</span></div>
+          <div class="stat-row"><span class="delta up">▼ best CAC</span><span class="stat-sub">$18.5K spend · 342/1,240 qual.</span></div>
+          <div style="font-family:var(--mono);font-size:9.5px;color:var(--text-4);margin-top:6px">primary channel: <span style="color:var(--green)">X</span> · rolls to Budget</div>
+        </div>
+
+        <!-- Conversion by channel -->
+        <div class="card c4">
+          <div class="card-h"><span class="card-t">Conversion by channel <span style="color:var(--text-4);font-weight:400">applicant→deposit</span></span><span class="src">Supabase</span></div>
+          <div class="barlist">
+            <div class="barrow"><span class="bn">X / Twitter <span class="flag engine">ENGINE</span></span><span class="bt"><i style="width:100%;background:var(--green)"></i></span><span class="bv" style="color:var(--green)">42.0%</span></div>
+            <div class="barrow"><span class="bn">Substack</span><span class="bt"><i style="width:74%"></i></span><span class="bv">31.2%</span></div>
+            <div class="barrow"><span class="bn">Email</span><span class="bt"><i style="width:58%"></i></span><span class="bv">24.5%</span></div>
+            <div class="barrow"><span class="bn">Direct</span><span class="bt"><i style="width:45%"></i></span><span class="bv">18.9%</span></div>
+            <div class="barrow"><span class="bn">Facebook <span class="flag trap">VOL TRAP</span></span><span class="bt"><i style="width:19%;background:var(--red)"></i></span><span class="bv" style="color:var(--red)">7.8%</span></div>
+          </div>
+          <div style="font-family:var(--mono);font-size:9.5px;color:var(--text-4);margin-top:9px;border-top:1px dashed var(--border);padding-top:7px">FB = 1,210 apps @ 7.8% · X = 340 apps @ 42% — chase conversion, not volume.</div>
+        </div>
+
+        <!-- Engagement tier mix -->
+        <div class="card c4">
+          <div class="card-h"><span class="card-t">Engagement-tier mix <span style="color:var(--text-4);font-weight:400">#1 predictor</span></span><span class="src">HubSpot</span></div>
+          <div class="barlist">
+            <div class="barrow"><span class="bn">Clicked</span><span class="bt"><i style="width:100%;background:var(--green)"></i></span><span class="bv" style="color:var(--green)">52%</span></div>
+            <div class="barrow"><span class="bn">Opened</span><span class="bt"><i style="width:60%"></i></span><span class="bv">31%</span></div>
+            <div class="barrow"><span class="bn">Cold</span><span class="bt"><i style="width:31%;background:var(--red)"></i></span><span class="bv" style="color:var(--red)">16%</span></div>
+          </div>
+          <div style="display:flex;gap:6px;margin-top:10px;font-family:var(--mono);font-size:9px">
+            <span style="flex:0 0 38%;text-align:center;background:var(--green-bg);color:var(--green);border-radius:4px;padding:3px">38% aud.</span>
+            <span style="flex:0 0 41%;text-align:center;background:var(--panel-3);color:var(--text-3);border-radius:4px;padding:3px">41% aud.</span>
+            <span style="flex:1;text-align:center;background:var(--red-bg);color:var(--red);border-radius:4px;padding:3px">21%</span>
+          </div>
+          <div style="font-family:var(--mono);font-size:9.5px;color:var(--text-4);margin-top:8px">clicked→<b style="color:var(--green)">52%</b> commit vs cold→<b style="color:var(--red)">16%</b>. conviction tell: "I follow Alpha on X" = 27.4%.</div>
+        </div>
+
+        <!-- T1/T2/T3 -->
+        <div class="card c4">
+          <div class="card-h"><span class="card-t">T1 / T2 / T3 active counts</span><span class="src">Supabase + HubSpot</span></div>
+          <div class="tier"><span class="tk">T1</span><div class="tinfo"><div class="nm">Messaging cohort</div><div class="sub">Pamela + Lead own messaging</div></div><div class="tv">312<span class="reach">reach 94%</span></div></div>
+          <div class="tier"><span class="tk">T2</span><div class="tinfo"><div class="nm">Email conversion sprint</div><div class="sub">~323 families / rep · TX geo-target</div></div><div class="tv">3,100<span class="reach">reach 88%</span></div></div>
+          <div class="tier"><span class="tk">T3</span><div class="tinfo"><div class="nm">Waitlist · 3 sub-buckets</div><div class="sub">ESA-plan 430 · inelig 268 · no-ind 426</div></div><div class="tv">1,124<span class="reach">reach 61%</span></div></div>
+        </div>
+
+        <!-- Executive narrative -->
+        <div class="card c5">
+          <div class="card-h"><span class="card-t">Executive narrative <span style="color:var(--text-4);font-weight:400">editable weekly</span></span><span class="src">Manual</span></div>
+          <div class="narr">
+            <div class="nb topline"><div class="nl">TOPLINE</div><div class="nt">112 deposits (62% to 180). X is the conversion engine at 42%; Facebook is a volume trap. Engagement tier remains the #1 predictor — clicked families commit at 52%.</div></div>
+            <div class="nb working"><div class="nl">WORKING</div><div class="nt">Ambassadors 18/25 active. AGL podcast ep.4 live. GT Challenge CPQL best-in-class at $54 — recommend scaling on X.</div></div>
+            <div class="nb stuck"><div class="nl">STUCK</div><div class="nt">UTM attribution broken (CRM Ops). income_band field unreliable at 71% parity. 24-hr SLA slipped to 87%, late list of 11.</div></div>
+            <div class="nb decisions"><div class="nl">DECISIONS</div><div class="nt">5 open in queue: guerrilla +12% overage ($8K), kill cold re-engagement seq, pause Facebook spend.</div></div>
+          </div>
+        </div>
+
+        <!-- Workstream health grid -->
+        <div class="card c7">
+          <div class="card-h"><span class="card-t">Workstream health grid</span><span class="src">Manual + live KPI</span></div>
+          <div style="overflow-x:auto">
+          <table class="tbl wsg">
+            <thead><tr><th>Workstream</th><th>Owner</th><th>This week</th><th>Next week</th><th>Key metric</th><th>Ask</th></tr></thead>
+            <tbody>
+              <tr><td class="ws"><span class="dot g"></span> Grassroots</td><td>Grassroots Owner</td><td>18 ambassadors active</td><td>launch sprint #2</td><td class="num">12/30 infl. enroll</td><td class="miss">—</td></tr>
+              <tr><td class="ws"><span class="dot g"></span> Content</td><td>Content Owner</td><td>AGL ep.4 shipped</td><td>Joe sizzle reel</td><td class="num">X eng +14%</td><td class="ask">brief approval</td></tr>
+              <tr><td class="ws"><span class="dot y"></span> Nurture</td><td>Marketing Lead</td><td>SLA 87%</td><td>clear cold seg</td><td class="num">clicked 52% conv</td><td class="ask">kill cold seq?</td></tr>
+              <tr><td class="ws"><span class="dot y"></span> Field / Events</td><td>Field &amp; Events</td><td>Austin chess wrap</td><td>Shadow Day ×2</td><td class="num">event→consult n/a</td><td class="ask">+$8K overage</td></tr>
+              <tr><td class="ws"><span class="dot g"></span> Admissions / VoC</td><td>Admissions Owner</td><td>14 objections logged</td><td>3 content briefs</td><td class="num">cost obj ↑</td><td class="miss">—</td></tr>
+              <tr><td class="ws"><span class="dot r"></span> CRM Ops</td><td>Marketing Lead</td><td>UTM rebuild WIP</td><td>income field audit</td><td class="num">parity 97.9% · UTM broke</td><td class="ask">prioritize fix</td></tr>
+              <tr><td class="ws"><span class="dot y"></span> Budget</td><td>Budget Owner</td><td>$262.4K actual</td><td>reforecast</td><td class="num">guerrilla +12%</td><td class="ask">reallocation</td></tr>
+            </tbody>
+          </table>
+          </div>
+        </div>
+
+        <!-- Decision queue preview -->
+        <div class="card c4">
+          <div class="card-h"><span class="card-t">Decision queue preview <span class="role-only-leader" style="color:var(--accent);font-family:var(--mono);font-size:9px">LEADERSHIP</span></span><span class="src">Decision Queue</span></div>
+          <div id="dqPreview">
+            <div style="display:flex;flex-direction:column;gap:8px">
+              <div style="border-left:2px solid var(--accent);padding-left:9px"><div style="font-size:11.5px;font-weight:600">Approve $8K guerrilla overage?</div><div style="font-family:var(--mono);font-size:9.5px;color:var(--text-3)">Field &amp; Events · URGENT · due Jun 27</div></div>
+              <div style="border-left:2px solid var(--border-3);padding-left:9px"><div style="font-size:11.5px;font-weight:600">Pause Facebook spend (vol trap)?</div><div style="font-family:var(--mono);font-size:9.5px;color:var(--text-3)">Marketing Lead · URGENT · due Jun 26</div></div>
+              <div style="border-left:2px solid var(--border-3);padding-left:9px"><div style="font-size:11.5px;font-weight:600">Kill cold re-engagement seq?</div><div style="font-family:var(--mono);font-size:9.5px;color:var(--text-3)">Marketing Lead · normal · due Jul 1</div></div>
+            </div>
+            <div class="linkish role-only-leader" style="margin-top:10px;display:inline-block" onclick="go('decision')">open queue (5) →</div>
+          </div>
+          <div id="dqPreviewLocked" class="hide" style="font-size:11.5px;color:var(--text-3);line-height:1.6;padding:4px 0">
+            <span style="color:var(--text-4)">🔒</span> Decision Queue is leadership-only. You can submit a proposal from your own module — it appears here once a Leader reviews it.
+          </div>
+        </div>
+
+        <!-- Wins & Risks -->
+        <div class="card c4">
+          <div class="card-h"><span class="card-t">Wins · Risks &amp; blockers</span><span class="src">Manual</span></div>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--green);letter-spacing:.5px;margin-bottom:5px">WINS</div>
+          <ul style="list-style:none;font-size:11px;color:var(--text-2);display:flex;flex-direction:column;gap:5px">
+            <li>✓ GT Challenge CPQL $54 — beats every paid channel</li>
+            <li>✓ AGL podcast ep.4 live · +1,180 listens</li>
+            <li>✓ K-2 sweet spot now 609 apps (+62 w/w)</li>
+          </ul>
+          <div style="font-family:var(--mono);font-size:9px;color:var(--red);letter-spacing:.5px;margin:11px 0 5px">RISKS</div>
+          <ul style="list-style:none;font-size:11px;color:var(--text-2);display:flex;flex-direction:column;gap:5px">
+            <li>● UTM rebuild blocking content attribution</li>
+            <li>● Guerrilla workstream +12% over plan</li>
+            <li>● TEFA cohort frozen (closed 6/1) — historical only</li>
+          </ul>
+        </div>
+
+        <!-- Channel volume mix / quadrant note -->
+        <div class="card c4">
+          <div class="card-h"><span class="card-t">Volume vs conversion quadrant</span><span class="src">Supabase</span></div>
+          <svg width="100%" height="118" viewBox="0 0 240 118" style="overflow:visible">
+            <line x1="30" y1="6" x2="30" y2="100" stroke="var(--border-2)" stroke-width="1"/>
+            <line x1="30" y1="100" x2="232" y2="100" stroke="var(--border-2)" stroke-width="1"/>
+            <line x1="131" y1="6" x2="131" y2="100" stroke="var(--border)" stroke-width="1" stroke-dasharray="3 3"/>
+            <line x1="30" y1="53" x2="232" y2="53" stroke="var(--border)" stroke-width="1" stroke-dasharray="3 3"/>
+            <!-- X: low volume high conv (engine) -->
+            <circle cx="70" cy="20" r="6" fill="var(--green)"/><text x="80" y="23" fill="var(--green)" font-family="var(--mono)" font-size="9">X · engine</text>
+            <!-- FB: high volume low conv (trap) -->
+            <circle cx="200" cy="90" r="9" fill="var(--red)"/><text x="150" y="93" fill="var(--red)" font-family="var(--mono)" font-size="9">FB · trap</text>
+            <circle cx="110" cy="44" r="5" fill="var(--blue)"/><text x="118" y="47" fill="var(--text-3)" font-family="var(--mono)" font-size="8">Substack</text>
+            <text x="6" y="14" fill="var(--text-4)" font-family="var(--mono)" font-size="8" transform="rotate(-90 10 55)">conv %→</text>
+            <text x="120" y="115" fill="var(--text-4)" font-family="var(--mono)" font-size="8">volume →</text>
+          </svg>
+          <div style="font-family:var(--mono);font-size:9.5px;color:var(--text-4);margin-top:4px">bubble size = applicant volume · color = conv tier</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ CRM OPS ============ -->
+    <section class="surface" id="surface-crm">
+      <div class="surf-head">
+        <div>
+          <div class="surf-title"><span class="crumb">~/</span>crm-ops <span style="color:var(--text-4);font-weight:400;font-size:11px">Marketing Operations · data infrastructure health</span></div>
+          <div class="surf-sub">the Marketing Lead · where the Phase-1 sync backbone surfaces as product</div>
+        </div>
+        <div class="surf-meta"><span class="live"><span class="d"></span>watcher on</span> · auto-detect enabled</div>
+      </div>
+
+      <!-- top KPI strip -->
+      <div class="grid" style="margin-bottom:12px">
+        <div class="card tight c3"><div class="card-h"><span class="card-t">Sync parity (overall)</span><span class="src">Supabase↔HubSpot</span></div><div class="stat-v" style="color:var(--green)">97.9%</div><div class="stat-row"><span class="delta dn">▼ −0.4pt</span><span class="stat-sub">4,128 records</span></div></div>
+        <div class="card tight c3"><div class="card-h"><span class="card-t">UTM attribution health</span><span class="src">form→Supa→HS</span></div><div class="stat-v" style="color:var(--red)">41%</div><div class="stat-row"><span class="status broken">BROKEN</span><span class="stat-sub">permanent red until rebuilt</span></div></div>
+        <div class="card tight c3"><div class="card-h"><span class="card-t">Open data-quality issues</span><span class="src">queue</span></div><div class="stat-v" style="color:var(--yellow)">6</div><div class="stat-row"><span class="delta up" style="color:var(--red)">▲ +2 auto</span><span class="stat-sub">2× P1 · 3 open</span></div></div>
+        <div class="card tight c3"><div class="card-h"><span class="card-t">Unreliable fields</span><span class="src">flagged</span></div><div class="stat-v" style="color:var(--red)">3</div><div class="stat-row"><span class="stat-sub">income · TEFA · source</span></div></div>
+      </div>
+
+      <!-- rule of truth -->
+      <div class="banner truth">
+        <span class="b-ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 16v-4M12 8h.01"/></svg></span>
+        <span><b>RULE OF TRUTH</b> — <span class="mono">Supabase app_form</span> is the source of truth for <b>funnel · TEFA · income · grade</b>. HubSpot field values for these are display-only and may be stale.</span>
+        <span class="pill">always-on</span>
+      </div>
+
+      <div class="tabs" data-tabgroup="crm">
+        <div class="tab on" onclick="tab('crm','parity')">Sync parity</div>
+        <div class="tab" onclick="tab('crm','utm')">Source / UTM health</div>
+        <div class="tab" onclick="tab('crm','queue')">Data-quality queue</div>
+        <div class="tab" onclick="tab('crm','conn')">Connectors</div>
+        <div class="tab" onclick="tab('crm','score')">Lead scoring</div>
+      </div>
+
+      <!-- parity panel -->
+      <div class="tabpanel on" data-tab="crm-parity">
+        <div class="card" style="padding:0;overflow:hidden">
+          <table class="tbl">
+            <thead><tr><th>Field</th><th>Source of truth</th><th class="r">Records</th><th class="r">Match %</th><th class="r">Drift 7d</th><th>Status</th><th>Note</th></tr></thead>
+            <tbody>
+              <tr><td class="ws mono">email</td><td>Supabase app_form</td><td class="num r">4,128</td><td class="num r" style="color:var(--green)">99.8%</td><td class="num r">+0.0</td><td><span class="status ok">OK</span></td><td style="color:var(--text-4)">stable</td></tr>
+              <tr><td class="ws mono">phone</td><td>Supabase app_form</td><td class="num r">4,128</td><td class="num r" style="color:var(--green)">99.1%</td><td class="num r">−0.2</td><td><span class="status ok">OK</span></td><td style="color:var(--text-4)">minor format drift</td></tr>
+              <tr><td class="ws mono">grade</td><td>Supabase app_form</td><td class="num r">4,109</td><td class="num r" style="color:var(--green)">98.4%</td><td class="num r">+0.1</td><td><span class="status ok">OK</span></td><td style="color:var(--text-4)">K-2 = 609</td></tr>
+              <tr><td class="ws mono">funnel_stage</td><td>Supabase app_form</td><td class="num r">4,128</td><td class="num r" style="color:var(--yellow)">97.2%</td><td class="num r" style="color:var(--red)">−0.3</td><td><span class="status watch">WATCH</span></td><td style="color:var(--text-4)">webhook lag</td></tr>
+              <tr><td class="ws mono">persona_tag</td><td>Supabase + Dossier v2</td><td class="num r">3,902</td><td class="num r" style="color:var(--yellow)">92.0%</td><td class="num r" style="color:var(--red)">−1.1</td><td><span class="status watch">WATCH</span></td><td style="color:var(--text-4)">226 untagged</td></tr>
+              <tr style="background:var(--red-bg)"><td class="ws mono">income_band</td><td>Supabase app_form</td><td class="num r">2,944</td><td class="num r" style="color:var(--red)">71.3%</td><td class="num r" style="color:var(--red)">−3.4</td><td><span class="status unrel">UNRELIABLE</span></td><td style="color:var(--red)">HS value diverging → DQ-117</td></tr>
+              <tr style="background:var(--red-bg)"><td class="ws mono">tefa_status</td><td>Supabase app_form</td><td class="num r">1,610</td><td class="num r" style="color:var(--red)">64.0%</td><td class="num r" style="color:var(--text-3)">frozen</td><td><span class="status unrel">UNRELIABLE</span></td><td style="color:var(--red)">closed 6/1 · frozen → ~2027</td></tr>
+              <tr style="background:var(--red-bg)"><td class="ws mono">utm_source</td><td>form→Supa→HS</td><td class="num r">1,712</td><td class="num r" style="color:var(--red)">41.0%</td><td class="num r" style="color:var(--red)">−2.0</td><td><span class="status broken">BROKEN</span></td><td style="color:var(--red)">params not appending → DQ-118</td></tr>
+              <tr><td class="ws mono">lead_score</td><td>HubSpot (read-only)</td><td class="num r">4,128</td><td class="num r" style="color:var(--green)">100%</td><td class="num r">—</td><td><span class="status ok">OK</span></td><td style="color:var(--text-4)">HS owns this field</td></tr>
+            </tbody>
+            <tfoot><tr class="total"><td colspan="2">Overall record parity</td><td class="num r">4,128</td><td class="num r" style="color:var(--green)">97.9%</td><td class="num r" style="color:var(--red)">−0.4</td><td colspan="2"><span class="status watch">3 fields flagged unreliable</span></td></tr></tfoot>
+          </table>
+        </div>
+        <div class="banner danger" style="margin-top:10px">
+          <span class="b-ic">●</span>
+          <span><b>Drift alert</b> — <span class="mono">income_band</span> fell below 75% threshold. Auto-broadcast a <b>field-specific data-confidence banner</b> to consuming modules (Home, Nurture, Dashboard).</span>
+          <span class="b-link" onclick="tab('crm','queue')">view auto-item DQ-117 →</span>
+        </div>
+      </div>
+
+      <!-- utm panel -->
+      <div class="tabpanel" data-tab="crm-utm">
+        <div class="card">
+          <div class="card-h"><span class="card-t">UTM parameter resolution <span style="color:var(--red);font-weight:700;font-family:var(--mono);font-size:10px">BROKEN</span></span><span class="src">form→Supabase→HubSpot</span></div>
+          <div class="utmgrid">
+            <div class="u"><div class="ul">utm_source</div><div class="uv">41%</div><div class="ub"><i style="width:41%"></i></div></div>
+            <div class="u"><div class="ul">utm_medium</div><div class="uv">38%</div><div class="ub"><i style="width:38%"></i></div></div>
+            <div class="u"><div class="ul">utm_campaign</div><div class="uv">22%</div><div class="ub"><i style="width:22%"></i></div></div>
+            <div class="u"><div class="ul">utm_content</div><div class="uv">9%</div><div class="ub"><i style="width:9%"></i></div></div>
+          </div>
+          <div style="margin-top:12px;font-size:11.5px;color:var(--text-2);line-height:1.6">
+            <b>Root cause (auto-detected):</b> the public form stopped appending UTM params on submit, so the form→Supabase→HubSpot chain resolves on &lt;41% of new leads. Rebuild tracked as <span class="mono" style="color:var(--blue)">DQ-118 / P1</span>. Until fixed, treat all channel attribution in Content &amp; Nurture as <span style="color:var(--red)">low-confidence</span>.
+          </div>
+          <div class="section-lbl">Attribution chain</div>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-family:var(--mono);font-size:11px">
+            <span style="background:var(--green-bg);color:var(--green);border:1px solid color-mix(in srgb,var(--green) 30%,transparent);border-radius:6px;padding:6px 10px">form submit ✓</span>
+            <span style="color:var(--text-4)">→</span>
+            <span style="background:var(--red-bg);color:var(--red);border:1px solid var(--red);border-radius:6px;padding:6px 10px">UTM capture ✗</span>
+            <span style="color:var(--text-4)">→</span>
+            <span style="background:var(--green-bg);color:var(--green);border:1px solid color-mix(in srgb,var(--green) 30%,transparent);border-radius:6px;padding:6px 10px">Supabase row ✓</span>
+            <span style="color:var(--text-4)">→</span>
+            <span style="background:var(--yellow-bg);color:var(--yellow);border:1px solid color-mix(in srgb,var(--yellow) 30%,transparent);border-radius:6px;padding:6px 10px">HubSpot sync (null source)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- queue panel -->
+      <div class="tabpanel" data-tab="crm-queue">
+        <div class="card" style="padding:0;overflow:hidden">
+          <table class="tbl">
+            <thead><tr><th>ID</th><th>Issue</th><th>Cat</th><th>Sev</th><th>Owner</th><th>Detected</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td class="mono">DQ-118</td><td><b style="color:var(--text)">utm_* null on 59% of new leads</b> — form not appending params</td><td><span class="man-tag">UTM</span></td><td><span class="sev p1">P1</span></td><td>Marketing Lead</td><td><span class="auto-tag">auto</span> 2h ago</td><td><span class="status broken">OPEN</span></td></tr>
+              <tr><td class="mono">DQ-117</td><td><b style="color:var(--text)">income_band drift to 71%</b> — HubSpot value diverging from app_form</td><td><span class="man-tag">SYNC</span></td><td><span class="sev p1">P1</span></td><td>Marketing Lead</td><td><span class="auto-tag">auto</span> 6h ago</td><td><span class="status unrel">OPEN</span></td></tr>
+              <tr><td class="mono">DQ-116</td><td>tefa_status frozen post-6/1 — 23 HS records still mutating</td><td><span class="man-tag">SYNC</span></td><td><span class="sev p2">P2</span></td><td>Marketing Lead</td><td><span class="auto-tag">auto</span> 1d ago</td><td><span class="status watch">ACK</span></td></tr>
+              <tr><td class="mono">DQ-115</td><td>14 contacts: app_form source ≠ HubSpot source (conflict)</td><td><span class="man-tag">SYNC</span></td><td><span class="sev p2">P2</span></td><td>Ops</td><td><span class="auto-tag">auto</span> 1d ago</td><td><span class="status unrel">OPEN</span></td></tr>
+              <tr><td class="mono">DQ-114</td><td>lead_score threshold rule changed — 3-day correlation dip</td><td><span class="man-tag">SCORING</span></td><td><span class="sev p3">P3</span></td><td>Leadership</td><td><span class="man-tag">manual</span> 2d ago</td><td><span class="status watch">IN-FLIGHT</span></td></tr>
+              <tr><td class="mono">DQ-112</td><td>Meta connector stood-in (seeded) — flag as non-live</td><td><span class="man-tag">TRACKING</span></td><td><span class="sev p3">P3</span></td><td>Marketing Lead</td><td><span class="man-tag">manual</span> 3d ago</td><td><span class="status frozen">ACK</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="font-family:var(--mono);font-size:10px;color:var(--text-4);margin-top:8px">
+          <span class="auto-tag">auto</span> = auto-detected by the sync watcher (the core value of this module) · <span class="man-tag">manual</span> = filed by an operator
+        </div>
+      </div>
+
+      <!-- connectors panel -->
+      <div class="tabpanel" data-tab="crm-conn">
+        <div class="grid">
+          <div class="card c6">
+            <div class="card-h"><span class="card-t">Last sync per connector</span><span class="src">runtime</span></div>
+            <div class="conn">
+              <div class="row"><span class="dot g"></span><div class="nm">Supabase <span class="sub">app_form · source of truth · funnel/income/grade</span></div><span class="ts">38s ago</span></div>
+              <div class="row"><span class="dot g"></span><div class="nm">HubSpot <span class="sub">CRM · Conversations · sequences · lead score</span></div><span class="ts">1m 12s ago</span></div>
+              <div class="row"><span class="dot g"></span><div class="nm">Stripe <span class="sub">test mode · payment webhooks (idempotent)</span></div><span class="ts">2m 04s ago</span></div>
+              <div class="row"><span class="dot y"></span><div class="nm">Meta Business Suite <span class="sub" style="color:var(--yellow)">stood-in — seeded data behind same interface</span></div><span class="ts">6h ago</span></div>
+              <div class="row"><span class="dot y"></span><div class="nm">GA4 <span class="sub" style="color:var(--yellow)">stood-in — gt.school + anywhere.gt.school</span></div><span class="ts">6h ago</span></div>
+              <div class="row"><span class="dot y"></span><div class="nm">X / Twitter API <span class="sub" style="color:var(--yellow)">stood-in — engagement seeded</span></div><span class="ts">6h ago</span></div>
+              <div class="row"><span class="dot g"></span><div class="nm">Google Sheets <span class="sub">Content production tracker · read+write</span></div><span class="ts">4m 22s ago</span></div>
+            </div>
+          </div>
+          <div class="card c6">
+            <div class="card-h"><span class="card-t">Connector honesty</span><span class="src">Phase-1 backbone</span></div>
+            <div style="font-size:11.5px;color:var(--text-2);line-height:1.65">
+              <p style="margin-bottom:9px"><span class="dot g" style="margin-right:5px"></span><b>Live</b> — Supabase, HubSpot, Stripe, Google Sheets. Bidirectional sync; payment events propagate end-to-end and idempotently; program stores stay isolated.</p>
+              <p><span class="dot y" style="margin-right:5px"></span><b>Stood-in (seeded)</b> — Meta, GA4, X/Twitter. Realistic seeded data behind the same interface, labeled non-live so dashboards never fake green.</p>
+            </div>
+            <div class="section-lbl">Reconciled dual sources</div>
+            <table class="tbl" style="font-size:11px">
+              <tbody>
+                <tr><td>HubSpot + community.gt.school</td><td class="r"><span class="status ok">reconciled</span></td></tr>
+                <tr><td>summer.gt.school + registration form</td><td class="r"><span class="status ok">no double-count</span></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- lead scoring panel -->
+      <div class="tabpanel" data-tab="crm-score">
+        <div class="grid">
+          <div class="card c7">
+            <div class="card-h"><span class="card-t">Lead score distribution <span style="color:var(--text-4);font-weight:400">read-only from HubSpot</span></span><span class="src">HubSpot</span></div>
+            <div class="histo">
+              <div class="hb" style="height:18%"></div><div class="hb" style="height:30%"></div><div class="hb" style="height:46%"></div>
+              <div class="hb" style="height:72%"></div><div class="hb" style="height:100%"></div><div class="hb" style="height:84%"></div>
+              <div class="hb" style="height:61%"></div><div class="hb" style="height:43%"></div><div class="hb" style="height:28%;background:var(--green)"></div><div class="hb" style="height:15%;background:var(--green)"></div>
+            </div>
+            <div class="histo-x"><span>0-10</span><span>11-20</span><span>21-30</span><span>31-40</span><span>41-50</span><span>51-60</span><span>61-70</span><span>71-80</span><span>81-90</span><span>91+</span></div>
+            <div style="font-family:var(--mono);font-size:9.5px;color:var(--text-4);margin-top:8px">threshold = 70 (green) · 412 contacts above threshold</div>
+          </div>
+          <div class="card c5">
+            <div class="card-h"><span class="card-t">Score → conversion correlation</span><span class="src">HubSpot × Supabase</span></div>
+            <table class="tbl" style="font-size:11.5px">
+              <thead><tr><th>Score tier</th><th class="r">Contacts</th><th class="r">Deposit %</th></tr></thead>
+              <tbody>
+                <tr><td>91-100</td><td class="num r">88</td><td class="num r" style="color:var(--green)">58%</td></tr>
+                <tr><td>71-90</td><td class="num r">324</td><td class="num r" style="color:var(--green)">44%</td></tr>
+                <tr><td>41-70</td><td class="num r">1,902</td><td class="num r">27%</td></tr>
+                <tr><td>0-40</td><td class="num r">1,814</td><td class="num r" style="color:var(--red)">11%</td></tr>
+              </tbody>
+            </table>
+            <div style="font-family:var(--mono);font-size:9.5px;color:var(--text-4);margin-top:8px">model validates: monotonic score→conversion. Hub displays, never edits.</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ BUDGET ============ -->
+    <section class="surface" id="surface-budget">
+      <div class="surf-head">
+        <div>
+          <div class="surf-title"><span class="crumb">~/</span>budget <span style="color:var(--text-4);font-weight:400;font-size:11px">Marketing Budget Tracker · the Hub is the system of record</span></div>
+          <div class="surf-sub">the Budget Owner · every workstream reconciles to the $365K total — one number, same everywhere</div>
+        </div>
+        <div class="surf-meta">FY26 marketing · no Google Sheet</div>
+      </div>
+
+      <div class="grid" style="margin-bottom:12px">
+        <div class="card tight c3"><div class="card-h"><span class="card-t">Total plan</span><span class="src">Hub</span></div><div class="stat-v">$365K</div><div class="stat-sub" style="margin-top:5px">4 workstreams · recommended = planned</div></div>
+        <div class="card tight c3"><div class="card-h"><span class="card-t">Committed</span><span class="src">Hub</span></div><div class="stat-v">$304.7K</div><div class="stat-sub" style="margin-top:5px">83% of plan committed</div></div>
+        <div class="card tight c3"><div class="card-h"><span class="card-t">Actual spend</span><span class="src">Hub</span></div><div class="stat-v" style="color:var(--accent)">$262.4K</div><div class="stat-sub" style="margin-top:5px">72% burned · T-53d</div></div>
+        <div class="card tight c3"><div class="card-h"><span class="card-t">Remaining</span><span class="src">Hub</span></div><div class="stat-v" style="color:var(--green)">$102.6K</div><div class="stat-sub" style="margin-top:5px">projected land: $352K (under)</div></div>
+      </div>
+
+      <div class="tabs" data-tabgroup="budget">
+        <div class="tab on" onclick="tab('budget','table')">Budget table</div>
+        <div class="tab" onclick="tab('budget','burn')">Burn chart</div>
+        <div class="tab" onclick="tab('budget','split')">By workstream</div>
+        <div class="tab" onclick="tab('budget','var')">Variance alerts</div>
+      </div>
+
+      <!-- table -->
+      <div class="tabpanel on" data-tab="budget-table">
+        <div class="card" style="padding:0;overflow:hidden">
+          <table class="tbl">
+            <thead><tr><th>Workstream</th><th class="r">Recommended</th><th class="r">Planned</th><th class="r">Committed</th><th class="r">Actual</th><th class="r">Remaining</th><th>Pace</th><th>Health</th></tr></thead>
+            <tbody>
+              <tr><td class="ws">Grassroots marketing</td><td class="num r">$210,000</td><td class="num r">$210,000</td><td class="num r">$168,000</td><td class="num r">$142,300</td><td class="num r" style="color:var(--green)">$67,700</td><td><svg width="56" height="16" viewBox="0 0 56 16"><polyline points="0,13 14,11 28,9 42,7 56,6" fill="none" stroke="var(--green)" stroke-width="1.5"/></svg></td><td><span class="status ok">on-track</span></td></tr>
+              <tr><td class="ws">Thought leadership + content</td><td class="num r">$90,000</td><td class="num r">$90,000</td><td class="num r">$71,500</td><td class="num r">$58,900</td><td class="num r" style="color:var(--green)">$31,100</td><td><svg width="56" height="16" viewBox="0 0 56 16"><polyline points="0,13 14,12 28,9 42,8 56,7" fill="none" stroke="var(--green)" stroke-width="1.5"/></svg></td><td><span class="status ok">on-track</span></td></tr>
+              <tr style="background:var(--red-bg)"><td class="ws">Guerrilla / earned media bets</td><td class="num r">$40,000</td><td class="num r">$40,000</td><td class="num r">$46,200</td><td class="num r" style="color:var(--red)">$44,800</td><td class="num r" style="color:var(--red)">−$4,800</td><td><svg width="56" height="16" viewBox="0 0 56 16"><polyline points="0,12 14,10 28,9 42,5 56,2" fill="none" stroke="var(--red)" stroke-width="1.5"/></svg></td><td><span class="status unrel">+12% over</span></td></tr>
+              <tr><td class="ws">Marketing foundations + ops</td><td class="num r">$25,000</td><td class="num r">$25,000</td><td class="num r">$19,000</td><td class="num r">$16,400</td><td class="num r" style="color:var(--green)">$8,600</td><td><svg width="56" height="16" viewBox="0 0 56 16"><polyline points="0,13 14,12 28,11 42,9 56,8" fill="none" stroke="var(--green)" stroke-width="1.5"/></svg></td><td><span class="status ok">on-track</span></td></tr>
+            </tbody>
+            <tfoot><tr class="total"><td>Total</td><td class="num r">$365,000</td><td class="num r">$365,000</td><td class="num r">$304,700</td><td class="num r">$262,400</td><td class="num r">$102,600</td><td></td><td><span class="status watch">1 flagged</span></td></tr></tfoot>
+          </table>
+        </div>
+        <div class="banner danger" style="margin-top:10px">
+          <span class="b-ic">●</span>
+          <span><b>Variance</b> — <b>Guerrilla / earned</b> actual $44,800 vs plan $40,000 = <b>+12% over</b> (&gt;10% rule). <span class="mono">auto-flagged → Decision Queue</span>.</span>
+          <span class="b-link" onclick="go('decision')">view DQ item →</span>
+        </div>
+      </div>
+
+      <!-- burn -->
+      <div class="tabpanel" data-tab="budget-burn">
+        <div class="card">
+          <div class="card-h"><span class="card-t">Cumulative burn vs plan <span style="color:var(--text-4);font-weight:400">weekly · $K</span></span><span class="src">Hub</span></div>
+          <svg width="100%" height="200" viewBox="0 0 600 200" preserveAspectRatio="none" style="overflow:visible">
+            <!-- gridlines -->
+            <line x1="40" y1="20" x2="580" y2="20" stroke="var(--border)" stroke-width="1"/>
+            <line x1="40" y1="80" x2="580" y2="80" stroke="var(--border)" stroke-width="1"/>
+            <line x1="40" y1="140" x2="580" y2="140" stroke="var(--border)" stroke-width="1"/>
+            <text x="0" y="24" fill="var(--text-4)" font-family="var(--mono)" font-size="9">365</text>
+            <text x="0" y="84" fill="var(--text-4)" font-family="var(--mono)" font-size="9">243</text>
+            <text x="0" y="144" fill="var(--text-4)" font-family="var(--mono)" font-size="9">122</text>
+            <text x="6" y="164" fill="var(--text-4)" font-family="var(--mono)" font-size="9">0</text>
+            <!-- plan line -->
+            <line x1="40" y1="140" x2="580" y2="20" stroke="var(--text-3)" stroke-width="1.5" stroke-dasharray="5 4"/>
+            <text x="486" y="34" fill="var(--text-3)" font-family="var(--mono)" font-size="9">plan pace</text>
+            <!-- actual area -->
+            <polyline points="81.5,136.1 123,129.8 164.6,120.9 206.2,109.8 247.7,97.9 289.2,85.8 330.8,74.9 372.3,63.7 413.8,53.8" fill="none" stroke="var(--accent)" stroke-width="2.2"/>
+            <!-- projection dashed -->
+            <polyline points="413.8,53.8 455.4,44.7 496.9,37.5 538.5,29.9 580,24.3" fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-dasharray="3 3" opacity="0.7"/>
+            <circle cx="413.8" cy="53.8" r="3.5" fill="var(--accent)"/>
+            <text x="370" y="46" fill="var(--accent)" font-family="var(--mono)" font-size="9">now · $262.4K</text>
+            <!-- x labels -->
+            <text x="74" y="178" fill="var(--text-4)" font-family="var(--mono)" font-size="8">W1</text>
+            <text x="240" y="178" fill="var(--text-4)" font-family="var(--mono)" font-size="8">W5</text>
+            <text x="406" y="178" fill="var(--text-4)" font-family="var(--mono)" font-size="8">W9</text>
+            <text x="566" y="178" fill="var(--text-4)" font-family="var(--mono)" font-size="8">W13</text>
+          </svg>
+          <div style="display:flex;gap:16px;font-family:var(--mono);font-size:10px;color:var(--text-3);margin-top:6px">
+            <span style="display:flex;align-items:center;gap:6px"><span style="width:16px;height:2px;background:var(--accent);display:inline-block"></span> actual</span>
+            <span style="display:flex;align-items:center;gap:6px"><span style="width:16px;height:0;border-top:2px dashed var(--text-3);display:inline-block"></span> plan pace</span>
+            <span style="display:flex;align-items:center;gap:6px"><span style="width:16px;height:0;border-top:2px dashed var(--accent);display:inline-block"></span> projection → $352K (under plan)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- split -->
+      <div class="tabpanel" data-tab="budget-split">
+        <div class="grid">
+          <div class="card c5">
+            <div class="card-h"><span class="card-t">Actual spend allocation</span><span class="src">Hub</span></div>
+            <div style="display:flex;align-items:center;gap:18px">
+              <svg width="130" height="130" viewBox="0 0 42 42">
+                <circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--panel-3)" stroke-width="6"/>
+                <circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--accent)" stroke-width="6" stroke-dasharray="54.2 45.8" stroke-dashoffset="25" transform="rotate(-90 21 21)"/>
+                <circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--blue)" stroke-width="6" stroke-dasharray="22.4 77.6" stroke-dashoffset="-29.2" transform="rotate(-90 21 21)"/>
+                <circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--red)" stroke-width="6" stroke-dasharray="17.1 82.9" stroke-dashoffset="-51.6" transform="rotate(-90 21 21)"/>
+                <circle cx="21" cy="21" r="15.9" fill="none" stroke="var(--green)" stroke-width="6" stroke-dasharray="6.3 93.7" stroke-dashoffset="-68.7" transform="rotate(-90 21 21)"/>
+              </svg>
+              <div style="flex:1;font-size:11.5px;display:flex;flex-direction:column;gap:7px">
+                <div style="display:flex;justify-content:space-between"><span><span class="dot" style="background:var(--accent);margin-right:6px"></span>Grassroots</span><span class="mono">54.2%</span></div>
+                <div style="display:flex;justify-content:space-between"><span><span class="dot" style="background:var(--blue);margin-right:6px"></span>Content</span><span class="mono">22.4%</span></div>
+                <div style="display:flex;justify-content:space-between"><span><span class="dot" style="background:var(--red);margin-right:6px"></span>Guerrilla</span><span class="mono">17.1%</span></div>
+                <div style="display:flex;justify-content:space-between"><span><span class="dot" style="background:var(--green);margin-right:6px"></span>Foundations</span><span class="mono">6.3%</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="card c7">
+            <div class="card-h"><span class="card-t">Spend share — actual vs plan</span><span class="src">Hub</span></div>
+            <div class="barlist" style="margin-top:6px">
+              <div class="barrow" style="grid-template-columns:130px 1fr 60px"><span class="bn">Grassroots</span><span class="bt"><i style="width:67.7%;background:var(--accent)"></i></span><span class="bv">$142.3K</span></div>
+              <div class="barrow" style="grid-template-columns:130px 1fr 60px"><span class="bn">Content</span><span class="bt"><i style="width:65.4%;background:var(--blue)"></i></span><span class="bv">$58.9K</span></div>
+              <div class="barrow" style="grid-template-columns:130px 1fr 60px"><span class="bn">Guerrilla</span><span class="bt"><i style="width:112%;background:var(--red)"></i></span><span class="bv" style="color:var(--red)">$44.8K</span></div>
+              <div class="barrow" style="grid-template-columns:130px 1fr 60px"><span class="bn">Foundations</span><span class="bt"><i style="width:65.6%;background:var(--green)"></i></span><span class="bv">$16.4K</span></div>
+            </div>
+            <div style="font-family:var(--mono);font-size:9.5px;color:var(--text-4);margin-top:10px">bar = actual as % of that workstream's plan · &gt;100% = over (Guerrilla 112%)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- variance -->
+      <div class="tabpanel" data-tab="budget-var">
+        <div class="card" style="border-color:color-mix(in srgb,var(--red) 40%,transparent)">
+          <div class="card-h"><span class="card-t" style="color:var(--red)">⚠ Variance alert — auto-surfaced</span><span class="src">&gt;10% rule</span></div>
+          <table class="tbl">
+            <thead><tr><th>Workstream</th><th class="r">Planned</th><th class="r">Actual</th><th class="r">Variance</th><th>Action</th></tr></thead>
+            <tbody>
+              <tr style="background:var(--red-bg)"><td class="ws">Guerrilla / earned media bets</td><td class="num r">$40,000</td><td class="num r">$44,800</td><td class="num r" style="color:var(--red)">+12.0%</td><td><span class="auto-tag">auto-flagged → Decision Queue</span></td></tr>
+            </tbody>
+          </table>
+          <div style="font-size:11.5px;color:var(--text-2);margin-top:12px;line-height:1.6">
+            Per the &gt;10% rule, the Hub created a decision item the moment Guerrilla actual crossed $44,000. It now sits in the leadership-only Decision Queue as an <b>$8,000 reallocation ask</b> — the same dollar figure that appears on Home, in the Workstream Health grid, and in the Decision card. One number, three surfaces.
+          </div>
+          <div class="linkish" style="margin-top:10px;display:inline-block" onclick="go('decision')">open the linked decision →</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ DECISION QUEUE ============ -->
+    <section class="surface" id="surface-decision">
+      <div class="surf-head">
+        <div>
+          <div class="surf-title"><span class="crumb">~/</span>decision-queue <span style="color:var(--text-4);font-weight:400;font-size:11px">async decisions · leadership-only</span>
+            <span class="status unrel role-only-leader" style="margin-left:4px">LEADER ACCESS</span>
+          </div>
+          <div class="surf-sub">submit: all roles · view + decide: Leadership only (Growth Marketing Officer · fractional CMO · co-founder)</div>
+        </div>
+        <div class="surf-meta"><span id="dqRoleTag" class="mono">role: ADMIN</span> · 5 open</div>
+      </div>
+
+      <div class="tabs" data-tabgroup="dq">
+        <div class="tab on" onclick="tab('dq','active')">Active decisions <span class="nav-badge" style="margin-left:5px">5</span></div>
+        <div class="tab" onclick="tab('dq','history')">History</div>
+      </div>
+
+      <div class="tabpanel on" data-tab="dq-active">
+        <div class="dq-wrap dq-decide" id="dqWrap">
+          <!-- admin note (submit-only) -->
+          <div class="banner warn adminnote">
+            <span class="b-ic"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></span>
+            <span><b>Admin (the Marketing Lead)</b> — you can read &amp; submit decisions, but approving/rejecting is reserved for Leadership. Switch to <b>LEADER</b> to act.</span>
+          </div>
+          <div class="dq-cards">
+            <div class="dcard urgent">
+              <div class="dq-top"><div class="dq-q">Approve $8K guerrilla / earned overage — Austin chess-tournament wrap?</div><span class="prio urgent">URGENT</span></div>
+              <div class="dq-meta"><span>raised by <b>Field &amp; Events Owner</b></span><span>workstream <b>Guerrilla / earned</b></span><span>due <b>Jun 27</b></span></div>
+              <div class="dq-flag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V4s-1 1-4 1-5-2-8-2-4 1-4 1z"/></svg> auto-flagged from Budget — Guerrilla +12% over plan</div>
+              <div class="dq-rec"><span class="rl">RECOMMENDATION</span><br>Approve. The chess-tournament wrap drove 3 hot K-2 families; CPL beats Facebook. Ask: <span class="ask">+$8,000</span> reallocation.</div>
+              <div class="dq-act"><button class="dbtn appr dq-decideable">Approve</button><button class="dbtn info dq-decideable">Need-info</button><button class="dbtn rej dq-decideable">Reject</button></div>
+            </div>
+
+            <div class="dcard urgent">
+              <div class="dq-top"><div class="dq-q">Pause Facebook spend — volume trap (8% conv vs X 42%)?</div><span class="prio urgent">URGENT</span></div>
+              <div class="dq-meta"><span>raised by <b>Marketing Lead</b></span><span>workstream <b>CRM / Ops</b></span><span>due <b>Jun 26</b></span></div>
+              <div class="dq-flag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l3-4 3 2 4-6"/></svg> data: FB 1,210 apps @ 7.8% · X 340 apps @ 42%</div>
+              <div class="dq-rec"><span class="rl">RECOMMENDATION</span><br>Approve. Reallocate FB budget to X + GT Challenge (CPQL $54). Ask: <span class="ask">$0</span> (reallocation within plan).</div>
+              <div class="dq-act"><button class="dbtn appr dq-decideable">Approve</button><button class="dbtn info dq-decideable">Need-info</button><button class="dbtn rej dq-decideable">Reject</button></div>
+            </div>
+
+            <div class="dcard">
+              <div class="dq-top"><div class="dq-q">Kill cold re-engagement sequence (16% conv) &amp; reallocate to clicked tier?</div><span class="prio normal">NORMAL</span></div>
+              <div class="dq-meta"><span>raised by <b>Marketing Lead</b></span><span>workstream <b>Nurture</b></span><span>due <b>Jul 1</b></span></div>
+              <div class="dq-rec"><span class="rl">RECOMMENDATION</span><br>Need-info — confirm cold bucket (21% of audience) isn't a sleeper before cutting. Clicked tier commits at 52%. Ask: <span class="ask">$0</span>.</div>
+              <div class="dq-act"><button class="dbtn appr dq-decideable">Approve</button><button class="dbtn info dq-decideable">Need-info</button><button class="dbtn rej dq-decideable">Reject</button></div>
+            </div>
+
+            <div class="dcard">
+              <div class="dq-top"><div class="dq-q">Add 4th GT Challenge creative for X (best-CAC channel)?</div><span class="prio normal">NORMAL</span></div>
+              <div class="dq-meta"><span>raised by <b>Content Owner</b></span><span>workstream <b>Content</b></span><span>due <b>Jun 28</b></span></div>
+              <div class="dq-flag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2 2 7l10 5 10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg> GT Challenge CPQL $54 · 342/1,240 qualified</div>
+              <div class="dq-rec"><span class="rl">RECOMMENDATION</span><br>Approve. Double down where CAC is lowest. Ask: <span class="ask">$4,500</span> (Content workstream, within plan).</div>
+              <div class="dq-act"><button class="dbtn appr dq-decideable">Approve</button><button class="dbtn info dq-decideable">Need-info</button><button class="dbtn rej dq-decideable">Reject</button></div>
+            </div>
+
+            <div class="dcard">
+              <div class="dq-top"><div class="dq-q">Launch 2nd referral sprint targeting K-2 TX families?</div><span class="prio normal">NORMAL</span></div>
+              <div class="dq-meta"><span>raised by <b>Grassroots Owner</b></span><span>workstream <b>Grassroots</b></span><span>due <b>Jun 30</b></span></div>
+              <div class="dq-flag"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="7" r="3"/><path d="M2 21v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1"/></svg> 18/25 ambassadors active · K-2 = 609 apps</div>
+              <div class="dq-rec"><span class="rl">RECOMMENDATION</span><br>Approve. K-2 is the sweet spot; ambassadors warm. 2-week window, 12 ambassadors enlisted. Ask: <span class="ask">$0</span>.</div>
+              <div class="dq-act"><button class="dbtn appr dq-decideable">Approve</button><button class="dbtn info dq-decideable">Need-info</button><button class="dbtn rej dq-decideable">Reject</button></div>
+            </div>
+          </div>
+
+          <!-- role lock overlay (operator) -->
+          <div class="lock-overlay">
+            <div class="lock-box">
+              <div class="li"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg></div>
+              <h3>Access restricted</h3>
+              <p>The Decision Queue is gated to <b>Leadership</b>. Operators can submit a proposal from their own module, but cannot view or act on the full queue.</p>
+              <div class="role-now" id="lockRoleNow">current role: OPERATOR</div>
+              <div class="hint">Switch the role to <span class="kbd">LEADER</span> in the top bar to unlock.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tabpanel" data-tab="dq-history">
+        <div class="card" style="padding:0;overflow:hidden">
+          <table class="tbl">
+            <thead><tr><th>Decision</th><th>Workstream</th><th>Raised by</th><th>Outcome</th><th class="r">Ask</th><th>Resolved</th></tr></thead>
+            <tbody>
+              <tr><td class="ws">Fund AGL podcast season 1 (8 eps)</td><td>Content</td><td>Content Owner</td><td><span class="status ok">APPROVED</span></td><td class="num r">$12,000</td><td class="mono">Jun 12</td></tr>
+              <tr><td class="ws">Hire Thailand videographer for sizzle reel</td><td>Content</td><td>Content Owner</td><td><span class="status ok">APPROVED</span></td><td class="num r">$6,500</td><td class="mono">Jun 09</td></tr>
+              <tr><td class="ws">Run paid Instagram retargeting test</td><td>Guerrilla</td><td>Marketing Lead</td><td><span class="status unrel">REJECTED</span></td><td class="num r">$5,000</td><td class="mono">Jun 06</td></tr>
+              <tr><td class="ws">Onboard 7 new ambassadors (chess + robotics)</td><td>Grassroots</td><td>Grassroots Owner</td><td><span class="status ok">APPROVED</span></td><td class="num r">$3,200</td><td class="mono">Jun 03</td></tr>
+              <tr><td class="ws">Increase T2 sales reps from 8 to 10</td><td>Nurture</td><td>Marketing Lead</td><td><span class="status watch">INFO-REQ</span></td><td class="num r">$0</td><td class="mono">May 30</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ STUB ============ -->
+    <section class="surface" id="surface-stub">
+      <div class="stub-box">
+        <div class="si"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2 2 7v10l10 5 10-5V7zM2 7l10 5 10-5M12 12v10"/></svg></div>
+        <div style="display:flex;align-items:center;gap:9px"><h2 id="stubName">Module</h2><span class="tag-stub">stub</span></div>
+        <p id="stubDesc">This module is stubbed in the built slice.</p>
+        <p style="color:var(--text-4);font-family:var(--mono);font-size:11px">Sequencing is part of the test — depth on Home · CRM Ops · Budget · Decision Queue, the rest deliberately deferred and documented.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ================= FOOTER ================= -->
+<div class="footbar">
+  <span>Dense ops cockpit — click the nav / role switcher / ⌘K / dark toggle to explore.</span>
+  <div class="fr">
+    <span class="fk"><span class="kbd">⌘K</span> palette</span>
+    <span class="fk"><span class="kbd">⌥1-4</span> surfaces</span>
+    <span class="fk"><span class="kbd">⇧R</span> role</span>
+    <span class="live"><span class="d"></span> backbone synced</span>
+  </div>
+</div>
+
+<!-- ================= COMMAND PALETTE ================= -->
+<div class="palette-bg" id="paletteBg" onclick="if(event.target===this)closePalette()">
+  <div class="palette">
+    <div class="pin">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      <input id="paletteInput" placeholder="Jump to a module, switch role, toggle theme…" oninput="filterPalette()" onkeydown="paletteKey(event)">
+      <span class="kbd">esc</span>
+    </div>
+    <div class="plist" id="paletteList"></div>
+  </div>
+</div>
+
+<script>
+/* ---------- surfaces ---------- */
+const SURF = {home:'surface-home', crm:'surface-crm', budget:'surface-budget', decision:'surface-decision', stub:'surface-stub'};
+function go(s){
+  Object.values(SURF).forEach(id=>document.getElementById(id).classList.remove('active'));
+  document.getElementById(SURF[s]||SURF.home).classList.add('active');
+  document.querySelectorAll('.navitem').forEach(n=>n.classList.remove('active'));
+  const nav=document.querySelector('.navitem[data-surface="'+s+'"]');
+  if(nav) nav.classList.add('active');
+  document.querySelector('.main').scrollTop=0;
+  closePalette();
+}
+function goStub(name,desc){
+  Object.values(SURF).forEach(id=>document.getElementById(id).classList.remove('active'));
+  document.getElementById('surface-stub').classList.add('active');
+  document.querySelectorAll('.navitem').forEach(n=>n.classList.remove('active'));
+  document.getElementById('stubName').textContent=name;
+  document.getElementById('stubDesc').textContent=desc;
+  document.querySelector('.main').scrollTop=0;
+}
+
+/* ---------- tabs ---------- */
+function tab(group,id){
+  document.querySelectorAll('.tab[onclick*="\''+group+'\'"]').forEach(t=>t.classList.remove('on'));
+  document.querySelectorAll('.tabpanel[data-tab^="'+group+'-"]').forEach(p=>p.classList.remove('on'));
+  // mark clicked tab
+  document.querySelectorAll('[data-tabgroup="'+group+'"] .tab').forEach(t=>{
+    if(t.getAttribute('onclick').includes("'"+id+"'")) t.classList.add('on');
+  });
+  const panel=document.querySelector('.tabpanel[data-tab="'+group+'-'+id+'"]');
+  if(panel) panel.classList.add('on');
+}
+
+/* ---------- theme ---------- */
+function toggleTheme(){
+  document.body.classList.toggle('light');
+  const dark=!document.body.classList.contains('light');
+  document.getElementById('themeIcon').innerHTML = dark
+    ? '<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>'
+    : '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M19.1 4.9l-1.4 1.4M6.3 17.7l-1.4 1.4"/>';
+}
+
+/* ---------- roles ---------- */
+let ROLE='admin';
+function setRole(r){
+  ROLE=r;
+  document.querySelectorAll('#roleSwitch button').forEach(b=>b.classList.toggle('on', b.dataset.role===r));
+  document.body.classList.remove('role-admin','role-leader','role-operator');
+  document.body.classList.add('role-'+r);
+
+  // + widget: hidden for operator
+  document.getElementById('addWidget').classList.toggle('hide', r==='operator');
+
+  // decision queue lock
+  const wrap=document.getElementById('dqWrap');
+  const leader = r==='leader';
+  const operator = r==='operator';
+  wrap.classList.toggle('locked', operator);
+  document.getElementById('lockRoleNow').textContent='current role: '+r.toUpperCase();
+  document.getElementById('dqRoleTag').textContent='role: '+r.toUpperCase();
+
+  // decide buttons: only leader can act; admin sees disabled + note
+  document.querySelectorAll('.dq-decideable').forEach(b=>{ b.disabled = !leader; });
+
+  // sidebar lock icon for operator
+  document.getElementById('dqLockIcon').classList.toggle('hide', !operator);
+  document.getElementById('dqBadge').classList.toggle('hide', !leader); // badge leadership-only
+
+  // home decision preview
+  document.getElementById('dqPreview').classList.toggle('hide', operator);
+  document.getElementById('dqPreviewLocked').classList.toggle('hide', !operator);
+}
+
+/* ---------- command palette ---------- */
+const CMDS=[
+  {sec:'Go to',label:'Home — Executive Command Center',sub:'built',k:'⌥1',ic:'home',act:()=>go('home')},
+  {sec:'Go to',label:'CRM Ops — data infrastructure health',sub:'built',k:'⌥2',ic:'db',act:()=>go('crm')},
+  {sec:'Go to',label:'Budget Tracker — $365K',sub:'built',k:'⌥3',ic:'bud',act:()=>go('budget')},
+  {sec:'Go to',label:'Decision Queue — leadership only',sub:'built',k:'⌥4',ic:'check',act:()=>go('decision')},
+  {sec:'Go to',label:'Grassroots Engine',sub:'stub',ic:'people',act:()=>goStub('Grassroots Engine','Ambassador pipeline, market map, referral sprints, parent-led events.')},
+  {sec:'Go to',label:'Nurture & Lifecycle',sub:'stub',ic:'heart',act:()=>goStub('Nurture & Lifecycle','T1/T2/T3 segments, engagement heatmap, SMS inbox, 24-hr SLA.')},
+  {sec:'Go to',label:'Dashboard / KPI',sub:'stub',ic:'chart',act:()=>goStub('Dashboard / KPI Tracking','Canonical weekly scorecard, goal pacing, HubSpot mirror.')},
+  {sec:'Action',label:'Switch role → Admin',sub:'Marketing Lead',k:'⇧R',ic:'user',act:()=>setRole('admin')},
+  {sec:'Action',label:'Switch role → Leader',sub:'unlock Decision Queue',ic:'user',act:()=>setRole('leader')},
+  {sec:'Action',label:'Switch role → Operator',sub:'lock Decision Queue',ic:'user',act:()=>setRole('operator')},
+  {sec:'Action',label:'Toggle light / dark mode',k:'',ic:'moon',act:()=>toggleTheme()},
+];
+const ICONS={
+  home:'<path d="M3 9.5 12 3l9 6.5V21h-6v-7H9v7H3Z"/>',
+  db:'<ellipse cx="12" cy="5" rx="8" ry="3"/><path d="M4 5v14c0 1.7 3.6 3 8 3s8-1.3 8-3V5"/>',
+  bud:'<rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/>',
+  check:'<path d="M9 11l3 3 8-8"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>',
+  people:'<circle cx="9" cy="7" r="3"/><path d="M2 21v-1a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v1"/>',
+  heart:'<path d="M12 21s-7-4.5-9.5-9C1 8.5 3 4.5 7 5c2 .3 3.5 2 5 4 1.5-2 3-3.7 5-4 4-.5 6 3.5 4.5 7C19 16.5 12 21 12 21Z"/>',
+  chart:'<path d="M3 3v18h18"/><path d="M7 14l3-4 3 2 4-6"/>',
+  user:'<circle cx="12" cy="8" r="4"/><path d="M4 21v-1a6 6 0 0 1 12 0v1"/>',
+  moon:'<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>'
+};
+function renderPalette(filter=''){
+  const list=document.getElementById('paletteList');
+  const f=filter.toLowerCase().trim();
+  const items=CMDS.filter(c=>!f || c.label.toLowerCase().includes(f) || (c.sub||'').toLowerCase().includes(f) || c.sec.toLowerCase().includes(f));
+  let html=''; let lastSec=null;
+  items.forEach((c,i)=>{
+    if(c.sec!==lastSec){ html+='<div class="psec">'+c.sec+'</div>'; lastSec=c.sec; }
+    html+='<div class="pcmd'+(i===0?' sel':'')+'" data-i="'+CMDS.indexOf(c)+'" onclick="runCmd('+CMDS.indexOf(c)+')">'+
+      '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">'+(ICONS[c.ic]||'')+'</svg>'+
+      '<span class="pc-l">'+c.label+(c.sub?'<span class="pc-s">'+c.sub+'</span>':'')+'</span>'+
+      (c.k?'<span class="pk">'+c.k+'</span>':'')+'</div>';
+  });
+  list.innerHTML=html||'<div class="psec">no matches</div>';
+}
+function openPalette(){document.getElementById('paletteBg').classList.add('open');renderPalette();const i=document.getElementById('paletteInput');i.value='';setTimeout(()=>i.focus(),20);}
+function closePalette(){document.getElementById('paletteBg').classList.remove('open');}
+function filterPalette(){renderPalette(document.getElementById('paletteInput').value);}
+function runCmd(i){CMDS[i].act();closePalette();}
+function paletteKey(e){
+  if(e.key==='Escape'){closePalette();return;}
+  const items=[...document.querySelectorAll('.pcmd')];
+  let sel=document.querySelector('.pcmd.sel');
+  let idx=items.indexOf(sel);
+  if(e.key==='ArrowDown'){e.preventDefault();idx=Math.min(idx+1,items.length-1);}
+  else if(e.key==='ArrowUp'){e.preventDefault();idx=Math.max(idx-1,0);}
+  else if(e.key==='Enter'){e.preventDefault();if(sel)runCmd(+sel.dataset.i);return;}
+  else return;
+  items.forEach(x=>x.classList.remove('sel'));
+  if(items[idx]){items[idx].classList.add('sel');items[idx].scrollIntoView({block:'nearest'});}
+}
+
+/* ---------- global keys ---------- */
+document.addEventListener('keydown',e=>{
+  if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();
+    document.getElementById('paletteBg').classList.contains('open')?closePalette():openPalette();return;}
+  if(e.altKey){
+    if(e.key==='1'){go('home');} if(e.key==='2'){go('crm');}
+    if(e.key==='3'){go('budget');} if(e.key==='4'){go('decision');}
+  }
+  if(e.shiftKey&&e.key==='R'){const order=['admin','leader','operator'];setRole(order[(order.indexOf(ROLE)+1)%3]);}
+});
+
+/* init */
+setRole('admin');
+</script>
+</body>
+</html>

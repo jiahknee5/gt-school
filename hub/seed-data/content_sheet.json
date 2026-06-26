@@ -1,0 +1,146 @@
+[
+  {
+    "_standIn": true,
+    "_source": "google_sheets",
+    "piece": "Content piece #1",
+    "owner": "the Marketing Lead",
+    "status": "scheduled",
+    "target_date": "2026-08-12",
+    "utm_campaign": "brand_awareness_tx"
+  },
+  {
+    "_standIn": true,
+    "_source": "google_sheets",
+    "piece": "Content piece #2",
+    "owner": "the Content Owner",
+    "status": "scheduled",
+    "target_date": "2026-08-04",
+    "utm_campaign": "x_esa_thread"
+  },
+  {
+    "_standIn": true,
+    "_source": "google_sheets",
+    "piece": "Content piece #3",
+    "owner": "Pamela Hobart",
+    "status": "published",
+    "target_date": "2026-07-27",
+    "utm_campaign": "esa_checker_2026"
+  },
+  {
+    "_standIn": true,
+    "_source": "google_sheets",
+    "piece": "Content piece #4",
+    "owner": "the Marketing Lead",
+    "status": "scheduled",
+    "target_date": "2026-06-15",
+    "utm_campaign": "x_conviction_june"
+  },
+  {
+    "_standIn": true,
+    "_source": "google_sheets",
+    "piece": "Content piece #5",
+    "owner": "the Content Owner",
+    "status": "published",
+    "target_date": "2026-08-08",
+    "utm_campaign": null
+  },
+  {
+    "_standIn": true,
+    "_source": "google_sheets",
+    "piece": "Content piece #6",
+    "owner": "the Content Owner",
+    "status": "review",
+    "target_date": "2026-08-11",
+    "utm_campaign": "x_esa_thread"
+  },
+  {
+    "_standIn": true,
+    "_source": "google_sheets",
+    "piece": "Content piece #7",
+    "owner": "Pamela Hobart",
+    "status": "review",
+    "target_date": "2026-08-28",
+    "utm_campaign": "esa_checker_2026"
+  },
+  {
+    "_standIn": true,
+    "_source": "google_sheets",
+    "piece": "Content piece #8",
+    "owner": "the Marketing Lead",
+    "status": "review",
+    "target_date": "2026-06-21",
+    "utm_campaign": "x_esa_thread"
+  },
+  {
+    "_standIn": true,
+    "_source": "google_sheets",
+    "piece": "Content piece #9",
+    "owner": "the Marketing Lead",
+    "status": "scheduled",
+    "target_date": "2026-08-10",
+    "utm_campaign": null
+  },
+  {
+    "_standIn": true,
+    "_source": "google_sheets",
+    "piece": "Content piece #10",
+    "owner": "the Content Owner",
+    "status": "published",
+    "target_date": "2026-06-18",
+    "utm_campaign": null
+  },
+  {
+    "_standIn": true,
+    "_source": "google_sheets",
+    "piece": "Content piece #11",
+    "owner": "the Content Owner",
+    "status": "published",
+    "target_date": "2026-06-25",
+    "utm_campaign": "x_conviction_june"
+  },
+  {
+    "_standIn": true,
+    "_source": "google_sheets",
+    "piece": "Content piece #12",
+    "owner": "the Content Owner",
+    "status": "published",
+    "target_date": "2026-07-06",
+    "utm_campaign": "x_esa_thread"
+  },
+  {
+    "_standIn": true,
+    "_source": "google_sheets",
+    "piece": "Content piece #13",
+    "owner": "the Marketing Lead",
+    "status": "scheduled",
+    "target_date": "2026-08-07",
+    "utm_campaign": null
+  },
+  {
+    "_standIn": true,
+    "_source": "google_sheets",
+    "piece": "Content piece #14",
+    "owner": "the Marketing Lead",
+    "status": "drafting",
+    "target_date": "2026-06-09",
+    "utm_campaign": null
+  },
+  {
+    "_standIn": true,
+    "_source": "google_sheets",
+    "piece": "Content piece #15",
+    "owner": "the Content Owner",
+    "status": "review",
+    "target_date": "2026-06-01",
+    "utm_campaign": "x_conviction_june"
+  },
+  {
+    "_standIn": true,
+    "_source": "google_sheets",
+    "piece": "Content piece #16",
+    "owner": "Pamela Hobart",
+    "status": "scheduled",
+    "target_date": "2026-06-28",
+    "utm_campaign": "x_conviction_june"
+  }
+]

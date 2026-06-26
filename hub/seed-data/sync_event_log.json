@@ -1,0 +1,44 @@
+[
+  {
+    "id": "99a889ec-65f6-49db-9a9b-9553d53515cc",
+    "source_system": "stripe",
+    "external_event_id": "evt_3314632777135565",
+    "entity": "payment",
+    "entity_id": "adddd5c9-eb58-49f8-b7d4-269d30f5d54e",
+    "change": {
+      "status": "refunded",
+      "amount": 10400
+    },
+    "conflict": false,
+    "received_at": "2026-07-30T04:15:36.474Z",
+    "processed_at": "2026-07-30T04:15:36.474Z"
+  },
+  {
+    "id": "d3b86e0f-c659-4c9a-b49b-1fee7f9a8a9a",
+    "source_system": "stripe",
+    "external_event_id": "evt_7760334669143460",
+    "entity": "payment",
+    "entity_id": "adddd5c9-eb58-49f8-b7d4-269d30f5d54e",
+    "change": {
+      "status": "refunded",
+      "delivery": 1
+    },
+    "conflict": false,
+    "received_at": "2026-07-18T04:15:36.474Z",
+    "processed_at": "2026-07-18T04:15:36.524Z"
+  },
+  {
+    "id": "3d59496f-fd74-4374-962d-a312e2894af4",
+    "source_system": "stripe",
+    "external_event_id": "evt_7760334669143460",
+    "entity": "payment",
+    "entity_id": "adddd5c9-eb58-49f8-b7d4-269d30f5d54e",
+    "change": {
+      "status": "refunded",
+      "delivery": 2
+    },
+    "conflict": false,
+    "received_at": "2026-07-18T04:15:37.474Z",
+    "processed_at": null
+  }
+]
