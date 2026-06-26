@@ -16,14 +16,14 @@ function sevTone(severity: string): Tone {
 export function DqQueue({ queue, role }: { queue: QueueView; role: Role | null | undefined }) {
   const canAct = canActOnQueue(role);
   return (
-    <div className="space-y-5">
+    <div className="space-y-3">
       <Card
         title="Open data-quality issues"
         note="Auto-detected drift + UTM breakage and manual/system issues, by severity."
         right={<Pill tone={queue.openCount ? "watch" : "good"}>{queue.openCount} open</Pill>}
       >
         {queue.open.length === 0 ? (
-          <p className="py-4 text-[13px] text-muted">No open issues — the queue is clear.</p>
+          <p className="py-4 text-[11px] text-muted">No open issues — the queue is clear.</p>
         ) : (
           <div className="divide-y divide-hairline">
             {queue.open.map((i) => (
@@ -55,7 +55,7 @@ export function DqQueue({ queue, role }: { queue: QueueView; role: Role | null |
 
       <Card title="Resolution log" note="Issues already resolved (the tamper-aware trail).">
         {queue.resolved.length === 0 ? (
-          <p className="py-4 text-[13px] text-muted">No resolved issues yet.</p>
+          <p className="py-4 text-[11px] text-muted">No resolved issues yet.</p>
         ) : (
           <div className="divide-y divide-hairline">
             {queue.resolved.map((i) => (

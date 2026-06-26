@@ -39,11 +39,11 @@ export function DecisionCard({
   const open = decision.status === "open";
 
   return (
-    <article className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
+    <article className="rounded-card border border-hairline bg-surface p-2.5 shadow-sm">
       <div className="flex items-start justify-between gap-3">
         <div className="min-w-0">
           <div className="flex flex-wrap items-center gap-2">
-            <span className={`mono rounded-card border px-2 py-1 text-[11px] font-semibold ${toneClass(tone)}`}>
+            <span className={`mono rounded-card border px-1.5 py-0.5 text-[10px] font-semibold ${toneClass(tone)}`}>
               {label}
             </span>
             {decision.auto_flag && (
@@ -61,7 +61,7 @@ export function DecisionCard({
             {clean(decision.question)}
           </h3>
         </div>
-        <span className="mono num shrink-0 rounded-card border border-border bg-canvas px-2.5 py-1.5 text-[13px] font-semibold text-ink">
+        <span className="mono num shrink-0 rounded-card border border-border bg-canvas px-2.5 py-1.5 text-[12px] font-semibold text-ink">
           {money(decision.budget_ask)}
         </span>
       </div>
@@ -81,8 +81,8 @@ export function DecisionCard({
       </dl>
 
       {!open && decision.response_note && (
-        <div className="mt-3 rounded-card border border-hairline bg-canvas p-3">
-          <p className="mono text-[11px] font-semibold text-label">Leadership note</p>
+        <div className="mt-3 rounded-card border border-hairline bg-canvas p-2.5">
+          <p className="mono text-[10px] font-semibold text-label">Leadership note</p>
           <p className="mt-1 text-[13px] leading-relaxed text-ink">{clean(decision.response_note)}</p>
           {decision.resolved_at && (
             <p className="mono mt-1 text-[11px] text-label">Resolved {decision.resolved_at.slice(0, 10)}</p>

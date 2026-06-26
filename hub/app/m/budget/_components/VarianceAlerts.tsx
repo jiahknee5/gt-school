@@ -36,7 +36,7 @@ export function VarianceAlerts({
       right={<Pill tone={flagged.length ? "risk" : "good"}>{flagged.length} flagged</Pill>}
     >
       {flagged.length === 0 ? (
-        <p className="text-[13px] text-muted">
+        <p className="text-[11px] text-muted">
           All workstreams on-track — no line is more than 10% (and ${VARIANCE_FLOOR.toLocaleString("en-US")}) over plan.
         </p>
       ) : (
@@ -45,7 +45,7 @@ export function VarianceAlerts({
             const payload = buildVariancePayload(v, asOf);
             const alreadyOpen = openAutoFlag.has(v.key);
             return (
-              <li key={v.key} className="rounded-card border border-hairline bg-canvas p-3">
+              <li key={v.key} className="rounded-card border border-hairline bg-canvas p-2.5">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <p className="text-[14px] font-semibold text-ink">{v.name}</p>
                   <div className="flex items-center gap-1.5">
@@ -56,7 +56,7 @@ export function VarianceAlerts({
                   </div>
                 </div>
                 <p className="mt-1 text-[13px] text-slate">{payload.question}</p>
-                <p className="mono mt-1 text-[12px] text-muted">
+                <p className="mono mt-0.5 text-[11px] text-muted">
                   actual {usd(v.actual)} vs planned {usd(v.planned)} · {Math.round(v.overPct)}% over ({usd(v.overAmount)}) · ask {usd(payload.budget_ask ?? 0)} · due {payload.due_date}
                 </p>
                 <div className="mt-2">

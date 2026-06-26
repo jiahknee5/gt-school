@@ -16,9 +16,9 @@ export function SlaOpsHealth({ ds }: { ds: SeedDataset }) {
       <Card title="Connector freshness" note="Each scorecard row inherits its source connector's last-sync. Stale-but-green is a lie.">
         <div className="grid gap-2 sm:grid-cols-2">
           {fresh.map((c) => (
-            <div key={c.connector} className="flex items-center justify-between rounded-card border border-hairline bg-canvas px-3 py-2">
+            <div key={c.connector} className="flex items-center justify-between rounded-card border border-hairline bg-canvas px-2.5 py-1.5">
               <div>
-                <p className="text-[13px] font-semibold text-ink">{c.connector}</p>
+                <p className="text-[12px] font-semibold text-ink">{c.connector}</p>
                 <p className="text-[11px] text-muted">
                   last sync {humanizeAge(c.ageMinutes)} · SLA {c.freshnessSlaMinutes}m
                 </p>

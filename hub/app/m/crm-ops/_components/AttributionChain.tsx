@@ -21,13 +21,13 @@ export function AttributionChain({ attribution }: { attribution: AttributionSumm
         {attribution.chain.map((hop) => (
           <li
             key={hop.step}
-            className="grid gap-2 rounded-card border border-hairline bg-canvas p-3 sm:grid-cols-[24px_1fr_120px] sm:items-center"
+            className="grid gap-2 rounded-card border border-hairline bg-canvas p-2.5 sm:grid-cols-[24px_1fr_120px] sm:items-center"
           >
             <span className="mono grid h-6 w-6 place-items-center rounded-full bg-fill text-[11px] font-semibold text-slate">
               {hop.step}
             </span>
             <div>
-              <p className="text-[13px] font-semibold text-ink">
+              <p className="text-[12px] font-semibold text-ink">
                 {hop.hop} <span className="mono text-[11px] text-label">({hop.system})</span>
               </p>
               <p className="mt-1 text-[12px] leading-relaxed text-muted">

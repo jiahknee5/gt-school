@@ -25,7 +25,7 @@ export function BurnChart({ burn }: { burn: BurnSeries }) {
   if (burn.points.length === 0) {
     return (
       <Card title="Burn chart" note="Cumulative actual vs the linear plan pace line.">
-        <p className="text-[13px] text-muted">No actual spend recorded yet — nothing to burn.</p>
+        <p className="text-[11px] text-muted">No actual spend recorded yet — nothing to burn.</p>
       </Card>
     );
   }
@@ -41,16 +41,16 @@ export function BurnChart({ burn }: { burn: BurnSeries }) {
       note="Cumulative actual (solid) vs the linear plan pace (dashed). Weekly grain from the ledger."
       right={<Pill tone={paceTone}>{burn.pace} vs plan</Pill>}
     >
-      <div className="grid gap-3 sm:grid-cols-3">
-        <div className="rounded-card border border-hairline bg-canvas p-3">
+      <div className="grid gap-2 sm:grid-cols-3">
+        <div className="rounded-card border border-hairline bg-canvas p-2.5">
           <p className="mono text-[11px] text-label">Actual to date</p>
           <p className="mono num mt-1 text-[18px] font-semibold text-ink">{usd(burn.actualTotal)}</p>
         </div>
-        <div className="rounded-card border border-hairline bg-canvas p-3">
+        <div className="rounded-card border border-hairline bg-canvas p-2.5">
           <p className="mono text-[11px] text-label">Remaining</p>
           <p className="mono num mt-1 text-[18px] font-semibold text-ink">{usd(burn.remaining)}</p>
         </div>
-        <div className="rounded-card border border-hairline bg-canvas p-3">
+        <div className="rounded-card border border-hairline bg-canvas p-2.5">
           <p className="mono text-[11px] text-label">Projected burn-out</p>
           <p className="mono num mt-1 text-[18px] font-semibold text-ink">
             {burn.projectedBurnOutDate ?? "—"}
@@ -80,7 +80,7 @@ export function BurnChart({ burn }: { burn: BurnSeries }) {
         <polyline points={actualLine} fill="none" stroke="var(--gold)" strokeWidth="2.5" />
       </svg>
 
-      <div className="mt-2 flex flex-wrap gap-4 text-[12px] text-muted">
+      <div className="mt-2 flex flex-wrap gap-4 text-[11px] text-muted">
         <span className="flex items-center gap-1.5">
           <span className="inline-block h-2 w-5 rounded-full" style={{ background: "var(--gold)" }} /> Cumulative actual
         </span>

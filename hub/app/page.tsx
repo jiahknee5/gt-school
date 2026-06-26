@@ -84,12 +84,12 @@ function MetricTile({
   note: string;
 }) {
   return (
-    <div className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-      <p className="text-[12px] font-semibold text-muted">{label}</p>
-      <p className="mono num mt-2 text-[24px] font-semibold leading-none text-ink">
+    <div className="rounded-card border border-hairline bg-surface p-2.5 shadow-sm">
+      <p className="text-[10px] font-semibold uppercase tracking-[0.08em] text-label">{label}</p>
+      <p className="mono num mt-1.5 text-[18px] font-bold leading-none text-ink">
         {value}
       </p>
-      <p className="mt-2 text-[12px] leading-snug text-muted">{note}</p>
+      <p className="mt-1 text-[11px] leading-snug text-muted">{note}</p>
     </div>
   );
 }
@@ -104,24 +104,24 @@ function ConfidenceBanner({
   fields: { field: string; pct: number; expectedUnreliable: boolean }[];
 }) {
   return (
-    <div className="rounded-card border border-gold bg-amber-soft p-4 shadow-sm">
-      <div className="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+    <div className="rounded-card border border-gold bg-amber-soft p-3 shadow-sm">
+      <div className="flex flex-col gap-2 lg:flex-row lg:items-center lg:justify-between">
         <div>
-          <p className="text-[13px] font-semibold text-ink">Data confidence needs review</p>
-          <p className="mt-1 text-[13px] leading-relaxed text-slate">{cleanCopy(message)}</p>
+          <p className="text-[12px] font-semibold text-ink">Data confidence needs review</p>
+          <p className="mt-1 text-[11px] leading-snug text-slate">{cleanCopy(message)}</p>
         </div>
         <Link
           href={href}
-          className="inline-flex h-9 items-center justify-center rounded-card bg-ink-cta px-3 text-[12px] font-semibold text-on-cta transition-transform active:translate-y-px"
+          className="inline-flex h-8 items-center justify-center rounded-card bg-ink-cta px-3 text-[11px] font-semibold text-on-cta transition-transform active:translate-y-px"
         >
           Open CRM Ops
         </Link>
       </div>
-      <div className="mt-3 flex flex-wrap gap-2">
+      <div className="mt-2.5 flex flex-wrap gap-1.5">
         {fields.slice(0, 4).map((field) => (
           <span
             key={field.field}
-            className="mono rounded-card border border-border bg-surface px-2 py-1 text-[11px] text-ink"
+            className="mono rounded-card border border-border bg-surface px-1.5 py-0.5 text-[10px] text-ink"
           >
             {field.field}: {percent.format(field.pct)}%
             {field.expectedUnreliable ? " expected unreliable" : ""}
@@ -213,28 +213,28 @@ export default async function Home() {
   return (
     <main className="min-h-[100dvh] bg-canvas">
       <section className="border-b border-hairline bg-[linear-gradient(135deg,var(--paper)_0%,var(--paper)_55%,var(--fill)_100%)]">
-        <div className="mx-auto max-w-[1280px] px-5 py-8 sm:px-7 lg:px-9">
-          <div className="grid gap-6 lg:grid-cols-[1.35fr_0.65fr] lg:items-end">
+        <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
+          <div className="grid gap-4 lg:grid-cols-[1.35fr_0.65fr] lg:items-end">
             <div>
-              <p className="mono text-[12px] font-semibold text-gold">Phase 2 product spine</p>
-              <h1 className="mt-2 max-w-[760px] font-serif text-[36px] font-semibold leading-tight text-ink sm:text-[44px]">
+              <p className="mono text-[10px] font-semibold uppercase tracking-[0.12em] text-gold">Phase 2 product spine</p>
+              <h1 className="mt-1 max-w-[760px] font-serif text-[20px] font-bold leading-tight tracking-[-0.02em] text-ink">
                 One trustworthy operating room for GT marketing.
               </h1>
-              <p className="mt-3 max-w-[720px] text-[15px] leading-relaxed text-slate">
+              <p className="mt-1.5 max-w-[720px] text-[12px] leading-snug text-slate">
                 Home widgets, budget reconciliation, CRM confidence, decisions, and the GT Challenge now read from the same seeded backbone.
               </p>
             </div>
-            <div className="rounded-card border border-border bg-surface p-4 shadow-sm">
-              <p className="text-[12px] font-semibold text-muted">Active role</p>
-              <p className="mt-2 text-[18px] font-semibold text-ink">{viewer.name}</p>
-              <p className="text-[13px] text-muted">{viewer.title}</p>
-              <p className="mono mt-4 inline-flex rounded-card border border-hairline bg-canvas px-2.5 py-1.5 text-[11px] font-semibold text-ink">
+            <div className="rounded-card border border-border bg-surface p-2.5 shadow-sm">
+              <p className="text-[10px] font-semibold uppercase tracking-[0.08em] text-label">Active role</p>
+              <p className="mt-1 text-[13px] font-semibold text-ink">{viewer.name}</p>
+              <p className="text-[11px] text-muted">{viewer.title}</p>
+              <p className="mono mt-2 inline-flex rounded-card border border-hairline bg-canvas px-2 py-0.5 text-[10px] font-semibold text-ink">
                 {viewer.role}
               </p>
             </div>
           </div>
 
-          <div className="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+          <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
             <MetricTile
               label="Budget actual"
               value={money.format(budget.totals.actual)}
@@ -263,8 +263,8 @@ export default async function Home() {
         </div>
       </section>
 
-      <div className="mx-auto grid max-w-[1280px] gap-6 px-5 py-6 sm:px-7 lg:grid-cols-[1fr_340px] lg:px-9">
-        <div className="space-y-6">
+      <div className="mx-auto grid max-w-[1280px] gap-4 px-4 py-5 sm:px-6 lg:grid-cols-[1fr_320px] lg:px-8">
+        <div className="space-y-3">
           {confidence.show && (
             <ConfidenceBanner
               message={confidence.message}
@@ -273,21 +273,21 @@ export default async function Home() {
             />
           )}
 
-          <section className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+          <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
               <div>
-                <h2 className="font-serif text-[24px] font-semibold text-ink">Home widgets</h2>
-                <p className="mt-1 text-[13px] text-muted">
+                <h2 className="font-serif text-[15px] font-bold tracking-[-0.01em] text-ink">Home widgets</h2>
+                <p className="mt-0.5 text-[11px] text-muted">
                   {layout.persisted
                     ? "Saved layout for this signed-in role lens."
                     : "Starter pack for the weekly meeting, personalized by role."}
                 </p>
               </div>
-              <span className="mono w-fit rounded-card bg-fill px-2 py-1 text-[11px] font-semibold text-slate">
+              <span className="mono w-fit rounded-card bg-fill px-1.5 py-0.5 text-[10px] font-semibold text-slate">
                 {WIDGET_LIBRARY.length} widgets
               </span>
             </div>
-            <div className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+            <div className="mt-3 grid gap-2 md:grid-cols-2 xl:grid-cols-3">
               {widgets.map(({ item, widget }) => {
                 const data = widget
                   ? widgetValues[widget.id] ?? {
@@ -301,52 +301,52 @@ export default async function Home() {
                 return (
                   <article
                     key={item.widget_key}
-                    className={`rounded-card border border-hairline bg-canvas p-4 ${
+                    className={`rounded-card border border-hairline bg-canvas p-2.5 ${
                       item.size === "large" ? "md:col-span-2 xl:col-span-3" : ""
                     }`}
                   >
-                    <div className="flex items-start justify-between gap-3">
+                    <div className="flex items-start justify-between gap-2">
                       <div>
-                        <p className="text-[13px] font-semibold text-ink">
+                        <p className="text-[12px] font-semibold text-ink">
                           {widget?.label ?? "Unavailable widget"}
                         </p>
-                        <p className="mt-1 text-[12px] text-muted">
+                        <p className="mt-0.5 text-[11px] text-muted">
                           {widget?.category ?? item.widget_key}
                         </p>
                       </div>
-                      <span className="mono shrink-0 rounded-card bg-fill px-2 py-1 text-[10px] text-slate">
+                      <span className="mono shrink-0 rounded-card bg-fill px-1.5 py-0.5 text-[10px] text-slate">
                         {widget?.source ?? "Saved layout"}
                       </span>
                     </div>
-                    <p className="mono num mt-5 text-[26px] font-semibold leading-none text-ink">
+                    <p className="mono num mt-2 text-[18px] font-bold leading-none text-ink">
                       {data.value}
                     </p>
-                    <p className="mt-2 text-[12px] leading-snug text-muted">{data.note}</p>
+                    <p className="mt-1 text-[11px] leading-snug text-muted">{data.note}</p>
                   </article>
                 );
               })}
             </div>
           </section>
 
-          <section className="grid gap-4 lg:grid-cols-[0.85fr_1.15fr]">
-            <div className="rounded-card border border-hairline bg-ink-cta p-5 text-on-cta shadow-sm">
+          <section className="grid gap-3 lg:grid-cols-[0.85fr_1.15fr]">
+            <div className="rounded-card border border-hairline bg-ink-cta p-3 text-on-cta shadow-sm">
               {canViewDecisions ? (
                 <>
-                  <h2 className="font-serif text-[24px] font-semibold">Decision preview</h2>
-                  <p className="mt-2 text-[13px] leading-relaxed text-on-cta/80">
+                  <h2 className="font-serif text-[15px] font-bold tracking-[-0.01em]">Decision preview</h2>
+                  <p className="mt-1 text-[11px] leading-snug text-on-cta/80">
                     Leader-only queue cards land here so the meeting can close with rulings.
                   </p>
-                  <div className="mt-5 space-y-3">
+                  <div className="mt-3 space-y-2">
                     {openDecisions.slice(0, 2).map((decision) => (
                       <Link
                         key={decision.id}
                         href="/m/decisions"
-                        className="block rounded-card border border-white/20 bg-white/10 p-3 transition-colors hover:bg-white/15"
+                        className="block rounded-card border border-white/20 bg-white/10 p-2.5 transition-colors hover:bg-white/15"
                       >
-                        <p className="text-[13px] font-semibold leading-snug">
+                        <p className="text-[12px] font-semibold leading-snug">
                           {cleanCopy(decision.question)}
                         </p>
-                        <p className="mono mt-2 text-[11px] text-on-cta/70">
+                        <p className="mono mt-1 text-[10px] text-on-cta/70">
                           {decision.priority} | {decision.workstream ?? "general"}
                         </p>
                       </Link>
@@ -355,29 +355,29 @@ export default async function Home() {
                 </>
               ) : (
                 <>
-                  <h2 className="font-serif text-[24px] font-semibold">Decision Queue restricted</h2>
-                  <p className="mt-2 text-[13px] leading-relaxed text-on-cta/80">
+                  <h2 className="font-serif text-[15px] font-bold tracking-[-0.01em]">Decision Queue restricted</h2>
+                  <p className="mt-1 text-[11px] leading-snug text-on-cta/80">
                     This role can submit decision requests, but the full queue and ruling controls are leadership-only.
                   </p>
-                  <p className="mono mt-5 text-[11px] font-semibold text-on-cta/70">
+                  <p className="mono mt-3 text-[10px] font-semibold text-on-cta/70">
                     Full queue hidden from this role
                   </p>
                 </>
               )}
             </div>
 
-            <div className="rounded-card border border-hairline bg-surface p-5 shadow-sm">
-              <h2 className="font-serif text-[24px] font-semibold text-ink">Phase 2 audit</h2>
-              <div className="mt-4 grid gap-2">
+            <div className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+              <h2 className="font-serif text-[15px] font-bold tracking-[-0.01em] text-ink">Phase 2 audit</h2>
+              <div className="mt-3 grid gap-1.5">
                 {PHASE2_REQUIREMENT_AUDIT.slice(0, 6).map((item) => (
                   <div
                     key={item.id}
-                    className="grid gap-2 rounded-card border border-hairline bg-canvas p-3 sm:grid-cols-[120px_1fr]"
+                    className="grid gap-2 rounded-card border border-hairline bg-canvas p-2.5 sm:grid-cols-[120px_1fr]"
                   >
                     <div>
-                      <p className="mono text-[11px] font-semibold text-muted">{item.id}</p>
+                      <p className="mono text-[10px] font-semibold text-muted">{item.id}</p>
                       <span
-                        className={`mt-2 inline-flex rounded-card px-2 py-1 text-[11px] font-semibold ${
+                        className={`mt-1.5 inline-flex rounded-card px-1.5 py-0.5 text-[10px] font-semibold ${
                           item.status === "covered"
                             ? "bg-green-soft text-green"
                             : item.status === "partial"
@@ -389,8 +389,8 @@ export default async function Home() {
                       </span>
                     </div>
                     <div>
-                      <p className="text-[13px] font-semibold text-ink">{item.requirement}</p>
-                      <p className="mt-1 text-[12px] leading-snug text-muted">
+                      <p className="text-[12px] font-semibold text-ink">{item.requirement}</p>
+                      <p className="mt-0.5 text-[11px] leading-snug text-muted">
                         {cleanCopy(item.evidence)}
                       </p>
                     </div>
@@ -401,39 +401,39 @@ export default async function Home() {
           </section>
         </div>
 
-        <aside className="space-y-4">
-          <section className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-            <h2 className="font-serif text-[22px] font-semibold text-ink">Module surfaces</h2>
-            <div className="mt-4 space-y-2">
+        <aside className="space-y-3">
+          <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+            <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Module surfaces</h2>
+            <div className="mt-2 space-y-1.5">
               {spineModules.map((item) => (
                 <Link
                   key={item.slug}
                   href={`/m/${item.slug}`}
-                  className="block rounded-card border border-hairline bg-canvas p-3 transition-colors hover:border-border hover:bg-hover"
+                  className="block rounded-card border border-hairline bg-canvas p-2.5 transition-colors hover:border-border hover:bg-hover"
                 >
-                  <p className="text-[13px] font-semibold text-ink">{item.label}</p>
-                  <p className="mt-1 text-[12px] leading-snug text-muted">{item.note}</p>
+                  <p className="text-[12px] font-semibold text-ink">{item.label}</p>
+                  <p className="mt-0.5 text-[11px] leading-snug text-muted">{item.note}</p>
                 </Link>
               ))}
             </div>
           </section>
 
-          <section className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-            <h2 className="font-serif text-[22px] font-semibold text-ink">All PRD modules</h2>
-            <div className="mt-4 grid gap-2">
+          <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+            <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">All PRD modules</h2>
+            <div className="mt-2 grid gap-1.5">
               {MODULES.filter((module) => module.slug !== "home" && (!module.leaderOnly || canViewDecisions)).map((module) => (
                 <Link
                   key={module.slug}
                   href={moduleHref(module.slug)}
-                  className="flex items-center gap-2 rounded-card border border-hairline bg-canvas px-3 py-2 transition-colors hover:border-border hover:bg-hover"
+                  className="flex items-center gap-2 rounded-card border border-hairline bg-canvas px-2.5 py-1.5 transition-colors hover:border-border hover:bg-hover"
                 >
                   <span
-                    className={`mono grid h-7 w-7 place-items-center rounded-card text-[12px] font-semibold ${TINT_CLASS[module.tint]}`}
+                    className={`mono grid h-6 w-6 place-items-center rounded-card text-[11px] font-semibold ${TINT_CLASS[module.tint]}`}
                   >
                     {module.n}
                   </span>
                   <span className="min-w-0">
-                    <span className="block truncate text-[13px] font-semibold text-ink">
+                    <span className="block truncate text-[12px] font-semibold text-ink">
                       {module.short}
                     </span>
                     <span className="block truncate text-[11px] text-muted">{module.owner}</span>

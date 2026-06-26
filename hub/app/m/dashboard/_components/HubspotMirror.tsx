@@ -24,11 +24,11 @@ export function HubspotMirror() {
       note="Mirrored from HubSpot — display only. Not reconciled into any Hub KPI."
       right={<Pill tone="watch">display-only</Pill>}
     >
-      <div className="grid gap-3 sm:grid-cols-3">
+      <div className="grid gap-2 sm:grid-cols-3">
         {MIRROR_WIDGETS.map((w) => (
-          <article key={w.title} className="rounded-card border border-hairline bg-canvas p-3">
+          <article key={w.title} className="rounded-card border border-hairline bg-canvas p-2.5">
             <p className="text-[12px] font-semibold text-ink">{w.title}</p>
-            <p className="mono num mt-2 text-[24px] font-semibold text-ink">{w.value}</p>
+            <p className="mono num mt-1.5 text-[18px] font-bold text-ink">{w.value}</p>
             <p className="mt-1 text-[11px] leading-snug text-muted">{w.note}</p>
           </article>
         ))}

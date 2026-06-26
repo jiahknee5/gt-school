@@ -13,7 +13,7 @@ export function BrokenUtmDrill({ attribution }: { attribution: AttributionSummar
       right={<Pill tone={health.broken === 0 ? "good" : "risk"}>{health.healthPct}% healthy</Pill>}
     >
       {brokenSample.length === 0 ? (
-        <p className="py-4 text-[13px] text-muted">No broken-UTM records — every family has a resolved source.</p>
+        <p className="py-4 text-[11px] text-muted">No broken-UTM records — every family has a resolved source.</p>
       ) : (
         <div className="divide-y divide-hairline">
           {brokenSample.map((r) => (

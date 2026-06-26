@@ -42,21 +42,21 @@ export default async function SubmissionsPage() {
   return (
     <main className="min-h-[100dvh] bg-canvas">
       <section className="border-b border-hairline bg-[linear-gradient(135deg,var(--paper)_0%,var(--paper)_62%,var(--fill)_100%)]">
-        <div className="mx-auto max-w-[1024px] px-5 py-7 sm:px-7 lg:px-9">
-          <Link href="/" className="mono text-[11px] font-semibold text-gold hover:underline">
+        <div className="mx-auto max-w-[1024px] px-4 py-5 sm:px-6 lg:px-8">
+          <Link href="/" className="mono text-[10px] font-semibold text-gold hover:underline">
             Home
           </Link>
-          <p className="mono mt-4 text-[11px] font-semibold text-label">Decision Queue</p>
-          <h1 className="mt-1 font-serif text-[34px] font-semibold leading-tight text-ink">My submissions</h1>
-          <p className="mt-2 max-w-[680px] text-[14px] leading-relaxed text-muted">
+          <p className="mono mt-2 text-[10px] font-semibold text-label">Decision Queue</p>
+          <h1 className="mt-1 font-serif text-[20px] font-bold leading-tight tracking-[-0.02em] text-ink">My submissions</h1>
+          <p className="mt-1.5 max-w-[680px] text-[12px] leading-snug text-muted">
             Decisions you raised and what leadership decided. You see only your own — the full Decision
             Queue is Leadership-only. {session ? `Signed in as ${session.title}.` : ""}
           </p>
         </div>
       </section>
 
-      <div className="mx-auto max-w-[1024px] px-5 py-6 sm:px-7 lg:px-9">
-        <p className="mb-4 text-[13px] text-muted">
+      <div className="mx-auto max-w-[1024px] px-4 py-5 sm:px-6 lg:px-8">
+        <p className="mb-4 text-[11px] text-muted">
           {mine.length} submission{mine.length === 1 ? "" : "s"} · {decided} with a leadership response
         </p>
 
@@ -65,10 +65,10 @@ export default async function SubmissionsPage() {
             {mine.map((d) => {
               const tone = outcomeTone(d);
               return (
-                <article key={d.id} className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
+                <article key={d.id} className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
                   <div className="flex items-start justify-between gap-3">
-                    <h2 className="text-[15px] font-semibold leading-snug text-ink">{clean(d.question)}</h2>
-                    <span className={`mono shrink-0 rounded-card border px-2 py-1 text-[11px] font-semibold ${toneClass(tone)}`}>
+                    <h2 className="text-[12px] font-semibold leading-snug text-ink">{clean(d.question)}</h2>
+                    <span className={`mono shrink-0 rounded-card border px-1.5 py-0.5 text-[10px] font-semibold ${toneClass(tone)}`}>
                       {outcomeLabel(d)}
                     </span>
                   </div>
@@ -77,12 +77,12 @@ export default async function SubmissionsPage() {
                     {d.due_date ? ` · due ${d.due_date}` : ""}
                   </p>
                   {d.response_note ? (
-                    <div className="mt-3 rounded-card border border-hairline bg-canvas p-3">
-                      <p className="mono text-[11px] font-semibold text-label">Leadership response</p>
-                      <p className="mt-1 text-[13px] leading-relaxed text-ink">{clean(d.response_note)}</p>
+                    <div className="mt-3 rounded-card border border-hairline bg-canvas p-2.5">
+                      <p className="mono text-[10px] font-semibold text-label">Leadership response</p>
+                      <p className="mt-1 text-[12px] leading-snug text-ink">{clean(d.response_note)}</p>
                     </div>
                   ) : (
-                    <p className="mt-3 text-[13px] text-muted">Awaiting a leadership ruling.</p>
+                    <p className="mt-3 text-[11px] text-muted">Awaiting a leadership ruling.</p>
                   )}
                 </article>
               );
@@ -90,7 +90,7 @@ export default async function SubmissionsPage() {
           </div>
         ) : (
           <section className="rounded-card border border-hairline bg-surface p-8 text-center">
-            <p className="text-[13px] text-muted">
+            <p className="text-[11px] text-muted">
               You haven&apos;t raised any decisions yet. Raise one from your module to request a leadership ruling.
             </p>
           </section>

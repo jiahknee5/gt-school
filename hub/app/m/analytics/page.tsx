@@ -111,7 +111,7 @@ export default async function AnalyticsPage({
                     {sites.map((s) => (
                       <div key={s.site} className="rounded-card border border-hairline bg-canvas p-2.5">
                         <p className="text-[12px] font-semibold text-ink">{s.site}</p>
-                        <p className="mono num mt-1 text-[22px] font-semibold text-ink">{fmt(s.sessions)}</p>
+                        <p className="mono num mt-1 text-[18px] font-bold text-ink">{fmt(s.sessions)}</p>
                         <p className="text-[11px] text-muted">bounce {pct(bounce(s.sessions, s.engagedSessions))} · {fmt(s.totalUsers)} users</p>
                       </div>
                     ))}

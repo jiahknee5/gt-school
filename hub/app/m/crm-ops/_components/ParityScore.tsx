@@ -17,7 +17,7 @@ export function ParityScore({
   const worstTone: Tone = !worstBelow ? "good" : worst?.expectedUnreliable ? "watch" : "risk";
 
   return (
-    <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+    <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
       <MetricTile
         label="Overall parity"
         value={`${parity.overallPct}%`}

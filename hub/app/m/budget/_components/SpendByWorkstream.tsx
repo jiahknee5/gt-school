@@ -13,7 +13,7 @@ export function SpendByWorkstream({ slices }: { slices: AllocationSlice[] }) {
   if (total === 0) {
     return (
       <Card title="Spend by workstream" note="Share of total actual spend.">
-        <p className="text-[13px] text-muted">No actual spend yet — nothing to allocate.</p>
+        <p className="text-[11px] text-muted">No actual spend yet — nothing to allocate.</p>
       </Card>
     );
   }
@@ -37,15 +37,15 @@ export function SpendByWorkstream({ slices }: { slices: AllocationSlice[] }) {
 
       <ul className="mt-4 space-y-3">
         {slices.map((s, i) => (
-          <li key={s.key} className="grid grid-cols-[1fr_72px_64px] items-center gap-3">
+          <li key={s.key} className="grid grid-cols-[1fr_72px_64px] items-center gap-2">
             <div>
-              <p className="text-[13px] font-semibold text-ink">{s.name}</p>
+              <p className="text-[12px] font-semibold text-ink">{s.name}</p>
               <div className="mt-1">
                 <Bar pct={s.pct} tone={BAR_TONES[i % BAR_TONES.length]} />
               </div>
             </div>
-            <span className="mono num text-right text-[13px] text-ink">{usd(s.actual)}</span>
-            <span className="mono num text-right text-[13px] text-muted">{s.pct}%</span>
+            <span className="mono num text-right text-[12px] text-ink">{usd(s.actual)}</span>
+            <span className="mono num text-right text-[11px] text-muted">{s.pct}%</span>
           </li>
         ))}
       </ul>

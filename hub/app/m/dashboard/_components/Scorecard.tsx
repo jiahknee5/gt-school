@@ -23,20 +23,20 @@ export function Scorecard({ scorecard, compact = false }: { scorecard: Scorecard
   return (
     <div className="space-y-4">
       {!compact && (
-        <div className="grid gap-3 sm:grid-cols-2">
-          <article className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-            <p className="mono text-[11px] font-semibold text-label">Biggest mover</p>
+        <div className="grid gap-2 sm:grid-cols-2">
+          <article className="rounded-card border border-hairline bg-surface p-2.5 shadow-sm">
+            <p className="mono text-[10px] font-semibold text-label">Biggest mover</p>
             {biggestMover ? (
               <p className="mt-2 text-[14px] font-semibold text-ink">
                 {biggestMover.label}: {deltaLabel(biggestMover)}
               </p>
             ) : (
-              <p className="mt-2 text-[13px] text-muted">No instrumented mover this week.</p>
+              <p className="mt-2 text-[11px] text-muted">No instrumented mover this week.</p>
             )}
-            <p className="mt-1 text-[12px] text-muted">Ranked by % change among measured KPIs only.</p>
+            <p className="mt-0.5 text-[11px] text-muted">Ranked by % change among measured KPIs only.</p>
           </article>
-          <article className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-            <p className="mono text-[11px] font-semibold text-label">Red flags</p>
+          <article className="rounded-card border border-hairline bg-surface p-2.5 shadow-sm">
+            <p className="mono text-[10px] font-semibold text-label">Red flags</p>
             {redFlags.length ? (
               <p className="mt-2 text-[14px] font-semibold text-red">
                 {redFlags.map((r) => r.label).join(", ")}
@@ -44,24 +44,24 @@ export function Scorecard({ scorecard, compact = false }: { scorecard: Scorecard
             ) : (
               <p className="mt-2 text-[13px] text-green">No KPI at risk this week.</p>
             )}
-            <p className="mt-1 text-[12px] text-muted">At-risk = below 90% of the required run-rate.</p>
+            <p className="mt-0.5 text-[11px] text-muted">At-risk = below 90% of the required run-rate.</p>
           </article>
         </div>
       )}
 
       <Card title="Weekly scorecard" note={`Versioned snapshot · week of ${weekOf} · identical for every role`}>
         <div className="overflow-x-auto">
-          <table className="w-full min-w-[680px] border-collapse text-[13px]">
+          <table className="w-full min-w-[680px] border-collapse text-[11px]">
             <thead>
-              <tr className="border-b border-hairline text-left text-[11px] uppercase tracking-wide text-label">
-                <th className="py-2 pr-3 font-semibold">KPI</th>
-                <th className="py-2 pr-3 font-semibold">This wk</th>
-                <th className="py-2 pr-3 font-semibold">Last wk</th>
-                <th className="py-2 pr-3 font-semibold">Delta</th>
-                <th className="py-2 pr-3 font-semibold">4-wk</th>
-                <th className="py-2 pr-3 font-semibold">Target</th>
-                <th className="py-2 pr-3 font-semibold">Status</th>
-                <th className="py-2 font-semibold">Source</th>
+              <tr className="border-b border-hairline text-left text-[10px] uppercase tracking-wide text-label">
+                <th className="py-1 pr-2.5 font-semibold">KPI</th>
+                <th className="py-1 pr-2.5 font-semibold">This wk</th>
+                <th className="py-1 pr-2.5 font-semibold">Last wk</th>
+                <th className="py-1 pr-2.5 font-semibold">Delta</th>
+                <th className="py-1 pr-2.5 font-semibold">4-wk</th>
+                <th className="py-1 pr-2.5 font-semibold">Target</th>
+                <th className="py-1 pr-2.5 font-semibold">Status</th>
+                <th className="py-1 font-semibold">Source</th>
               </tr>
             </thead>
             <tbody>
@@ -88,7 +88,7 @@ export function Scorecard({ scorecard, compact = false }: { scorecard: Scorecard
                   <td className="py-2.5 pr-3">
                     <Pill tone={statusTone(row.status)}>{row.status.replace("_", " ")}</Pill>
                   </td>
-                  <td className="py-2.5 text-[12px] text-muted">
+                  <td className="py-2.5 text-[11px] text-muted">
                     {row.source}
                     {row.freshness ? ` · ${humanizeAge(row.freshness.ageMinutes)}` : ""}
                   </td>

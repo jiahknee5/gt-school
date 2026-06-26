@@ -70,17 +70,17 @@ export default async function BudgetPage({
   return (
     <main className="min-h-[100dvh] bg-canvas">
       <section className="border-b border-hairline bg-[linear-gradient(135deg,var(--paper)_0%,var(--paper)_62%,var(--fill)_100%)]">
-        <div className="mx-auto max-w-[1280px] px-5 py-7 sm:px-7 lg:px-9">
-          <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+        <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <Link href="/" className="mono text-[11px] font-semibold text-gold hover:underline">
+              <Link href="/" className="mono text-[10px] font-semibold text-gold hover:underline">
                 Home
               </Link>
-              <p className="mono mt-4 text-[11px] font-semibold text-label">Module 10</p>
-              <h1 className="mt-1 font-serif text-[34px] font-semibold leading-tight text-ink">
+              <p className="mono mt-2 text-[10px] font-semibold text-label">Module 10</p>
+              <h1 className="mt-1 font-serif text-[20px] font-bold leading-tight tracking-[-0.02em] text-ink">
                 Budget Tracker
               </h1>
-              <p className="mt-2 max-w-[760px] text-[14px] leading-relaxed text-muted">
+              <p className="mt-1.5 max-w-[760px] text-[12px] leading-snug text-muted">
                 Plan vs committed vs actual vs remaining by workstream. The Hub is the system of record (no
                 Google Sheet). Four workstreams reconcile to exactly $365,000; campaign spend (e.g. the GT
                 Challenge) rolls into a workstream actual exactly once; a &gt;10% variance auto-flags to the
@@ -88,10 +88,10 @@ export default async function BudgetPage({
               </p>
             </div>
 
-            <div className="rounded-card border border-hairline bg-canvas p-3">
-              <p className="mono text-[11px] font-semibold text-label">Active role</p>
-              <p className="mt-2 text-[12px] font-semibold text-ink">{viewer.role}</p>
-              <p className="mt-2 text-[12px] text-muted">
+            <div className="rounded-card border border-hairline bg-canvas p-2.5">
+              <p className="mono text-[10px] font-semibold text-label">Active role</p>
+              <p className="mt-1 text-[12px] font-semibold text-ink">{viewer.role}</p>
+              <p className="mt-0.5 text-[11px] text-muted">
                 {viewer.name} | {viewer.title}
               </p>
             </div>
@@ -99,10 +99,10 @@ export default async function BudgetPage({
         </div>
       </section>
 
-      <div className="mx-auto max-w-[1280px] px-5 py-6 sm:px-7 lg:px-9">
-        <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
-          <div className="space-y-5">
-            <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
+        <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
+          <div className="space-y-3">
+            <section className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
               <MetricTile
                 label="Recommended total"
                 value={recon.reconciles ? "$365,000" : usd(recon.totals.recommended)}
@@ -129,7 +129,7 @@ export default async function BudgetPage({
               />
             </section>
 
-            <nav className="flex flex-wrap gap-1.5 rounded-card border border-hairline bg-surface p-1.5">
+            <nav className="flex flex-wrap gap-1 rounded-card border border-hairline bg-surface p-1">
               {TABS.map((t) => {
                 const active = t.key === activeTab;
                 return (
@@ -137,7 +137,7 @@ export default async function BudgetPage({
                     key={t.key}
                     href={tabHref(t.key)}
                     aria-current={active ? "page" : undefined}
-                    className={`rounded-card px-3 py-1.5 text-[12px] font-semibold transition-colors ${
+                    className={`rounded-card px-2.5 py-1 text-[11px] font-semibold transition-colors ${
                       active ? "bg-ink-cta text-on-cta shadow-sm" : "text-muted hover:bg-hover hover:text-ink"
                     }`}
                   >
@@ -155,10 +155,10 @@ export default async function BudgetPage({
             )}
           </div>
 
-          <aside className="space-y-4">
-            <section className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-              <h2 className="font-serif text-[18px] font-semibold text-ink">Source of truth</h2>
-              <ul className="mt-3 space-y-2 text-[12px] leading-relaxed text-muted">
+          <aside className="space-y-3">
+            <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+              <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Source of truth</h2>
+              <ul className="mt-2 space-y-1.5 text-[11px] leading-snug text-muted">
                 <li>The Hub IS the budget system of record — there is no Google Sheet.</li>
                 <li>committed/actual are DERIVED from the append-only budget_entry ledger.</li>
                 <li>Campaign spend rolls in once as an origin=campaign entry (never re-typed).</li>
@@ -166,9 +166,9 @@ export default async function BudgetPage({
               </ul>
             </section>
 
-            <section className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-              <h2 className="font-serif text-[18px] font-semibold text-ink">Your edit scope</h2>
-              <p className="mt-2 text-[12px] leading-relaxed text-muted">
+            <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+              <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Your edit scope</h2>
+              <p className="mt-1 text-[11px] leading-snug text-muted">
                 {viewer.role === "admin"
                   ? "Admin (Marketing Lead): edit every workstream row + planned."
                   : viewer.role === "leader"

@@ -21,7 +21,7 @@ export function ReliabilityFlags({ fieldDetail }: { fieldDetail: FieldParityView
           return (
             <div key={f.field} className="grid gap-2 py-3 sm:grid-cols-[1fr_120px] sm:items-center">
               <div>
-                <p className="mono text-[13px] font-semibold text-ink">{f.field}</p>
+                <p className="mono text-[12px] font-semibold text-ink">{f.field}</p>
                 <p className="mt-1 text-[12px] leading-relaxed text-muted">
                   authority: {f.authority} · expected_unreliable: true
                 </p>

@@ -25,16 +25,16 @@ export function GoalPacing({ rows, canEdit }: { rows: PacingRow[]; canEdit: bool
       }
     >
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[640px] border-collapse text-[13px]">
+        <table className="w-full min-w-[640px] border-collapse text-[11px]">
           <thead>
-            <tr className="border-b border-hairline text-left text-[11px] uppercase tracking-wide text-label">
-              <th className="py-2 pr-3 font-semibold">KPI</th>
-              <th className="py-2 pr-3 font-semibold">Target</th>
-              <th className="py-2 pr-3 font-semibold">Wks left</th>
-              <th className="py-2 pr-3 font-semibold">Required/wk</th>
-              <th className="py-2 pr-3 font-semibold">Actual/wk</th>
-              <th className="py-2 pr-3 font-semibold">Projection</th>
-              <th className="py-2 font-semibold">Pace</th>
+            <tr className="border-b border-hairline text-left text-[10px] uppercase tracking-wide text-label">
+              <th className="py-1 pr-2.5 font-semibold">KPI</th>
+              <th className="py-1 pr-2.5 font-semibold">Target</th>
+              <th className="py-1 pr-2.5 font-semibold">Wks left</th>
+              <th className="py-1 pr-2.5 font-semibold">Required/wk</th>
+              <th className="py-1 pr-2.5 font-semibold">Actual/wk</th>
+              <th className="py-1 pr-2.5 font-semibold">Projection</th>
+              <th className="py-1 font-semibold">Pace</th>
             </tr>
           </thead>
           <tbody>

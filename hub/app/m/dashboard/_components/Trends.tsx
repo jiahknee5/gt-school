@@ -14,9 +14,9 @@ function TrendSeries({ ds, kpiKey, window }: { ds: SeedDataset; kpiKey: string; 
   const weekSlice = weeks.slice(-window);
   const max = Math.max(...slice, 1);
   return (
-    <div className="rounded-card border border-hairline bg-canvas p-3">
+    <div className="rounded-card border border-hairline bg-canvas p-2.5">
       <div className="flex items-center justify-between">
-        <p className="text-[13px] font-semibold text-ink">{def.label}</p>
+        <p className="text-[12px] font-semibold text-ink">{def.label}</p>
         {!def.instrumented && <span className="mono text-[10px] font-semibold text-amber">low-confidence</span>}
       </div>
       <div className="mt-3 flex h-24 items-end gap-1" aria-hidden="true">
@@ -33,7 +33,7 @@ function TrendSeries({ ds, kpiKey, window }: { ds: SeedDataset; kpiKey: string; 
         <span>{weekSlice[0]}</span>
         <span>{weekSlice[weekSlice.length - 1]}</span>
       </div>
-      <p className="mt-1 text-[11px] text-muted">
+      <p className="mt-0.5 text-[11px] text-muted">
         latest {fmtValue(slice[slice.length - 1] ?? 0, def.unit)} · max {fmtValue(max, def.unit)}
       </p>
     </div>
@@ -43,7 +43,7 @@ function TrendSeries({ ds, kpiKey, window }: { ds: SeedDataset; kpiKey: string; 
 export function Trends({ ds, window = 8 }: { ds: SeedDataset; window?: number }) {
   return (
     <Card title="Trends" note={`Per-KPI series · ${window}-wk window · shared baseline (compare two side by side)`}>
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid gap-2 sm:grid-cols-2">
         <TrendSeries ds={ds} kpiKey="applicants" window={window} />
         <TrendSeries ds={ds} kpiKey="deposits" window={window} />
         <TrendSeries ds={ds} kpiKey="parity_pct" window={window} />

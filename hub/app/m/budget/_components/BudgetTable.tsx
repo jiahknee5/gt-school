@@ -28,22 +28,22 @@ export function BudgetTable({ recon, viewer }: { recon: Reconciliation; viewer: 
       right={reconcilePill}
     >
       {!recon.reconciles && (
-        <p role="alert" className="mb-3 rounded-card border border-red-soft bg-red-soft p-3 text-[13px] text-red">
+        <p role="alert" className="mb-2.5 rounded-card border border-red-soft bg-red-soft p-3 text-[13px] text-red">
           {recon.reconcileError}
         </p>
       )}
       {recon.doubleCountedCampaigns.length > 0 && (
-        <p role="alert" className="mb-3 rounded-card border border-red-soft bg-red-soft p-3 text-[13px] text-red">
+        <p role="alert" className="mb-2.5 rounded-card border border-red-soft bg-red-soft p-3 text-[13px] text-red">
           Double-counted campaign spend: {recon.doubleCountedCampaigns.join(", ")} appears as both a campaign
           roll-in and a manual entry.
         </p>
       )}
 
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[760px] border-collapse text-[13px]">
+        <table className="w-full min-w-[760px] border-collapse text-[11px]">
           <thead>
-            <tr className="border-b border-hairline text-left text-[11px] uppercase tracking-wide text-label">
-              <th className="py-2 pr-3 font-semibold">Workstream</th>
+            <tr className="border-b border-hairline text-left text-[10px] uppercase tracking-wide text-label">
+              <th className="py-1 pr-2.5 font-semibold">Workstream</th>
               <th className="py-2 px-3 text-right font-semibold">Recommended</th>
               <th className="py-2 px-3 text-right font-semibold">Planned</th>
               <th className="py-2 px-3 text-right font-semibold">Committed</th>
@@ -66,7 +66,7 @@ export function BudgetTable({ recon, viewer }: { recon: Reconciliation; viewer: 
                         <span className="mono text-[11px] text-muted">incl. {usd(row.campaignActual)} campaign</span>
                       )}
                     </div>
-                    <p className="mono mt-1 text-[11px] text-muted">
+                    <p className="mono mt-0.5 text-[11px] text-muted">
                       {row.lastEdit
                         ? `last: ${usd(row.lastEdit.amount)} ${row.lastEdit.kind} by ${row.lastEdit.entered_by} · ${fmtDate(row.lastEdit.created_at)}`
                         : "no entries yet — $0 actual"}

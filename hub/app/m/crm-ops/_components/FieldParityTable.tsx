@@ -28,7 +28,7 @@ export function FieldParityTable({
           return (
             <div key={f.field} className="grid gap-2 py-3 sm:grid-cols-[1fr_120px_120px] sm:items-center">
               <div>
-                <p className="mono text-[13px] font-semibold text-ink">{f.field}</p>
+                <p className="mono text-[12px] font-semibold text-ink">{f.field}</p>
                 <p className="mt-1 text-[12px] leading-relaxed text-muted">
                   {f.inParity}/{f.total} rows in parity · {status}
                 </p>

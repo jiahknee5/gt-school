@@ -49,7 +49,7 @@ export function DecisionActions({ id }: { id: string }) {
 
   return (
     <div className="mt-3 border-t border-hairline pt-3">
-      <label className="mono text-[11px] font-semibold text-label" htmlFor={`note-${id}`}>
+      <label className="mono text-[10px] font-semibold text-label" htmlFor={`note-${id}`}>
         Leadership note (required)
       </label>
       <textarea
@@ -58,7 +58,7 @@ export function DecisionActions({ id }: { id: string }) {
         onChange={(e) => setNote(e.target.value)}
         rows={2}
         placeholder="Why this ruling? The submitter sees this note."
-        className="mt-1.5 w-full resize-y rounded-card border border-border bg-canvas px-2.5 py-2 text-[13px] text-ink outline-none placeholder:text-label focus:border-gold"
+        className="mt-1.5 w-full resize-y rounded-card border border-border bg-canvas px-2.5 py-2 text-[12px] text-ink outline-none placeholder:text-label focus:border-gold"
       />
       <div className="mt-2 flex flex-wrap items-center gap-2">
         <button

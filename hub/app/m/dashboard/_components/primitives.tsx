@@ -26,7 +26,7 @@ export function fmtValue(value: number, unit: "count" | "pct" | "ratio"): string
 
 export function Pill({ tone = "neutral", children }: { tone?: Tone; children: ReactNode }) {
   return (
-    <span className={`mono w-fit rounded-card border px-2 py-1 text-[11px] font-semibold ${toneClass(tone)}`}>
+    <span className={`mono w-fit rounded-card border px-1.5 py-0.5 text-[10px] font-semibold ${toneClass(tone)}`}>
       {children}
     </span>
   );
@@ -44,15 +44,15 @@ export function Card({
   right?: ReactNode;
 }) {
   return (
-    <section className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-      <div className="flex items-start justify-between gap-3 border-b border-hairline pb-3">
+    <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+      <div className="flex items-start justify-between gap-2 border-b border-hairline pb-2.5">
         <div>
-          <h2 className="font-serif text-[20px] font-semibold text-ink">{title}</h2>
-          {note && <p className="mt-1 text-[13px] leading-relaxed text-muted">{note}</p>}
+          <h2 className="font-serif text-[15px] font-bold tracking-[-0.01em] text-ink">{title}</h2>
+          {note && <p className="mt-0.5 text-[11px] leading-snug text-muted">{note}</p>}
         </div>
         {right}
       </div>
-      <div className="pt-3">{children}</div>
+      <div className="pt-2.5">{children}</div>
     </section>
   );
 }
@@ -69,12 +69,12 @@ export function MetricTile({
   tone?: Tone;
 }) {
   return (
-    <article className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-      <div className={`mono inline-flex rounded-card border px-2 py-1 text-[11px] font-semibold ${toneClass(tone)}`}>
+    <article className="rounded-card border border-hairline bg-surface p-2.5 shadow-sm">
+      <div className={`mono inline-flex rounded-card border px-1.5 py-0.5 text-[10px] font-semibold ${toneClass(tone)}`}>
         {label}
       </div>
-      <p className="mono num mt-3 text-[26px] font-semibold leading-none text-ink">{value}</p>
-      <p className="mt-2 text-[12px] leading-snug text-muted">{note}</p>
+      <p className="mono num mt-1.5 text-[18px] font-bold leading-none text-ink">{value}</p>
+      <p className="mt-1 text-[11px] leading-snug text-muted">{note}</p>
     </article>
   );
 }

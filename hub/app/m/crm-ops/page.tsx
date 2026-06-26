@@ -68,27 +68,27 @@ export default async function CrmOpsPage({
   return (
     <main className="min-h-[100dvh] bg-canvas">
       <section className="border-b border-hairline bg-[linear-gradient(135deg,var(--paper)_0%,var(--paper)_62%,var(--fill)_100%)]">
-        <div className="mx-auto max-w-[1280px] px-5 py-7 sm:px-7 lg:px-9">
-          <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+        <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <Link href="/" className="mono text-[11px] font-semibold text-gold hover:underline">
+              <Link href="/" className="mono text-[10px] font-semibold text-gold hover:underline">
                 Home
               </Link>
-              <p className="mono mt-4 text-[11px] font-semibold text-label">Module 7</p>
-              <h1 className="mt-1 font-serif text-[34px] font-semibold leading-tight text-ink">
+              <p className="mono mt-2 text-[10px] font-semibold text-label">Module 7</p>
+              <h1 className="mt-1 font-serif text-[20px] font-bold leading-tight tracking-[-0.02em] text-ink">
                 CRM / Marketing Operations
               </h1>
-              <p className="mt-2 max-w-[760px] text-[14px] leading-relaxed text-muted">
+              <p className="mt-1.5 max-w-[760px] text-[12px] leading-snug text-muted">
                 Data-infrastructure health: Supabase app_form to HubSpot sync parity, UTM attribution
                 health, read-only lead scoring, and an auto-detecting data-quality queue. This module owns
                 the data-confidence banner every HubSpot-consuming module reads.
               </p>
             </div>
 
-            <div className="rounded-card border border-hairline bg-canvas p-3">
-              <p className="mono text-[11px] font-semibold text-label">Active role</p>
-              <p className="mt-2 text-[12px] font-semibold text-ink">{role ?? "Not signed in"}</p>
-              <p className="mt-2 text-[12px] text-muted">
+            <div className="rounded-card border border-hairline bg-canvas p-2.5">
+              <p className="mono text-[10px] font-semibold text-label">Active role</p>
+              <p className="mt-1 text-[12px] font-semibold text-ink">{role ?? "Not signed in"}</p>
+              <p className="mt-0.5 text-[11px] text-muted">
                 Admin + Leader read · Operators denied
               </p>
             </div>
@@ -96,7 +96,7 @@ export default async function CrmOpsPage({
         </div>
       </section>
 
-      <div className="mx-auto max-w-[1280px] px-5 py-6 sm:px-7 lg:px-9">
+      <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
         {!allowed ? (
           <AccessDenied role={role} />
         ) : (
@@ -132,13 +132,13 @@ function CrmOpsBody({ activeTab, role }: { activeTab: TabKey; role: "admin" | "l
   const queue = buildQueue(ds.data_quality_issue, detect.plan.desired);
 
   return (
-    <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
-      <div className="space-y-5">
+    <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
+      <div className="space-y-3">
         {/* The owned data-confidence banner, rendered on its own home too. */}
         <DataConfidenceBanner state={banner} />
 
         {/* Sub-view tab bar */}
-        <nav className="flex flex-wrap gap-1.5 rounded-card border border-hairline bg-surface p-1.5">
+        <nav className="flex flex-wrap gap-1 rounded-card border border-hairline bg-surface p-1">
           {TABS.map((t) => {
             const active = t.key === activeTab;
             return (
@@ -146,7 +146,7 @@ function CrmOpsBody({ activeTab, role }: { activeTab: TabKey; role: "admin" | "l
                 key={t.key}
                 href={tabHref(t.key)}
                 aria-current={active ? "page" : undefined}
-                className={`rounded-card px-3 py-1.5 text-[12px] font-semibold transition-colors ${
+                className={`rounded-card px-2.5 py-1 text-[11px] font-semibold transition-colors ${
                   active ? "bg-ink-cta text-on-cta shadow-sm" : "text-muted hover:bg-hover hover:text-ink"
                 }`}
               >
@@ -167,14 +167,14 @@ function CrmOpsBody({ activeTab, role }: { activeTab: TabKey; role: "admin" | "l
           />
         )}
         {activeTab === "source" && (
-          <div className="space-y-5">
+          <div className="space-y-3">
             <AttributionChain attribution={attribution} />
             <BrokenUtmDrill attribution={attribution} />
           </div>
         )}
         {activeTab === "scoring" && <ScoreHistogram scoring={scoring} />}
         {activeTab === "parity" && (
-          <div className="space-y-5">
+          <div className="space-y-3">
             <SotReminder />
             <ParityScore parity={parity} thresholdPct={thresholdPct} />
             <FieldParityTable fieldDetail={parity.fieldDetail} thresholdPct={thresholdPct} />
@@ -184,10 +184,10 @@ function CrmOpsBody({ activeTab, role }: { activeTab: TabKey; role: "admin" | "l
         {activeTab === "quality" && <DqQueue queue={queue} role={role} />}
       </div>
 
-      <aside className="space-y-4">
-        <section className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-          <h2 className="font-serif text-[18px] font-semibold text-ink">Auto-detector</h2>
-          <p className="mt-2 text-[12px] leading-relaxed text-muted">
+      <aside className="space-y-3">
+        <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+          <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Auto-detector</h2>
+          <p className="mt-1 text-[11px] leading-snug text-muted">
             Runs after reconcile; idempotent by (category, entity, entity_id, field). This pass would
             open <span className="font-semibold text-ink">{detect.openedCount}</span> and resolve{" "}
             <span className="font-semibold text-ink">{detect.resolvedCount}</span> issue(s).
@@ -201,9 +201,9 @@ function CrmOpsBody({ activeTab, role }: { activeTab: TabKey; role: "admin" | "l
           </div>
         </section>
 
-        <section className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-          <h2 className="font-serif text-[18px] font-semibold text-ink">Source notes</h2>
-          <ul className="mt-3 space-y-2 text-[12px] leading-relaxed text-muted">
+        <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+          <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Source notes</h2>
+          <ul className="mt-2 space-y-1.5 text-[11px] leading-snug text-muted">
             <li>Supabase app_form is authoritative for funnel, TEFA, income, grade.</li>
             <li>HubSpot is authoritative for lifecycle, lead score, source.</li>
             <li>Lead scoring is read-only — the Hub never writes scores back.</li>
@@ -235,11 +235,11 @@ function OverviewView({
 }) {
   const worst = parity.fieldDetail[0];
   return (
-    <div className="space-y-5">
+    <div className="space-y-3">
       {/* Overall AND worst field together — anti-vanity. */}
       <ParityScore parity={parity} thresholdPct={thresholdPct} />
 
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
         <MetricTile
           label="UTM health"
           value={`${attribution.health.healthPct}%`}
@@ -263,7 +263,7 @@ function OverviewView({
       </div>
 
       {worst && worst.pct < thresholdPct && (
-        <section className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
+        <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
           <p className="text-[13px] leading-relaxed text-ink">
             <span className="font-semibold">Worst field is not hidden:</span>{" "}
             <span className="mono">{worst.field}</span> is at {worst.pct}% (

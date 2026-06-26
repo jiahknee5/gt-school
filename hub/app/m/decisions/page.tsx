@@ -67,19 +67,19 @@ export default async function DecisionsPage({
   return (
     <main className="min-h-[100dvh] bg-canvas">
       <section className="border-b border-hairline bg-[linear-gradient(135deg,var(--paper)_0%,var(--paper)_62%,var(--fill)_100%)]">
-        <div className="mx-auto max-w-[1280px] px-5 py-7 sm:px-7 lg:px-9">
-          <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+        <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
+          <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
             <div>
-              <Link href="/" className="mono text-[11px] font-semibold text-gold hover:underline">
+              <Link href="/" className="mono text-[10px] font-semibold text-gold hover:underline">
                 Home
               </Link>
               <div className="mt-4 flex items-center gap-2">
-                <p className="mono text-[11px] font-semibold text-label">Module 11</p>
+                <p className="mono text-[10px] font-semibold text-label">Module 11</p>
                 <span className="mono rounded-card bg-violet-soft px-1.5 py-px text-[10px] font-semibold text-violet">
                   Leadership only
                 </span>
               </div>
-              <h1 className="mt-1 flex items-center gap-3 font-serif text-[34px] font-semibold leading-tight text-ink">
+              <h1 className="mt-1 flex items-center gap-2 font-serif text-[20px] font-bold leading-tight tracking-[-0.02em] text-ink">
                 Decision Queue
                 {isLeader && badge > 0 && (
                   <span className="mono inline-flex h-7 min-w-7 items-center justify-center rounded-full bg-red px-2 text-[13px] font-bold text-white">
@@ -87,29 +87,29 @@ export default async function DecisionsPage({
                   </span>
                 )}
               </h1>
-              <p className="mt-2 max-w-[760px] text-[14px] leading-relaxed text-muted">
+              <p className="mt-1.5 max-w-[760px] text-[12px] leading-snug text-muted">
                 Where leadership rules on cross-module asks — budget reallocations, guerrilla bets,
                 hot-family escalations, capacity expansions. View + act is Leadership-only and enforced
                 server-side; every other role submits and watches the outcome in My submissions.
               </p>
             </div>
 
-            <div className="rounded-card border border-hairline bg-canvas p-3">
-              <p className="mono text-[11px] font-semibold text-label">Active role</p>
-              <p className="mt-2 text-[12px] font-semibold text-ink">{role ?? "Not signed in"}</p>
-              <p className="mt-2 text-[12px] text-muted">Leader: view + act · others: submit only</p>
+            <div className="rounded-card border border-hairline bg-canvas p-2.5">
+              <p className="mono text-[10px] font-semibold text-label">Active role</p>
+              <p className="mt-1 text-[12px] font-semibold text-ink">{role ?? "Not signed in"}</p>
+              <p className="mt-0.5 text-[11px] text-muted">Leader: view + act · others: submit only</p>
             </div>
           </div>
         </div>
       </section>
 
-      <div className="mx-auto max-w-[1280px] px-5 py-6 sm:px-7 lg:px-9">
+      <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
         {!isLeader ? (
           <AccessDenied role={role} />
         ) : (
-          <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
-            <div className="space-y-5">
-              <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+          <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
+            <div className="space-y-3">
+              <section className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
                 <Tile label="Open" value={String(stats.open)} tone={stats.open ? "watch" : "good"} note="Awaiting a ruling" />
                 <Tile label="Urgent open" value={String(stats.urgentOpen)} tone={stats.urgentOpen ? "risk" : "good"} note="Due first" />
                 <Tile label="Awaiting info" value={String(stats.inFlight)} tone="neutral" note="Need-more-info loop" />
@@ -121,7 +121,7 @@ export default async function DecisionsPage({
                 />
               </section>
 
-              <nav className="flex flex-wrap gap-1.5 rounded-card border border-hairline bg-surface p-1.5">
+              <nav className="flex flex-wrap gap-1 rounded-card border border-hairline bg-surface p-1">
                 {TABS.map((t) => {
                   const isActiveTab = t.key === activeTab;
                   const count = t.key === "active" ? active.length : history.length;
@@ -130,7 +130,7 @@ export default async function DecisionsPage({
                       key={t.key}
                       href={tabHref(t.key)}
                       aria-current={isActiveTab ? "page" : undefined}
-                      className={`rounded-card px-3 py-1.5 text-[12px] font-semibold transition-colors ${
+                      className={`rounded-card px-2.5 py-1 text-[11px] font-semibold transition-colors ${
                         isActiveTab ? "bg-ink-cta text-on-cta shadow-sm" : "text-muted hover:bg-hover hover:text-ink"
                       }`}
                     >
@@ -161,10 +161,10 @@ export default async function DecisionsPage({
               )}
             </div>
 
-            <aside className="space-y-4">
-              <section className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-                <h2 className="font-serif text-[18px] font-semibold text-ink">How the queue works</h2>
-                <ul className="mt-3 space-y-2 text-[12px] leading-relaxed text-muted">
+            <aside className="space-y-3">
+              <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+                <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">How the queue works</h2>
+                <ul className="mt-2 space-y-1.5 text-[11px] leading-snug text-muted">
                   <li>Any role can <span className="font-semibold text-ink">submit</span> a decision from their module.</li>
                   <li>Only <span className="font-semibold text-ink">Leadership</span> sees and rules on the full queue.</li>
                   <li>A ruling requires a note; the submitter sees it in My submissions.</li>
@@ -176,22 +176,22 @@ export default async function DecisionsPage({
                 </ul>
               </section>
 
-              <section className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-                <h2 className="font-serif text-[18px] font-semibold text-ink">This queue</h2>
-                <dl className="mt-3 space-y-2 text-[12px]">
+              <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+                <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">This queue</h2>
+                <dl className="mt-2.5 space-y-1.5 text-[12px]">
                   <Stat label="Total decisions" value={stats.total} />
                   <Stat label="Auto-flagged" value={stats.autoFlagged} />
                   <Stat label="Decided (archived)" value={stats.decided} />
                 </dl>
               </section>
 
-              <section className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-                <h2 className="font-serif text-[18px] font-semibold text-ink">Open Data enrichment</h2>
+              <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+                <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Open Data enrichment</h2>
                 <div className="mt-3 rounded-card border border-gold bg-amber-soft p-3">
                   <p className="mono text-[10px] font-semibold uppercase tracking-[0.08em] text-label">
                     Decision impact
                   </p>
-                  <p className="mt-1 text-[13px] font-semibold text-ink">
+                  <p className="mt-1 text-[12px] font-semibold text-ink">
                     {openDataImpact.before} -&gt; {openDataImpact.after}
                     {openDataImpact.changed ? " (recommendation changed)" : ""}
                   </p>
@@ -199,7 +199,7 @@ export default async function DecisionsPage({
                     {openDataImpact.reason}
                   </p>
                 </div>
-                <p className="mt-2 text-[12px] leading-relaxed text-muted">
+                <p className="mt-1 text-[11px] leading-snug text-muted">
                   {enrichment.signal}
                 </p>
                 <p className="mono mt-3 text-[10px] font-semibold uppercase tracking-[0.08em] text-label">
@@ -207,7 +207,7 @@ export default async function DecisionsPage({
                 </p>
                 <Link
                   href="/api/opendata/decision-enrichment?counties=TRAVIS,DALLAS"
-                  className="mt-3 inline-flex text-[12px] font-semibold text-gold hover:underline"
+                  className="mt-2 inline-flex text-[11px] font-semibold text-gold hover:underline"
                 >
                   Refresh enrichment →
                 </Link>
@@ -240,7 +240,7 @@ function AccessDenied({ role }: { role: string | null }) {
 function EmptyState({ message }: { message: string }) {
   return (
     <section className="rounded-card border border-hairline bg-surface p-8 text-center">
-      <p className="text-[13px] text-muted">{message}</p>
+      <p className="text-[11px] text-muted">{message}</p>
     </section>
   );
 }
@@ -265,12 +265,12 @@ function Tile({
           ? "bg-red-soft text-red border-red-soft"
           : "bg-fill text-slate border-fill";
   return (
-    <article className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-      <div className={`mono inline-flex rounded-card border px-2 py-1 text-[11px] font-semibold ${toneClass}`}>
+    <article className="rounded-card border border-hairline bg-surface p-2.5 shadow-sm">
+      <div className={`mono inline-flex rounded-card border px-1.5 py-0.5 text-[10px] font-semibold ${toneClass}`}>
         {label}
       </div>
-      <p className="mono num mt-3 text-[26px] font-semibold leading-none text-ink">{value}</p>
-      <p className="mt-2 text-[12px] leading-snug text-muted">{note}</p>
+      <p className="mono num mt-1.5 text-[18px] font-bold leading-none text-ink">{value}</p>
+      <p className="mt-1 text-[11px] leading-snug text-muted">{note}</p>
     </article>
   );
 }
