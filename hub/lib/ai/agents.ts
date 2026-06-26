@@ -6,7 +6,7 @@ import {
   summarizeGtChallengeCampaign,
   type Role,
 } from "@/lib/phase2";
-import { activeDecisions, decisionStats, visibleToRole } from "@/lib/decisions/queries";
+import { decisionStats, visibleToRole } from "@/lib/decisions/queries";
 import {
   enrichDecisionByCounties,
   recommendationImpactFromEnrichment,
@@ -587,4 +587,3 @@ export async function runAskTheHub(
     warnings: body.warnings,
   };
 }
-
