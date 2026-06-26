@@ -14,7 +14,7 @@ const TABS = [
 export function DevTabs() {
   const pathname = usePathname();
   return (
-    <nav className="mt-6 flex gap-1 border-b border-hairline">
+    <nav className="mt-3 flex gap-0.5 border-b border-hairline">
       {TABS.map((t) => {
         const active = pathname === t.href;
         return (
@@ -22,7 +22,7 @@ export function DevTabs() {
             key={t.href}
             href={t.href}
             aria-current={active ? "page" : undefined}
-            className={`-mb-px border-b-2 px-3 py-2 text-[13px] font-medium transition-colors ${
+            className={`-mb-px border-b-2 px-2 py-1 text-[11px] font-medium transition-colors ${
               active
                 ? "border-gold text-ink"
                 : "border-transparent text-muted hover:text-ink"

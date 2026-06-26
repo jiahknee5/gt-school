@@ -15,26 +15,26 @@ function TableCard({ t, count }: { t: TableDef; count: number | null }) {
   // the full field list lives in the dictionary.
   const keyFields = t.fields.filter((f) => f.tags && f.tags.length > 0).slice(0, 7);
   return (
-    <div className="flex flex-col rounded-card border border-hairline bg-surface p-4 shadow-sm">
+    <div className="flex flex-col rounded-card border border-hairline bg-surface p-2.5 shadow-sm">
       <div className="flex items-baseline justify-between gap-2">
         <Link
           href={`/dev/dictionary#${t.name}`}
-          className="mono text-[13px] font-semibold text-ink hover:text-blue"
+          className="mono text-[12px] font-semibold text-ink hover:text-blue"
         >
           {t.name}
         </Link>
         {count !== null ? (
-          <span className="num mono text-[11px] text-label">{count.toLocaleString()}</span>
+          <span className="num mono text-[10px] text-label">{count.toLocaleString()}</span>
         ) : null}
       </div>
-      <p className="mt-1 text-[12px] font-medium text-slate">{t.title}</p>
-      <p className="mono mt-1 text-[10px] uppercase tracking-[0.06em] text-label">
+      <p className="mt-0.5 text-[11px] font-medium text-slate">{t.title}</p>
+      <p className="mono mt-0.5 text-[10px] uppercase tracking-[0.06em] text-label">
         SoT · {t.sourceOfTruth}
       </p>
-      <p className="mt-2 text-[12px] leading-snug text-muted">{t.why}</p>
+      <p className="mt-1 text-[11px] leading-snug text-muted">{t.why}</p>
 
       {keyFields.length > 0 ? (
-        <div className="mt-3 flex flex-col gap-1 border-t border-hairline pt-2.5">
+        <div className="mt-2 flex flex-col gap-1 border-t border-hairline pt-2">
           {keyFields.map((f) => (
             <div key={f.name} className="flex items-center gap-2">
               <code className="mono text-[11px] text-slate">{f.name}</code>
@@ -66,7 +66,7 @@ function TableCard({ t, count }: { t: TableDef; count: number | null }) {
       ) : null}
 
       {t.relationships && t.relationships.length > 0 ? (
-        <div className="mt-3 flex flex-col gap-0.5 border-t border-hairline pt-2.5">
+        <div className="mt-2 flex flex-col gap-0.5 border-t border-hairline pt-2">
           {t.relationships.map((r) => (
             <code key={r} className="mono text-[10px] leading-relaxed text-muted">↳ {r}</code>
           ))}
@@ -81,14 +81,14 @@ export default async function DataModel() {
   const countOf = (name: string): number | null => manifest?.counts[name] ?? null;
 
   return (
-    <div className="mx-auto max-w-[1180px] px-7 py-10">
-      <p className="mono text-[11px] font-semibold uppercase tracking-[0.12em] text-gold">
+    <div className="mx-auto max-w-[1180px] px-4 py-5">
+      <p className="mono text-[10px] font-semibold uppercase tracking-[0.12em] text-gold">
         Developer · Data
       </p>
-      <h1 className="mt-2 font-serif text-[32px] font-bold leading-tight tracking-[-0.02em] text-ink">
+      <h1 className="mt-1 font-serif text-[20px] font-bold leading-tight tracking-[-0.02em] text-ink">
         Data model
       </h1>
-      <p className="mt-3 max-w-[680px] text-[15px] leading-relaxed text-muted">
+      <p className="mt-1.5 max-w-[680px] text-[12px] leading-snug text-muted">
         One sentence holds it together: a <b className="text-ink">family</b> (one HubSpot contact)
         has <b className="text-ink">children</b>, joins <b className="text-ink">programs</b>, turns
         into <b className="text-ink">enrollments</b> (deals), and those get paid by{" "}
@@ -102,16 +102,16 @@ export default async function DataModel() {
         const meta = ZONE_META[zone];
         const tables = tablesByZone(zone);
         return (
-          <section key={zone} className="mt-10">
-            <div className="flex flex-wrap items-center gap-2.5">
+          <section key={zone} className="mt-5">
+            <div className="flex flex-wrap items-center gap-2">
               <span
                 className={`mono rounded-[6px] px-2 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] ${meta.tint}`}
               >
                 {meta.label}
               </span>
-              <span className="text-[12px] text-muted">{meta.blurb}</span>
+              <span className="text-[11px] text-muted">{meta.blurb}</span>
             </div>
-            <div className="mt-4 grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-3">
+            <div className="mt-2 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-3">
               {tables.map((t) => (
                 <TableCard key={t.name} t={t} count={countOf(t.name)} />
               ))}
@@ -120,7 +120,7 @@ export default async function DataModel() {
         );
       })}
 
-      <footer className="mt-12 border-t border-hairline pt-5 text-[12px] text-label">
+      <footer className="mt-6 border-t border-hairline pt-3 text-[11px] text-label">
         Card chips show the load-bearing fields (keys, authority, idempotency, RLS scope). Full
         column list per table →{" "}
         <Link href="/dev/dictionary" className="text-blue hover:underline">data dictionary</Link>.
