@@ -35,22 +35,14 @@ export default async function AiAgentsHelpPage() {
       <p className="mono mt-5 text-[11px] font-semibold uppercase tracking-[0.12em] text-gold">
         Help / AI agents
       </p>
-      <div className="mt-2 flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
-        <div>
-          <h1 className="font-serif text-[32px] font-bold leading-tight tracking-[-0.02em] text-ink">
-            Ask the Hub
-          </h1>
-          <p className="mt-3 max-w-[720px] text-[15px] leading-relaxed text-muted">
-            Role-aware operating agents for GT marketing. Answers are read-only, cited, de-identified,
-            and grounded in the Hub&apos;s source-of-truth rules before they recommend a business action.
-          </p>
-        </div>
-        <div className="rounded-card border border-hairline bg-surface px-3 py-2">
-          <p className="mono text-[10px] font-semibold uppercase tracking-[0.08em] text-label">Active role</p>
-          <p className="mt-1 text-[13px] font-semibold text-ink">
-            {session ? `${session.role} - ${session.title}` : "Not signed in"}
-          </p>
-        </div>
+      <div className="mt-2">
+        <h1 className="font-serif text-[32px] font-bold leading-tight tracking-[-0.02em] text-ink">
+          Ask the Hub
+        </h1>
+        <p className="mt-3 max-w-[720px] text-[15px] leading-relaxed text-muted">
+          Role-aware operating agents for GT marketing. Answers are read-only, cited, de-identified,
+          and grounded in the Hub&apos;s source-of-truth rules before they recommend a business action.
+        </p>
       </div>
 
       <div className="grid gap-5 lg:grid-cols-[1fr_320px]">

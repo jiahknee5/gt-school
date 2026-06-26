@@ -68,11 +68,10 @@ export default async function DecisionsPage({
     <main className="min-h-[100dvh] bg-canvas">
       <section className="border-b border-hairline bg-[linear-gradient(135deg,var(--paper)_0%,var(--paper)_62%,var(--fill)_100%)]">
         <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
-          <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
-            <div>
-              <Link href="/" className="mono text-[10px] font-semibold text-gold hover:underline">
-                Home
-              </Link>
+          <div>
+            <Link href="/" className="mono text-[10px] font-semibold text-gold hover:underline">
+              Home
+            </Link>
               <div className="mt-4 flex items-center gap-2">
                 <p className="mono text-[10px] font-semibold text-label">Module 11</p>
                 <span className="mono rounded-card bg-violet-soft px-1.5 py-px text-[10px] font-semibold text-violet">
@@ -92,13 +91,6 @@ export default async function DecisionsPage({
                 hot-family escalations, capacity expansions. View + act is Leadership-only and enforced
                 server-side; every other role submits and watches the outcome in My submissions.
               </p>
-            </div>
-
-            <div className="rounded-card border border-hairline bg-canvas p-2.5">
-              <p className="mono text-[10px] font-semibold text-label">Active role</p>
-              <p className="mt-1 text-[12px] font-semibold text-ink">{role ?? "Not signed in"}</p>
-              <p className="mt-0.5 text-[11px] text-muted">Leader: view + act. Others submit only.</p>
-            </div>
           </div>
         </div>
       </section>

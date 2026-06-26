@@ -80,30 +80,20 @@ export default async function DashboardPage({
     <main className="min-h-[100dvh] bg-canvas">
       <section className="border-b border-hairline bg-[linear-gradient(135deg,var(--paper)_0%,var(--paper)_62%,var(--fill)_100%)]">
         <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
-          <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
-            <div>
-              <Link href="/" className="mono text-[10px] font-semibold text-gold hover:underline">
-                Home
-              </Link>
-              <p className="mono mt-2 text-[10px] font-semibold text-label">Module 6</p>
-              <h1 className="mt-1 font-serif text-[20px] font-bold leading-tight tracking-[-0.02em] text-ink">
-                Dashboard / KPI Tracking
-              </h1>
-              <p className="mt-1.5 max-w-[760px] text-[12px] leading-snug text-muted">
-                The shared weekly scorecard for the Monday meeting. A read-only aggregator: every number
-                resolves through ONE KPI definition, so the Home widget, this board, and the owning module
-                show the same value. Uninstrumented inputs are flagged low-confidence; stale connectors show
-                a badge; goals are Leader-editable only.
-              </p>
-            </div>
-
-            <div className="rounded-card border border-hairline bg-canvas p-2.5">
-              <p className="mono text-[10px] font-semibold text-label">Active role</p>
-              <p className="mt-1 text-[12px] font-semibold text-ink">{viewer.role}</p>
-              <p className="mt-0.5 text-[11px] text-muted">
-                {viewer.name} | {viewer.title}
-              </p>
-            </div>
+          <div>
+            <Link href="/" className="mono text-[10px] font-semibold text-gold hover:underline">
+              Home
+            </Link>
+            <p className="mono mt-2 text-[10px] font-semibold text-label">Module 6</p>
+            <h1 className="mt-1 font-serif text-[20px] font-bold leading-tight tracking-[-0.02em] text-ink">
+              Dashboard / KPI Tracking
+            </h1>
+            <p className="mt-1.5 max-w-[760px] text-[12px] leading-snug text-muted">
+              The shared weekly scorecard for the Monday meeting. A read-only aggregator: every number
+              resolves through ONE KPI definition, so the Home widget, this board, and the owning module
+              show the same value. Uninstrumented inputs are flagged low-confidence; stale connectors show
+              a badge; goals are Leader-editable only.
+            </p>
           </div>
         </div>
       </section>

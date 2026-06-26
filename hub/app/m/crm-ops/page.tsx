@@ -69,29 +69,19 @@ export default async function CrmOpsPage({
     <main className="min-h-[100dvh] bg-canvas">
       <section className="border-b border-hairline bg-[linear-gradient(135deg,var(--paper)_0%,var(--paper)_62%,var(--fill)_100%)]">
         <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
-          <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
-            <div>
-              <Link href="/" className="mono text-[10px] font-semibold text-gold hover:underline">
-                Home
-              </Link>
-              <p className="mono mt-2 text-[10px] font-semibold text-label">Module 7</p>
-              <h1 className="mt-1 font-serif text-[20px] font-bold leading-tight tracking-[-0.02em] text-ink">
-                CRM / Marketing Operations
-              </h1>
-              <p className="mt-1.5 max-w-[760px] text-[12px] leading-snug text-muted">
-                Data-infrastructure health: Supabase app_form to HubSpot sync parity, UTM attribution
-                health, read-only lead scoring, and an auto-detecting data-quality queue. This module owns
-                the data-confidence banner every HubSpot-consuming module reads.
-              </p>
-            </div>
-
-            <div className="rounded-card border border-hairline bg-canvas p-2.5">
-              <p className="mono text-[10px] font-semibold text-label">Active role</p>
-              <p className="mt-1 text-[12px] font-semibold text-ink">{role ?? "Not signed in"}</p>
-              <p className="mt-0.5 text-[11px] text-muted">
-                Admin + Leader read. Operators denied.
-              </p>
-            </div>
+          <div>
+            <Link href="/" className="mono text-[10px] font-semibold text-gold hover:underline">
+              Home
+            </Link>
+            <p className="mono mt-2 text-[10px] font-semibold text-label">Module 7</p>
+            <h1 className="mt-1 font-serif text-[20px] font-bold leading-tight tracking-[-0.02em] text-ink">
+              CRM / Marketing Operations
+            </h1>
+            <p className="mt-1.5 max-w-[760px] text-[12px] leading-snug text-muted">
+              Data-infrastructure health: Supabase app_form to HubSpot sync parity, UTM attribution
+              health, read-only lead scoring, and an auto-detecting data-quality queue. This module owns
+              the data-confidence banner every HubSpot-consuming module reads.
+            </p>
           </div>
         </div>
       </section>

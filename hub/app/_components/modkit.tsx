@@ -114,16 +114,16 @@ export function ModuleHeader({
   moduleN,
   title,
   blurb,
-  viewerName,
   viewerTitle,
-  viewerRole,
 }: {
   moduleN: number;
   title: string;
   blurb: string;
-  viewerName: string;
   viewerTitle: string;
-  viewerRole: string;
+  /** Deprecated: identity now lives in the global TopBar. Kept for old call sites. */
+  viewerName?: string;
+  /** Deprecated: identity now lives in the global TopBar. Kept for old call sites. */
+  viewerRole?: string;
   /** Deprecated: role switching moved to the global TopBar. Kept for old call sites. */
   basePath?: string;
   /** Deprecated: role switching moved to the global TopBar. Kept for old call sites. */
@@ -132,34 +132,21 @@ export function ModuleHeader({
   return (
     <section data-tour="tour-module-overview" className="border-b border-hairline bg-canvas">
       <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
-          <div className="min-w-0">
-            <div className="flex flex-wrap items-center gap-1.5">
-              <Link href="/" className="mono text-[10px] font-semibold text-gold hover:underline">
-                Home
-              </Link>
-              <span className="text-label">/</span>
-              <span className="mono rounded-card border border-hairline bg-fill px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-slate">
-                Module {moduleN}
-              </span>
-              <span className="mono rounded-card border border-hairline bg-surface px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-label">
-                {viewerTitle}
-              </span>
-            </div>
-            <h1 className="mt-1 font-serif text-[20px] font-bold leading-tight tracking-[-0.02em] text-ink">{title}</h1>
-            <p className="mt-1.5 max-w-[760px] text-[12px] leading-snug text-muted">{blurb}</p>
+        <div className="min-w-0">
+          <div className="flex flex-wrap items-center gap-1.5">
+            <Link href="/" className="mono text-[10px] font-semibold text-gold hover:underline">
+              Home
+            </Link>
+            <span className="text-label">/</span>
+            <span className="mono rounded-card border border-hairline bg-fill px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-slate">
+              Module {moduleN}
+            </span>
+            <span className="mono rounded-card border border-hairline bg-surface px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-label">
+              {viewerTitle}
+            </span>
           </div>
-          <div className="rounded-card border border-hairline bg-surface p-2.5 shadow-sm">
-            <p className="mono text-[10px] font-semibold uppercase tracking-[0.08em] text-label">
-              Active role
-            </p>
-            <p className="mt-1 text-[12px] font-semibold text-ink">
-              {viewerName}
-            </p>
-            <p className="mono mt-0.5 text-[10px] text-label">
-              {viewerRole} | {viewerTitle}
-            </p>
-          </div>
+          <h1 className="mt-1 font-serif text-[20px] font-bold leading-tight tracking-[-0.02em] text-ink">{title}</h1>
+          <p className="mt-1.5 max-w-[760px] text-[12px] leading-snug text-muted">{blurb}</p>
         </div>
       </div>
     </section>

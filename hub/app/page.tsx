@@ -274,24 +274,14 @@ export default async function Home({
     <main className="min-h-[100dvh] bg-canvas">
       <section className="border-b border-hairline bg-[linear-gradient(135deg,var(--paper)_0%,var(--paper)_55%,var(--fill)_100%)]">
         <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
-          <div className="grid gap-4 lg:grid-cols-[1.35fr_0.65fr] lg:items-end">
-            <div>
-              <p className="mono text-[10px] font-semibold uppercase tracking-[0.12em] text-gold">Phase 2 product spine</p>
-              <h1 className="mt-1 max-w-[760px] font-serif text-[20px] font-bold leading-tight tracking-[-0.02em] text-ink">
-                One trustworthy operating room for GT marketing.
-              </h1>
-              <p className="mt-1.5 max-w-[720px] text-[12px] leading-snug text-slate">
-                Home widgets, budget reconciliation, CRM confidence, decisions, and the GT Challenge now read from the same seeded backbone.
-              </p>
-            </div>
-            <div className="rounded-card border border-border bg-surface p-2.5 shadow-sm">
-              <p className="text-[10px] font-semibold uppercase tracking-[0.08em] text-label">Active role</p>
-              <p className="mt-1 text-[13px] font-semibold text-ink">{viewer.name}</p>
-              <p className="text-[11px] text-muted">{viewer.title}</p>
-              <p className="mono mt-2 inline-flex rounded-card border border-hairline bg-canvas px-2 py-0.5 text-[10px] font-semibold text-ink">
-                {viewer.role}
-              </p>
-            </div>
+          <div>
+            <p className="mono text-[10px] font-semibold uppercase tracking-[0.12em] text-gold">Phase 2 product spine</p>
+            <h1 className="mt-1 max-w-[760px] font-serif text-[20px] font-bold leading-tight tracking-[-0.02em] text-ink">
+              One trustworthy operating room for GT marketing.
+            </h1>
+            <p className="mt-1.5 max-w-[720px] text-[12px] leading-snug text-slate">
+              Home widgets, budget reconciliation, CRM confidence, decisions, and the GT Challenge now read from the same seeded backbone.
+            </p>
           </div>
 
           <div className="mt-4 grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
