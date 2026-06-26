@@ -1,12 +1,13 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useId, useMemo, useState, type ChangeEvent } from "react";
 import { defaultReportingWeek, weekMondays } from "@/lib/metrics/registry";
 import { MODULES, moduleHref } from "@/lib/modules";
-import { DEMO_USERS, type Role } from "@/lib/phase2";
+import { devRoleSwitchUsers } from "@/lib/auth/dev-role-switcher";
+import { type Role } from "@/lib/phase2";
+import { BrandLogo } from "./BrandLogo";
 import { HomeWidgetPicker } from "./HomeWidgetPicker";
 
 export type TopBarViewer = {
@@ -53,25 +54,25 @@ function WeekContextControl({
   const helpId = `${controlId}-help`;
   const selectId = `${controlId}-select`;
   const helpText =
-    "Choose the Monday-starting reporting week used by the Dashboard scorecard, Home widgets, and week-aware recommendations. Module calendars can still use their own date filters.";
+    "Sets the Monday-starting week for shared Home widgets and the Dashboard scorecard. The URL keeps ?week= so meeting links are shareable. Module calendars and local date filters keep their own ranges.";
 
   return (
     <div
       data-tour={compact ? undefined : "tour-week-selector"}
-      className={`group relative flex shrink-0 items-center gap-2 ${compact ? "" : "min-w-0"}`}
+      className={`relative flex shrink-0 items-center gap-2 ${compact ? "" : "min-w-0"}`}
     >
       <label
         htmlFor={selectId}
         className="mono shrink-0 text-[11px] font-semibold uppercase tracking-[0.1em] text-label"
       >
-        Week of
+        Reporting week
       </label>
       <select
         id={selectId}
+        aria-label="Reporting week, Monday start"
         aria-describedby={helpId}
         value={selectedWeek}
         onChange={(event: ChangeEvent<HTMLSelectElement>) => onChange(event.target.value)}
-        title={helpText}
         className="h-8 shrink-0 rounded-card border border-border bg-canvas px-2 text-[12px] font-semibold text-ink"
       >
         {weeks.map((week) => (
@@ -86,24 +87,24 @@ function WeekContextControl({
       >
         {days} days to cutoff
       </span>
-      <span
-        tabIndex={0}
-        aria-label="How the weekly reporting selector is used"
+      <button
+        type="button"
+        aria-label="How reporting week is used"
         aria-describedby={helpId}
-        className="grid h-6 w-6 shrink-0 place-items-center rounded-full border border-hairline bg-canvas text-[11px] font-bold text-muted outline-none transition-colors hover:text-ink focus:text-ink focus:ring-2 focus:ring-gold/40"
+        className="peer grid h-6 w-6 shrink-0 place-items-center rounded-full border border-hairline bg-canvas text-[11px] font-bold text-muted outline-none transition-colors hover:text-ink focus:text-ink focus:ring-2 focus:ring-gold/40"
       >
         i
-      </span>
+      </button>
       <span
         id={helpId}
         role="tooltip"
-        className={`pointer-events-none invisible z-50 rounded-card border border-hairline bg-surface p-3 text-[11px] leading-snug text-muted opacity-0 shadow-lg transition-opacity group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 ${
+        className={`invisible z-50 rounded-card border border-hairline bg-surface p-3 text-[11px] leading-snug text-muted opacity-0 shadow-lg transition-opacity hover:visible hover:opacity-100 peer-hover:visible peer-hover:opacity-100 peer-focus-visible:visible peer-focus-visible:opacity-100 ${
           compact
             ? "fixed left-3 right-3 top-[104px]"
             : "absolute left-0 top-[calc(100%+8px)] w-[310px]"
         }`}
       >
-        <span className="block font-semibold text-ink">Weekly reporting context</span>
+        <span className="block font-semibold text-ink">Reporting week</span>
         <span className="mt-1 block">{helpText}</span>
       </span>
     </div>
@@ -128,6 +129,8 @@ export function TopBar({
     searchParams.get("week") && weeks.includes(searchParams.get("week") ?? "")
       ? searchParams.get("week") ?? defaultReportingWeek()
       : defaultReportingWeek();
+  const explicitWeek = searchParams.get("week");
+  const scopedWeek = explicitWeek && weeks.includes(explicitWeek) ? explicitWeek : null;
   const visibleModules = MODULES.filter((module) => !module.leaderOnly || viewer?.role === "leader");
 
   useEffect(() => {
@@ -141,23 +144,23 @@ export function TopBar({
     router.push(query ? `${pathname}?${query}` : pathname);
   }
 
+  function reportingHref(href: string): string {
+    if (!scopedWeek || (href !== "/" && href !== "/m/dashboard")) return href;
+    return `${href}?week=${encodeURIComponent(scopedWeek)}`;
+  }
+
   return (
     <header className="sticky top-0 z-30 border-b border-hairline bg-topbar/95 backdrop-blur">
       <div className="flex min-h-[58px] items-center gap-3 px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex shrink-0 items-center gap-2 lg:hidden" title="GT School Marketing Hub">
-          <Image
-            src="/gt-icon.svg"
-            alt="GT School"
-            width={28}
-            height={28}
-            priority
-            unoptimized
-            className="h-7 w-7"
-          />
-          <span className="flex items-baseline gap-1.5">
-            <span className="text-[14px] font-semibold text-ink">GT School</span>
-            <span className="hidden text-[13px] font-medium text-muted sm:inline">Marketing Hub</span>
-          </span>
+        <Link
+          href={reportingHref("/")}
+          aria-label="GT School Marketing Hub home"
+          className="flex shrink-0 items-center gap-2.5 lg:hidden"
+          title="GT School Marketing Hub"
+        >
+          <BrandLogo className="h-7 w-[122px] sm:h-8 sm:w-[139px]" priority />
+          <span className="hidden h-6 w-px bg-hairline sm:block" />
+          <span className="hidden text-[13px] font-semibold text-muted sm:inline">Marketing Hub</span>
         </Link>
 
         <div className="hidden min-w-0 items-center gap-2 lg:flex">
@@ -179,10 +182,10 @@ export function TopBar({
 
           {devMode && (
             <div
-              className="flex items-center rounded-card border border-hairline bg-canvas p-0.5"
+              className="hidden items-center rounded-card border border-hairline bg-canvas p-0.5 sm:flex"
               title="Dev role switcher — starts a real server-enforced session"
             >
-              {DEMO_USERS.map((user) => (
+              {devRoleSwitchUsers().map((user) => (
                 <a
                   key={user.id}
                   href={switchRoleHref(pathname, user.role)}
@@ -242,10 +245,11 @@ export function TopBar({
       <nav className="flex gap-1 overflow-x-auto border-t border-hairline px-3 py-2 lg:hidden">
         {visibleModules.map((module) => {
           const active = module.slug === "home" ? pathname === "/" : pathname === moduleHref(module.slug);
+          const href = moduleHref(module.slug);
           return (
             <Link
               key={module.slug}
-              href={moduleHref(module.slug)}
+              href={reportingHref(href)}
               className={`shrink-0 rounded-card px-2.5 py-1.5 text-[12px] font-semibold ${
                 active ? "bg-ink-cta text-on-cta" : "bg-canvas text-muted"
               }`}

@@ -45,6 +45,8 @@ export function isAdminOnlyPath(pathname: string): boolean {
   return (
     pathname === "/dev" ||
     pathname.startsWith("/dev/") ||
+    pathname === "/api/admin" ||
+    pathname.startsWith("/api/admin/") ||
     pathname === "/opendata" ||
     pathname.startsWith("/opendata/")
   );

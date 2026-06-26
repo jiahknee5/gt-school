@@ -83,7 +83,9 @@ npm run dev                     # http://localhost:3000
   gating (Operator → `/m/decisions` → `/forbidden`).
 - **Public funnel:** open `/gifted-quiz` (no account needed) to run the GT Challenge.
 - **AI agents:** open `/help/ai-agents` after signing in to ask cited, role-aware
-  operating questions. The no-key path is deterministic and de-identified.
+  operating questions. With `ANTHROPIC_API_KEY` + `ASK_THE_HUB_MODEL` set, the final synthesis
+  uses Anthropic over de-identified RAG context; the no-key/test path is deterministic. Admins can
+  inspect node/eval traces at `/dev/agents`.
 - **Seed a DB (optional, needs Supabase):** run the migrations in `supabase/migrations/` in
   order, create the restricted `app_rw` login, then `npm run seed` followed by
   `npm run seed:fixtures`. Data is deterministic (`seed: 424242`); `npm run reset` clears it.
@@ -95,7 +97,7 @@ npm run dev                     # http://localhost:3000
 | `npm run dev` | Next dev server on `:3000` |
 | `npm run build` | Production build (`next build`) |
 | `npm run verify` | `build` + `lint` + `test:ci` — the full pure gate |
-| `npm run test:ci` | The pure test suite (no external creds) — **385 passing, 0 todo** |
+| `npm run test:ci` | The pure test suite (no external creds) — **414 passing, 0 todo** |
 | `npm run test:live` | Live integration tests (require real Supabase/HubSpot/Stripe creds) |
 | `npm run seed` / `seed:fixtures` / `reset` | Seed / generate fixtures / clear the DB |
 
@@ -128,7 +130,7 @@ lives in [`.env.example`](.env.example); deploy guidance is in `docs/SUBMISSION.
 
 ## Tests & verification
 
-`npm run verify` runs build + lint + the pure test suite (`test:ci`): **385 passing, 0 todo**,
+`npm run verify` runs build + lint + the pure test suite (`test:ci`): **414 passing, 0 todo**,
 production build clean, eslint clean. Live integration tests (`test:live`) are excluded from the
 pure gate by design — they need real credentials.
 

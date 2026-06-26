@@ -16,8 +16,9 @@ The product build is materially stronger than the original intake review, but it
 submission-complete**. Core code paths for the P0 slice are built and tested; the remaining blockers
 are the walkthrough video, browser-level workflow proof, and live DB-backed GT Challenge persistence.
 E1 has a deterministic `/dev/payments` watcher with a live DB path when credentials are present.
-Ask-the-Hub now has role-aware, cited, read-only AI agents in Help. Latest local verification:
-`npm run verify` passes with **385 tests passed, 0 todo**.
+Ask-the-Hub now has role-aware, cited, read-only AI agents in Help, Anthropic-backed synthesis when
+configured, deterministic fallback, and dev graph/eval traceability. Latest local verification:
+`npm run verify` passes with **414 tests passed, 0 todo**.
 
 ## A. Submission deliverables (meta — all ★ P0)
 
@@ -52,7 +53,7 @@ Ask-the-Hub now has role-aware, cited, read-only AI agents in Help. Latest local
 | C6 | **Real integrations + dual-source reconciliation** | ✅ | HubSpot connector live; Summer Camp reconciles summer.gt.school + form by `match_key` (counted once) |
 | C7 | **Open Data query that changes a decision** | ✅ | `recommendationImpactFromEnrichment`, `/api/opendata/decision-enrichment`, and Decision Queue surfaces show `pilot -> approve`; `opendata.test.ts` covers fallback + recommendation flip |
 | C8 | **Respect known gaps honestly** (UTM broken, unreliable fields, uninstrumented) | ✅ | CRM Ops surfaces parity/UTM; Analytics counts `(not set)` UTM bucket; Field Events flagged uninstrumented |
-| AI | Optional Ask-the-Hub agent over HubSpot + Supabase + Open Data | 🟡 | `/api/ask`, `/help/ai-agents`, and `UC-P2-ASK` provide deterministic no-key agents with citations, role scoping, Open Data context, and safe refusals; persisted ask audit + live LLM summarization remain deferred |
+| AI | Optional Ask-the-Hub agent over HubSpot + Supabase + Open Data | 🟡 | `/api/ask`, `/help/ai-agents`, `/dev/agents`, and `UC-P2-ASK` provide Anthropic-backed synthesis when configured, deterministic fallback, cited role scoping, Open Data context, typed graph trace nodes, eval rows, and safe refusals; persisted DB ask audit + full live aggregate adapter remain deferred |
 
 ## D. Test data deliverable (★ P0 — explicitly scored)
 

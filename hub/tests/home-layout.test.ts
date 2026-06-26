@@ -1,5 +1,10 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import {
+  buildHomeWidgetPickerDonePayload,
+  setHomeWidgetSelected,
+  starterHomeWidgetPickerItems,
+} from "@/app/_components/homeWidgetPickerState";
+import {
   addWidget,
   layoutForUser,
   normalizeHomeLayoutItems,
@@ -41,6 +46,7 @@ const operator = DEMO_USERS.find((u) => u.role === "operator")!;
 type SqlMock = {
   <T>(strings: TemplateStringsArray, ...values: unknown[]): Promise<T>;
   calls: { text: string; values: unknown[] }[];
+  json: (value: unknown) => unknown;
 };
 
 function sqlForResponses(...responses: unknown[][]): SqlMock {
@@ -50,6 +56,7 @@ function sqlForResponses(...responses: unknown[][]): SqlMock {
     return Promise.resolve((responses[calls.length - 1] ?? []) as T);
   }) as SqlMock;
   sql.calls = calls;
+  sql.json = (value: unknown) => value;
   return sql;
 }
 
@@ -206,7 +213,7 @@ describe("PUT /api/home/layout", () => {
     );
     const body = await res.json();
     const values = sql.calls[0].values;
-    const writtenWidgets = JSON.parse(values[2] as string);
+    const writtenWidgets = values[2] as { widget_key: string }[];
 
     expect(res.status).toBe(200);
     expect(values[0]).toBe(operator.id);
@@ -235,9 +242,44 @@ describe("PUT /api/home/layout", () => {
     const body = await res.json();
 
     expect(res.status).toBe(200);
-    expect(JSON.parse(sql.calls[0].values[2] as string)).toEqual([]);
+    expect(sql.calls[0].values[2]).toEqual([]);
     expect(body.layout.widgets).toEqual([]);
     expect(body.layout.persisted).toBe(true);
+  });
+
+  it("accepts the Home Add Widget Done payload and persists the selected layout", async () => {
+    const edited = setHomeWidgetSelected(
+      starterHomeWidgetPickerItems(operator.role),
+      "top-objections",
+      true,
+    );
+    const payload = buildHomeWidgetPickerDonePayload(edited);
+    const sql = sqlForResponses([
+      {
+        user_id: operator.id,
+        role: operator.role,
+        widgets: payload.widgets,
+        version: 6,
+        updated_at: "2026-06-26T12:00:00.000Z",
+      },
+    ]);
+    dbMock.withoutProgram.mockImplementation(async (cb) => cb(sql));
+
+    const res = await PUT(jsonRequest(payload));
+    const body = await res.json();
+    const writtenWidgets = sql.calls[0].values[2] as { widget_key: string; order: number }[];
+
+    expect(res.status).toBe(200);
+    expect(Object.keys(payload)).toEqual(["widgets"]);
+    expect(writtenWidgets.map((item: { widget_key: string }) => item.widget_key)).toContain(
+      "top-objections",
+    );
+    expect(writtenWidgets.map((item: { order: number }) => item.order)).toEqual(
+      writtenWidgets.map((_: unknown, index: number) => index),
+    );
+    expect(body.layout.widgets.map((item: { widget_key: string }) => item.widget_key)).toContain(
+      "top-objections",
+    );
   });
 
   it("returns 401 before DB access when unauthenticated", async () => {

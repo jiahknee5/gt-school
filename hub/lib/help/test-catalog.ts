@@ -1,6 +1,6 @@
 // AUTO-DERIVED from the real test files (hub/tests/*.test.ts) on 2026-06-26.
 // Source of truth: each test's describe/it title. Pure files form the `npm run test:ci`
-// gate (385 tests); live files (37) need DB/HubSpot/Stripe keys and skip in CI.
+// gate (414 tests); live files (37) need DB/HubSpot/Stripe keys and skip in CI.
 // Organized by the suite taxonomy in lib/dev/suites.ts. Do not hand-edit row text;
 // regenerate from the suite when tests change.
 
@@ -119,7 +119,11 @@ export const TEST_GROUPS: TestGroup[] = [
       { test: "refuses exact CAC-by-channel while offering a safer GT Challenge CPQL path", area: "Ask-the-Hub agents", file: "ask-agents.test.ts", kind: "pure" },
       { test: "keeps Operators scoped to coaching instead of the full Decision Queue", area: "Ask-the-Hub agents", file: "ask-agents.test.ts", kind: "pure" },
       { test: "uses Open Data as decision context and reports source confidence", area: "Ask-the-Hub agents", file: "ask-agents.test.ts", kind: "pure" },
+      { test: "uses an injected provider for final synthesis over de-identified RAG context", area: "Ask-the-Hub agents", file: "ask-agents.test.ts", kind: "pure" },
       { test: "builds a de-identified context with business facts but no family records", area: "Ask-the-Hub agents", file: "ask-agents.test.ts", kind: "pure" },
+      { test: "defines unique business eval cases with expected graph assertions", area: "Ask-the-Hub evals and traceability", file: "ask-evals.test.ts", kind: "pure" },
+      { test: "emits node rows with input, expected output, actual output, pass/fail, and citations", area: "Ask-the-Hub evals and traceability", file: "ask-evals.test.ts", kind: "pure" },
+      { test: "runs the full deterministic suite and keeps all cases passing", area: "Ask-the-Hub evals and traceability", file: "ask-evals.test.ts", kind: "pure" },
       { test: "records a leadership approval with note and resolution timestamp", area: "Decision Queue transitions", file: "decisions.test.ts", kind: "pure" },
       { test: "normalizes need-info spelling", area: "Decision Queue transitions", file: "decisions.test.ts", kind: "pure" },
       { test: "rejects missing notes and already-decided rows", area: "Decision Queue transitions", file: "decisions.test.ts", kind: "pure" },
@@ -194,6 +198,7 @@ export const TEST_GROUPS: TestGroup[] = [
       { test: "falls back to a starter layout when no row exists", area: "GET /api/home/layout", file: "home-layout.test.ts", kind: "pure" },
       { test: "ignores spoofed user ids and upserts only the signed-in user's layout", area: "PUT /api/home/layout", file: "home-layout.test.ts", kind: "pure" },
       { test: "can save an intentionally empty layout", area: "PUT /api/home/layout", file: "home-layout.test.ts", kind: "pure" },
+      { test: "accepts the Home Add Widget Done payload and persists the selected layout", area: "PUT /api/home/layout", file: "home-layout.test.ts", kind: "pure" },
       { test: "returns 401 before DB access when unauthenticated", area: "PUT /api/home/layout", file: "home-layout.test.ts", kind: "pure" },
       { test: "applies field-directional authority, advances the cursor, and is STABLE across two runs", area: "reconcile sweep (live HubSpot → app)", file: "reconcile.test.ts", kind: "live" },
       { test: "#2 propagates a succeeded PI into the CORRECT program; flips paid; enqueues outbox", area: "Stripe payment propagation (live Stripe TEST sig + live Supabase)", file: "payments.test.ts", kind: "live" },
@@ -342,6 +347,8 @@ export const TEST_GROUPS: TestGroup[] = [
     script: "npm run test:frontend",
     rows: [
       { test: "Home renders the PRD top-level signals and links to the deep module slice", area: "Phase 2 rendered route surfaces", file: "module-routes.test.ts", kind: "pure" },
+      { test: "Home widgets consume the selected reporting week for KPI-backed values", area: "Phase 2 rendered route surfaces", file: "module-routes.test.ts", kind: "pure" },
+      { test: "dev header role switcher exposes one target per permission role", area: "Phase 2 rendered route surfaces", file: "module-routes.test.ts", kind: "pure" },
       { test: "Budget route visibly reconciles workstreams to the $365K total and variance queue", area: "Phase 2 rendered route surfaces", file: "module-routes.test.ts", kind: "pure" },
       { test: "data-confidence banner renders on HubSpot-consuming module routes", area: "Phase 2 rendered route surfaces", file: "module-routes.test.ts", kind: "pure" },
       { test: "operator role lens shows a denied Decision Queue state without queue actions", area: "Phase 2 rendered route surfaces", file: "module-routes.test.ts", kind: "pure" },

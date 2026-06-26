@@ -8,6 +8,7 @@ const TABS = [
   { href: "/dev/data-model", label: "Data model" },
   { href: "/dev/dictionary", label: "Data dictionary" },
   { href: "/dev/payments", label: "Payments" },
+  { href: "/dev/agents", label: "Agent graph" },
   { href: "/dev/tests", label: "Test theater" },
 ];
 

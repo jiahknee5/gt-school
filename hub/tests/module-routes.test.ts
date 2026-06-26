@@ -2,11 +2,28 @@ import { renderToStaticMarkup } from "react-dom/server";
 import { describe, expect, it } from "vitest";
 import HomePage from "@/app/page";
 import ModulePage from "@/app/m/[slug]/page";
+import { devRoleSwitchUsers } from "@/lib/auth/dev-role-switcher";
+import { buildScorecard } from "@/lib/dashboard/scorecard";
+import { weekMondays } from "@/lib/metrics/registry";
+import { DEMO_USERS } from "@/lib/phase2";
+import { generate } from "@/lib/seed/generate";
+
+const compact = new Intl.NumberFormat("en-US", {
+  notation: "compact",
+  maximumFractionDigits: 1,
+});
 
 async function renderModule(slug: string, role?: string): Promise<string> {
   const node = await ModulePage({
     params: Promise.resolve({ slug }),
     searchParams: Promise.resolve(role ? { role } : {}),
+  });
+  return renderToStaticMarkup(node);
+}
+
+async function renderHome(week?: string): Promise<string> {
+  const node = await HomePage({
+    searchParams: Promise.resolve(week ? { week } : {}),
   });
   return renderToStaticMarkup(node);
 }
@@ -20,6 +37,37 @@ describe("Phase 2 rendered route surfaces", () => {
     expect(html).toContain("Home widgets");
     expect(html).toContain("Decision preview");
     expect(html).toContain("GT Challenge CPQL");
+  });
+
+  it("Home widgets consume the selected reporting week for KPI-backed values", async () => {
+    const ds = generate({ seed: 424242, families: 1200 });
+    const rows = weekMondays().map((week) => {
+      const applicants = buildScorecard(ds, week).rows.find((row) => row.key === "applicants")!;
+      return { week, value: compact.format(applicants.thisWeek) };
+    });
+    const first = rows[0];
+    const changed = rows.find((row) => row.value !== first.value);
+
+    if (!changed) throw new Error("Expected at least one Home reporting week to change applicants.");
+
+    const firstHtml = await renderHome(first.week);
+    const changedHtml = await renderHome(changed.week);
+
+    expect(firstHtml).toContain(`week of ${first.week}`);
+    expect(changedHtml).toContain(`week of ${changed.week}`);
+    expect(firstHtml).toContain(first.value);
+    expect(changedHtml).toContain(changed.value);
+    expect(firstHtml).not.toBe(changedHtml);
+  });
+
+  it("dev header role switcher exposes one target per permission role", () => {
+    expect(DEMO_USERS.filter((user) => user.role === "leader").length).toBeGreaterThan(1);
+    expect(DEMO_USERS.filter((user) => user.role === "operator").length).toBeGreaterThan(1);
+    expect(devRoleSwitchUsers().map((user) => user.role)).toEqual([
+      "admin",
+      "leader",
+      "operator",
+    ]);
   });
 
   it("Budget route visibly reconciles workstreams to the $365K total and variance queue", async () => {

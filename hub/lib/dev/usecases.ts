@@ -276,10 +276,10 @@ export const USE_CASES: UseCase[] = [
     phase: "Phase 2 · Product",
     brief: "Optional AI layer — “an Ask-the-Hub agent answering … across HubSpot and Open Data.”",
     reqs: ["C1", "C3", "C7", "C8"],
-    proves: "The route and Help console use role-derived context, cited source-of-truth facts, Open Data decision context, deterministic no-key answers, and safe refusals for broken CAC-by-channel, PII, and Decision Queue bypass prompts.",
+    proves: "The route and Help console use role-derived context, cited source-of-truth facts, Open Data decision context, Anthropic synthesis when configured, deterministic no-key fallback, graph trace nodes, eval rows, and safe refusals for broken CAC-by-channel, PII, and Decision Queue bypass prompts.",
     status: "covered",
     requires: ["pure", "opendata"],
-    tests: ["ask-agents.test.ts", "ask-route.test.ts", "rbac.test.ts › Ask-the-Hub"],
+    tests: ["ask-agents.test.ts", "ask-route.test.ts", "ask-evals.test.ts", "rbac.test.ts › Ask-the-Hub"],
   },
   {
     id: "UC-GTC-CAMPAIGN",

@@ -94,6 +94,7 @@ describe("internal/dev surfaces — Admin only", () => {
   it("classifies /dev and /opendata (and their APIs) as admin-only", () => {
     expect(isAdminOnlyPath("/dev")).toBe(true);
     expect(isAdminOnlyPath("/dev/data-model")).toBe(true);
+    expect(isAdminOnlyPath("/api/admin/profiles/content-operator/role")).toBe(true);
     expect(isAdminOnlyPath("/opendata")).toBe(true);
     expect(isDecisionEnrichmentPath("/api/opendata/decision-enrichment")).toBe(true);
     expect(isAdminOnlyPath("/api/opendata/decision-enrichment")).toBe(false);

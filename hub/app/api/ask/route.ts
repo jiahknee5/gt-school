@@ -4,7 +4,12 @@
 
 import { NextResponse } from "next/server";
 import { AuthError, requireSession } from "@/lib/auth";
-import { AGENT_ROSTER, AI_AGENT_SAMPLE_QUESTIONS, runAskTheHub } from "@/lib/ai/agents";
+import {
+  AGENT_ROSTER,
+  AI_AGENT_QUESTION_TYPES,
+  AI_AGENT_SAMPLE_QUESTIONS,
+  runAskTheHub,
+} from "@/lib/ai/agents";
 
 export const dynamic = "force-dynamic";
 
@@ -28,12 +33,14 @@ export async function GET() {
       role: session.role,
       user: { id: session.id, title: session.title },
       agents: AGENT_ROSTER,
+      questionTypes: AI_AGENT_QUESTION_TYPES,
       sampleQuestions: AI_AGENT_SAMPLE_QUESTIONS,
       policy: {
         readOnly: true,
         deidentified: true,
         sourceGrounded: true,
         operatorFullQueueAccess: false,
+        providerBackedWhenConfigured: Boolean(process.env.ANTHROPIC_API_KEY && process.env.ASK_THE_HUB_MODEL),
       },
     });
   } catch (err) {
@@ -71,7 +78,8 @@ export async function POST(req: Request) {
       ...answer,
       audit: {
         persisted: false,
-        reason: "Pure demo route: sanitized audit shape returned; DB persistence is the next hardening step.",
+        traceId: answer.trace.runId,
+        reason: "Sanitized run trace is returned with node/eval rows; durable DB audit is the next hardening step.",
         redactionsApplied: true,
         writeTargets: [],
       },
@@ -83,4 +91,3 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Unexpected error." }, { status: 500 });
   }
 }
-

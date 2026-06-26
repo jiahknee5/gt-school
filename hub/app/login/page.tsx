@@ -1,7 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { DEV_MODE } from "@/lib/auth";
-import { DEMO_USERS } from "@/lib/phase2";
+import { AUTH_PROFILES, DEV_MODE } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
 
@@ -54,7 +53,7 @@ export default async function LoginPage({
               Every route stays deny-by-default behind this session.
             </p>
             <div className="mt-4 space-y-2">
-              {DEMO_USERS.map((user) => (
+              {AUTH_PROFILES.map((user) => (
                 <Link
                   key={user.id}
                   href={`/api/auth/login?role=${user.role}&next=${encodeURIComponent(next)}`}

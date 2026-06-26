@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import type { ReactNode } from "react";
 import { MODULES, MODULE_NAV_GROUPS, moduleBySlug, moduleHref } from "@/lib/modules";
 import type { Role } from "@/lib/phase2";
+import { BrandLogo } from "./BrandLogo";
 
 export type SidebarViewer = {
   id: string;
@@ -149,6 +149,20 @@ const DEV_LINKS: { href: string; label: string; icon: ReactNode; exact?: boolean
     ),
   },
   {
+    href: "/dev/agents",
+    label: "Agent graph",
+    icon: (
+      <>
+        <circle cx="6" cy="6" r="3" />
+        <circle cx="18" cy="6" r="3" />
+        <circle cx="12" cy="18" r="3" />
+        <path d="M8.5 7.5 11 15" />
+        <path d="M15.5 7.5 13 15" />
+        <path d="M9 6h6" />
+      </>
+    ),
+  },
+  {
     href: "/opendata",
     label: "Open Data",
     icon: (
@@ -164,6 +178,13 @@ const DEV_LINKS: { href: string; label: string; icon: ReactNode; exact?: boolean
 const CAMPAIGN_LINKS: { href: string; label: string; slug: string }[] = [
   { href: "/m/gt-challenge", label: "GT Challenge", slug: "gt-challenge" },
 ];
+
+function reportingHref(href: string, week: string | null): string {
+  if (!week || !/^\d{4}-\d{2}-\d{2}$/.test(week) || (href !== "/" && href !== "/m/dashboard")) {
+    return href;
+  }
+  return `${href}?week=${encodeURIComponent(week)}`;
+}
 
 function ModuleIcon({ slug }: { slug: string }) {
   return (
@@ -209,6 +230,8 @@ export function Sidebar({
   devMode: boolean;
 }) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const reportingWeek = searchParams.get("week");
   // Internal/dev surfaces are Admin-only (middleware enforces; hide them otherwise).
   const showDevLinks = viewer?.role === "admin";
   const visibleModules = MODULES.filter((m) => !m.leaderOnly || viewer?.role === "leader");
@@ -216,22 +239,12 @@ export function Sidebar({
   return (
     <aside className="sticky top-0 hidden h-[100dvh] w-[248px] shrink-0 flex-col border-r border-hairline bg-side lg:flex">
       <Link
-        href="/"
-        className="flex min-h-[66px] shrink-0 items-center gap-2.5 border-b border-hairline px-[18px] text-[13px] font-semibold text-ink"
+        href={reportingHref("/", reportingWeek)}
+        aria-label="GT School Marketing Hub home"
+        className="flex min-h-[66px] shrink-0 flex-col items-start justify-center gap-1 border-b border-hairline px-[18px]"
       >
-        <Image
-          src="/gt-icon.svg"
-          alt="GT School"
-          width={28}
-          height={28}
-          priority
-          unoptimized
-          className="h-7 w-7 shrink-0"
-        />
-        <span className="min-w-0">
-          <span className="block truncate">GT School</span>
-          <span className="mono block truncate text-[10px] font-normal text-label">Marketing Hub</span>
-        </span>
+        <BrandLogo priority />
+        <span className="mono block text-[10px] font-normal text-label">Marketing Hub</span>
       </Link>
 
       <nav className="flex-1 overflow-y-auto px-2.5 py-3">
@@ -259,7 +272,7 @@ export function Sidebar({
                   return (
                     <li key={m.slug}>
                       <Link
-                        href={href}
+                        href={reportingHref(href, reportingWeek)}
                         aria-current={active ? "page" : undefined}
                         className={`group flex items-center gap-2.5 rounded-card px-2.5 py-[7px] text-[13px] font-medium transition-colors ${
                           active

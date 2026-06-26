@@ -1,0 +1,131 @@
+import Link from "next/link";
+import { DevTabs } from "../_components/DevTabs";
+import { ASK_EVAL_CASES, runAskEvalSuite } from "@/lib/ai/agents";
+import { AgentGraphConsole } from "./AgentGraphConsole";
+
+export const dynamic = "force-dynamic";
+
+function Status({ pass }: { pass: boolean }) {
+  return (
+    <span className={`mono rounded-[5px] px-1.5 py-0.5 text-[9px] font-semibold uppercase ${pass ? "bg-green-soft text-green" : "bg-red-soft text-red"}`}>
+      {pass ? "pass" : "fail"}
+    </span>
+  );
+}
+
+export default async function DevAgentsPage() {
+  const suite = await runAskEvalSuite();
+  const first = suite.results[0];
+
+  return (
+    <div className="mx-auto max-w-[1180px] px-4 py-5">
+      <p className="mono text-[10px] font-semibold uppercase tracking-[0.12em] text-gold">
+        Developer · Agents
+      </p>
+      <h1 className="mt-1 font-serif text-[20px] font-bold leading-tight tracking-[-0.02em] text-ink">
+        Ask-the-Hub agent graph
+      </h1>
+      <p className="mt-1.5 max-w-[760px] text-[12px] leading-snug text-muted">
+        Live agent runs expose the same trace shape the API returns: node, input, expected output,
+        actual output, pass/fail, citations, and decisions. The built-in suite below runs in deterministic
+        mode so regressions are reproducible without model or network access.
+      </p>
+
+      <DevTabs />
+
+      <AgentGraphConsole />
+
+      <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-5">
+        {[
+          ["Cases", `${suite.total}`],
+          ["Passed", `${suite.passed}`],
+          ["Failed", `${suite.failed}`],
+          ["Provider", "deterministic"],
+          ["Nodes/case", `${first?.answer.trace.graph.nodes.length ?? 0}`],
+        ].map(([label, value]) => (
+          <div key={label} className="rounded-card border border-hairline bg-surface p-2.5">
+            <div className="mono text-[10px] uppercase tracking-[0.1em] text-label">{label}</div>
+            <div className="num mt-0.5 font-serif text-[18px] font-bold text-ink">{value}</div>
+          </div>
+        ))}
+      </div>
+
+      <section className="mt-5">
+        <p className="mono text-[10px] font-semibold uppercase tracking-[0.12em] text-gold">
+          Eval cases
+        </p>
+        <div className="mt-2 overflow-hidden rounded-card border border-hairline bg-surface shadow-sm">
+          {suite.results.map((result) => (
+            <div key={result.case.id} className="border-b border-hairline px-3 py-2.5 last:border-0">
+              <div className="flex flex-wrap items-center gap-2">
+                <code className="mono text-[11px] font-semibold text-slate">{result.case.id}</code>
+                <Status pass={result.pass} />
+                <span className="mono rounded-[5px] bg-fill px-1.5 py-0.5 text-[9px] text-slate">{result.case.role}</span>
+                <span className="mono rounded-[5px] bg-fill px-1.5 py-0.5 text-[9px] text-slate">{result.answer.agent.id}</span>
+              </div>
+              <p className="mt-1 text-[12px] font-semibold text-ink">{result.case.question}</p>
+              {result.failures.length > 0 && (
+                <ul className="mt-1 space-y-0.5 text-[11px] text-red">
+                  {result.failures.map((failure) => <li key={failure}>{failure}</li>)}
+                </ul>
+              )}
+              <div className="mt-1.5 flex flex-wrap gap-1">
+                {result.answer.citations.map((c) => (
+                  <Link key={c.id} href={c.href} className="mono rounded-[5px] bg-canvas px-1.5 py-0.5 text-[9px] text-slate hover:text-gold">
+                    {c.id}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="mt-5">
+        <p className="mono text-[10px] font-semibold uppercase tracking-[0.12em] text-gold">
+          Node rows
+        </p>
+        <div className="mt-2 overflow-x-auto rounded-card border border-hairline bg-surface shadow-sm">
+          <table className="w-full min-w-[980px] border-collapse text-left">
+            <thead>
+              <tr className="border-b border-hairline bg-side">
+                {["Case", "Node", "Pass", "Input", "Expected out", "Actual out", "Citations"].map((h) => (
+                  <th key={h} className="mono px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.08em] text-label">
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {suite.results.flatMap((result) =>
+                result.answer.evalRows.map((row) => (
+                  <tr key={`${result.case.id}:${row.node}`} className="border-b border-hairline last:border-0 align-top">
+                    <td className="mono px-2 py-1 text-[10px] text-label">{result.case.id}</td>
+                    <td className="mono px-2 py-1 text-[10px] font-semibold text-slate">{row.node}</td>
+                    <td className="px-2 py-1"><Status pass={row.pass} /></td>
+                    <td className="max-w-[190px] px-2 py-1 text-[10px] leading-snug text-muted">{row.input}</td>
+                    <td className="max-w-[220px] px-2 py-1 text-[10px] leading-snug text-muted">{row.expectedOutput}</td>
+                    <td className="max-w-[240px] px-2 py-1 text-[10px] leading-snug text-slate">{row.actualOutput}</td>
+                    <td className="px-2 py-1">
+                      <div className="flex flex-wrap gap-1">
+                        {row.citations.map((id) => (
+                          <span key={id} className="mono rounded-[4px] bg-fill px-1.5 py-0.5 text-[9px] text-slate">{id}</span>
+                        ))}
+                      </div>
+                    </td>
+                  </tr>
+                )),
+              )}
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <footer className="mt-6 border-t border-hairline pt-3 text-[11px] text-label">
+        Eval source: <span className="mono">lib/ai/agents.ts</span> · Cases:{" "}
+        <span className="mono">{ASK_EVAL_CASES.length}</span> · Help console:{" "}
+        <Link href="/help/ai-agents" className="text-blue hover:underline">/help/ai-agents</Link>
+      </footer>
+    </div>
+  );
+}

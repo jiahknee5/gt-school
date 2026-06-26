@@ -26,7 +26,7 @@ The guiding principle was **honesty over theater**: real code paths where it mat
 stand-ins everywhere else, and gaps tracked rather than faked green.
 
 **Verification in one line:** `npm run verify` (build + lint + `test:ci`). Current status:
-**385 tests passing, 0 todo**; production build clean; eslint clean.
+**414 tests passing, 0 todo**; production build clean; eslint clean.
 
 ---
 
@@ -101,17 +101,19 @@ Challenge lead drops parity → banner.
 ### 2.5 Ask-the-Hub AI agents
 
 The AI layer is implemented as a read-only, role-aware operating assistant rather than an
-unbounded chatbot. `/api/ask` and `/help/ai-agents` expose four deterministic no-key agents:
-Growth Strategy, Data Quality, Decision Support, and Operator Coach. They retrieve from the Hub's
-source-of-truth rules, seeded business facts, Decision Queue/Budget helpers, CRM Ops parity, Help
-guides, and Open Data enrichment. Every answer returns citations, confidence, caveats, and next
-actions.
+unbounded chatbot. `/api/ask` and `/help/ai-agents` expose four agents: Growth Strategy, Data
+Quality, Decision Support, and Operator Coach. They run deterministic guardrails and retrieval first,
+then use Anthropic for final synthesis when `ANTHROPIC_API_KEY` and `ASK_THE_HUB_MODEL` are
+configured. The no-key/test path remains deterministic. The RAG context is de-identified and built
+from the Hub's source-of-truth rules, seeded business facts, Decision Queue/Budget helpers, CRM Ops
+parity, Help guides, typed graph facts, and Open Data enrichment. Every answer returns citations,
+confidence, caveats, next actions, graph trace nodes, and eval rows.
 
 The guardrails are explicit: exact CAC-by-channel is refused while UTM attribution is broken;
 Operators get coaching and own-submission guidance instead of the full Decision Queue; raw PII,
 SMS bodies, child names, and unconsented quotes are refused; Open Data stays read-only decision
-context. A live LLM summarizer and persisted ask-audit rows are deferred behind the pure, tested
-route.
+context. Admins can inspect real-time node/eval traces at `/dev/agents`. Durable DB ask-audit rows
+and full live aggregate adapters remain hardening work beyond the pure demo gate.
 
 ## 3. Data strategy — honest by construction
 
@@ -282,12 +284,12 @@ Full annotated list lives in `.env.example`. **Never commit `.env.local` or real
 
 ## 10. Proof index
 
-- `npm run verify` → build + lint + `test:ci` (**385 passing, 0 todo**).
+- `npm run verify` → build + lint + `test:ci` (**414 passing, 0 todo**).
 - Backbone/security: `tests/rbac.test.ts`, `tests/payments.test.ts`, `tests/parity.test.ts`,
   `tests/reconcile.test.ts`.
 - Product: `tests/budget.test.ts`, `tests/decisions.test.ts` (incl. the new S6 audit trail),
   `tests/crm-ops.test.ts`, `tests/summer-camp.test.ts`, `tests/gt-challenge.test.ts`,
   `tests/ratelimit.test.ts`, `tests/opendata.test.ts`, `tests/ask-agents.test.ts`,
-  `tests/ask-route.test.ts`.
+  `tests/ask-route.test.ts`, `tests/ask-evals.test.ts`.
 - Audits: `docs/01-intake/PRD-CHECKLIST.md`, `docs/audits/SECURITY-REVIEW.md`,
   `docs/audits/COHESION-REVIEW.md`.

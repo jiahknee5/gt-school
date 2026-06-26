@@ -150,6 +150,18 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+.gt-brand-logo-dark {
+  display: none;
+}
+
+.dark .gt-brand-logo-light {
+  display: none;
+}
+
+.dark .gt-brand-logo-dark {
+  display: block;
+}
+
 ::selection {
   background: var(--fill);
   color: var(--ink);

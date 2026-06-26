@@ -8,9 +8,14 @@
 // and guards. Swap in a real IdP later without changing call sites. See .env.example.
 
 import { cookies } from "next/headers";
-import { DEMO_USERS, type DemoUser, type Role } from "@/lib/phase2";
+import type { Role } from "@/lib/phase2";
 import { signToken, verifyToken } from "@/lib/auth/token";
 import { routeDecision } from "@/lib/auth/policy";
+import {
+  profileById,
+  profileByRole,
+  type UserProfile,
+} from "@/lib/auth/profiles";
 
 export const SESSION_COOKIE = "gt_session";
 export const SESSION_MAX_AGE = 60 * 60 * 8; // 8 hours
@@ -20,14 +25,14 @@ export const DEV_MODE =
   process.env.AUTH_DEV_MODE === "true" ||
   (process.env.AUTH_DEV_MODE !== "false" && process.env.NODE_ENV !== "production");
 
-export type SessionUser = DemoUser;
+export type SessionUser = UserProfile;
 
-export function userById(id: string): DemoUser | undefined {
-  return DEMO_USERS.find((user) => user.id === id);
+export function userById(id: string): UserProfile | undefined {
+  return profileById(id);
 }
 
-export function userByRole(role: string): DemoUser | undefined {
-  return DEMO_USERS.find((user) => user.role === role);
+export function userByRole(role: string): UserProfile | undefined {
+  return profileByRole(role);
 }
 
 /** Read + verify the session from the request cookies. Returns null if signed out. */
@@ -113,5 +118,15 @@ export {
   isLeaderOnlyPath,
   isPublicPath,
 } from "@/lib/auth/policy";
+export {
+  AUTH_PROFILES,
+  ProfileRoleError,
+  buildRoleChangeAudit,
+  canManageProfileRoles,
+  normalizeRoleChangeReason,
+  parseRole,
+  profileById,
+  profileByRole,
+} from "@/lib/auth/profiles";
 export { allowedPrograms, resolveProgramScope, ProgramScopeError } from "@/lib/auth/program";
 export type { Role } from "@/lib/phase2";

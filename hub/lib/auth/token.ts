@@ -3,8 +3,8 @@
 // server-side getSession() verify cookies the exact same way.
 //
 // The token is an opaque, tamper-evident bearer of the user id only — no role or
-// permission is encoded, so privileges always derive from server-side data
-// (DEMO_USERS + policy.ts), never from anything the client can edit.
+// permission is encoded, so privileges always derive from server-side profile
+// data + policy.ts, never from anything the client can edit.
 //
 // Format: base64url(payload).base64url(hmac(payload))  where payload = `${userId}.${issuedAtMs}`.
 

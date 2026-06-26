@@ -15,7 +15,9 @@ import {
 import { generate } from "@/lib/seed/generate";
 import { getSession } from "@/lib/auth";
 import { withoutProgram } from "@/lib/db";
+import { buildScorecard, type ScorecardRow } from "@/lib/dashboard/scorecard";
 import { layoutForUser, resolveHomeWidgets } from "@/lib/home/layout";
+import { defaultReportingWeek, weekMondays } from "@/lib/metrics/registry";
 
 export const dynamic = "force-dynamic";
 
@@ -40,6 +42,22 @@ const shortDate = new Intl.DateTimeFormat("en-US", {
   timeZone: "UTC",
 });
 
+function formatKpiValue(row: ScorecardRow | undefined): string {
+  if (!row) return "n/a";
+  if (row.unit === "pct") return `${Number(row.thisWeek.toFixed(1))}%`;
+  if (row.unit === "ratio") return row.thisWeek.toFixed(2);
+  return compact.format(row.thisWeek);
+}
+
+function formatKpiDelta(row: ScorecardRow | undefined): string {
+  if (!row) return "No weekly KPI row";
+  if (row.delta === 0) return "Flat vs last week";
+  const sign = row.delta > 0 ? "+" : "";
+  if (row.unit === "pct") return `${sign}${Number(row.delta.toFixed(1))} pts vs last week`;
+  if (row.unit === "ratio") return `${sign}${row.delta.toFixed(2)} vs last week`;
+  return `${sign}${compact.format(row.delta)} vs last week`;
+}
+
 function cleanCopy(value: string | null | undefined): string {
   return (value ?? "")
     .replace(/[\u2013\u2014]/g, "-")
@@ -55,6 +73,12 @@ function sourceCount(rows: { source: string | null }[]) {
     counts.set(source, (counts.get(source) ?? 0) + 1);
   }
   return [...counts.entries()].sort((a, b) => b[1] - a[1]);
+}
+
+function reportingModuleHref(slug: string, week: string | null): string {
+  const href = moduleHref(slug);
+  if (!week || (href !== "/" && href !== "/m/dashboard")) return href;
+  return `${href}?week=${encodeURIComponent(week)}`;
 }
 
 type HomeLayoutRow = {
@@ -139,11 +163,22 @@ function ConfidenceBanner({
   );
 }
 
-export default async function Home() {
+export default async function Home({
+  searchParams,
+}: {
+  searchParams?: Promise<{ week?: string }>;
+} = {}) {
+  const query = searchParams ? await searchParams : {};
   const session = await getSession();
   const dataset = generate({ seed: 424242, families: 1200 });
   const viewer = session ?? DEMO_USERS.find((user) => user.role === "leader") ?? DEMO_USERS[0];
   const canViewDecisions = viewer.role === "leader";
+  const weeks = weekMondays();
+  const selectedWeek =
+    query.week && weeks.includes(query.week) ? query.week : defaultReportingWeek();
+  const scopedWeek = query.week && weeks.includes(query.week) ? selectedWeek : null;
+  const scorecard = buildScorecard(dataset, selectedWeek);
+  const kpis = new Map(scorecard.rows.map((row) => [row.key, row]));
   const layout = await readHomeLayout(viewer, Boolean(session));
   const widgets = resolveHomeWidgets(layout.widgets);
   const budget = summarizeBudget(dataset.budget_workstream);
@@ -153,31 +188,31 @@ export default async function Home() {
     : [];
   const confidence = buildConfidenceBanner(dataset.field_state);
   const challenge = summarizeGtChallengeCampaign(dataset.meta_insights, dataset.families);
-  const deposits = dataset.enrollments.filter(
-    (row) => row.program_key === "fall_enrollment" && row.paid,
-  ).length;
-  const topSource = sourceCount(dataset.families)[0];
   const tierRows = dataset.field_state.filter((row) => row.field === "engagement_tier");
   const tierCounts = sourceCount(
     tierRows.map((row) => ({ source: row.app_value ?? "unknown" })),
   );
-  const todayKey = new Date().toISOString().slice(0, 10);
   const nextKeyDate =
-    MARKETING_KEY_DATES.find((item) => item.date >= todayKey) ??
+    MARKETING_KEY_DATES.find((item) => item.date >= selectedWeek) ??
     MARKETING_KEY_DATES[MARKETING_KEY_DATES.length - 1];
+  const applicantsKpi = kpis.get("applicants");
+  const depositsKpi = kpis.get("deposits");
+  const conversionKpi = kpis.get("conversion_top_channel");
+  const ambassadorKpi = kpis.get("ambassador_influenced");
+  const eventConsultKpi = kpis.get("event_to_consult");
 
   const widgetValues: Record<string, { value: string; note: string }> = {
     "applicants-total": {
-      value: compact.format(dataset.families.length),
-      note: "Supabase app_form applicant pool",
+      value: formatKpiValue(applicantsKpi),
+      note: `${formatKpiDelta(applicantsKpi)} | week of ${selectedWeek}`,
     },
     "deposits-goal": {
-      value: `${deposits}/180`,
-      note: "Fall goal pacing from the app source of truth",
+      value: `${formatKpiValue(depositsKpi)}/${depositsKpi?.target ?? 55}`,
+      note: `${formatKpiDelta(depositsKpi)} | weekly run-rate target`,
     },
     "conversion-channel": {
-      value: topSource ? `${topSource[0]} ${percent.format((topSource[1] / dataset.families.length) * 100)}%` : "No source",
-      note: "Top acquisition source, not HubSpot report copy",
+      value: formatKpiValue(conversionKpi),
+      note: `${formatKpiDelta(conversionKpi)} | GA4 top-channel conversion`,
     },
     "tier-counts": {
       value: tierCounts
@@ -215,6 +250,14 @@ export default async function Home() {
       note: nextKeyDate
         ? `${nextKeyDate.label}: ${nextKeyDate.detail}`
         : "No configured campaign milestone.",
+    },
+    "ambassador-enrollments": {
+      value: formatKpiValue(ambassadorKpi),
+      note: `${formatKpiDelta(ambassadorKpi)} | week of ${selectedWeek}`,
+    },
+    "events-rsvps": {
+      value: formatKpiValue(eventConsultKpi),
+      note: `${formatKpiDelta(eventConsultKpi)} | manual event-to-consult KPI`,
     },
   };
 
@@ -298,8 +341,8 @@ export default async function Home() {
                 <h2 className="font-serif text-[15px] font-bold tracking-[-0.01em] text-ink">Home widgets</h2>
                 <p className="mt-0.5 text-[11px] text-muted">
                   {layout.persisted
-                    ? "Saved layout for this signed-in role lens."
-                    : "Starter pack for the weekly meeting, personalized by role."}
+                    ? `Saved layout for this signed-in role lens | week of ${selectedWeek}.`
+                    : `Starter pack for the weekly meeting, personalized by role | week of ${selectedWeek}.`}
                 </p>
               </div>
               <span className="mono w-fit rounded-card bg-fill px-1.5 py-0.5 text-[10px] font-semibold text-slate">
@@ -489,7 +532,7 @@ export default async function Home() {
                       {groupModules.map((module) => (
                         <Link
                           key={module.slug}
-                          href={moduleHref(module.slug)}
+                          href={reportingModuleHref(module.slug, scopedWeek)}
                           className="flex items-center gap-2 rounded-card border border-hairline bg-canvas px-2.5 py-1.5 transition-colors hover:border-border hover:bg-hover"
                         >
                           <span

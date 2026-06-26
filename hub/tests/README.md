@@ -18,13 +18,17 @@ The suite is organized on **two axes** — and they are not the same axis:
 | `opendata.test.ts` | data | pure | — | Open Data client cache/fallback + enrichment (mocked fetch) |
 | `opendata-route.test.ts` | backend | pure | — | Decision-enrichment route validation, cache headers, and 502 failure path |
 | `ask-route.test.ts` | backend | pure | — | Ask-the-Hub route auth, role-aware answers, refusals, citations, and read-only audit metadata |
-| `ask-agents.test.ts` | backend | pure | — | Ask-the-Hub deterministic agents, de-identified context, Open Data decision impact, and safe refusals |
+| `ask-agents.test.ts` | backend | pure | — | Ask-the-Hub deterministic fallback, provider synthesis, de-identified context, Open Data decision impact, and safe refusals |
+| `ask-evals.test.ts` | backend | pure | — | Ask-the-Hub trace graph rows, expected-vs-actual evals, citations, and deterministic eval suite |
 | `decisions.test.ts` | backend | pure | — | Decision Queue ruling transitions and Leader-only mutation route |
+| `decisions-raise.test.ts` | backend | pure | — | Any-role decision raises, submitter cookies, validation, and Leader-only queue regression guard |
 | `decisions-queue.test.ts` | backend | pure | — | Decision Queue read helpers and rendered Leader-only surface |
 | `crm-ops.test.ts` | backend | pure | — | CRM Ops parity, attribution, scoring, detector, queue RBAC, and rendered module surface |
 | `budget.test.ts` | backend | pure | — | Budget ledger reconciliation, variance auto-flags, RBAC, route write guard, and rendered sub-views |
 | `home-layout.test.ts` | backend | pure | — | Home saved layout normalization, per-session GET/PUT persistence, and spoofed user-id denial |
 | `rbac.test.ts` | backend | pure | — | Signed demo sessions, route policy, middleware denial, token integrity/expiry |
+| `profiles.test.ts` | backend | pure | — | Permission-tier profile updates, audit rows, and self-escalation guardrails |
+| `ratelimit.test.ts` | backend | pure | — | Fixed-window throttling, client-key parsing, and public capture rate limiting |
 | `module-routes.test.ts` | frontend | pure | — | Server-rendered Home/Budget/CRM/Decision Queue demo surfaces |
 | `home-widget-picker.test.ts` | frontend | pure | — | Home widget picker search, add/remove, reorder, and save payload state |
 | `dashboard.test.ts` | frontend | pure | — | Dashboard/KPI route, shared scorecard, goal RBAC, freshness, and rendered sub-views |
@@ -45,6 +49,7 @@ The suite is organized on **two axes** — and they are not the same axis:
 | `r1-connection.test.ts` | backend | live | db | RLS / program isolation smoke vs the DB |
 | `brief-usecases.test.ts` | scenarios | pure | — | Every brief use case made runnable + catalog integrity |
 | `payment-propagation-surface.test.ts` | scenarios | pure | — | Visible E1 payment watcher signals: processed status, replay no-op, isolation, and contamination warning |
+| `gt-challenge.test.ts` | scenarios | pure | — | GT Challenge consent, dedupe, grading, UTM capture, and route idempotency |
 | `phase2.test.ts` | scenarios | pure | — | Phase 2 roles, widgets, budget, confidence banner, GT Challenge helpers, and requirement audit |
 | _(scaffold)_ | frontend | pure | — | Add browser/component tests as auth and persistence land |
 

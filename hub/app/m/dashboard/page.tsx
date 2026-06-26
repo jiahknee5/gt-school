@@ -109,8 +109,8 @@ export default async function DashboardPage({
       </section>
 
       <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
-        <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
-          <div className="space-y-3">
+        <div className="grid gap-4 2xl:grid-cols-[minmax(0,1fr)_300px]">
+          <div className="min-w-0 space-y-3">
             {/* Inbound contract: a parity drop shows the data-confidence banner here too. */}
             <DataConfidenceBanner state={banner} />
 
@@ -164,7 +164,7 @@ export default async function DashboardPage({
             </nav>
 
             <div className="flex flex-wrap items-center gap-2">
-              <span className="mono text-[10px] font-semibold text-label">Week of:</span>
+              <span className="mono text-[10px] font-semibold text-label">Snapshot history:</span>
               {weeks.map((w) => (
                 <Link
                   key={w}

@@ -66,12 +66,11 @@ export async function PUT(req: Request) {
     const normalized = normalizeHomeLayoutItems(body.widgets, starterHomeLayout(session), {
       allowEmpty: true,
     });
-    const widgetsJson = JSON.stringify(normalized.widgets);
 
     const layout = await withoutProgram(async (sql) => {
       const rows = await sql<HomeLayoutRow[]>`
         insert into home_layout (user_id, role, widgets, version)
-        values (${session.id}, ${session.role}, ${widgetsJson}::jsonb, 1)
+        values (${session.id}, ${session.role}, ${sql.json(normalized.widgets)}, 1)
         on conflict (user_id) do update set
           role = excluded.role,
           widgets = excluded.widgets,

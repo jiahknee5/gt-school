@@ -100,8 +100,8 @@ export default async function BudgetPage({
       </section>
 
       <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
-        <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
-          <div className="space-y-3">
+        <div className="grid gap-4 2xl:grid-cols-[minmax(0,1fr)_300px]">
+          <div className="min-w-0 space-y-3">
             <section className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
               <MetricTile
                 label="Recommended total"
