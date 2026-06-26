@@ -9,3 +9,7 @@ dist/
 .env
 .env.local
 .env*.local
+
+# local QA screenshots (repo-root) — not committed
+/00-root-asloaded.png
+/gt-home-admin.png
