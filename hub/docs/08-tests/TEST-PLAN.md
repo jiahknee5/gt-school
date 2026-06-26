@@ -65,13 +65,13 @@ Source of truth: `lib/dev/usecases.ts` (`useCaseCounts()`), surfaced live at `/d
 |---|---|---|---|
 | Phase 1 · Backbone | 8 | 1 | 0 |
 | Test data | 8 | 0 | 0 |
-| Phase 2 · Product | 6 | 0 | 3 |
+| Phase 2 · Product | 7 | 0 | 3 |
 | Spec · Marketing Hub | 14 | 0 | 0 |
 | Demo signal | 7 | 1 | 0 |
-| **Total** | **43** | **2** | **3** |
+| **Total** | **44** | **2** | **3** |
 
 `npm run test:ci` (pure gate): green, no keys, < 5s. Latest full live-inclusive run:
-17 files, 170 passed, 3 todo. `tests/brief-usecases.test.ts`: all `covered`
+19 files, 197 passed, 3 todo. `tests/brief-usecases.test.ts`: all `covered`
 proven, all `pending` tracked as `it.todo`.
 
 ## 4. Prioritized backlog
@@ -88,8 +88,8 @@ proven, all `pending` tracked as `it.todo`.
   provisioning and real identity lifecycle remain pending under `UC-P2-AUTH-ROLES`.
 - **Home persistence**: add/remove/reorder widgets per authenticated user and persist layout.
 - **GT Challenge persistence**: public quiz ingest, idempotency key, stored lead, HubSpot outbox handoff.
-- **Decision Queue write workflow**: Leader approve/reject/need-info should persist a decision state and
-  notify/source-link back to the raising module.
+- **Decision Queue workflow remainder**: Leader approve/reject/need-info persistence is covered; submitter
+  own-status, immutable audit history, notification, and source-link propagation remain.
 - Wire **`npm run verify`** (build + lint + test) into a PR check / pre-push hook. *(Noor — T7)*
 
 **P2 — hardening:**

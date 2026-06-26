@@ -52,12 +52,15 @@ describe("Decision Queue — Leadership-exclusive (view + act)", () => {
   it("denies an Operator the Decision Queue page and API with 403", () => {
     expect(isLeaderOnlyPath("/m/decisions")).toBe(true);
     expect(isLeaderOnlyPath("/api/decisions")).toBe(true);
+    expect(isLeaderOnlyPath("/api/decisions/abc/decide")).toBe(true);
     const pageDecision = routeDecision("operator", "/m/decisions");
     const apiDecision = routeDecision("operator", "/api/decisions");
+    const mutationDecision = routeDecision("operator", "/api/decisions/abc/decide");
     expect(pageDecision.allowed).toBe(false);
     expect(pageDecision.status).toBe(403);
     expect(apiDecision.allowed).toBe(false);
     expect(apiDecision.status).toBe(403);
+    expect(mutationDecision.status).toBe(403);
   });
 
   it("allows the Leader and denies Admin (exclusive to Leadership)", () => {
@@ -66,8 +69,10 @@ describe("Decision Queue — Leadership-exclusive (view + act)", () => {
     expect(decisionQueueRoleAllowed("admin")).toBe(false);
     expect(routeDecision("leader", "/m/decisions").allowed).toBe(true);
     expect(routeDecision("leader", "/api/decisions").allowed).toBe(true);
+    expect(routeDecision("leader", "/api/decisions/abc/decide").allowed).toBe(true);
     expect(routeDecision("admin", "/m/decisions").status).toBe(403);
     expect(routeDecision("admin", "/api/decisions").status).toBe(403);
+    expect(routeDecision("admin", "/api/decisions/abc/decide").status).toBe(403);
   });
 });
 

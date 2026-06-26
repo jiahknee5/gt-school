@@ -52,4 +52,15 @@ describe("Phase 2 rendered route surfaces", () => {
     expect(html).not.toContain("Active decisions");
     expect(html).not.toContain("Need info");
   });
+
+  it("leader role lens shows Decision Queue ruling controls", async () => {
+    const html = await renderModule("decisions", "leader");
+
+    expect(html).toContain("Active decisions");
+    expect(html).toContain("Approve");
+    expect(html).toContain("Reject");
+    expect(html).toContain("Need info");
+    expect(html).toContain("Comment");
+    expect(html).not.toContain("Access denied for this role");
+  });
 });

@@ -257,7 +257,7 @@ export const USE_CASES: UseCase[] = [
     proves: "Data-quality issues are generated (incl. UTM/sync categories) for CRM Ops to surface.",
     status: "covered",
     requires: ["pure"],
-    tests: ["brief-usecases.test.ts › UC-P2-CRMOPS-GAPS"],
+    tests: ["brief-usecases.test.ts › UC-P2-CRMOPS-GAPS", "crm-ops.test.ts › CRM Ops · auto-detector"],
   },
   {
     id: "UC-P2-OPENDATA",
@@ -336,6 +336,17 @@ export const USE_CASES: UseCase[] = [
     requires: ["db"],
     tests: ["brief-usecases.test.ts › UC-GTC-CAPTURE-PERSIST (todo)"],
   },
+  {
+    id: "UC-P2-DECISION-RULING",
+    title: "Leader ruling persists on an open Decision Queue item",
+    phase: "Phase 2 · Product",
+    brief: "Spec Module 11 — “approve / reject / need-info + comment text”; status Open → Decided → In-flight.",
+    reqs: ["C2", "C6", "E3"],
+    proves: "A Leader-only mutation applies approve/reject/need_info transitions, persists response fields, and rejects non-leaders or closed decisions.",
+    status: "covered",
+    requires: ["pure"],
+    tests: ["decisions.test.ts › Decision Queue transitions", "decisions.test.ts › POST /api/decisions/[id]/decide"],
+  },
 
   // ───────────────────────── Spec · Marketing Hub ─────────────────────────
   {
@@ -402,7 +413,7 @@ export const USE_CASES: UseCase[] = [
     proves: "The data-quality queue contains auto-generated UTM and sync issues (not manual-only).",
     status: "covered",
     requires: ["pure"],
-    tests: ["brief-usecases.test.ts › UC-SPEC-DQ-AUTODETECT"],
+    tests: ["brief-usecases.test.ts › UC-SPEC-DQ-AUTODETECT", "crm-ops.test.ts › CRM Ops · auto-detector"],
   },
   {
     id: "UC-SPEC-OUTBOX-DLQ",
@@ -558,7 +569,7 @@ export const USE_CASES: UseCase[] = [
     proves: "Parity below threshold produces the banner payload, field-specific copy, and CRM Ops destination.",
     status: "covered",
     requires: ["pure"],
-    tests: ["brief-usecases.test.ts › UC-DEMO-BANNER", "phase2.test.ts › Phase 2 CRM Ops and data-confidence banner"],
+    tests: ["brief-usecases.test.ts › UC-DEMO-BANNER", "phase2.test.ts › Phase 2 CRM Ops and data-confidence banner", "crm-ops.test.ts › CRM Ops · banner alarm semantics"],
   },
   {
     id: "UC-DEMO-BANNER-UI",
