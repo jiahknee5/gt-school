@@ -315,7 +315,13 @@ describe("Budget · rendered sub-views (demo signal: reconcile to the total)", (
     expect(await render("spend", "admin")).toContain("Spend by workstream");
     const variance = await render("variance", "admin");
     expect(variance).toContain("Variance alerts");
-    expect(variance).toContain("Open reallocation in Decision Queue");
+    // Role-aware reallocation CTA: a Leader opens the prefilled item in the (Leader-only)
+    // Decision Queue; a non-leader (admin here) is routed to RAISE it — never bounced to
+    // /forbidden. (Fixes the silent dead-end the workflow audit flagged.)
+    expect(variance).toContain("Raise reallocation to leadership");
+    expect(variance).toContain("/m/submissions?intent=reallocation");
+    const leaderVariance = await render("variance", "leader");
+    expect(leaderVariance).toContain("Open reallocation in Decision Queue");
   });
 });
 

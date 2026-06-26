@@ -6,10 +6,13 @@
 // → outcome is visible end-to-end without the act controls.
 
 import Link from "next/link";
+import { cookies } from "next/headers";
 import { getSession } from "@/lib/auth";
 import { ensureBudgetVarianceDecision } from "@/lib/phase2";
 import { generate } from "@/lib/seed/generate";
 import { outcomeLabel, outcomeTone, submittedBy, type OutcomeTone } from "@/lib/decisions/queries";
+import { RAISED_COOKIE, ownRaises } from "@/lib/decisions/raise";
+import { RaiseDecisionForm, type RaisePrefill } from "./_components/RaiseDecisionForm";
 
 export const dynamic = "force-dynamic";
 
@@ -32,12 +35,48 @@ function clean(value: string | null | undefined): string {
     .replace(/\u00b7/g, "|");
 }
 
-export default async function SubmissionsPage() {
+export default async function SubmissionsPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ intent?: string; workstream?: string; ask?: string; question?: string }>;
+} = {}) {
+  const query = searchParams ? await searchParams : {};
   const session = await getSession();
   const dataset = generate({ seed: 424242, families: 1200 });
   const decisions = ensureBudgetVarianceDecision(dataset.budget_workstream, dataset.decisions);
-  const mine = session ? submittedBy(decisions, session.title) : [];
+  const seeded = session ? submittedBy(decisions, session.title) : [];
+
+  // Demo round-trip: decisions this user raised in-session live in a per-user cookie that
+  // the raise endpoint writes. Merge them with their seeded raises (newest first), de-duped.
+  // cookies() throws outside a request scope (e.g. unit-rendering the page) — treat as none.
+  let raisedCookie: string | undefined;
+  try {
+    raisedCookie = (await cookies()).get(RAISED_COOKIE)?.value;
+  } catch {
+    raisedCookie = undefined;
+  }
+  const raised = session ? ownRaises(raisedCookie, session.id) : [];
+  const seenIds = new Set(raised.map((d) => d.id));
+  const mine = [...raised, ...seeded.filter((d) => !seenIds.has(d.id))].sort(
+    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+  );
   const decided = mine.filter((d) => d.status === "decided" || d.status === "in_flight").length;
+
+  // A module (e.g. Budget variance) can hand off a prefilled raise for a non-leader who
+  // can't open the Leader-only Decision Queue — turn the intent params into form defaults.
+  const prefill: RaisePrefill | undefined =
+    query.intent === "reallocation"
+      ? {
+          question: query.workstream
+            ? `Approve a reallocation for the ${query.workstream} workstream${query.ask ? ` ($${Number(query.ask).toLocaleString()})` : ""}?`
+            : (query.question ?? ""),
+          workstream: query.workstream,
+          budget_ask: query.ask,
+          priority: "high",
+        }
+      : query.question
+        ? { question: query.question }
+        : undefined;
 
   return (
     <main className="min-h-[100dvh] bg-canvas">
@@ -56,6 +95,14 @@ export default async function SubmissionsPage() {
       </section>
 
       <div className="mx-auto max-w-[1024px] px-4 py-5 sm:px-6 lg:px-8">
+        <div className="mb-4">
+          {session ? (
+            <RaiseDecisionForm prefill={prefill} />
+          ) : (
+            <p className="text-[11px] text-muted">Sign in to raise a decision.</p>
+          )}
+        </div>
+
         <p className="mb-4 text-[11px] text-muted">
           {mine.length} submission{mine.length === 1 ? "" : "s"} · {decided} with a leadership response
         </p>
@@ -91,7 +138,8 @@ export default async function SubmissionsPage() {
         ) : (
           <section className="rounded-card border border-hairline bg-surface p-8 text-center">
             <p className="text-[11px] text-muted">
-              You haven&apos;t raised any decisions yet. Raise one from your module to request a leadership ruling.
+              You haven&apos;t raised any decisions yet. Use <span className="font-semibold">+ Raise a decision</span>{" "}
+              above to request a leadership ruling.
             </p>
           </section>
         )}

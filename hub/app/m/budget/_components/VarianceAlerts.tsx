@@ -18,16 +18,20 @@ export function VarianceAlerts({
   rows,
   decisions,
   asOf,
+  viewerRole,
 }: {
   rows: VarianceInput[];
   decisions: Decision[];
   asOf: string;
+  /** Drives where the reallocation link points: Leaders open the queue; everyone else raises. */
+  viewerRole?: string;
 }) {
   const variances = evaluateVariance(rows);
   const flagged = variances.filter((v) => v.flagged);
   const openAutoFlag = new Set(
     decisions.filter((d) => d.auto_flag && d.status === "open" && d.workstream).map((d) => d.workstream),
   );
+  const isLeader = viewerRole === "leader";
 
   return (
     <Card
@@ -44,6 +48,13 @@ export function VarianceAlerts({
           {flagged.map((v) => {
             const payload = buildVariancePayload(v, asOf);
             const alreadyOpen = openAutoFlag.has(v.key);
+            // Leaders open the prefilled item in the Decision Queue (their exclusive
+            // surface); non-leaders are routed to raise it — never bounced to /forbidden.
+            const over = Math.round(v.overAmount);
+            const href = isLeader
+              ? reallocationDeepLink(v)
+              : `/m/submissions?intent=reallocation&workstream=${encodeURIComponent(v.key)}&ask=${over}`;
+            const cta = isLeader ? "Open reallocation in Decision Queue" : "Raise reallocation to leadership";
             return (
               <li key={v.key} className="rounded-card border border-hairline bg-canvas p-2.5">
                 <div className="flex flex-wrap items-center justify-between gap-2">
@@ -61,10 +72,10 @@ export function VarianceAlerts({
                 </p>
                 <div className="mt-2">
                   <Link
-                    href={reallocationDeepLink(v)}
+                    href={href}
                     className="inline-flex h-8 items-center justify-center rounded-card bg-ink-cta px-3 text-[12px] font-semibold text-on-cta transition-transform active:translate-y-px"
                   >
-                    Open reallocation in Decision Queue
+                    {cta}
                   </Link>
                 </div>
               </li>

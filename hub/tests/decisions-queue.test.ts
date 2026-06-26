@@ -21,6 +21,13 @@ const authMock = vi.hoisted(() => ({
 
 vi.mock("@/lib/auth", () => authMock);
 
+// The submissions page now mounts the (client) "Raise a decision" form, which calls
+// useRouter. Provide a stub so renderToStaticMarkup of the page doesn't require a mounted
+// app-router provider.
+vi.mock("next/navigation", () => ({
+  useRouter: () => ({ refresh: () => {}, push: () => {} }),
+}));
+
 const { default: SubmissionsPage } = await import("@/app/m/submissions/page");
 
 function decision(overrides: Partial<Decision>): Decision {

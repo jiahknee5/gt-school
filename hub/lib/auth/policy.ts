@@ -61,6 +61,17 @@ export function isAskHubPath(pathname: string): boolean {
 }
 
 /**
+ * The SUBMIT half of the Decision Queue (PRD §2: "Any team member can submit… from
+ * their own module"). This single endpoint is open to ANY authenticated role — it
+ * only ever creates an OPEN decision attributed to the submitter; it can never view
+ * or rule on the full queue. It is carved out of the Leader-only Decision Queue subtree
+ * below (and checked BEFORE it) so an Operator/Admin can raise without being bounced.
+ */
+export function isDecisionRaisePath(pathname: string): boolean {
+  return pathname === "/api/decisions/raise";
+}
+
+/**
  * The Decision Queue module and data surface are Leadership-only (view + act).
  * Operators can submit decision requests from their own modules, but the full queue
  * page/API is not accessible to them per PRD §11.
@@ -121,6 +132,12 @@ export function routeDecision(role: Role | null, pathname: string): RouteDecisio
 
   if (isAskHubPath(pathname)) {
     return { allowed: true, status: 200, reason: "Authenticated Ask-the-Hub access." };
+  }
+
+  // The submit half is open to all authenticated roles — checked before the Leader-only
+  // Decision Queue subtree so a raise is never bounced to /forbidden.
+  if (isDecisionRaisePath(pathname)) {
+    return { allowed: true, status: 200, reason: "Authenticated decision submission." };
   }
 
   if (isLeaderOnlyPath(pathname)) {

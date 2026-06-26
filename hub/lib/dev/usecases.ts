@@ -358,6 +358,17 @@ export const USE_CASES: UseCase[] = [
     requires: ["pure"],
     tests: ["decisions.test.ts › Decision Queue transitions", "decisions.test.ts › POST /api/decisions/[id]/decide"],
   },
+  {
+    id: "UC-P2-DECISION-RAISE",
+    title: "Any role can raise a decision; it lands in My submissions",
+    phase: "Phase 2 · Product",
+    brief: "Spec Module 11c + §2 — “Any team member can submit a decision from their own module” (the SUBMIT half of the govern loop).",
+    reqs: ["C2", "C1"],
+    proves: "A pure builder validates + creates an OPEN decision attributed to the submitter (rejecting empty/bad input); the route opens /api/decisions/raise to every authenticated role without widening the Leader-only Decision Queue; and a per-user cookie store round-trips the raise into My submissions on the seed-only demo (no DB).",
+    status: "covered",
+    requires: ["pure"],
+    tests: ["decisions-raise.test.ts › buildRaisedDecision", "decisions-raise.test.ts › route policy", "decisions-raise.test.ts › POST /api/decisions/raise"],
+  },
 
   // ───────────────────────── Spec · Marketing Hub ─────────────────────────
   {

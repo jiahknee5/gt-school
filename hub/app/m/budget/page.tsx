@@ -155,7 +155,12 @@ export default async function BudgetPage({
             {activeTab === "burn" && <BurnChart burn={burn} />}
             {activeTab === "spend" && <SpendByWorkstream slices={allocation} />}
             {activeTab === "variance" && (
-              <VarianceAlerts rows={varianceRows} decisions={ds.decisions} asOf={ds.manifest.generatedAt} />
+              <VarianceAlerts
+                rows={varianceRows}
+                decisions={ds.decisions}
+                asOf={ds.manifest.generatedAt}
+                viewerRole={viewer.role}
+              />
             )}
           </div>
 
