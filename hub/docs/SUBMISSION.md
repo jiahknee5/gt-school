@@ -1,5 +1,10 @@
 # GT Marketing Hub — Candidate Submission Write-up
 
+> **Live demo (A5):** https://gt-school-hub.vercel.app — public, no Vercel login wall.
+> Dev auth mode is ON, so the `/login` switcher lets reviewers pick **Admin / Leader /
+> Operator** (no password) and still mints a real, server-enforced session. See §8 for the
+> deploy and the `AUTH_DEV_MODE` trade-off.
+
 > Technical Project submission for GT Anywhere. This is the A2 deliverable: what was
 > built, what is deep vs. stood-in (and why), the trade-offs and rules I bent, and how to
 > verify it. Evidence is pulled from the repo's own audits — `docs/01-intake/PRD-CHECKLIST.md`,
@@ -186,13 +191,29 @@ npm run dev                     # http://localhost:3000
 
 ---
 
-## 8. Deploy prep (A5) — prepare, do NOT deploy blind
+## 8. Deploy (A5) — LIVE
 
-There is **no `vercel.json`** in the repo; the app deploys with Vercel's zero-config Next.js
-detection (root directory = `hub`). **Deployment requires credentials I do not have and must
-not guess.** The steps below are ready to run once the user supplies secrets.
+**Live URL:** https://gt-school-hub.vercel.app (Vercel project `gt-school-hub`, Root
+Directory = `hub`, zero-config Next.js — there is **no `vercel.json`**).
 
-### 8.1 Steps
+**Demo deploy config (what's actually live):**
+- `AUTH_SECRET` — a real 32-byte secret, generated with `openssl rand -hex 32` and set as a
+  Vercel **production** env var. It is **not** committed anywhere in the repo.
+- `AUTH_DEV_MODE=true` — deliberate choice for this demo URL so reviewers can pick
+  Admin/Leader/Operator from the `/login` switcher with no password. This is safe for a
+  *private demo link* but means anyone with the URL can assume any role; for a truly public
+  deployment, flip to `AUTH_DEV_MODE=false` and wire a real IdP (see §9).
+- No database is attached — the pure demo runs without one (the live/DB-backed paths in §8.2
+  light up only after Supabase is provisioned and seeded).
+
+**Smoke test (passed on the live URL):** `/` redirects to `/login`; all three role logins mint
+a session; `/m/decisions` is Leader-only (Operator → `/forbidden`, `/api/decisions` → 403 JSON);
+`/gifted-quiz` is publicly reachable (200, no auth); `/m/budget` reconciles to **$365K** across
+4 workstreams; the **data-confidence banner** renders on `/m/nurture`.
+
+To re-deploy: `cd hub && vercel --prod --yes`. To make it truly public, see §9.
+
+### 8.1 Steps (full DB-backed deploy)
 
 1. **Create the Vercel project** pointing at this repo, **Root Directory = `hub`**. Framework:
    Next.js (auto). Build command `next build`, output auto.
@@ -232,12 +253,15 @@ Full annotated list lives in `.env.example`. **Never commit `.env.local` or real
 
 ## 9. Still needs the user (cannot be faked)
 
-- **A4 — walkthrough video (5–10 min, +≥1 failure/edge).** Must be recorded by the user once
-  a live URL exists. Suggested script: the four acceptance signals (§4) + the GT Challenge
-  end-to-end (§2.4) + one deliberate failure (e.g. Operator hitting `/m/decisions`, or a
+- **A4 — walkthrough video (5–10 min, +≥1 failure/edge).** Record against the live URL
+  (https://gt-school-hub.vercel.app). Suggested script: sign in as Leader → the four
+  acceptance signals (§4: `/m/budget` $365K, data-confidence banner on `/m/nurture`,
+  `/dev/payments` as Admin) + the GT Challenge end-to-end (`/gifted-quiz` → `/m/submissions`,
+  §2.4) + one deliberate failure (sign in as Operator → `/m/decisions` → `/forbidden`, or a
   duplicate quiz submit returning the same lead).
-- **A5 — actual deployment.** Needs Vercel access and the secrets in §8.2 (especially a real
-  `AUTH_SECRET` and a decision on `AUTH_DEV_MODE`). Do not deploy without them.
+- **A5 — deployment: DONE.** Live at https://gt-school-hub.vercel.app with `AUTH_DEV_MODE=true`
+  (see §8). To make it a *truly public* URL, set `AUTH_DEV_MODE=false`, wire a real IdP, and
+  provision + seed Supabase per §8.1–8.2 so the DB-backed paths light up.
 
 ---
 
