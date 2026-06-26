@@ -3,6 +3,7 @@ import {
   applyDecisionTransition,
   DecisionTransitionError,
 } from "@/lib/decisions/transitions";
+import { buildDecisionEvent } from "@/lib/decisions/audit";
 import type { Decision } from "@/lib/seed/types";
 
 const authMock = vi.hoisted(() => {
@@ -108,11 +109,62 @@ describe("Decision Queue transitions", () => {
   });
 });
 
+describe("Decision audit trail (buildDecisionEvent)", () => {
+  const actor = { id: "growth-leader", name: "David Chen", role: "leader" };
+
+  it("captures who/when/what for an approval, carrying the status transition", () => {
+    const after = applyDecisionTransition(
+      baseDecision,
+      { response: "approve", note: "Approved." },
+      new Date("2026-07-02T09:30:00.000Z"),
+    );
+    const event = buildDecisionEvent(baseDecision, after, actor, new Date("2026-07-02T09:30:05.000Z"));
+
+    expect(event).toEqual({
+      decisionId: baseDecision.id,
+      actorId: "growth-leader",
+      actorName: "David Chen",
+      actorRole: "leader",
+      action: "approve",
+      fromStatus: "open",
+      toStatus: "decided",
+      note: "Approved.",
+      createdAt: "2026-07-02T09:30:05.000Z",
+    });
+  });
+
+  it("records a need_info round-trip as open -> in_flight", () => {
+    const after = applyDecisionTransition(baseDecision, {
+      response: "need-info",
+      note: "Need attendance forecast.",
+    });
+    const event = buildDecisionEvent(baseDecision, after, actor);
+
+    expect(event.action).toBe("need_info");
+    expect(event.fromStatus).toBe("open");
+    expect(event.toStatus).toBe("in_flight");
+  });
+
+  it("refuses to build an event without a ruling or an actor id", () => {
+    expect(() => buildDecisionEvent(baseDecision, baseDecision, actor)).toThrow(
+      "without a ruling response",
+    );
+    const after = applyDecisionTransition(baseDecision, { response: "reject", note: "No." });
+    expect(() => buildDecisionEvent(baseDecision, after, { id: "", role: "leader" })).toThrow(
+      "without an actor id",
+    );
+  });
+});
+
 describe("POST /api/decisions/[id]/decide", () => {
   beforeEach(() => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date("2026-07-02T09:30:00.000Z"));
-    authMock.requireRole.mockResolvedValue({ role: "leader" });
+    authMock.requireRole.mockResolvedValue({
+      id: "growth-leader",
+      name: "David Chen",
+      role: "leader",
+    });
   });
 
   afterEach(() => {
@@ -142,16 +194,66 @@ describe("POST /api/decisions/[id]/decide", () => {
     expect(body.decision.response).toBe("approve");
     expect(body.decision.response_note).toBe("Proceed.");
     expect(body.decision.resolved_at).toBe("2026-07-02T09:30:00.000Z");
-    expect(sql.calls).toHaveLength(2);
+    expect(sql.calls).toHaveLength(3);
     expect(sql.calls[0].text).toContain("for update");
     expect(sql.calls[1].text).toContain("and status = 'open'");
+    // The ruling row now also records who decided it (S6 attribution).
+    expect(sql.calls[1].text).toContain("decided_by");
     expect(sql.calls[1].values).toEqual([
       "decided",
       "approve",
       "Proceed.",
       "2026-07-02T09:30:00.000Z",
+      "growth-leader",
       baseDecision.id,
     ]);
+  });
+
+  it("writes an append-only decision_event audit row with who/when/action", async () => {
+    const written = {
+      ...baseDecision,
+      status: "decided",
+      response: "reject",
+      response_note: "Out of budget this sprint.",
+      resolved_at: "2026-07-02T09:30:00.000Z",
+    };
+    const sql = sqlForResponses([baseDecision], [written]);
+    dbMock.withoutProgram.mockImplementation(async (cb) => cb(sql));
+
+    const res = await POST(request({ response: "reject", note: "Out of budget this sprint." }), {
+      params: Promise.resolve({ id: baseDecision.id }),
+    });
+
+    expect(res.status).toBe(200);
+    // Three statements: SELECT ... FOR UPDATE, UPDATE decisions, INSERT decision_event.
+    expect(sql.calls).toHaveLength(3);
+    const insert = sql.calls[2];
+    expect(insert.text).toContain("insert into decision_event");
+    // who (actor id, name, role) · what (action, from/to status, note). created_at is the DB default.
+    expect(insert.values).toEqual([
+      baseDecision.id,
+      "growth-leader",
+      "David Chen",
+      "leader",
+      "reject",
+      "open",
+      "decided",
+      "Out of budget this sprint.",
+    ]);
+  });
+
+  it("does not write an audit row when the ruling update loses a race (no row updated)", async () => {
+    const sql = sqlForResponses([baseDecision], []);
+    dbMock.withoutProgram.mockImplementation(async (cb) => cb(sql));
+
+    const res = await POST(request({ response: "approve", note: "Proceed." }), {
+      params: Promise.resolve({ id: baseDecision.id }),
+    });
+
+    expect(res.status).toBe(409);
+    // SELECT + failed UPDATE only — the append-only insert never runs.
+    expect(sql.calls).toHaveLength(2);
+    expect(sql.calls.some((c) => c.text.includes("insert into decision_event"))).toBe(false);
   });
 
   it("returns 403 before DB access for non-leaders", async () => {

@@ -1,0 +1,521 @@
+"use client";
+
+// Public GT Challenge quiz — the marketing funnel surface a parent lands on from a
+// social ad (no Hub account, no session). It is rendered as a full-bleed overlay so it
+// does NOT pull the authed Hub chrome (sidebar/top bar) even though it lives under the
+// root layout — this avoids restructuring the shared root layout/route groups while
+// still satisfying Lindqvist's "no Hub sidebar" legibility gate (docs/06-gt-challenge).
+//
+// It POSTs to the already-built /api/gifted-quiz route (consent-gated, deduped by
+// idempotency key, rate-limited). The quiz is framed as a FIT SCREEN, not a gifted
+// verdict (Ortiz): the lowest bucket is "Keep exploring", never "not gifted".
+
+import { useEffect, useMemo, useRef, useState } from "react";
+
+type Scale = 1 | 2 | 3 | 4 | 5;
+
+type ScaleQuestion = {
+  key: string;
+  prompt: string;
+  help: string;
+  low: string;
+  high: string;
+};
+
+const SCALE_QUESTIONS: ScaleQuestion[] = [
+  {
+    key: "patternReasoning",
+    prompt: "Spots patterns and connections others miss",
+    help: "Notices rules, sequences, or relationships without being told.",
+    low: "Rarely",
+    high: "Almost always",
+  },
+  {
+    key: "curiosity",
+    prompt: "Asks deep, persistent questions",
+    help: "Keeps asking why and what-if well past the easy answer.",
+    low: "Rarely",
+    high: "Constantly",
+  },
+  {
+    key: "selfDirectedProjects",
+    prompt: "Starts and sticks with their own projects",
+    help: "Builds, writes, codes, or invents things no one assigned.",
+    low: "Rarely",
+    high: "Very often",
+  },
+  {
+    key: "focusPersistence",
+    prompt: "Stays with a hard problem until it clicks",
+    help: "Returns to a challenge instead of giving up when it gets difficult.",
+    low: "Rarely",
+    high: "Almost always",
+  },
+];
+
+const GRADES = ["K", "1", "2", "3", "4", "5", "6", "7", "8"];
+
+type Result = {
+  duplicate: boolean;
+  bucket: "strong_fit" | "promising" | "explore";
+  rawScore: number;
+  status: string;
+};
+
+const BUCKET_COPY: Record<
+  Result["bucket"],
+  { title: string; tone: string; body: string }
+> = {
+  strong_fit: {
+    title: "Strong fit",
+    tone: "bg-green-soft text-green border-green-soft",
+    body: "Your child's responses line up well with how GT students thrive. Our admissions team would love to talk about next steps.",
+  },
+  promising: {
+    title: "Promising fit",
+    tone: "bg-amber-soft text-amber border-amber-soft",
+    body: "There are strong signals here worth exploring together. We'll reach out with ways to learn more about GT.",
+  },
+  explore: {
+    title: "Keep exploring",
+    tone: "bg-fill text-slate border-fill",
+    body: "Every child grows on their own timeline. We'll keep you in the loop on GT events and resources. This is a fit indicator, never a verdict on your child.",
+  },
+};
+
+function readUtm(): { source: string; medium: string; campaign: string } {
+  if (typeof window === "undefined") {
+    return { source: "", medium: "", campaign: "" };
+  }
+  const params = new URLSearchParams(window.location.search);
+  return {
+    source: params.get("utm_source") ?? "",
+    medium: params.get("utm_medium") ?? "",
+    campaign: params.get("utm_campaign") ?? "",
+  };
+}
+
+function ScaleField({
+  question,
+  value,
+  onChange,
+}: {
+  question: ScaleQuestion;
+  value: Scale | null;
+  onChange: (v: Scale) => void;
+}) {
+  return (
+    <fieldset className="rounded-card border border-hairline bg-surface p-4">
+      <legend className="px-1 text-[14px] font-semibold text-ink">{question.prompt}</legend>
+      <p className="mt-1 text-[12px] leading-relaxed text-muted">{question.help}</p>
+      <div className="mt-3 flex items-center gap-1.5">
+        {([1, 2, 3, 4, 5] as Scale[]).map((n) => {
+          const active = value === n;
+          return (
+            <button
+              key={n}
+              type="button"
+              aria-pressed={active}
+              aria-label={`${question.prompt}: ${n} of 5`}
+              onClick={() => onChange(n)}
+              className={`h-11 flex-1 rounded-card border text-[14px] font-semibold transition-colors ${
+                active
+                  ? "border-gold bg-ink-cta text-on-cta shadow-sm"
+                  : "border-border bg-canvas text-slate hover:border-gold hover:text-ink"
+              }`}
+            >
+              {n}
+            </button>
+          );
+        })}
+      </div>
+      <div className="mono mt-1.5 flex justify-between text-[10px] text-label">
+        <span>{question.low}</span>
+        <span>{question.high}</span>
+      </div>
+    </fieldset>
+  );
+}
+
+function newIdempotencyKey(): string {
+  if (typeof crypto !== "undefined" && "randomUUID" in crypto) {
+    return crypto.randomUUID();
+  }
+  return `gtc-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+}
+
+export function GiftedQuiz() {
+  // One idempotency key per attempt — stable across accidental double-submits so the
+  // backbone collapses them to a single submission + lead. Generated off the render path
+  // (impure) and captured in a ref so resubmits reuse it.
+  const idempotencyKey = useRef<string | null>(null);
+  const utm = useRef<{ source: string; medium: string; campaign: string }>({
+    source: "",
+    medium: "",
+    campaign: "",
+  });
+
+  useEffect(() => {
+    if (idempotencyKey.current == null) {
+      idempotencyKey.current = newIdempotencyKey();
+    }
+    utm.current = readUtm();
+  }, []);
+
+  const [scales, setScales] = useState<Record<string, Scale | null>>(
+    Object.fromEntries(SCALE_QUESTIONS.map((q) => [q.key, null])),
+  );
+  const [readingAboveGrade, setReadingAboveGrade] = useState<boolean | null>(null);
+  const [parentObservation, setParentObservation] = useState("");
+  const [childFirstName, setChildFirstName] = useState("");
+  const [childGrade, setChildGrade] = useState("");
+  const [parentEmail, setParentEmail] = useState("");
+  const [parentPhone, setParentPhone] = useState("");
+  const [zip, setZip] = useState("");
+  const [consent, setConsent] = useState(false);
+
+  const [status, setStatus] = useState<"idle" | "submitting" | "done" | "error">("idle");
+  const [error, setError] = useState<string | null>(null);
+  const [result, setResult] = useState<Result | null>(null);
+
+  const answeredScales = useMemo(
+    () => SCALE_QUESTIONS.filter((q) => scales[q.key] != null).length,
+    [scales],
+  );
+  const totalQuestions = SCALE_QUESTIONS.length + 1; // + reading-above-grade
+  const answered = answeredScales + (readingAboveGrade != null ? 1 : 0);
+  const progress = Math.round((answered / totalQuestions) * 100);
+
+  const canSubmit =
+    consent &&
+    childGrade.trim() !== "" &&
+    (parentEmail.trim() !== "" || parentPhone.trim() !== "") &&
+    answeredScales === SCALE_QUESTIONS.length &&
+    readingAboveGrade != null &&
+    status !== "submitting";
+
+  async function handleSubmit(event: React.FormEvent) {
+    event.preventDefault();
+    if (!consent) {
+      setError("Please confirm parent consent before submitting.");
+      return;
+    }
+    setStatus("submitting");
+    setError(null);
+
+    // Generated in this event handler (not during render) and reused on resubmit.
+    if (idempotencyKey.current == null) {
+      idempotencyKey.current = newIdempotencyKey();
+    }
+    const submissionKey = idempotencyKey.current;
+
+    const answers: Record<string, unknown> = {
+      ...scales,
+      readingAboveGrade,
+      parentObservation: parentObservation.trim(),
+    };
+
+    try {
+      const res = await fetch("/api/gifted-quiz", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({
+          idempotency_key: submissionKey,
+          parent_consent: consent,
+          parent_email: parentEmail.trim() || null,
+          parent_phone: parentPhone.trim() || null,
+          zip: zip.trim() || null,
+          child_first_name: childFirstName.trim() || null,
+          child_grade: childGrade.trim(),
+          answers,
+          utm_source: utm.current.source || null,
+          utm_medium: utm.current.medium || null,
+          utm_campaign: utm.current.campaign || null,
+        }),
+      });
+
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok) {
+        setStatus("error");
+        setError(
+          typeof body?.error === "string"
+            ? body.error
+            : "Something went wrong submitting the Challenge. Please try again.",
+        );
+        return;
+      }
+
+      const capture = body.capture ?? {};
+      setResult({
+        duplicate: Boolean(capture.duplicate),
+        bucket: (capture.bucket as Result["bucket"]) ?? "explore",
+        rawScore: Number(capture.rawScore ?? 0),
+        status: String(capture.status ?? "scored"),
+      });
+      setStatus("done");
+    } catch {
+      setStatus("error");
+      setError("We couldn't reach the server. Check your connection and try again.");
+    }
+  }
+
+  return (
+    <div className="fixed inset-0 z-[60] overflow-y-auto bg-[linear-gradient(160deg,var(--paper)_0%,var(--paper)_55%,var(--fill)_100%)]">
+      <div className="mx-auto w-full max-w-[560px] px-5 py-10 sm:py-14">
+        <header className="flex items-center gap-2.5">
+          <span className="grid h-8 w-8 place-items-center rounded-card bg-gold text-[13px] font-bold text-white">
+            GT
+          </span>
+          <span className="text-[15px] font-semibold text-ink">GT Anywhere</span>
+        </header>
+
+        {status === "done" && result ? (
+          <ResultScreen result={result} childFirstName={childFirstName} />
+        ) : (
+          <form onSubmit={handleSubmit} className="mt-7">
+            <p className="mono text-[11px] font-semibold uppercase tracking-[0.12em] text-gold">
+              The GT Challenge
+            </p>
+            <h1 className="mt-2 font-serif text-[30px] font-semibold leading-tight text-ink sm:text-[34px]">
+              Is your child ready for more?
+            </h1>
+            <p className="mt-3 text-[14px] leading-relaxed text-muted">
+              Six quick questions about how your child learns. You get an instant fit
+              indicator. This is a screen to start a conversation, not a gifted test or a
+              verdict on your child.
+            </p>
+
+            {/* progress */}
+            <div className="mt-6" aria-hidden="true">
+              <div className="h-1.5 w-full overflow-hidden rounded-full bg-fill">
+                <div
+                  className="h-full rounded-full bg-gold transition-all"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
+              <p className="mono mt-1.5 text-[10px] text-label">
+                {answered} of {totalQuestions} answered
+              </p>
+            </div>
+
+            <div className="mt-5 space-y-4">
+              {SCALE_QUESTIONS.map((q) => (
+                <ScaleField
+                  key={q.key}
+                  question={q}
+                  value={scales[q.key] ?? null}
+                  onChange={(v) => setScales((prev) => ({ ...prev, [q.key]: v }))}
+                />
+              ))}
+
+              <fieldset className="rounded-card border border-hairline bg-surface p-4">
+                <legend className="px-1 text-[14px] font-semibold text-ink">
+                  Reads above their grade level
+                </legend>
+                <p className="mt-1 text-[12px] leading-relaxed text-muted">
+                  Chooses books or material meant for older kids.
+                </p>
+                <div className="mt-3 flex gap-2">
+                  {[
+                    { label: "Yes", value: true },
+                    { label: "Not yet", value: false },
+                  ].map((opt) => {
+                    const active = readingAboveGrade === opt.value;
+                    return (
+                      <button
+                        key={opt.label}
+                        type="button"
+                        aria-pressed={active}
+                        onClick={() => setReadingAboveGrade(opt.value)}
+                        className={`h-11 flex-1 rounded-card border text-[14px] font-semibold transition-colors ${
+                          active
+                            ? "border-gold bg-ink-cta text-on-cta shadow-sm"
+                            : "border-border bg-canvas text-slate hover:border-gold hover:text-ink"
+                        }`}
+                      >
+                        {opt.label}
+                      </button>
+                    );
+                  })}
+                </div>
+              </fieldset>
+
+              <label className="block rounded-card border border-hairline bg-surface p-4">
+                <span className="text-[14px] font-semibold text-ink">
+                  Anything you&apos;d add? <span className="font-normal text-label">(optional)</span>
+                </span>
+                <textarea
+                  value={parentObservation}
+                  onChange={(e) => setParentObservation(e.target.value)}
+                  rows={3}
+                  placeholder="A moment that made you think: where did that come from?"
+                  className="mt-2 w-full resize-y rounded-card border border-border bg-canvas px-3 py-2 text-[14px] text-ink placeholder:text-label focus:border-gold focus:outline-none"
+                />
+              </label>
+            </div>
+
+            {/* contact + child */}
+            <div className="mt-6 space-y-3 rounded-card border border-hairline bg-surface p-4">
+              <p className="mono text-[11px] font-semibold uppercase tracking-[0.1em] text-label">
+                Where do we send the result?
+              </p>
+              <div className="grid grid-cols-2 gap-3">
+                <label className="block">
+                  <span className="text-[12px] font-semibold text-slate">Child&apos;s first name</span>
+                  <input
+                    value={childFirstName}
+                    onChange={(e) => setChildFirstName(e.target.value)}
+                    className="mt-1 w-full rounded-card border border-border bg-canvas px-3 py-2 text-[14px] text-ink focus:border-gold focus:outline-none"
+                    placeholder="Optional"
+                  />
+                </label>
+                <label className="block">
+                  <span className="text-[12px] font-semibold text-slate">
+                    Grade <span className="text-red">*</span>
+                  </span>
+                  <select
+                    value={childGrade}
+                    onChange={(e) => setChildGrade(e.target.value)}
+                    required
+                    className="mt-1 h-[42px] w-full rounded-card border border-border bg-canvas px-2 text-[14px] text-ink focus:border-gold focus:outline-none"
+                  >
+                    <option value="">Select</option>
+                    {GRADES.map((g) => (
+                      <option key={g} value={g}>
+                        {g === "K" ? "Kindergarten" : `Grade ${g}`}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+              </div>
+              <label className="block">
+                <span className="text-[12px] font-semibold text-slate">Parent email</span>
+                <input
+                  type="email"
+                  value={parentEmail}
+                  onChange={(e) => setParentEmail(e.target.value)}
+                  className="mt-1 w-full rounded-card border border-border bg-canvas px-3 py-2 text-[14px] text-ink focus:border-gold focus:outline-none"
+                  placeholder="you@example.com"
+                />
+              </label>
+              <div className="grid grid-cols-2 gap-3">
+                <label className="block">
+                  <span className="text-[12px] font-semibold text-slate">Phone</span>
+                  <input
+                    type="tel"
+                    value={parentPhone}
+                    onChange={(e) => setParentPhone(e.target.value)}
+                    className="mt-1 w-full rounded-card border border-border bg-canvas px-3 py-2 text-[14px] text-ink focus:border-gold focus:outline-none"
+                    placeholder="(512) 555-0100"
+                  />
+                </label>
+                <label className="block">
+                  <span className="text-[12px] font-semibold text-slate">ZIP</span>
+                  <input
+                    value={zip}
+                    onChange={(e) => setZip(e.target.value)}
+                    className="mt-1 w-full rounded-card border border-border bg-canvas px-3 py-2 text-[14px] text-ink focus:border-gold focus:outline-none"
+                    placeholder="78704"
+                  />
+                </label>
+              </div>
+              <p className="mono text-[10px] text-label">
+                Provide an email or phone so we can share the result.
+              </p>
+            </div>
+
+            {/* consent — directly above the submit (Schwartz / Lindqvist gate) */}
+            <label className="mt-5 flex items-start gap-3 rounded-card border border-hairline bg-canvas p-4">
+              <input
+                type="checkbox"
+                checked={consent}
+                onChange={(e) => setConsent(e.target.checked)}
+                className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--gold)]"
+              />
+              <span className="text-[12px] leading-relaxed text-slate">
+                I&apos;m this child&apos;s parent or guardian and I consent to GT Anywhere using
+                these responses to follow up about programs. We collect the minimum needed and
+                never label a child out. No submission is stored without this consent.
+              </span>
+            </label>
+
+            {error && (
+              <p
+                role="alert"
+                className="mt-4 rounded-card border border-red-soft bg-red-soft px-3 py-2 text-[13px] font-medium text-red"
+              >
+                {error}
+              </p>
+            )}
+
+            <button
+              type="submit"
+              disabled={!canSubmit}
+              className="mt-5 h-12 w-full rounded-card bg-ink-cta text-[15px] font-semibold text-on-cta shadow-sm transition-colors hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {status === "submitting" ? "Submitting..." : "See our fit"}
+            </button>
+            <p className="mono mt-3 text-center text-[10px] text-label">
+              A fit screen, not a gifted diagnosis. Your data stays minimal and consent-gated.
+            </p>
+          </form>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function ResultScreen({
+  result,
+  childFirstName,
+}: {
+  result: Result;
+  childFirstName: string;
+}) {
+  const copy = BUCKET_COPY[result.bucket];
+  const name = childFirstName.trim() || "Your child";
+
+  return (
+    <div className="mt-8">
+      {result.duplicate && (
+        <p className="mono mb-4 rounded-card border border-amber-soft bg-amber-soft px-3 py-2 text-[12px] font-semibold text-amber">
+          We already have these responses. Here is your result again. We will not create a
+          duplicate.
+        </p>
+      )}
+      <p className="mono text-[11px] font-semibold uppercase tracking-[0.12em] text-gold">
+        Your GT Challenge result
+      </p>
+      <h1 className="mt-2 font-serif text-[28px] font-semibold leading-tight text-ink sm:text-[32px]">
+        {name}: {copy.title}
+      </h1>
+      <span
+        className={`mono mt-4 inline-block rounded-card border px-3 py-1 text-[12px] font-semibold ${copy.tone}`}
+      >
+        {copy.title} &middot; fit indicator
+      </span>
+      <p className="mt-4 text-[15px] leading-relaxed text-muted">{copy.body}</p>
+
+      <div className="mt-6 rounded-card border border-hairline bg-surface p-4">
+        <p className="mono text-[11px] font-semibold uppercase tracking-[0.1em] text-label">
+          What happens next
+        </p>
+        <ul className="mt-2 space-y-1.5 text-[13px] leading-relaxed text-slate">
+          <li>Your responses were captured securely and deduplicated.</li>
+          <li>Our admissions team reviews fit indicators. No child is gated out.</li>
+          <li>We will reach out with relevant GT programs and events.</li>
+        </ul>
+      </div>
+
+      <a
+        href="https://gt.school"
+        className="mt-6 flex h-12 w-full items-center justify-center rounded-card bg-ink-cta text-[15px] font-semibold text-on-cta shadow-sm hover:opacity-95"
+      >
+        Explore GT Anywhere
+      </a>
+      <p className="mono mt-3 text-center text-[10px] text-label">
+        This result is a fit indicator to start a conversation, never a verdict on your child.
+      </p>
+    </div>
+  );
+}

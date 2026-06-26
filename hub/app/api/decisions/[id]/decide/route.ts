@@ -9,6 +9,7 @@ import {
   applyDecisionTransition,
   DecisionTransitionError,
 } from "@/lib/decisions/transitions";
+import { buildDecisionEvent } from "@/lib/decisions/audit";
 import type { Decision } from "@/lib/seed/types";
 
 export const dynamic = "force-dynamic";
@@ -50,7 +51,7 @@ export async function POST(
   { params }: { params: Promise<{ id: string }> },
 ) {
   try {
-    await requireRole("leader");
+    const session = await requireRole("leader");
 
     const { id } = await params;
     if (!UUID_RE.test(id)) {
@@ -70,9 +71,18 @@ export async function POST(
       const current = rows[0];
       if (!current) return null;
 
-      const next = applyDecisionTransition(toDecision(current), {
+      const before = toDecision(current);
+      const next = applyDecisionTransition(before, {
         response: body.response,
         note: body.note,
+      });
+
+      // Attribution for the ruling: who/when/what. Built before the write so the same
+      // values land on the decisions row (decided_by) and the append-only decision_event.
+      const event = buildDecisionEvent(before, next, {
+        id: session.id,
+        name: session.name,
+        role: session.role,
       });
 
       const written = await sql<DecisionRow[]>`
@@ -80,7 +90,8 @@ export async function POST(
           status = ${next.status},
           response = ${next.response},
           response_note = ${next.response_note},
-          resolved_at = ${next.resolved_at}
+          resolved_at = ${next.resolved_at},
+          decided_by = ${event.actorId}
         where id = ${id}
           and status = 'open'
         returning id, question, raised_by, workstream, recommendation, budget_ask,
@@ -90,6 +101,15 @@ export async function POST(
       if (!written[0]) {
         throw new DecisionTransitionError(409, "Only open decisions can receive a ruling.");
       }
+
+      // Append-only audit row, in the SAME transaction as the ruling, so a ruling can
+      // never be persisted without its who/when/what trail.
+      await sql`
+        insert into decision_event
+          (decision_id, actor_id, actor_name, actor_role, action, from_status, to_status, note)
+        values
+          (${event.decisionId}, ${event.actorId}, ${event.actorName}, ${event.actorRole},
+           ${event.action}, ${event.fromStatus}, ${event.toStatus}, ${event.note})`;
 
       return toDecision(written[0]);
     });
