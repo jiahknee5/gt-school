@@ -132,19 +132,27 @@ export function ModuleHeader({
   const loginHref = (role: string) =>
     `/api/auth/login?role=${role}&next=${encodeURIComponent(basePath)}`;
   return (
-    <section className="border-b border-hairline bg-[linear-gradient(135deg,var(--paper)_0%,var(--paper)_62%,var(--fill)_100%)]">
+    <section className="border-b border-hairline bg-canvas">
       <div className="mx-auto max-w-[1280px] px-5 py-7 sm:px-7 lg:px-9">
-        <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-          <div>
-            <Link href="/" className="mono text-[11px] font-semibold text-gold hover:underline">
-              Home
-            </Link>
-            <p className="mono mt-4 text-[11px] font-semibold text-label">Module {moduleN}</p>
-            <h1 className="mt-1 font-serif text-[34px] font-semibold leading-tight text-ink">{title}</h1>
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-center gap-2">
+              <Link href="/" className="mono text-[11px] font-semibold text-gold hover:underline">
+                Home
+              </Link>
+              <span className="text-label">/</span>
+              <span className="mono rounded-card border border-hairline bg-fill px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-slate">
+                Module {moduleN}
+              </span>
+              <span className="mono rounded-card border border-hairline bg-surface px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-label">
+                {viewerTitle}
+              </span>
+            </div>
+            <h1 className="mt-3 font-serif text-[34px] font-semibold leading-tight text-ink">{title}</h1>
             <p className="mt-2 max-w-[760px] text-[14px] leading-relaxed text-muted">{blurb}</p>
           </div>
-          <div className="rounded-card border border-hairline bg-canvas p-3">
-            <p className="mono text-[11px] font-semibold text-label">
+          <div className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+            <p className="mono text-[10px] font-semibold uppercase tracking-[0.08em] text-label">
               {devMode ? "Role lens (dev switcher)" : "Active role"}
             </p>
             {devMode && (
@@ -164,8 +172,11 @@ export function ModuleHeader({
                 ))}
               </div>
             )}
-            <p className="mt-2 text-[12px] text-muted">
-              {viewerName} | {viewerTitle}
+            <p className="mt-2 text-[12px] font-semibold text-ink">
+              {viewerName}
+            </p>
+            <p className="mono mt-0.5 text-[10px] text-label">
+              {viewerRole} | {viewerTitle}
             </p>
           </div>
         </div>

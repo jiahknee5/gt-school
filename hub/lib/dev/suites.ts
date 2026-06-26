@@ -82,6 +82,10 @@ export const SUITES: Suite[] = [
       { file: "tests/grassroots.test.ts", kind: "pure", needs: [], what: "Grassroots ambassador reconciliation, referral metrics, market map, cross-links, and rendered sub-views." },
       { file: "tests/admissions.test.ts", kind: "pure", needs: [], what: "Admissions objection themes, consented family voice, content bridge, feedback RBAC, and rendered sub-views." },
       { file: "tests/content.test.ts", kind: "pure", needs: [], what: "Content sheet mirror, channel attribution, brand-voice suggestions, sync conflicts, and rendered sub-views." },
+      { file: "tests/analytics.test.ts", kind: "pure", needs: [], what: "Website analytics GA4 reconciliation, UTM/download honesty, RBAC, and rendered sub-views." },
+      { file: "tests/summer-camp.test.ts", kind: "pure", needs: [], what: "Summer Camp dual-source reconciliation, campus capacity, separate P&L, roster RBAC, and rendered sub-views." },
+      { file: "tests/events.test.ts", kind: "pure", needs: [], what: "Field Events manual metrics, duplicate/stale row handling, proposal idempotency, queue RBAC, and rendered sub-views." },
+      { file: "tests/library.test.ts", kind: "pure", needs: [], what: "Resource Library badge derivation, visibility filtering, search, upload validation, Analytics download chips, and rendered sub-views." },
     ],
   },
 ];

@@ -44,14 +44,16 @@ export function TopBar({
   return (
     <header className="sticky top-0 z-30 border-b border-hairline bg-topbar/95 backdrop-blur">
       <div className="flex min-h-[58px] items-center gap-3 px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex shrink-0 items-center gap-2 lg:hidden">
+        <Link href="/" className="flex shrink-0 items-center gap-2">
           <span className="grid h-7 w-7 place-items-center rounded-card bg-gold text-[12px] font-bold text-white">
             GT
           </span>
           <span className="text-[14px] font-semibold text-ink">Marketing Hub</span>
         </Link>
 
-        <div className="hidden min-w-0 items-center gap-3 lg:flex">
+        <div className="hidden h-7 w-px bg-hairline lg:block" />
+
+        <div className="hidden min-w-0 items-center gap-2 lg:flex">
           <p className="mono text-[11px] font-semibold uppercase tracking-[0.1em] text-label">
             Week of
           </p>
@@ -117,6 +119,25 @@ export function TopBar({
             {dark ? "Light" : "Dark"}
           </button>
         </div>
+      </div>
+
+      <div className="flex items-center gap-2 overflow-x-auto border-t border-hairline px-3 py-2 lg:hidden">
+        <p className="mono shrink-0 text-[10px] font-semibold uppercase tracking-[0.1em] text-label">
+          Week of
+        </p>
+        <select className="h-8 shrink-0 rounded-card border border-border bg-canvas px-2 text-[12px] font-semibold text-ink">
+          <option>Jun 29, 2026</option>
+          <option>Jul 6, 2026</option>
+          <option>Jul 13, 2026</option>
+        </select>
+        <span className="mono shrink-0 rounded-card bg-fill px-2 py-1 text-[11px] font-semibold text-slate">
+          {days} days to cutoff
+        </span>
+        {viewer && (
+          <span className="mono shrink-0 text-[10px] text-label">
+            {viewer.name}
+          </span>
+        )}
       </div>
 
       <nav className="flex gap-1 overflow-x-auto border-t border-hairline px-3 py-2 lg:hidden">

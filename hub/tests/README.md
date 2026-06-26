@@ -29,6 +29,10 @@ The suite is organized on **two axes** — and they are not the same axis:
 | `grassroots.test.ts` | frontend | pure | — | Grassroots ambassador reconciliation, referral metrics, market map, cross-links, and rendered sub-views |
 | `admissions.test.ts` | frontend | pure | — | Admissions objection themes, consented family voice, content bridge, feedback RBAC, and rendered sub-views |
 | `content.test.ts` | frontend | pure | — | Content sheet mirror, channel attribution, brand-voice suggestions, sync conflicts, and rendered sub-views |
+| `analytics.test.ts` | frontend | pure | — | Website analytics GA4 reconciliation, UTM/download honesty, RBAC, and rendered sub-views |
+| `summer-camp.test.ts` | frontend | pure | — | Summer Camp dual-source reconciliation, campus capacity, separate P&L, roster RBAC, and rendered sub-views |
+| `events.test.ts` | frontend | pure | — | Field Events manual metrics, duplicate/stale row handling, proposal idempotency, queue RBAC, and rendered sub-views |
+| `library.test.ts` | frontend | pure | — | Resource Library badge derivation, visibility filtering, search, upload validation, Analytics download chips, and rendered sub-views |
 | `seed-fixtures.test.ts` | data | live | db | Spec-mandated rates + stress cases vs seeded Postgres |
 | `reconcile.test.ts` | backend | live | db, hubspot | Field-directional authority + stable parity across runs |
 | `payments.test.ts` | backend | live | db, stripe | Idempotent, monotonic, program-isolated payments |

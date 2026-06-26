@@ -52,7 +52,7 @@ export default function HelpIndex() {
             <p className="text-[14px] font-semibold text-ink group-hover:text-gold">Priority workflows -&gt;</p>
             <p className="mt-0.5 text-[13px] text-muted">Side-by-side grader workflows with business and tech value.</p>
           </div>
-          <span className="mono shrink-0 rounded-[6px] bg-amber-soft px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.06em] text-amber">
+          <span className="mono shrink-0 rounded-[6px] bg-fill px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.06em] text-slate">
             5 flows
           </span>
         </Link>

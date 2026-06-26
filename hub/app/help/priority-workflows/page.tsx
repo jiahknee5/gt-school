@@ -22,24 +22,24 @@ interface Workflow {
 
 const TONE: Record<WorkflowTone, { pill: string; rail: string; node: string }> = {
   blue: {
-    pill: "bg-blue-soft text-blue",
-    rail: "border-blue-soft",
-    node: "bg-blue-soft text-blue",
+    pill: "bg-fill text-slate",
+    rail: "border-gold",
+    node: "bg-fill text-slate",
   },
   green: {
-    pill: "bg-green-soft text-green",
-    rail: "border-green-soft",
-    node: "bg-green-soft text-green",
+    pill: "bg-fill text-slate",
+    rail: "border-gold",
+    node: "bg-fill text-slate",
   },
   violet: {
-    pill: "bg-violet-soft text-violet",
-    rail: "border-violet-soft",
-    node: "bg-violet-soft text-violet",
+    pill: "bg-fill text-slate",
+    rail: "border-gold",
+    node: "bg-fill text-slate",
   },
   amber: {
-    pill: "bg-amber-soft text-amber",
-    rail: "border-amber-soft",
-    node: "bg-amber-soft text-amber",
+    pill: "bg-fill text-slate",
+    rail: "border-gold",
+    node: "bg-fill text-slate",
   },
   neutral: {
     pill: "bg-fill text-slate",
@@ -270,13 +270,13 @@ export default function PriorityWorkflowsPage() {
                 <td className="max-w-[220px] px-3 py-3 align-top leading-relaxed text-muted">{workflow.businessValue}</td>
                 <td className="max-w-[220px] px-3 py-3 align-top leading-relaxed text-muted">{workflow.technicalValue}</td>
                 <td className="px-3 py-3 align-top">
-                  <ChipList items={workflow.modules} tint="bg-blue-soft text-blue" />
+                  <ChipList items={workflow.modules} tint="border border-hairline bg-fill text-slate" />
                 </td>
                 <td className="px-3 py-3 align-top">
-                  <ChipList items={workflow.data} tint="bg-green-soft text-green" />
+                  <ChipList items={workflow.data} tint="border border-hairline bg-fill text-slate" />
                 </td>
                 <td className="px-3 py-3 align-top">
-                  <ChipList items={workflow.tech} tint="bg-violet-soft text-violet" />
+                  <ChipList items={workflow.tech} tint="border border-hairline bg-fill text-slate" />
                 </td>
               </tr>
             ))}
@@ -331,15 +331,15 @@ export default function PriorityWorkflowsPage() {
                   <div className="rounded-card border border-hairline bg-canvas p-3">
                     <p className="mono text-[10px] font-semibold uppercase tracking-[0.1em] text-label">Modules</p>
                     <div className="mt-2">
-                      <ChipList items={workflow.modules} tint="bg-blue-soft text-blue" />
+                      <ChipList items={workflow.modules} tint="border border-hairline bg-fill text-slate" />
                     </div>
                     <p className="mono mt-4 text-[10px] font-semibold uppercase tracking-[0.1em] text-label">Data</p>
                     <div className="mt-2">
-                      <ChipList items={workflow.data} tint="bg-green-soft text-green" />
+                      <ChipList items={workflow.data} tint="border border-hairline bg-fill text-slate" />
                     </div>
                     <p className="mono mt-4 text-[10px] font-semibold uppercase tracking-[0.1em] text-label">Tech</p>
                     <div className="mt-2">
-                      <ChipList items={workflow.tech} tint="bg-violet-soft text-violet" />
+                      <ChipList items={workflow.tech} tint="border border-hairline bg-fill text-slate" />
                     </div>
                   </div>
                 </div>
