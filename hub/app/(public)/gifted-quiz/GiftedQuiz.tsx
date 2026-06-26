@@ -10,6 +10,7 @@
 // idempotency key, rate-limited). The quiz is framed as a FIT SCREEN, not a gifted
 // verdict (Ortiz): the lowest bucket is "Keep exploring", never "not gifted".
 
+import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 type Scale = 1 | 2 | 3 | 4 | 5;
@@ -263,9 +264,15 @@ export function GiftedQuiz() {
     <div className="fixed inset-0 z-[60] overflow-y-auto bg-[linear-gradient(160deg,var(--paper)_0%,var(--paper)_55%,var(--fill)_100%)]">
       <div className="mx-auto w-full max-w-[560px] px-5 py-10 sm:py-14">
         <header className="flex items-center gap-2.5">
-          <span className="grid h-8 w-8 place-items-center rounded-card bg-gold text-[13px] font-bold text-white">
-            GT
-          </span>
+          <Image
+            src="/gt-icon.svg"
+            alt="GT School"
+            width={32}
+            height={32}
+            priority
+            unoptimized
+            className="h-8 w-8"
+          />
           <span className="text-[15px] font-semibold text-ink">GT Anywhere</span>
         </header>
 
@@ -460,6 +467,18 @@ export function GiftedQuiz() {
             </p>
           </form>
         )}
+
+        <footer className="mt-10 border-t border-hairline pt-5 text-center text-[11px] leading-relaxed text-label">
+          GT Anywhere is the accredited K–8 virtual school from{" "}
+          <a href="https://gt.school" className="font-semibold text-muted underline-offset-2 hover:underline">
+            GT School
+          </a>
+          , part of the{" "}
+          <a href="https://alpha.school" className="font-semibold text-muted underline-offset-2 hover:underline">
+            Alpha School
+          </a>{" "}
+          family of microschools — powered by 2 Hour Learning.
+        </footer>
       </div>
     </div>
   );

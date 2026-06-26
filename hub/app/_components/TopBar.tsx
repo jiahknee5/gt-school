@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
@@ -45,11 +46,20 @@ export function TopBar({
   return (
     <header className="sticky top-0 z-30 border-b border-hairline bg-topbar/95 backdrop-blur">
       <div className="flex min-h-[58px] items-center gap-3 px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex shrink-0 items-center gap-2">
-          <span className="grid h-7 w-7 place-items-center rounded-card bg-gold text-[12px] font-bold text-white">
-            GT
+        <Link href="/" className="flex shrink-0 items-center gap-2" title="GT School Marketing Hub">
+          <Image
+            src="/gt-icon.svg"
+            alt="GT School"
+            width={28}
+            height={28}
+            priority
+            unoptimized
+            className="h-7 w-7"
+          />
+          <span className="flex items-baseline gap-1.5">
+            <span className="text-[14px] font-semibold text-ink">GT School</span>
+            <span className="hidden text-[13px] font-medium text-muted sm:inline">Marketing Hub</span>
           </span>
-          <span className="text-[14px] font-semibold text-ink">Marketing Hub</span>
         </Link>
 
         <div className="hidden h-7 w-px bg-hairline lg:block" />

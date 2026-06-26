@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { DEV_MODE } from "@/lib/auth";
 import { DEMO_USERS } from "@/lib/phase2";
@@ -28,11 +29,18 @@ export default async function LoginPage({
   return (
     <main className="grid min-h-[100dvh] place-items-center bg-canvas px-5 py-12">
       <div className="w-full max-w-[460px]">
-        <div className="flex items-center gap-2.5">
-          <span className="grid h-8 w-8 place-items-center rounded-card bg-gold text-[14px] font-bold text-ink shadow-sm">
-            GT
-          </span>
-          <span className="text-[16px] font-semibold text-ink">Marketing Hub</span>
+        <div className="flex items-center gap-3">
+          <Image
+            src="/gt-school-logo.svg"
+            alt="GT School"
+            width={139}
+            height={32}
+            priority
+            unoptimized
+            className="h-8 w-auto"
+          />
+          <span className="h-6 w-px bg-hairline" />
+          <span className="text-[15px] font-semibold text-muted">Marketing Hub</span>
         </div>
 
         <h1 className="mt-6 font-serif text-[28px] font-semibold leading-tight text-ink">
@@ -77,6 +85,28 @@ export default async function LoginPage({
             for local development, or connect a real IdP.
           </p>
         )}
+
+        <p className="mt-10 border-t border-hairline pt-5 text-[12px] leading-relaxed text-label">
+          Internal marketing operations workspace for{" "}
+          <a
+            href="https://gt.school"
+            target="_blank"
+            rel="noreferrer"
+            className="font-semibold text-muted underline-offset-2 hover:underline"
+          >
+            GT School
+          </a>{" "}
+          — a K–8 microschool for gifted learners in the{" "}
+          <a
+            href="https://alpha.school"
+            target="_blank"
+            rel="noreferrer"
+            className="font-semibold text-muted underline-offset-2 hover:underline"
+          >
+            Alpha School
+          </a>{" "}
+          family, powered by 2 Hour Learning.
+        </p>
       </div>
     </main>
   );

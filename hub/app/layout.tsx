@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
-import { Inconsolata, Inter, Literata } from "next/font/google";
+import { Inconsolata, Inter_Tight, Literata } from "next/font/google";
 import { Suspense } from "react";
 import "./globals.css";
 import { Sidebar } from "./_components/Sidebar";
 import { TopBar } from "./_components/TopBar";
 import { DEV_MODE, getSession } from "@/lib/auth";
 
-const inter = Inter({
+// gt.school body face is Inter Tight (Webflow --font-family--body). Kept under the
+// existing --font-inter variable so globals.css / every component stays untouched.
+const inter = Inter_Tight({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-inter",

@@ -2,16 +2,22 @@
 
 /* =========================================================================
    GT Marketing Hub - Analog Futurism product tokens.
-   PRD colors override the earlier Attio-neutral shell.
+   Token VALUES are remapped to the real gt.school brand palette
+   (Webflow brand vars, gt-school-2026.webflow.shared.css):
+     --brand--navy-dark #001117 · --brand--navy #002a3a
+     --brand--blue-dark #003b5c · --brand--blue #004f71
+     --brand--orange   #e48b53 · --brand--gold-light #ebba9b
+     --brand--gold-lighter #f5ddcd · --brand--gold-lightest #f8e8de
+   Token NAMES are unchanged so every component keeps working.
    ========================================================================= */
 
 :root {
-  --paper: #faf7f2;
-  --surface: #fffdf8;
-  --canvas: #faf7f2;
+  --paper: #fcf4ef;
+  --surface: #fffefb;
+  --canvas: #fcf4ef;
   --side: #f5ddcd;
-  --topbar: #fffdf8;
-  --hover: #f9eadf;
+  --topbar: #fffefb;
+  --hover: #f8e8de;
   --ink: #002a3a;
   --slate: #003b5c;
   --muted: #496779;
@@ -31,7 +37,7 @@
   --green-soft: #e2eee9;
   --red: #a94334;
   --red-soft: #f4ddd6;
-  --blue: #003b5c;
+  --blue: #004f71;
   --blue-soft: #dce9ef;
   --sh-sm: 0 1px 2px rgba(0, 42, 58, 0.08);
   --sh-lg: 0 1px 2px rgba(0, 42, 58, 0.08), 0 28px 70px -36px rgba(0, 42, 58, 0.3);
@@ -39,13 +45,15 @@
 }
 
 .dark {
-  --paper: #061721;
-  --surface: #0b2230;
-  --canvas: #061721;
-  --side: #09202d;
-  --topbar: #0b2230;
-  --hover: #103047;
-  --ink: #faf7f2;
+  /* Dark shell anchored on the gt.school brand navy: navy-dark #001117 base,
+     navy #002a3a panels. Warm cream ink keeps the brand feel after dark. */
+  --paper: #001117;
+  --surface: #002a3a;
+  --canvas: #001117;
+  --side: #04141d;
+  --topbar: #002a3a;
+  --hover: #0a3148;
+  --ink: #fcf4ef;
   --slate: #e9d9cd;
   --muted: #acc0ca;
   --label: #7891a0;
