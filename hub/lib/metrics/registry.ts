@@ -67,6 +67,14 @@ export function weekMondays(weeks = SPRINT_WEEKS): string[] {
   return Array.from({ length: weeks }, (_, w) => iso(start + w * 7 * DAY).slice(0, 10));
 }
 
+/** Default reporting week: the current Monday in the sprint window, clamped to bounds. */
+export function defaultReportingWeek(now: number | Date = Date.now(), weeks = SPRINT_WEEKS): string {
+  const mondays = weekMondays(weeks);
+  const t = typeof now === "number" ? now : now.getTime();
+  const idx = Math.floor((t - Date.parse(SPRINT_START)) / (7 * DAY));
+  return mondays[Math.min(Math.max(idx, 0), mondays.length - 1)];
+}
+
 /** Week index (0..weeks-1) for a timestamp, or -1 if outside the window. */
 export function weekIndexOf(isoTs: string | null, weeks = SPRINT_WEEKS): number {
   if (!isoTs) return -1;

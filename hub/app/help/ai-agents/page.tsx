@@ -149,7 +149,7 @@ export default async function AiAgentsHelpPage({
           </h1>
           <p className="mt-3 max-w-[720px] text-[15px] leading-relaxed text-muted">
             Role-aware operating agents for GT marketing. Answers are read-only, cited, de-identified,
-            and grounded in the Hub's source-of-truth rules before they recommend a business action.
+            and grounded in the Hub&apos;s source-of-truth rules before they recommend a business action.
           </p>
         </div>
         <div className="rounded-card border border-hairline bg-surface px-3 py-2">
@@ -236,4 +236,3 @@ export default async function AiAgentsHelpPage({
     </div>
   );
 }
-

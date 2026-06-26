@@ -457,6 +457,7 @@ export function GiftedQuiz() {
 
             <button
               type="submit"
+              data-tour="tour-gtc-quiz"
               disabled={!canSubmit}
               className="mt-4 h-11 w-full rounded-card bg-ink-cta text-[14px] font-semibold text-on-cta shadow-sm transition-colors hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-50"
             >

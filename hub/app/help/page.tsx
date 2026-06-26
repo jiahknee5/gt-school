@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { guidesByCategory, GUIDES } from "@/lib/help/guides";
+import { TourButton } from "@/app/_components/TourButton";
 
 export const metadata = {
   title: "Help & user guides - GT Marketing Hub",
@@ -86,40 +87,46 @@ export default function HelpIndex() {
             {group.category}
           </p>
           <div className="mt-4 grid grid-cols-1 gap-3.5 lg:grid-cols-2">
-            {group.guides.map((g) => (
-              <Link
-                key={g.slug}
-                href={`/help/${g.slug}`}
-                className="group flex flex-col rounded-card border border-hairline bg-surface p-5 shadow-sm transition-colors hover:border-gold"
-              >
-                <div className="flex items-start justify-between gap-3">
-                  <h2 className="text-[15px] font-semibold leading-snug text-ink group-hover:text-gold">
-                    {g.title}
-                  </h2>
-                  <span
-                    className={`mono shrink-0 rounded-[6px] px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-[0.06em] ${
-                      CATEGORY_TINT[g.category] ?? "bg-fill text-slate"
-                    }`}
-                  >
-                    {g.steps.length} steps
-                  </span>
-                </div>
-                <p className="mt-2 flex-1 text-[13px] leading-relaxed text-muted">{cleanCopy(g.objective)}</p>
-                <div className="mt-3 flex flex-wrap gap-1.5">
-                  {g.modules.slice(0, 5).map((m) => (
-                    <span key={m} className="mono rounded-[5px] bg-fill px-1.5 py-0.5 text-[10px] text-slate">
-                      {m}
-                    </span>
-                  ))}
-                  {g.modules.length > 5 && (
-                    <span className="mono px-1 py-0.5 text-[10px] text-label">+{g.modules.length - 5}</span>
-                  )}
-                </div>
-                {g.fromSpec && (
-                  <p className="mono mt-3 text-[10px] uppercase tracking-[0.08em] text-gold">From the spec</p>
-                )}
-              </Link>
-            ))}
+            {group.guides.map((g) => {
+              const tint = CATEGORY_TINT[g.category] ?? "bg-fill text-slate";
+
+              return (
+                <article
+                  key={g.slug}
+                  className="flex flex-col rounded-card border border-hairline bg-surface shadow-sm transition-colors hover:border-gold"
+                >
+                  <Link href={`/help/${g.slug}`} className="group flex flex-1 flex-col p-5">
+                    <div className="flex items-start justify-between gap-3">
+                      <h2 className="text-[15px] font-semibold leading-snug text-ink group-hover:text-gold">
+                        {g.title}
+                      </h2>
+                      <span
+                        className={`mono shrink-0 rounded-[6px] px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-[0.06em] ${tint}`}
+                      >
+                        {g.steps.length} steps
+                      </span>
+                    </div>
+                    <p className="mt-2 flex-1 text-[13px] leading-relaxed text-muted">{cleanCopy(g.objective)}</p>
+                    <div className="mt-3 flex flex-wrap gap-1.5">
+                      {g.modules.slice(0, 5).map((m) => (
+                        <span key={m} className="mono rounded-[5px] bg-fill px-1.5 py-0.5 text-[10px] text-slate">
+                          {m}
+                        </span>
+                      ))}
+                      {g.modules.length > 5 && (
+                        <span className="mono px-1 py-0.5 text-[10px] text-label">+{g.modules.length - 5}</span>
+                      )}
+                    </div>
+                    {g.fromSpec && (
+                      <p className="mono mt-3 text-[10px] uppercase tracking-[0.08em] text-gold">From the spec</p>
+                    )}
+                  </Link>
+                  <div className="border-t border-hairline px-5 py-2.5">
+                    <TourButton slug={g.slug} />
+                  </div>
+                </article>
+              );
+            })}
           </div>
         </section>
       ))}

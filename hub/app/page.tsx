@@ -254,11 +254,13 @@ export default async function Home() {
               value={`${percent.format(confidence.overallPct)}%`}
               note={`${confidence.below.length} fields below threshold`}
             />
-            <MetricTile
-              label="GT Challenge CPQL"
-              value={challenge.costPerQualifiedLead ? money.format(challenge.costPerQualifiedLead) : "n/a"}
-              note={`${challenge.qualifiedLeads} CRM-qualified leads from ${challenge.platformLeads} platform leads`}
-            />
+            <div data-tour="tour-gtc-kpi">
+              <MetricTile
+                label="GT Challenge CPQL"
+                value={challenge.costPerQualifiedLead ? money.format(challenge.costPerQualifiedLead) : "n/a"}
+                note={`${challenge.qualifiedLeads} CRM-qualified leads from ${challenge.platformLeads} platform leads`}
+              />
+            </div>
           </div>
         </div>
       </section>

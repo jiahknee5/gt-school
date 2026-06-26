@@ -19,7 +19,7 @@ import { DataConfidenceBanner } from "@/app/_components/DataConfidenceBanner";
 import { buildScorecard } from "@/lib/dashboard/scorecard";
 import { buildPacing } from "@/lib/dashboard/pacing";
 import { canEditGoal } from "@/lib/dashboard/goals";
-import { weekMondays } from "@/lib/metrics/registry";
+import { defaultReportingWeek, weekMondays } from "@/lib/metrics/registry";
 import { fmtValue, MetricTile, statusTone } from "./_components/primitives";
 import { Scorecard } from "./_components/Scorecard";
 import { Trends } from "./_components/Trends";
@@ -67,7 +67,7 @@ export default async function DashboardPage({
   const banner = seedBannerState(ds.field_state, thresholdPct);
 
   const weeks = weekMondays();
-  const selectedWeek = query.week && weeks.includes(query.week) ? query.week : weeks[weeks.length - 1];
+  const selectedWeek = query.week && weeks.includes(query.week) ? query.week : defaultReportingWeek();
   const scorecard = buildScorecard(ds, selectedWeek);
   const pacing = buildPacing(ds, selectedWeek);
   const editable = canEditGoal(viewer.role);
@@ -165,7 +165,7 @@ export default async function DashboardPage({
 
             <div className="flex flex-wrap items-center gap-2">
               <span className="mono text-[10px] font-semibold text-label">Week of:</span>
-              {weeks.slice(-6).map((w) => (
+              {weeks.map((w) => (
                 <Link
                   key={w}
                   href={tabHref(activeTab, w)}

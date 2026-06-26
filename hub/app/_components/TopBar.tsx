@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useId, useMemo, useState, type ChangeEvent } from "react";
+import { defaultReportingWeek, weekMondays } from "@/lib/metrics/registry";
 import { MODULES, moduleHref } from "@/lib/modules";
 import { DEMO_USERS, type Role } from "@/lib/phase2";
 import { HomeWidgetPicker } from "./HomeWidgetPicker";
@@ -26,6 +27,86 @@ function switchRoleHref(pathname: string, role: string) {
   return `/api/auth/login?role=${role}&next=${encodeURIComponent(pathname)}`;
 }
 
+function formatWeekLabel(week: string): string {
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    timeZone: "UTC",
+  }).format(new Date(`${week}T00:00:00.000Z`));
+}
+
+function WeekContextControl({
+  compact = false,
+  days,
+  onChange,
+  selectedWeek,
+  weeks,
+}: {
+  compact?: boolean;
+  days: number;
+  onChange: (week: string) => void;
+  selectedWeek: string;
+  weeks: string[];
+}) {
+  const controlId = useId();
+  const helpId = `${controlId}-help`;
+  const selectId = `${controlId}-select`;
+  const helpText =
+    "Choose the Monday-starting reporting week used by the Dashboard scorecard, Home widgets, and week-aware recommendations. Module calendars can still use their own date filters.";
+
+  return (
+    <div className={`group relative flex shrink-0 items-center gap-2 ${compact ? "" : "min-w-0"}`}>
+      <label
+        htmlFor={selectId}
+        className="mono shrink-0 text-[11px] font-semibold uppercase tracking-[0.1em] text-label"
+      >
+        Week of
+      </label>
+      <select
+        id={selectId}
+        aria-describedby={helpId}
+        value={selectedWeek}
+        onChange={(event: ChangeEvent<HTMLSelectElement>) => onChange(event.target.value)}
+        title={helpText}
+        className="h-8 shrink-0 rounded-card border border-border bg-canvas px-2 text-[12px] font-semibold text-ink"
+      >
+        {weeks.map((week) => (
+          <option key={week} value={week}>
+            {formatWeekLabel(week)}
+          </option>
+        ))}
+      </select>
+      <span
+        className="mono shrink-0 rounded-card bg-fill px-2 py-1 text-[11px] font-semibold text-slate"
+        title="Days remaining until the August 17 Fall enrollment cutoff."
+      >
+        {days} days to cutoff
+      </span>
+      <span
+        tabIndex={0}
+        aria-label="How the weekly reporting selector is used"
+        aria-describedby={helpId}
+        className="grid h-6 w-6 shrink-0 place-items-center rounded-full border border-hairline bg-canvas text-[11px] font-bold text-muted outline-none transition-colors hover:text-ink focus:text-ink focus:ring-2 focus:ring-gold/40"
+      >
+        i
+      </span>
+      <span
+        id={helpId}
+        role="tooltip"
+        className={`pointer-events-none invisible z-50 rounded-card border border-hairline bg-surface p-3 text-[11px] leading-snug text-muted opacity-0 shadow-lg transition-opacity group-hover:visible group-hover:opacity-100 group-focus-within:visible group-focus-within:opacity-100 ${
+          compact
+            ? "fixed left-3 right-3 top-[104px]"
+            : "absolute left-0 top-[calc(100%+8px)] w-[310px]"
+        }`}
+      >
+        <span className="block font-semibold text-ink">Weekly reporting context</span>
+        <span className="mt-1 block">{helpText}</span>
+      </span>
+    </div>
+  );
+}
+
 export function TopBar({
   viewer,
   devMode,
@@ -34,14 +115,28 @@ export function TopBar({
   devMode: boolean;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [dark, setDark] = useState(false);
   const isHome = pathname === "/";
   const days = useMemo(() => daysToCutoff(), []);
+  const weeks = useMemo(() => weekMondays(), []);
+  const selectedWeek =
+    searchParams.get("week") && weeks.includes(searchParams.get("week") ?? "")
+      ? searchParams.get("week") ?? defaultReportingWeek()
+      : defaultReportingWeek();
   const visibleModules = MODULES.filter((module) => !module.leaderOnly || viewer?.role === "leader");
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
   }, [dark]);
+
+  function setReportingWeek(week: string) {
+    const params = new URLSearchParams(searchParams.toString());
+    params.set("week", week);
+    const query = params.toString();
+    router.push(query ? `${pathname}?${query}` : pathname);
+  }
 
   return (
     <header className="sticky top-0 z-30 border-b border-hairline bg-topbar/95 backdrop-blur">
@@ -65,17 +160,12 @@ export function TopBar({
         <div className="hidden h-7 w-px bg-hairline lg:block" />
 
         <div className="hidden min-w-0 items-center gap-2 lg:flex">
-          <p className="mono text-[11px] font-semibold uppercase tracking-[0.1em] text-label">
-            Week of
-          </p>
-          <select className="h-8 rounded-card border border-border bg-canvas px-2 text-[12px] font-semibold text-ink">
-            <option>Jun 29, 2026</option>
-            <option>Jul 6, 2026</option>
-            <option>Jul 13, 2026</option>
-          </select>
-          <span className="mono rounded-card bg-fill px-2 py-1 text-[11px] font-semibold text-slate">
-            {days} days to cutoff
-          </span>
+          <WeekContextControl
+            days={days}
+            onChange={setReportingWeek}
+            selectedWeek={selectedWeek}
+            weeks={weeks}
+          />
         </div>
 
         <div className="ml-auto flex min-w-0 items-center gap-2">
@@ -134,17 +224,13 @@ export function TopBar({
       </div>
 
       <div className="flex items-center gap-2 overflow-x-auto border-t border-hairline px-3 py-2 lg:hidden">
-        <p className="mono shrink-0 text-[10px] font-semibold uppercase tracking-[0.1em] text-label">
-          Week of
-        </p>
-        <select className="h-8 shrink-0 rounded-card border border-border bg-canvas px-2 text-[12px] font-semibold text-ink">
-          <option>Jun 29, 2026</option>
-          <option>Jul 6, 2026</option>
-          <option>Jul 13, 2026</option>
-        </select>
-        <span className="mono shrink-0 rounded-card bg-fill px-2 py-1 text-[11px] font-semibold text-slate">
-          {days} days to cutoff
-        </span>
+        <WeekContextControl
+          compact
+          days={days}
+          onChange={setReportingWeek}
+          selectedWeek={selectedWeek}
+          weeks={weeks}
+        />
         {viewer && (
           <span className="mono shrink-0 text-[10px] text-label">
             {viewer.name}

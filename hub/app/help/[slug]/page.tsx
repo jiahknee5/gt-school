@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { GUIDES, guideBySlug } from "@/lib/help/guides";
+import { TourButton } from "@/app/_components/TourButton";
 
 export function generateStaticParams() {
   return GUIDES.map((g) => ({ slug: g.slug }));
@@ -62,6 +63,13 @@ export default async function GuidePage({
         {guide.title}
       </h1>
       <p className="mt-1.5 text-[12px] leading-snug text-muted">{cleanCopy(guide.objective)}</p>
+
+      <div className="mt-3 flex items-center gap-2">
+        <TourButton slug={guide.slug} label="Start interactive walkthrough" />
+        <span className="text-[10px] text-label">
+          Walks you through the live Hub, step by step.
+        </span>
+      </div>
 
       {guide.fromSpec && (
         <div className="mt-3 rounded-card border border-gold bg-fill px-3 py-2.5 text-[11px] leading-snug text-ink">

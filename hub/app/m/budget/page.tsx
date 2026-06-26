@@ -147,7 +147,11 @@ export default async function BudgetPage({
               })}
             </nav>
 
-            {activeTab === "table" && <BudgetTable recon={recon} viewer={viewer} />}
+            {activeTab === "table" && (
+              <div data-tour="tour-gtc-budget">
+                <BudgetTable recon={recon} viewer={viewer} />
+              </div>
+            )}
             {activeTab === "burn" && <BurnChart burn={burn} />}
             {activeTab === "spend" && <SpendByWorkstream slices={allocation} />}
             {activeTab === "variance" && (

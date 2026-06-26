@@ -18,6 +18,12 @@ export interface GuideStep {
   where: string;
   /** What the system does in response (the payoff / state change). */
   result: string;
+  /** Why this step matters — the rationale shown in the interactive product tour. */
+  why?: string;
+  /** Route the interactive tour navigates to before showing this step. */
+  href?: string;
+  /** data-tour anchor the interactive tour spotlights (matches data-tour="..."). */
+  target?: string;
 }
 
 export interface Guide {
@@ -114,10 +120,10 @@ export const GUIDES: Guide[] = [
     modules: ["Budget", "CRM Ops", "Nurture", "Admissions", "Dashboard / KPI"],
     trigger: "GT decides to publish a gifted-style quiz on social as a lead magnet.",
     steps: [
-      { do: "Create the Challenge as a campaign with spend that rolls into a budget workstream.", where: "Budget · Budget table (grassroots workstream)", result: "Spend reconciles into the $365K plan under the same rules as every line." },
-      { do: "Publish the public quiz; a parent submits with consent and UTM captured.", where: "Public surface · /gifted-quiz", result: "A submission is stored, deduped, and becomes a lead in the CRM with its UTM intact." },
-      { do: "Let the program auto-score each submission and bucket the child.", where: "Assessment (AI grader)", result: "Each submission is scored once (no double-count); qualified fits route into the admissions funnel." },
-      { do: "Read the Challenge KPI row — spend, submissions, qualified, cost-per-qualified-lead — next to other channels.", where: "Dashboard / KPI + Home widget", result: "CPQL is a measured number, optionally enriched with Open Data." },
+      { do: "Create the Challenge as a campaign with spend that rolls into a budget workstream.", where: "Budget · Budget table (grassroots workstream)", result: "Spend reconciles into the $365K plan under the same rules as every line.", why: "Campaign dollars have to live inside a workstream so the $365K plan stays whole — no off-book marketing spend.", href: "/m/budget", target: "tour-gtc-budget" },
+      { do: "Publish the public quiz; a parent submits with consent and UTM captured.", where: "Public surface · /gifted-quiz", result: "A submission is stored, deduped, and becomes a lead in the CRM with its UTM intact.", why: "This is the capture point — consent and UTM collected here are what make the lead lawful to keep and attributable later.", href: "/gifted-quiz", target: "tour-gtc-quiz" },
+      { do: "Let the program auto-score each submission and bucket the child.", where: "Assessment (AI grader)", result: "Each submission is scored once (no double-count); qualified fits route into the admissions funnel.", why: "Scoring runs automatically in the background — exactly once per submission — so a child is never double-counted and it stays a fit screen, not a gifted verdict." },
+      { do: "Read the Challenge KPI row — spend, submissions, qualified, cost-per-qualified-lead — next to other channels.", where: "Dashboard / KPI + Home widget", result: "CPQL is a measured number, optionally enriched with Open Data.", why: "CPQL is computed (spend ÷ qualified), so the Challenge is judged on the same cost-per-lead basis as every other channel — never a placeholder.", href: "/", target: "tour-gtc-kpi" },
     ],
     success: [
       "A submission propagates capture → lead → assessment → KPI in one motion.",

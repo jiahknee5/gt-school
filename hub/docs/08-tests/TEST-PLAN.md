@@ -64,13 +64,13 @@ Source of truth: `lib/dev/usecases.ts` (`useCaseCounts()`), surfaced live at `/d
 |---|---|---|---|
 | Phase 1 · Backbone | 8 | 1 | 0 |
 | Test data | 8 | 0 | 0 |
-| Phase 2 · Product | 10 | 0 | 0 |
+| Phase 2 · Product | 11 | 0 | 0 |
 | Spec · Marketing Hub | 14 | 0 | 0 |
 | Demo signal | 8 | 0 | 0 |
-| **Total** | **48** | **1** | **0** |
+| **Total** | **49** | **1** | **0** |
 
 `npm run test:ci` (pure gate): green, no keys, < 5s. Latest pure gate:
-28 files, 374 passed, 0 todo. `tests/brief-usecases.test.ts`: all `covered`
+30 files, 385 passed, 0 todo. `tests/brief-usecases.test.ts`: all `covered`
 catalog entries are proven; there are currently no `pending` catalog entries.
 
 ## 4. Prioritized backlog
@@ -91,6 +91,8 @@ catalog entries are proven; there are currently no `pending` catalog entries.
   store; add the DB migration/transactional adapter and HubSpot outbox handoff before claiming live persistence.
 - **Decision Queue workflow remainder**: Leader approve/reject/need-info persistence, immutable audit history,
   and submitter own-status are covered; notification and source-link propagation remain.
+- **Ask-the-Hub hardening**: role-aware deterministic agents and `/api/ask` are covered; add persisted ask
+  audit rows and optional live LLM summarization after the pure demo path.
 - Wire **`npm run verify`** (build + lint + test:ci) into a PR check / pre-push hook. *(Noor — T7)*
 
 **P2 — hardening:**
