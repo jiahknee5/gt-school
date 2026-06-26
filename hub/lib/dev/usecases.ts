@@ -584,14 +584,14 @@ export const USE_CASES: UseCase[] = [
   },
 ];
 
-export function useCasesByPhase(): { phase: UseCasePhase; items: UseCase[] }[] {
+export function getUseCasesByPhase(): { phase: UseCasePhase; items: UseCase[] }[] {
   return UC_PHASES.map((phase) => ({
     phase,
     items: USE_CASES.filter((u) => u.phase === phase),
   })).filter((g) => g.items.length > 0);
 }
 
-export function useCaseCounts() {
+export function getUseCaseCounts() {
   const by = (s: UseCaseStatus) => USE_CASES.filter((u) => u.status === s).length;
   return {
     total: USE_CASES.length,

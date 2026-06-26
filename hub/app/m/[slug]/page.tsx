@@ -19,8 +19,9 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const module = moduleBySlug(slug);
-  return { title: module ? `${module.name} | GT Marketing Hub` : "GT Marketing Hub" };
+  const moduleDef = moduleBySlug(slug);
+  if (slug === "gt-challenge") return { title: "GT Challenge | GT Marketing Hub" };
+  return { title: moduleDef ? `${moduleDef.name} | GT Marketing Hub` : "GT Marketing Hub" };
 }
 
 function roleHref(slug: string, role: string) {
@@ -56,7 +57,7 @@ export default async function ModulePage({
 
   const dataset = generate({ seed: 424242, families: 1200 });
   const surface = buildModuleSurface(slug, dataset, query.role);
-  const module = moduleBySlug(slug);
+  const moduleDef = moduleBySlug(slug);
 
   return (
     <main className="min-h-[100dvh] bg-canvas">
@@ -68,7 +69,7 @@ export default async function ModulePage({
                 Home
               </Link>
               <p className="mono mt-4 text-[11px] font-semibold text-label">
-                {module ? `Module ${module.n}` : "Worked example"}
+                {moduleDef ? `Module ${moduleDef.n}` : "Worked example"}
               </p>
               <h1 className="mt-1 font-serif text-[34px] font-semibold leading-tight text-ink">
                 {surface.title}

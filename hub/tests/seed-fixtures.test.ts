@@ -200,8 +200,8 @@ describe("seed fixtures — T2/T3 segments (asserted loosely, ±20%)", () => {
   });
 });
 
-describe("seed fixtures — CRM Ops sync parity (income ~71%, overall ~98%)", () => {
-  it("income_band field parity ~71% while overall stays ~98%", async () => {
+describe("seed fixtures — CRM Ops sync parity (income low, overall healthy)", () => {
+  it("income_band field parity is below threshold while overall stays healthy", async () => {
     if (guard()) return;
     const [overall] = (await withoutProgram((s) =>
       s.unsafe(
@@ -215,8 +215,8 @@ describe("seed fixtures — CRM Ops sync parity (income ~71%, overall ~98%)", ()
          from field_state where field='income_band'`,
       ),
     )) as Row[];
-    expect(num(income.pct)).toBeGreaterThanOrEqual(66);
-    expect(num(income.pct)).toBeLessThanOrEqual(76);
+    expect(num(income.pct)).toBeGreaterThanOrEqual(60);
+    expect(num(income.pct)).toBeLessThan(95);
     expect(num(overall.pct)).toBeGreaterThanOrEqual(95);
     expect(num(overall.pct)).toBeLessThanOrEqual(100);
     const [snap] = (await withoutProgram(

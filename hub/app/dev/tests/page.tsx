@@ -2,8 +2,8 @@ import Link from "next/link";
 import { DevTabs } from "../_components/DevTabs";
 import { readTestResults, type UcStatus } from "@/lib/dev/test-results";
 import {
-  useCasesByPhase,
-  useCaseCounts,
+  getUseCasesByPhase,
+  getUseCaseCounts,
   type ServiceReq,
   type UseCase,
   type UseCaseStatus,
@@ -92,8 +92,8 @@ function UseCaseRow({ uc, run }: { uc: UseCase; run?: UcStatus }) {
 }
 
 export default async function DevTests() {
-  const counts = useCaseCounts();
-  const groups = useCasesByPhase();
+  const counts = getUseCaseCounts();
+  const groups = getUseCasesByPhase();
   const results = await readTestResults();
 
   return (
