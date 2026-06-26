@@ -49,7 +49,33 @@ export function GoalPacing({ rows, canEdit }: { rows: PacingRow[]; canEdit: bool
                     </div>
                     <p className="mt-0.5 text-[11px] text-muted">by {row.cutoffDate}</p>
                   </td>
-                  <td className="mono num py-2.5 pr-3 text-muted">{fmtValue(row.target, unit)}</td>
+                  <td className="py-2.5 pr-3">
+                    {canEdit ? (
+                      <form action="/api/dashboard/goals" method="post" className="flex items-center gap-1.5">
+                        <input type="hidden" name="kpi_key" value={row.key} />
+                        <label htmlFor={`goal-${row.key}`} className="sr-only">
+                          Target for {row.label}
+                        </label>
+                        <input
+                          id={`goal-${row.key}`}
+                          name="target_value"
+                          type="number"
+                          min="0"
+                          step={unit === "pct" ? "0.1" : "1"}
+                          defaultValue={row.target}
+                          className="mono num h-8 w-[92px] rounded-card border border-border bg-canvas px-2 text-[12px] text-ink outline-none focus:border-gold"
+                        />
+                        <button
+                          type="submit"
+                          className="h-8 rounded-card bg-ink-cta px-2.5 text-[11px] font-semibold text-on-cta transition-transform active:translate-y-px"
+                        >
+                          Save
+                        </button>
+                      </form>
+                    ) : (
+                      <span className="mono num text-muted">{fmtValue(row.target, unit)}</span>
+                    )}
+                  </td>
                   <td className="mono num py-2.5 pr-3 text-muted">{row.weeksLeft}</td>
                   <td className="mono num py-2.5 pr-3 text-ink">{fmtValue(row.requiredRunRate, unit)}</td>
                   <td className="mono num py-2.5 pr-3 text-ink">{fmtValue(row.actualRunRate, unit)}</td>

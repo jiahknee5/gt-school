@@ -4,13 +4,17 @@ Derived from the **two** governing documents: `hub/PRD/GT_Technical_Project_Brie
 and `hub/PRD/GT_Marketing_Hub_Spec.md`. This is the compliance matrix used to judge
 "are we done enough" and to sequence what's left.
 
+> **Historical baseline:** this file was the original intake review, written before the full
+> module build-out. For the current post-build status, use `docs/01-intake/PRD-CHECKLIST.md`.
+> Keep this file as the baseline rationale and sequencing record; do not treat its stale module
+> statuses as current evidence.
+
 **Legend** — **★ = hard / non-negotiable** (the brief's word) · Priority **P0** (must, scored heavily) /
 **P1** (important) / **P2** (optional, "noticed not scored") · Status **✅ done** · **🟡 partial** ·
 **⛔ missing** · **📄 specced only** (design exists in `docs/`, not built).
 
-> **Snapshot caveat:** the build is in flight across multiple sessions. Statuses below reflect the
-> repo at review time; Phase-1 backbone is largely landed, Phase-2 surfaces are mostly placeholders.
-> Re-check before submission.
+> **Snapshot caveat:** this baseline reflected the repo at original intake review time, when Phase-2
+> surfaces were mostly placeholders. The current post-build matrix is `PRD-CHECKLIST.md`.
 
 ---
 
@@ -99,8 +103,8 @@ Dashboard are the next highest-leverage.
 | Content / Admissions | Google-Sheet sync + AI; objection→content bridge | ⛔ placeholder | stub deliberately (P2) |
 | Field Events / Analytics / Library | manual/GA4/flat shelf | ⛔ placeholder | stub deliberately (P2) |
 
-All 13 module routes currently render the placeholder in `app/m/[slug]/page.tsx`. **Depth = 0 modules**
-today; backbone = strong. This is the headline completeness gap.
+At original intake review time, all 13 module routes rendered the placeholder in `app/m/[slug]/page.tsx`.
+That historical finding is superseded by `PRD-CHECKLIST.md`; keep it here only as the sequencing rationale.
 
 ## G. Cross-module rules (★ where they gate the demo)
 

@@ -30,10 +30,9 @@
 - Honesty discipline is correct: `covered` / `live` / `pending`, live skips without keys, nothing faked. *(Marcus — T6)*
 
 **Divergent (surfaced, not buried):**
-- *Pyramid shape.* The suite is heavy at data + integration and **empty at e2e/UI** — defensible today
-  (no UI built) but the four demo signals ultimately need a browser. Lena: stand up Playwright now as a
-  skipped scaffold; Priya: don't add an e2e harness before the screens exist. **Resolution:** track as
-  `it.todo` + P1 backlog; add Playwright when auth + one screen land.
+- *Pyramid shape.* The suite is heavy at data + integration and still **empty at browser e2e**. Server-rendered
+  pages and state helpers are covered, but the demo signals ultimately need Playwright or an equivalent
+  browser run. **Resolution:** keep the current pure gate honest; add Playwright before claiming e2e UI coverage.
 - *Live-test pollution risk.* Dana flags that live reconcile/payments mutate shared HubSpot/DB state; Sergei
   wants them quarantined from the pure gate. **Resolution:** already split — `test:ci` is pure-only; live
   files run via `test:live`/`test:backend`. Keep regenerating the `/dev/tests` report from the **pure set**
@@ -65,15 +64,14 @@ Source of truth: `lib/dev/usecases.ts` (`useCaseCounts()`), surfaced live at `/d
 |---|---|---|---|
 | Phase 1 · Backbone | 8 | 1 | 0 |
 | Test data | 8 | 0 | 0 |
-| Phase 2 · Product | 8 | 0 | 2 |
+| Phase 2 · Product | 9 | 0 | 1 |
 | Spec · Marketing Hub | 14 | 0 | 0 |
 | Demo signal | 7 | 1 | 0 |
-| **Total** | **45** | **2** | **2** |
+| **Total** | **46** | **2** | **1** |
 
 `npm run test:ci` (pure gate): green, no keys, < 5s. Latest pure gate:
-24 files, 337 passed, 2 todo. Latest full live-inclusive run:
-31 files, 374 passed, 2 todo. `tests/brief-usecases.test.ts`: all `covered`
-proven, all `pending` tracked as `it.todo`.
+25 files, 348 passed, 1 todo. `tests/brief-usecases.test.ts`: all `covered`
+proven, the remaining `pending` use case is tracked as `it.todo`.
 
 ## 4. Prioritized backlog
 
@@ -87,11 +85,12 @@ proven, all `pending` tracked as `it.todo`.
   actual navigation/session flow. → `tests/frontend/`.
 - **Production auth gap**: signed demo sessions and route/API RBAC are covered, but Supabase Auth account
   provisioning and real identity lifecycle remain pending under `UC-P2-AUTH-ROLES`.
-- **Home UI controls**: picker, drag/reorder board, and client save loop on top of the covered layout API.
+- **Browser workflow coverage**: Home picker state + API persistence are covered, but add Playwright before
+  claiming browser-level drag/reorder/save coverage.
 - **GT Challenge persistence**: public quiz ingest, idempotency key, stored lead, HubSpot outbox handoff.
-- **Decision Queue workflow remainder**: Leader approve/reject/need-info persistence is covered; submitter
-  own-status, immutable audit history, notification, and source-link propagation remain.
-- Wire **`npm run verify`** (build + lint + test) into a PR check / pre-push hook. *(Noor — T7)*
+- **Decision Queue workflow remainder**: Leader approve/reject/need-info persistence and submitter own-status
+  are covered; immutable audit history, notification, and source-link propagation remain.
+- Wire **`npm run verify`** (build + lint + test:ci) into a PR check / pre-push hook. *(Noor — T7)*
 
 **P2 — hardening:**
 - **Flake audit:** run the pure suite repeatedly + shuffled file order; assert byte-stable. *(Sergei — T2)*

@@ -1,4 +1,6 @@
-import { describe, expect, it } from "vitest";
+import { renderToStaticMarkup } from "react-dom/server";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { DEMO_USERS } from "@/lib/phase2";
 import type { Decision } from "@/lib/seed/types";
 import {
   activeDecisions,
@@ -11,6 +13,15 @@ import {
   submittedBy,
   visibleToRole,
 } from "@/lib/decisions/queries";
+import { decisionStatusHref, decisionStatusLabel } from "@/lib/decisions/routes";
+
+const authMock = vi.hoisted(() => ({
+  getSession: vi.fn(),
+}));
+
+vi.mock("@/lib/auth", () => authMock);
+
+const { default: SubmissionsPage } = await import("@/app/m/submissions/page");
 
 function decision(overrides: Partial<Decision>): Decision {
   return {
@@ -123,6 +134,14 @@ describe("Decision Queue read helpers", () => {
     expect(operatorView.some((d) => d.id === openUrgent.id)).toBe(false);
   });
 
+  it("routes submitters to own-status, not the Leader-only queue", () => {
+    expect(decisionStatusHref("leader")).toBe("/m/decisions");
+    expect(decisionStatusLabel("leader")).toBe("Decision Queue");
+    expect(decisionStatusHref("operator")).toBe("/m/submissions");
+    expect(decisionStatusLabel("operator")).toBe("My submissions");
+    expect(decisionStatusHref("admin")).toBe("/m/submissions");
+  });
+
   it("labels and tones outcomes for both queue + own-status", () => {
     expect(outcomeLabel(openUrgent)).toBe("Open");
     expect(outcomeTone(openUrgent)).toBe("risk");
@@ -135,5 +154,41 @@ describe("Decision Queue read helpers", () => {
     const rejected = decision({ status: "decided", response: "reject" });
     expect(outcomeLabel(rejected)).toBe("Rejected");
     expect(outcomeTone(rejected)).toBe("risk");
+  });
+});
+
+async function renderSubmissionsFor(title: string): Promise<string> {
+  const user = DEMO_USERS.find((u) => u.title === title);
+  if (!user) throw new Error(`Missing demo user: ${title}`);
+  authMock.getSession.mockResolvedValueOnce(user);
+  return renderToStaticMarkup(await SubmissionsPage());
+}
+
+describe("My submissions status view", () => {
+  afterEach(() => {
+    authMock.getSession.mockReset();
+  });
+
+  it("shows an Operator only their own decision statuses and leadership responses", async () => {
+    const html = await renderSubmissionsFor("Content Owner");
+
+    expect(html).toContain("My submissions");
+    expect(html).toContain("Signed in as Content Owner");
+    expect(html).toContain("Add a 4th summer session at Austin");
+    expect(html).toContain("Confirm guide availability before committing.");
+    expect(html).toContain("Approved; ship to the nurture sequence.");
+    expect(html).not.toContain("Approve $18K guerrilla bet");
+    expect(html).not.toContain("Guerrilla workstream is 12% over plan");
+    expect(html).not.toContain("Launch a T3 ESA-ineligible out-of-pocket nurture sequence");
+  });
+
+  it("does not expose full-queue links or ruling controls", async () => {
+    const html = await renderSubmissionsFor("Content Owner");
+
+    expect(html).not.toContain('href="/m/decisions"');
+    expect(html).not.toContain("/api/decisions/");
+    expect(html).not.toContain("Why this ruling");
+    expect(html).not.toContain("Need more info");
+    expect(html).not.toContain("Reject");
   });
 });

@@ -24,6 +24,7 @@ The suite is organized on **two axes** — and they are not the same axis:
 | `home-layout.test.ts` | backend | pure | — | Home saved layout normalization, per-session GET/PUT persistence, and spoofed user-id denial |
 | `rbac.test.ts` | backend | pure | — | Signed demo sessions, route policy, middleware denial, token integrity/expiry |
 | `module-routes.test.ts` | frontend | pure | — | Server-rendered Home/Budget/CRM/Decision Queue demo surfaces |
+| `home-widget-picker.test.ts` | frontend | pure | — | Home widget picker search, add/remove, reorder, and save payload state |
 | `dashboard.test.ts` | frontend | pure | — | Dashboard/KPI route, shared scorecard, goal RBAC, freshness, and rendered sub-views |
 | `nurture.test.ts` | frontend | pure | — | Nurture lifecycle metrics, SMS/PII gates, SLA, segments, and rendered sub-views |
 | `grassroots.test.ts` | frontend | pure | — | Grassroots ambassador reconciliation, referral metrics, market map, cross-links, and rendered sub-views |
@@ -51,11 +52,15 @@ npm test            # everything (live files skip without keys)
 npm run test:ci     # pure only — the no-keys gate (fast, deterministic, green)
 npm run test:data       # data domain (incl. the live seed-fixtures check)
 npm run test:backend    # sync engine, payments, DB, RLS
-npm run test:e2e        # cross-cutting brief use cases
+npm run test:scenarios  # cross-cutting brief use cases
 npm run test:frontend   # server-rendered route surfaces
 npm run test:live       # only the service-backed files
 npm run test:report     # write seed-data/test-results.json for /dev/tests
 ```
+
+There is no browser `test:e2e` script yet. The scenario suite is Vitest-based
+contract coverage; add Playwright/browser tests before claiming end-to-end UI
+coverage.
 
 The in-app **Test Theater** (`/dev/tests`) renders this layout plus the brief-use-case
 coverage matrix; the source of truth for both is `lib/dev/suites.ts` and `lib/dev/usecases.ts`.

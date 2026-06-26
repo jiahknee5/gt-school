@@ -158,5 +158,8 @@ describe("Events · rendered sub-views", () => {
     const html = await render("proposals", "operator");
     expect(html).toContain("Priority event proposals");
     expect(html).toContain("submit-only");
+    expect(html).toContain('href="/m/submissions"');
+    expect(html).toContain("My submissions");
+    expect(html).not.toContain('href="/m/decisions"');
   });
 });

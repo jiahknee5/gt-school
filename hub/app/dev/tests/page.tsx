@@ -207,7 +207,7 @@ export default async function DevTests() {
           ["npm test", "Run the whole suite (live cases skip without keys)."],
           ["npx vitest run tests/brief-usecases.test.ts", "Just the brief use cases (pure, always green)."],
           ["npm run test:report", "Write seed-data/test-results.json to light up this page."],
-          ["npm run verify", "build + lint + test — the full pre-submission gate."],
+          ["npm run verify", "build + lint + test:ci — the reproducible pre-submission gate."],
         ].map(([cmd, what]) => (
           <div key={cmd} className="flex flex-col gap-1 border-b border-hairline px-4 py-3 last:border-0 sm:flex-row sm:items-center sm:gap-4">
             <code className="mono shrink-0 text-[12px] text-ink sm:w-[380px]">{cmd}</code>

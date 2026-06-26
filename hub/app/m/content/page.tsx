@@ -17,6 +17,7 @@ import { contentToConversion, channelConversionShare, xConversionRatio } from "@
 import { channelPerformance, MANUAL_AUDIENCE } from "@/lib/content/metrics";
 import { defaultAuditor } from "@/lib/content/brand-voice";
 import { seedSyncStates } from "@/lib/content/sync";
+import { decisionStatusHref, decisionStatusLabel } from "@/lib/decisions/routes";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Content & Thought Leadership | GT Marketing Hub" };
@@ -279,8 +280,8 @@ export default async function ContentPage({
               <p className="mt-2 text-[12px] leading-relaxed text-muted">
                 Operator (Content Owner): read/write content; submit-only to the Decision Queue (concept approve/kill + founder travel). Camp content is read-only here.
               </p>
-              <Link href="/m/decisions" className="mt-3 inline-flex text-[12px] font-semibold text-gold hover:underline">
-                Decision Queue →
+              <Link href={decisionStatusHref(viewer.role)} className="mt-3 inline-flex text-[12px] font-semibold text-gold hover:underline">
+                {decisionStatusLabel(viewer.role)} →
               </Link>
             </section>
           </aside>

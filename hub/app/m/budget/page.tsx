@@ -15,11 +15,8 @@ import Link from "next/link";
 import { generate } from "@/lib/seed/generate";
 import { DEMO_USERS, demoUserByRole } from "@/lib/phase2";
 import { DEV_MODE, getSession } from "@/lib/auth";
-import { parityThreshold } from "@/lib/parity";
-import { seedBannerState } from "@/lib/crm-ops/parity-view";
 import { reconcileBudget } from "@/lib/budget/reconcile";
 import { buildBurnSeries, actualAllocation } from "@/lib/metrics/budget";
-import { DataConfidenceBanner } from "@/app/_components/DataConfidenceBanner";
 import { BudgetTable } from "./_components/BudgetTable";
 import { BurnChart } from "./_components/BurnChart";
 import { SpendByWorkstream } from "./_components/SpendByWorkstream";
@@ -64,9 +61,6 @@ export default async function BudgetPage({
   const activeTab: TabKey = TABS.find((t) => t.key === query.tab)?.key ?? "table";
 
   const ds = generate({ seed: 424242, families: 1200 });
-  const thresholdPct = Number((parityThreshold() * 100).toFixed(2));
-  const banner = seedBannerState(ds.field_state, thresholdPct);
-
   const recon = reconcileBudget(ds.budget_workstream, ds.budget_entry);
   const varianceRows = recon.rows.map((r) => ({ key: r.key, name: r.name, planned: r.planned, actual: r.actual }));
   const burn = buildBurnSeries(ds.budget_entry, recon.totals.planned, {
@@ -130,9 +124,6 @@ export default async function BudgetPage({
       <div className="mx-auto max-w-[1280px] px-5 py-6 sm:px-7 lg:px-9">
         <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
           <div className="space-y-5">
-            {/* Inbound contract: a parity drop shows the data-confidence banner here too. */}
-            <DataConfidenceBanner state={banner} />
-
             <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
               <MetricTile
                 label="Recommended total"

@@ -241,6 +241,9 @@ describe("Dashboard · rendered sub-views", () => {
     expect(pacing).toContain("Goal pacing");
     expect(pacing).toContain("linear-v1");
     expect(pacing).toContain("Leader: goals editable");
+    expect(pacing).toContain('action="/api/dashboard/goals"');
+    expect(pacing).toContain('name="target_value"');
+    expect(pacing).toContain("Save");
     const mirror = await render("mirror", "leader");
     expect(mirror).toContain("HubSpot dashboard mirror");
     expect(mirror).toContain("display-only");
@@ -252,8 +255,12 @@ describe("Dashboard · rendered sub-views", () => {
   });
 
   it("goal editing is read-only for Admin and Operator (UI mirrors server RBAC)", async () => {
-    expect(await render("pacing", "operator")).toContain("read-only");
-    expect(await render("pacing", "admin")).toContain("read-only");
+    const operatorPacing = await render("pacing", "operator");
+    const adminPacing = await render("pacing", "admin");
+    expect(operatorPacing).toContain("read-only");
+    expect(adminPacing).toContain("read-only");
+    expect(operatorPacing).not.toContain('name="target_value"');
+    expect(adminPacing).not.toContain('name="target_value"');
   });
 });
 

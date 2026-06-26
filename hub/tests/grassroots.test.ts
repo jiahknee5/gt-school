@@ -141,6 +141,9 @@ describe("Grassroots · rendered sub-views", () => {
   it("Operator sees submit-not-view Decision Queue framing", async () => {
     const html = await render("overview", "operator");
     expect(html).toContain("cannot view the full queue");
+    expect(html).toContain('href="/m/submissions"');
+    expect(html).toContain("My submissions");
+    expect(html).not.toContain('href="/m/decisions"');
   });
 
   it("renders market map, sprints, community, events", async () => {

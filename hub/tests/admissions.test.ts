@@ -165,5 +165,8 @@ describe("Admissions · rendered sub-views", () => {
     const feedback = await render("feedback", "operator");
     expect(feedback).toContain("Feedback-to-marketing loop");
     expect(feedback).toContain("not view/act on it");
+    expect(feedback).toContain('href="/m/submissions"');
+    expect(feedback).toContain("My submissions");
+    expect(feedback).not.toContain('href="/m/decisions"');
   });
 });

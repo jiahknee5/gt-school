@@ -16,6 +16,7 @@ import { buildObjections, buildFamilyQuotes, publicQuotes, quoteOfWeek } from "@
 import { pipelineNumbers, themeFrequencies, topObjections, sentimentRatio } from "@/lib/admissions/metrics";
 import { stubBrief, bridgeHitRate, type ContentBrief } from "@/lib/admissions/bridge";
 import { seedFeedback, closureRate, canViewDecisionQueue } from "@/lib/admissions/feedback";
+import { decisionStatusHref, decisionStatusLabel } from "@/lib/decisions/routes";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Admissions & Voice of Customer | GT Marketing Hub" };
@@ -233,8 +234,8 @@ export default async function AdmissionsPage({
                   ? "Leader: act on Decision Queue items raised from feedback."
                   : "Operator/Admin: you may submit feedback to the Decision Queue but not view/act on it here."}
               </p>
-              <Link href="/m/decisions" className="mt-3 inline-flex text-[12px] font-semibold text-gold hover:underline">
-                Decision Queue →
+              <Link href={decisionStatusHref(viewer.role)} className="mt-3 inline-flex text-[12px] font-semibold text-gold hover:underline">
+                {decisionStatusLabel(viewer.role)} →
               </Link>
             </section>
           </aside>

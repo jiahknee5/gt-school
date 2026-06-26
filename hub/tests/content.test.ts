@@ -127,6 +127,9 @@ describe("Content · rendered sub-views", () => {
     expect(overview).toContain("Content &amp; Thought Leadership");
     expect(overview).toContain("Top performers");
     expect(overview).toContain("app_form");
+    expect(overview).toContain('href="/m/submissions"');
+    expect(overview).toContain("My submissions");
+    expect(overview).not.toContain('href="/m/decisions"');
     const pipeline = await render("pipeline", "operator");
     expect(pipeline).toContain("Production pipeline");
     expect(pipeline).toContain("consent required");

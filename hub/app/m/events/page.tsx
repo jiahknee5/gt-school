@@ -23,6 +23,7 @@ import {
 } from "@/lib/events/metrics";
 import { buildCalendar, gtOrganizedCount } from "@/lib/events/calendar";
 import { SEED_PROPOSALS, canViewDecisionQueue, canEditEvents } from "@/lib/events/proposals";
+import { decisionStatusHref, decisionStatusLabel } from "@/lib/decisions/routes";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Field Marketing & Events | GT Marketing Hub" };
@@ -227,8 +228,8 @@ export default async function EventsPage({
                   ? "Operator/Admin: add/edit events and submit proposals."
                   : "Read access. Event editing is limited to the Field & Events Owner + Admin."}
               </p>
-              <Link href="/m/decisions" className="mt-3 inline-flex text-[12px] font-semibold text-gold hover:underline">
-                Decision Queue →
+              <Link href={decisionStatusHref(viewer.role)} className="mt-3 inline-flex text-[12px] font-semibold text-gold hover:underline">
+                {decisionStatusLabel(viewer.role)} →
               </Link>
             </section>
           </aside>

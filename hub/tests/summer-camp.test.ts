@@ -157,4 +157,11 @@ describe("Summer Camp · rendered sub-views", () => {
     expect(await render("funnel", "leader")).toContain("Registration funnel");
     expect(await render("content", "leader")).toContain("Camp content");
   });
+
+  it("Operator proposal CTA points to own-status, not the full queue", async () => {
+    const html = await render("overview", "operator");
+    expect(html).toContain('href="/m/submissions"');
+    expect(html).toContain("My submissions");
+    expect(html).not.toContain('href="/m/decisions"');
+  });
 });

@@ -22,6 +22,7 @@ import {
   marketCoverage,
 } from "@/lib/grassroots/metrics";
 import { PARENT_EVENTS, REFERRAL_SPRINTS } from "@/lib/grassroots/data";
+import { decisionStatusHref, decisionStatusLabel } from "@/lib/decisions/routes";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Grassroots Engine | GT Marketing Hub" };
@@ -234,8 +235,8 @@ export default async function GrassrootsPage({
                     ? "Leader: read all + approve grassroots budget asks in the Decision Queue."
                     : "Admin: full read/write."}
               </p>
-              <Link href="/m/decisions" className="mt-3 inline-flex text-[12px] font-semibold text-gold hover:underline">
-                Decision Queue →
+              <Link href={decisionStatusHref(viewer.role)} className="mt-3 inline-flex text-[12px] font-semibold text-gold hover:underline">
+                {decisionStatusLabel(viewer.role)} →
               </Link>
             </section>
           </aside>

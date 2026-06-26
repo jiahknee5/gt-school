@@ -61,10 +61,10 @@ export const SUITES: Suite[] = [
     ],
   },
   {
-    id: "e2e",
-    label: "Scenarios (others)",
-    domain: "End-to-end brief use cases, cross-cutting",
-    script: "npm run test:e2e",
+    id: "scenarios",
+    label: "Scenarios",
+    domain: "Brief use cases and cross-cutting product contracts",
+    script: "npm run test:scenarios",
     files: [
       { file: "tests/brief-usecases.test.ts", kind: "pure", needs: [], what: "Every brief use case made runnable + catalog integrity." },
       { file: "tests/phase2.test.ts", kind: "pure", needs: [], what: "Phase 2 roles, widgets, budget, confidence banner, GT Challenge helpers, and requirement audit." },
@@ -77,6 +77,7 @@ export const SUITES: Suite[] = [
     script: "npm run test:frontend",
     files: [
       { file: "tests/module-routes.test.ts", kind: "pure", needs: [], what: "Server-rendered Home/Budget/CRM/Decision Queue demo surfaces." },
+      { file: "tests/home-widget-picker.test.ts", kind: "pure", needs: [], what: "Home widget picker search, add/remove, reorder, and save payload state." },
       { file: "tests/dashboard.test.ts", kind: "pure", needs: [], what: "Dashboard/KPI route, shared scorecard, goal RBAC, freshness, and rendered sub-views." },
       { file: "tests/nurture.test.ts", kind: "pure", needs: [], what: "Nurture lifecycle metrics, SMS/PII gates, SLA, segments, and rendered sub-views." },
       { file: "tests/grassroots.test.ts", kind: "pure", needs: [], what: "Grassroots ambassador reconciliation, referral metrics, market map, cross-links, and rendered sub-views." },

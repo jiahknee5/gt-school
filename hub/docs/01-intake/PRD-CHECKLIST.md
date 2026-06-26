@@ -12,11 +12,11 @@
 
 ## Headline
 
-The technical/product non-negotiables are essentially complete. **Core P0 (Backbone B + Product C +
-Test-data D + Demo-signal E = 21 reqs): 18 ✅ done, 3 🟡 partial, 0 ⛔ missing → ~86% fully done
-(~93% counting partials at half).** Tests: **337 passed (pure gate) / 374 passed full, 2 → 1 todo**
-after closing `UC-P2-AUTH-ROLES`. The remaining outstanding P0s are **submission deliverables**
-(write-up, video, deploy URL) — artifacts, not code.
+The product build is materially stronger than the original intake review, but it is **not submission-complete**.
+Core code paths for the P0 slice are mostly built and tested; the remaining blockers are submission
+artifacts, production/deploy proof, browser-level workflow proof, GT Challenge public-capture
+persistence, a visible payment-propagation surface, and an Open Data surface that visibly flips a
+decision. Tests: **348 passed (pure gate), 1 todo**.
 
 ## A. Submission deliverables (meta — all ★ P0)
 
@@ -24,7 +24,7 @@ after closing `UC-P2-AUTH-ROLES`. The remaining outstanding P0s are **submission
 |---|---|---|---|
 | A1 | Repo + README that runs in minutes | 🟡 | code + `.env.example` present; confirm a top-level run-in-minutes README + setup steps |
 | A2 | Write-up (deep vs stubbed & why, trade-offs, bent rules) | ⛔ | not started — graded heavily; draft from this matrix + `REQUIREMENTS.md` §F |
-| A3 | Proof it works (tests/scripts; isolation, idempotency, dual-source, budget, role gating) | ✅ | `npm run test:ci` 337 pass; `rbac.test.ts`, `payments.test.ts`, `budget.test.ts`, `reconcile.test.ts`, `summer-camp.test.ts` |
+| A3 | Proof it works (tests/scripts; isolation, idempotency, dual-source, budget, role gating) | ✅ | `npm run test:ci` 348 pass / 1 todo; `rbac.test.ts`, `payments.test.ts`, `budget.test.ts`, `reconcile.test.ts`, `summer-camp.test.ts` |
 | A4 | Walkthrough video 5–10 min (+≥1 failure/edge) | ⛔ | record after deploy |
 | A5 | Live demo URL + 3 role logins (Admin/Leader/Operator) | 🟡 | auth + 3 demo identities ready (`DEMO_USERS`, `/login`); **deploy pending** |
 | A6 | No secrets in git | ✅ | `.env*` gitignored; `.env.local` is an ignored symlink; only `.env.example` tracked |
@@ -47,7 +47,7 @@ after closing `UC-P2-AUTH-ROLES`. The remaining outstanding P0s are **submission
 | C2 | **Decision Queue gated to Leaders** (Operators submit, never view) | ✅ | Leader-only route/API/mutation; rendered queue (`/m/decisions`); submitter own-status (`/m/submissions`) |
 | C3 | **Single source of truth** (no figure computed two ways) | ✅ | `lib/metrics/*`/seed authoritative; Analytics reconciles by summation, one bounce def; budget total in one place |
 | C4 | **Budget reconciles to $365K** + >10% variance auto-flags to DQ | ✅ | `/m/budget`, append-only `budget_entry`, variance→DQ payload (`budget.test.ts`, `UC-DATA-VARIANCE`) |
-| C5 | **Composable per-user Home** (widget library, starter pack, saved layout) | 🟡 | library + role-aware starter pack + `home_layout` GET/PUT persistence ✅ (`home-layout.test.ts`); interactive picker/drag board remains |
+| C5 | **Composable per-user Home** (widget library, starter pack, saved layout) | 🟡 | library + role-aware starter pack + `home_layout` GET/PUT + picker add/remove/reorder/save exist; browser drag-style E2E remains |
 | C6 | **Real integrations + dual-source reconciliation** | ✅ | HubSpot connector live; Summer Camp reconciles summer.gt.school + form by `match_key` (counted once) |
 | C7 | **Open Data query that changes a decision** | 🟡 | `lib/opendata/*` + `app/api/opendata/decision-enrichment` ✅; a surface where enrichment *visibly flips the call* is partial |
 | C8 | **Respect known gaps honestly** (UTM broken, unreliable fields, uninstrumented) | ✅ | CRM Ops surfaces parity/UTM; Analytics counts `(not set)` UTM bucket; Field Events flagged uninstrumented |
@@ -97,11 +97,11 @@ All 13 modules now render a real surface (was: 0). Depth tiers per the runbook b
   Tracked as `it.todo` in `brief-usecases.test.ts`.
 - **S6** — Decision-Queue ruling lacks an actor audit trail (who/when). See `SECURITY-REVIEW.md`.
 - **S7-b/c** — security headers/CSP + rate limiting are deploy-time hardening (no public quiz ships yet).
-- **C5 picker / C7 decision-flip surface / E1 visible payment surface** — partials above.
+- **C5 browser drag/E2E / C7 decision-flip surface / E1 visible payment surface** — partials above.
 
 ## Bottom line
 
-The foundation, the three deep P0 modules (CRM Ops · Budget · Decision Queue), the four demo
-signals, and **auth/RBAC** are all in place and tested. The score now hinges on the **submission
-deliverables** (A2 write-up, A4 video, A5 deploy + role logins) and a short list of honest partials —
-not on missing product capability.
+The foundation, the three deep P0 modules (CRM Ops · Budget · Decision Queue), and **auth/RBAC**
+are in place and tested at the app/pure-test layer. Do **not** call the project complete yet: the score
+now hinges on the **submission deliverables** (A2 write-up, A4 video, A5 deploy + role logins), plus
+the honest partials above.

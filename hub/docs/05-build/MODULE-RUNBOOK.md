@@ -28,7 +28,7 @@ the light manual surfaces.
 4. SECURITY  gt-hub-security-panel → review the module (mandatory for auth/payments/PII/Decision-Queue surfaces); findings → fixes + tests
 5. COHESION  gt-hub-cohesion-panel → review ALL built-so-far modules together (seams, IA, one-metric-meaning, handoffs, role journeys)
 6. PRD CHECK both PRDs → fill the per-module checklist below; nothing silently dropped
-7. GATE      npm run verify (build + lint + test); regenerate /dev/tests report from the pure set if a live session is active
+7. GATE      npm run verify (build + lint + test:ci); regenerate /dev/tests report from the pure set if a live session is active
 ```
 
 Repeat. At each module completion you produce: a green (or honestly-todo) test delta, a
@@ -100,7 +100,7 @@ Copy this block into `docs/modules/<NN>-<slug>/CHECKLIST.md` and complete it at 
 ```
 
 ### 7. Gate
-- `npm run verify`. If a live build/test session is active, regenerate the `/dev/tests`
+- `npm run verify` (build + lint + `test:ci`). If a live build/test session is active, regenerate the `/dev/tests`
   report from the **pure set only** (don't poke live HubSpot/Stripe).
 
 ## End-of-each-module: review everything built

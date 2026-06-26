@@ -12,6 +12,7 @@ import { Card, MetricTile, ModuleHeader, Pill, Bar, Tabs } from "@/app/_componen
 import { reconcileFromDataset } from "@/lib/camp/reconcile";
 import { capacityByCampus, campFunnel, campRevenue, topChannels, budgetUnchangedByCamp } from "@/lib/camp/metrics";
 import { canViewRoster, canSetTarget, maskName } from "@/lib/camp/rbac";
+import { decisionStatusHref, decisionStatusLabel } from "@/lib/decisions/routes";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Summer Camp | GT Marketing Hub" };
@@ -221,8 +222,8 @@ export default async function SummerCampPage({
                   ? "Leader: approve pricing/session changes and set the revenue target."
                   : "Operator/Admin: read/write camp; submit pricing + add-session proposals to the Decision Queue (Operators can't view/act on the full queue)."}
               </p>
-              <Link href="/m/decisions" className="mt-3 inline-flex text-[12px] font-semibold text-gold hover:underline">
-                Decision Queue →
+              <Link href={decisionStatusHref(viewer.role)} className="mt-3 inline-flex text-[12px] font-semibold text-gold hover:underline">
+                {decisionStatusLabel(viewer.role)} →
               </Link>
             </section>
           </aside>

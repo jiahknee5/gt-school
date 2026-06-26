@@ -153,12 +153,12 @@ describe("Budget · variance trigger + idempotent auto-flag (invariant #4)", () 
 
     // Re-running after "raising" the fresh payload also yields nothing (no duplicate).
     const raised = fresh.map((x, i) => ({
+      ...x,
       id: `auto-${i}`,
       response: null,
       response_note: null,
       resolved_at: null,
       created_at: ASOF,
-      ...x,
     }));
     expect(pendingVarianceDecisions(rows, raised, ASOF)).toHaveLength(0);
   });
@@ -294,6 +294,12 @@ describe("Budget · rendered sub-views (demo signal: reconcile to the total)", (
     expect(html).toContain("Reconciles to $365,000");
     expect(html).toContain("Grassroots marketing");
     expect(html).toContain("Guerrilla / earned media bets");
+  });
+
+  it("does not show the HubSpot data-confidence banner on the manual Hub-owned Budget module", async () => {
+    const html = await render("table", "admin");
+    expect(html).not.toContain("Data confidence warning");
+    expect(html).not.toContain("Open CRM Ops");
   });
 
   it("shows the viewer's own row editable and others read-only (Operator)", async () => {
