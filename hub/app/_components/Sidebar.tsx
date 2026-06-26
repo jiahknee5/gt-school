@@ -214,15 +214,18 @@ export function Sidebar({
 
   return (
     <aside className="sticky top-0 hidden h-[100dvh] w-[228px] shrink-0 flex-col border-r border-hairline bg-side lg:flex">
-      {/* brand */}
+      {/* Workspace label. The full GT logo/title lives in the PRD top bar. */}
       <Link
         href="/"
-        className="flex h-[57px] shrink-0 items-center gap-2.5 border-b border-hairline px-[18px] text-[15px] font-semibold text-ink"
+        className="flex h-[57px] shrink-0 items-center gap-2.5 border-b border-hairline px-[18px] text-[13px] font-semibold text-ink"
       >
-        <span className="grid h-6 w-6 place-items-center rounded-card bg-gold text-[13px] font-bold text-ink shadow-sm">
-          GT
+        <span className="grid h-6 w-6 place-items-center rounded-card border border-border bg-canvas text-[11px] font-bold text-gold shadow-sm">
+          M
         </span>
-        Marketing Hub
+        <span className="min-w-0">
+          <span className="block truncate">Modules</span>
+          <span className="mono block truncate text-[10px] font-normal text-label">13 workstreams</span>
+        </span>
       </Link>
 
       {/* module nav */}

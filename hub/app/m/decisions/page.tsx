@@ -19,6 +19,7 @@ import {
   historyDecisions,
   openBadgeCount,
 } from "@/lib/decisions/queries";
+import { enrichDecisionByCounties } from "@/lib/opendata/enrich";
 import { DecisionCard } from "./_components/DecisionCard";
 
 export const dynamic = "force-dynamic";
@@ -59,6 +60,12 @@ export default async function DecisionsPage({
   const badge = openBadgeCount(decisions);
   const active = activeDecisions(decisions);
   const history = historyDecisions(decisions);
+  const enrichment = await enrichDecisionByCounties(["TRAVIS", "DALLAS"], {
+    fetchImpl: async () => {
+      throw new Error("Use fixture for deterministic server-rendered decision context.");
+    },
+    now: () => Date.parse("2026-06-26T00:00:00.000Z"),
+  });
 
   return (
     <main className="min-h-[100dvh] bg-canvas">
@@ -197,6 +204,22 @@ export default async function DecisionsPage({
                   <Stat label="Auto-flagged" value={stats.autoFlagged} />
                   <Stat label="Decided (archived)" value={stats.decided} />
                 </dl>
+              </section>
+
+              <section className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
+                <h2 className="font-serif text-[18px] font-semibold text-ink">Open Data enrichment</h2>
+                <p className="mt-2 text-[12px] leading-relaxed text-muted">
+                  {enrichment.signal}
+                </p>
+                <p className="mono mt-3 text-[10px] font-semibold uppercase tracking-[0.08em] text-label">
+                  Source: {enrichment.source} | {enrichment.counties.join(" + ")} | decision context only
+                </p>
+                <Link
+                  href="/api/opendata/decision-enrichment?counties=TRAVIS,DALLAS"
+                  className="mt-3 inline-flex text-[12px] font-semibold text-gold hover:underline"
+                >
+                  Refresh enrichment →
+                </Link>
               </section>
             </aside>
           </div>

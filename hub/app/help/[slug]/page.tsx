@@ -13,7 +13,15 @@ export async function generateMetadata({
 }) {
   const { slug } = await params;
   const guide = guideBySlug(slug);
-  return { title: guide ? `${guide.title} · Help` : "Help" };
+  return { title: guide ? `${guide.title} - Help` : "Help" };
+}
+
+function cleanCopy(value: string): string {
+  return value
+    .replace(/[\u2013\u2014]/g, "-")
+    .replace(/\u2192/g, " to ")
+    .replace(/\u2194/g, " and ")
+    .replace(/\u00b7/g, "/");
 }
 
 function Chips({ items, tint }: { items: string[]; tint: string }) {
@@ -53,12 +61,12 @@ export default async function GuidePage({
       <h1 className="mt-2 font-serif text-[30px] font-bold leading-tight tracking-[-0.02em] text-ink">
         {guide.title}
       </h1>
-      <p className="mt-3 text-[15px] leading-relaxed text-muted">{guide.objective}</p>
+      <p className="mt-3 text-[15px] leading-relaxed text-muted">{cleanCopy(guide.objective)}</p>
 
       {guide.fromSpec && (
-        <div className="mt-5 rounded-card border border-hairline bg-green-soft px-4 py-3 text-[12px] leading-relaxed text-ink">
-          <span className="mono font-semibold uppercase tracking-[0.08em] text-green">From the spec</span>{" "}
-          — {guide.fromSpec}
+        <div className="mt-5 rounded-card border border-gold bg-fill px-4 py-3 text-[12px] leading-relaxed text-ink">
+          <span className="mono font-semibold uppercase tracking-[0.08em] text-gold">From the spec</span>{" "}
+          - {cleanCopy(guide.fromSpec)}
         </div>
       )}
 
@@ -73,7 +81,7 @@ export default async function GuidePage({
         <div className="sm:col-span-2">
           <p className="mono text-[10px] uppercase tracking-[0.1em] text-label">Modules it spans</p>
           <div className="mt-1.5">
-            <Chips items={guide.modules} tint="bg-blue-soft text-blue" />
+            <Chips items={guide.modules} tint="bg-fill text-slate" />
           </div>
         </div>
       </div>
@@ -81,7 +89,7 @@ export default async function GuidePage({
       <div className="mt-5 rounded-card border border-hairline bg-surface px-4 py-3 text-[13px] leading-relaxed text-muted">
         <span className="mono text-[10px] font-semibold uppercase tracking-[0.1em] text-label">Starts when</span>
         <br />
-        {guide.trigger}
+        {cleanCopy(guide.trigger)}
       </div>
 
       {/* steps */}
@@ -93,9 +101,11 @@ export default async function GuidePage({
               {i + 1}
             </span>
             <div className="min-w-0">
-              <p className="text-[14px] font-semibold leading-snug text-ink">{step.do}</p>
-              <p className="mono mt-1.5 text-[11px] text-blue">{step.where}</p>
-              <p className="mt-1.5 text-[13px] leading-relaxed text-muted">→ {step.result}</p>
+              <p className="text-[14px] font-semibold leading-snug text-ink">{cleanCopy(step.do)}</p>
+              <p className="mono mt-1.5 text-[11px] text-slate">{cleanCopy(step.where)}</p>
+              <p className="mt-1.5 text-[13px] leading-relaxed text-muted">
+                <span className="font-semibold text-slate">Result:</span> {cleanCopy(step.result)}
+              </p>
             </div>
           </li>
         ))}
@@ -108,8 +118,8 @@ export default async function GuidePage({
       <ul className="mt-3 space-y-2">
         {guide.success.map((s) => (
           <li key={s} className="flex gap-2.5 text-[13px] leading-relaxed text-muted">
-            <span className="mt-0.5 text-green">✓</span>
-            <span>{s}</span>
+            <span className="mono mt-0.5 text-[10px] font-semibold uppercase text-gold">Good</span>
+            <span>{cleanCopy(s)}</span>
           </li>
         ))}
       </ul>
@@ -120,7 +130,7 @@ export default async function GuidePage({
         {guide.watchFor.map((w) => (
           <li key={w} className="flex gap-2.5 text-[13px] leading-relaxed text-muted">
             <span className="mt-0.5 text-amber">!</span>
-            <span>{w}</span>
+            <span>{cleanCopy(w)}</span>
           </li>
         ))}
       </ul>

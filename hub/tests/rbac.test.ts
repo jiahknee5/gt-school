@@ -11,6 +11,7 @@ beforeAll(() => {
 });
 
 import {
+  isDecisionEnrichmentPath,
   decisionQueueRoleAllowed,
   isAdminOnlyPath,
   isLeaderOnlyPath,
@@ -81,7 +82,8 @@ describe("internal/dev surfaces — Admin only", () => {
     expect(isAdminOnlyPath("/dev")).toBe(true);
     expect(isAdminOnlyPath("/dev/data-model")).toBe(true);
     expect(isAdminOnlyPath("/opendata")).toBe(true);
-    expect(isAdminOnlyPath("/api/opendata/decision-enrichment")).toBe(true);
+    expect(isDecisionEnrichmentPath("/api/opendata/decision-enrichment")).toBe(true);
+    expect(isAdminOnlyPath("/api/opendata/decision-enrichment")).toBe(false);
     expect(isAdminOnlyPath("/m/budget")).toBe(false);
   });
 
@@ -90,6 +92,12 @@ describe("internal/dev surfaces — Admin only", () => {
     expect(routeDecision("operator", "/dev").status).toBe(403);
     expect(routeDecision("leader", "/dev").status).toBe(403);
     expect(routeDecision("admin", "/dev").allowed).toBe(true);
+  });
+
+  it("allows Leader/Admin decision enrichment while denying Operators", () => {
+    expect(routeDecision("leader", "/api/opendata/decision-enrichment").allowed).toBe(true);
+    expect(routeDecision("admin", "/api/opendata/decision-enrichment").allowed).toBe(true);
+    expect(routeDecision("operator", "/api/opendata/decision-enrichment").status).toBe(403);
   });
 });
 

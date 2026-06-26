@@ -2,13 +2,13 @@ import Link from "next/link";
 import { ROADMAP, roadmapCounts, type BuildStatus } from "@/lib/help/roadmap";
 
 export const metadata = {
-  title: "Build roadmap · GT Marketing Hub",
+  title: "Build roadmap - GT Marketing Hub",
 };
 
 const STATUS_TINT: Record<BuildStatus, string> = {
-  foundation: "bg-violet-soft text-violet",
-  "build-deep": "bg-green-soft text-green",
-  build: "bg-blue-soft text-blue",
+  foundation: "bg-fill text-slate",
+  "build-deep": "bg-fill text-slate",
+  build: "bg-fill text-slate",
   stub: "bg-fill text-slate",
 };
 const STATUS_LABEL: Record<BuildStatus, string> = {
@@ -18,22 +18,30 @@ const STATUS_LABEL: Record<BuildStatus, string> = {
   stub: "stub last",
 };
 
+function cleanCopy(value: string): string {
+  return value
+    .replace(/[\u2013\u2014]/g, "-")
+    .replace(/\u2192/g, " to ")
+    .replace(/\u2194/g, " and ")
+    .replace(/\u00b7/g, "/");
+}
+
 export default function RoadmapPage() {
   const counts = roadmapCounts();
 
   return (
     <div className="mx-auto max-w-[1180px] px-7 py-10">
       <p className="mono text-[11px] font-semibold uppercase tracking-[0.12em] text-gold">
-        Help · Build roadmap
+        Help / Build roadmap
       </p>
       <h1 className="mt-2 font-serif text-[32px] font-bold leading-tight tracking-[-0.02em] text-ink">
         What we build, in what order, and why
       </h1>
       <p className="mt-3 max-w-[720px] text-[15px] leading-relaxed text-muted">
         Dependency- and value-driven sequencing: foundation first (auth + roles), then the
-        modules that <b className="text-ink">prove the whole system</b> — the four
+        modules that <b className="text-ink">prove the whole system</b>: the four
         &ldquo;show us it works&rdquo; signals plus single-source-of-truth, reconciliation,
-        and RBAC — then depth, then the funnel/loop modules, then the lighter manual surfaces.
+        and RBAC. Then depth, the funnel/loop modules, and the lighter manual surfaces.
       </p>
 
       <div className="mt-8 grid grid-cols-2 gap-3.5 sm:grid-cols-4">
@@ -58,7 +66,7 @@ export default function RoadmapPage() {
           <h2 className="mt-1.5 font-serif text-[22px] font-bold tracking-[-0.01em] text-ink">
             {tier.label}
           </h2>
-          <p className="mt-2 max-w-[760px] text-[13px] leading-relaxed text-muted">{tier.rationale}</p>
+          <p className="mt-2 max-w-[760px] text-[13px] leading-relaxed text-muted">{cleanCopy(tier.rationale)}</p>
 
           <div className="mt-5 overflow-hidden rounded-card border border-hairline bg-surface shadow-sm">
             {tier.items.map((item) => (
@@ -68,7 +76,7 @@ export default function RoadmapPage() {
                     {item.order}
                   </span>
                   <h3 className="text-[14px] font-semibold text-ink">
-                    {item.n !== null && <span className="mono text-muted">M{item.n} · </span>}
+                    {item.n !== null && <span className="mono text-muted">M{item.n} / </span>}
                     {item.module}
                   </h3>
                   <span className={`mono rounded-[5px] px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-[0.06em] ${STATUS_TINT[item.status]}`}>
@@ -78,14 +86,14 @@ export default function RoadmapPage() {
                     <code className="mono ml-auto text-[10px] text-label">docs/modules/{String(item.n).padStart(2, "0")}-{item.slug}/PLAN.md</code>
                   )}
                 </div>
-                <p className="mt-2 text-[13px] leading-relaxed text-muted">{item.why}</p>
+                <p className="mt-2 text-[13px] leading-relaxed text-muted">{cleanCopy(item.why)}</p>
                 <div className="mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-[11px]">
-                  <span className="text-label">Depends on: <span className="text-slate">{item.depends}</span></span>
+                  <span className="text-label">Depends on: <span className="text-slate">{cleanCopy(item.depends)}</span></span>
                   {item.signals.length > 0 && (
                     <span className="flex flex-wrap items-center gap-1">
                       <span className="text-label">Lights:</span>
                       {item.signals.map((s) => (
-                        <span key={s} className="mono rounded-[4px] bg-amber-soft px-1.5 py-0.5 text-[9px] text-amber">{s}</span>
+                        <span key={s} className="mono rounded-[4px] bg-fill px-1.5 py-0.5 text-[9px] text-slate">{cleanCopy(s)}</span>
                       ))}
                     </span>
                   )}
@@ -97,10 +105,10 @@ export default function RoadmapPage() {
       ))}
 
       <footer className="mt-12 border-t border-hairline pt-5 text-[12px] text-label">
-        Roadmap data: <span className="mono">lib/help/roadmap.ts</span> · Per-module specs:{" "}
-        <span className="mono">docs/modules/</span> · Build loop:{" "}
-        <span className="mono">docs/05-build/MODULE-RUNBOOK.md</span> ·{" "}
-        <Link href="/help" className="text-blue hover:underline">all guides →</Link>
+        Roadmap data: <span className="mono">lib/help/roadmap.ts</span> / Per-module specs:{" "}
+        <span className="mono">docs/modules/</span> / Build loop:{" "}
+        <span className="mono">docs/05-build/MODULE-RUNBOOK.md</span> /{" "}
+        <Link href="/help" className="text-blue hover:underline">all guides -&gt;</Link>
       </footer>
     </div>
   );

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { MODULES, moduleHref } from "@/lib/modules";
-import { DEMO_USERS, type Role } from "@/lib/phase2";
+import { DEMO_USERS, WIDGET_LIBRARY, type Role } from "@/lib/phase2";
 
 export type TopBarViewer = {
   id: string;
@@ -33,9 +33,23 @@ export function TopBar({
 }) {
   const pathname = usePathname();
   const [dark, setDark] = useState(false);
+  const [addOpen, setAddOpen] = useState(false);
+  const [widgetFilter, setWidgetFilter] = useState("");
   const isHome = pathname === "/";
   const days = useMemo(() => daysToCutoff(), []);
   const visibleModules = MODULES.filter((module) => !module.leaderOnly || viewer?.role === "leader");
+  const widgetGroups = useMemo(() => {
+    const q = widgetFilter.trim().toLowerCase();
+    const groups = new Map<string, typeof WIDGET_LIBRARY>();
+    for (const widget of WIDGET_LIBRARY) {
+      const haystack = `${widget.label} ${widget.category} ${widget.source} ${widget.size}`.toLowerCase();
+      if (q && !haystack.includes(q)) continue;
+      const rows = groups.get(widget.category) ?? [];
+      rows.push(widget);
+      groups.set(widget.category, rows);
+    }
+    return [...groups.entries()];
+  }, [widgetFilter]);
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
@@ -69,9 +83,94 @@ export function TopBar({
 
         <div className="ml-auto flex min-w-0 items-center gap-2">
           {isHome && (
-            <button className="hidden h-8 rounded-card bg-gold px-3 text-[12px] font-semibold text-white transition-transform active:translate-y-px sm:inline-flex sm:items-center">
-              + Add widget
-            </button>
+            <div className="relative">
+              <button
+                type="button"
+                aria-expanded={addOpen}
+                aria-controls="home-widget-picker"
+                onClick={() => setAddOpen((value) => !value)}
+                className="inline-flex h-8 items-center rounded-card bg-gold px-2.5 text-[12px] font-semibold text-white transition-transform active:translate-y-px sm:px-3"
+              >
+                <span className="sm:hidden">+ Widget</span>
+                <span className="hidden sm:inline">+ Add widget</span>
+              </button>
+              {addOpen && (
+                <div
+                  id="home-widget-picker"
+                  className="absolute right-0 top-10 z-50 w-[92vw] max-w-[420px] rounded-card border border-border bg-surface p-3 shadow-lg sm:w-[420px]"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div>
+                      <p className="text-[13px] font-semibold text-ink">Add widgets</p>
+                      <p className="mt-0.5 text-[11px] text-muted">
+                        Search the PRD widget library by name, category, or source.
+                      </p>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setAddOpen(false)}
+                      className="h-8 shrink-0 rounded-card border border-border bg-canvas px-2.5 text-[12px] font-semibold text-ink transition-transform active:translate-y-px"
+                    >
+                      Done
+                    </button>
+                  </div>
+
+                  <label htmlFor="home-widget-search" className="sr-only">
+                    Search widgets
+                  </label>
+                  <input
+                    id="home-widget-search"
+                    value={widgetFilter}
+                    onChange={(event) => setWidgetFilter(event.target.value)}
+                    placeholder="Search widgets"
+                    className="mt-3 h-9 w-full rounded-card border border-border bg-canvas px-3 text-[13px] text-ink outline-none placeholder:text-label focus:border-gold"
+                  />
+
+                  <div className="mt-3 max-h-[60dvh] space-y-3 overflow-y-auto pr-1">
+                    {widgetGroups.length === 0 ? (
+                      <p className="rounded-card border border-hairline bg-canvas p-3 text-[12px] text-muted">
+                        No widgets match that search.
+                      </p>
+                    ) : (
+                      widgetGroups.map(([category, widgets]) => (
+                        <div key={category}>
+                          <p className="mono mb-1.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-label">
+                            {category}
+                          </p>
+                          <div className="space-y-1">
+                            {widgets.map((widget) => (
+                              <label
+                                key={widget.id}
+                                className="flex cursor-pointer items-start gap-2 rounded-card border border-hairline bg-canvas p-2.5 hover:border-border hover:bg-hover"
+                              >
+                                <input
+                                  type="checkbox"
+                                  defaultChecked={Boolean(widget.starter)}
+                                  className="mt-0.5 h-3.5 w-3.5 accent-gold"
+                                />
+                                <span className="min-w-0 flex-1">
+                                  <span className="block truncate text-[12px] font-semibold text-ink">
+                                    {widget.label}
+                                  </span>
+                                  <span className="mt-1 flex flex-wrap gap-1.5">
+                                    <span className="mono rounded-[5px] bg-fill px-1.5 py-0.5 text-[9px] text-slate">
+                                      {widget.source}
+                                    </span>
+                                    <span className="mono rounded-[5px] border border-hairline px-1.5 py-0.5 text-[9px] text-label">
+                                      {widget.size}
+                                    </span>
+                                  </span>
+                                </span>
+                              </label>
+                            ))}
+                          </div>
+                        </div>
+                      ))
+                    )}
+                  </div>
+                </div>
+              )}
+            </div>
           )}
 
           {devMode && (

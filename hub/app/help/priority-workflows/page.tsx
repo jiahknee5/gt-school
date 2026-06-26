@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Priority workflows · GT Marketing Hub",
+  title: "Priority workflows - GT Marketing Hub",
 };
 
 type WorkflowTone = "blue" | "green" | "violet" | "amber" | "neutral";
@@ -218,7 +218,7 @@ export default function PriorityWorkflowsPage() {
       </Link>
 
       <p className="mono mt-5 text-[11px] font-semibold uppercase tracking-[0.12em] text-gold">
-        Help · Priority workflows
+        Help / Priority workflows
       </p>
       <h1 className="mt-2 max-w-[920px] font-serif text-[32px] font-bold leading-tight tracking-[-0.02em] text-ink">
         Side-by-side workflow map for the grader demo
@@ -362,11 +362,11 @@ export default function PriorityWorkflowsPage() {
       </section>
 
       <footer className="mt-12 border-t border-hairline pt-5 text-[12px] text-label">
-        Source doc: <span className="mono">docs/use-cases/PRIORITY-WORKFLOWS.md</span> ·{" "}
+        Source doc: <span className="mono">docs/use-cases/PRIORITY-WORKFLOWS.md</span> /{" "}
         <Link href="/help/roadmap" className="text-blue hover:underline">
           build roadmap
         </Link>{" "}
-        ·{" "}
+        /{" "}
         <Link href="/help" className="text-blue hover:underline">
           all guides
         </Link>

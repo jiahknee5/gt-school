@@ -256,6 +256,31 @@ describe("Phase 2 · product (data-level proofs)", () => {
     expect(summary.platformLeads).toBeGreaterThanOrEqual(summary.qualifiedLeads);
     expect(summary.caveat).toContain("UTM attribution is known broken");
   });
+
+  it("UC-P2-AUTH-ROLES: auth is required and Admin/Leader/Operator are enforced at the app layer", () => {
+    // Deny-by-default: an unauthenticated request to any non-public route is denied (401 → /login).
+    const anon = routeDecision(null, "/m/crm-ops");
+    expect(anon.allowed).toBe(false);
+    expect(anon.status).toBe(401);
+    expect(anon.redirectTo).toBe("/login");
+
+    // All three roles exist as distinct, named identities (role gating is real, not cosmetic).
+    expect(["admin", "leader", "operator"].every((r) => DEMO_USERS.some((u) => u.role === r))).toBe(true);
+
+    // An authenticated Operator reaches its own modules…
+    expect(routeDecision("operator", "/m/crm-ops").allowed).toBe(true);
+    // …but is forbidden the Leader-only Decision Queue and the Admin-only internal surfaces.
+    expect(routeDecision("operator", "/m/decisions").status).toBe(403);
+    expect(routeDecision("operator", "/dev").status).toBe(403);
+
+    // The Leader — and only the Leader — may view/act on the Decision Queue (Admin is excluded).
+    expect(routeDecision("leader", "/m/decisions").allowed).toBe(true);
+    expect(routeDecision("admin", "/m/decisions").status).toBe(403);
+
+    // Internal/dev surfaces are Admin-exclusive.
+    expect(routeDecision("admin", "/dev").allowed).toBe(true);
+    expect(routeDecision("leader", "/dev").status).toBe(403);
+  });
 });
 
 // ───────────────────────── Demo signals supported by Phase 2 helpers ─────────────────────────
@@ -431,7 +456,7 @@ describe("Marketing Hub spec (data-level proofs)", () => {
 
 // ───────────────────────── Pending — not built yet (tracked) ─────────────────────────
 describe("Pending product features (tracked, not yet built)", () => {
-  it.todo("UC-P2-AUTH-ROLES: auth + Admin/Leader/Operator enforced at the app layer");
+  // UC-P2-AUTH-ROLES is now built (Tier 0 auth + RBAC); proven above and in rbac.test.ts.
   it.todo("UC-GTC-CAPTURE-PERSIST: GT Challenge public quiz stores deduped submissions with no double-count");
 });
 
@@ -442,7 +467,7 @@ describe("Use-case catalog integrity (lib/dev/usecases.ts)", () => {
     "UC-P1-CONFLICT", "UC-P1-PARITY-SIGNAL", "UC-P1-RECON-SUMMER", "UC-P1-RECON-AMBASSADOR",
     "UC-DATA-DETERMINISM", "UC-DATA-EDGECASES", "UC-DATA-MESSY", "UC-DATA-HONEST", "UC-DATA-BUDGET-365",
     "UC-DATA-VARIANCE", "UC-DATA-ATTR-GAP", "UC-DATA-UTM-THREAD",
-    "UC-P2-SSOT", "UC-P2-CRMOPS-GAPS", "UC-P2-HOME", "UC-P2-HOME-PERSISTENCE", "UC-GTC-CAPTURE-ASSESS", "UC-GTC-CAMPAIGN",
+    "UC-P2-SSOT", "UC-P2-CRMOPS-GAPS", "UC-P2-AUTH-ROLES", "UC-P2-HOME", "UC-P2-HOME-PERSISTENCE", "UC-GTC-CAPTURE-ASSESS", "UC-GTC-CAMPAIGN",
     "UC-SPEC-BUDGET-WORKSTREAMS", "UC-SPEC-CAMP-PL", "UC-SPEC-FIELD-RELIABILITY",
     "UC-SPEC-SCORE-CONVERSION", "UC-SPEC-DQ-AUTODETECT", "UC-SPEC-OUTBOX-DLQ",
     "UC-SPEC-CONTENT-PIPELINE",
@@ -452,7 +477,7 @@ describe("Use-case catalog integrity (lib/dev/usecases.ts)", () => {
     "UC-DEMO-BUDGET-UI", "UC-DEMO-ROLE-DENIED-AUTH-UI", "UC-DEMO-BANNER-UI",
   ]);
   const TODOS = new Set([
-    "UC-P2-AUTH-ROLES", "UC-GTC-CAPTURE-PERSIST",
+    "UC-GTC-CAPTURE-PERSIST",
   ]);
 
   it("every use case is well-formed (id, reqs, proves, tests)", () => {

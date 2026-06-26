@@ -42,9 +42,13 @@ export function isAdminOnlyPath(pathname: string): boolean {
     pathname === "/dev" ||
     pathname.startsWith("/dev/") ||
     pathname === "/opendata" ||
-    pathname.startsWith("/opendata/") ||
-    pathname.startsWith("/api/opendata")
+    pathname.startsWith("/opendata/")
   );
+}
+
+/** Decision-context Open Data is a product surface for Leaders, not a dev browser. */
+export function isDecisionEnrichmentPath(pathname: string): boolean {
+  return pathname === "/api/opendata/decision-enrichment";
 }
 
 /**
@@ -93,6 +97,17 @@ export function routeDecision(role: Role | null, pathname: string): RouteDecisio
       };
     }
     return { allowed: true, status: 200, reason: "Admin access to internal surface." };
+  }
+
+  if (isDecisionEnrichmentPath(pathname)) {
+    if (role !== "admin" && role !== "leader") {
+      return {
+        allowed: false,
+        status: 403,
+        reason: "Open Data decision enrichment is restricted to Admin/Leader decision support.",
+      };
+    }
+    return { allowed: true, status: 200, reason: "Decision enrichment access." };
   }
 
   if (isLeaderOnlyPath(pathname)) {
