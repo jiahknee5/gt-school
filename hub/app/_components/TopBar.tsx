@@ -88,7 +88,7 @@ export function TopBar({
 
           {devMode && (
             <div
-              className="hidden items-center rounded-card border border-hairline bg-canvas p-0.5 md:flex"
+              className="flex items-center rounded-card border border-hairline bg-canvas p-0.5"
               title="Dev role switcher — starts a real server-enforced session"
             >
               {DEMO_USERS.map((user) => (

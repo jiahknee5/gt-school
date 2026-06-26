@@ -7,7 +7,7 @@
 import Link from "next/link";
 import { generate } from "@/lib/seed/generate";
 import { demoUserByRole } from "@/lib/phase2";
-import { DEV_MODE, getSession } from "@/lib/auth";
+import { getSession } from "@/lib/auth";
 import { Card, MetricTile, ModuleHeader, Pill, Bar, Tabs } from "@/app/_components/modkit";
 import { reconcileFromDataset } from "@/lib/camp/reconcile";
 import { capacityByCampus, campFunnel, campRevenue, topChannels, budgetUnchangedByCamp } from "@/lib/camp/metrics";
@@ -66,11 +66,9 @@ export default async function SummerCampPage({
         moduleN={4}
         title="Summer Camp"
         blurb="A self-contained P&L on dual-source reconciliation: summer.gt.school (primary) and the registration form (alternate) collapse by match_key into one golden record — counted once in capacity, funnel, and revenue. Per-campus capacity is real, revenue is measured from Stripe, and the roster (minors' PII) is role-gated."
-        basePath="/m/summer-camp"
         viewerName={viewer.name}
         viewerTitle={viewer.title}
         viewerRole={viewer.role}
-        devMode={DEV_MODE}
       />
 
       <div className="mx-auto max-w-[1280px] px-5 py-6 sm:px-7 lg:px-9">

@@ -7,7 +7,7 @@
 import Link from "next/link";
 import { generate } from "@/lib/seed/generate";
 import { demoUserByRole } from "@/lib/phase2";
-import { DEV_MODE, getSession } from "@/lib/auth";
+import { getSession } from "@/lib/auth";
 import { parityThreshold } from "@/lib/parity";
 import { seedBannerState } from "@/lib/crm-ops/parity-view";
 import { DataConfidenceBanner } from "@/app/_components/DataConfidenceBanner";
@@ -86,11 +86,9 @@ export default async function ContentPage({
         moduleN={3}
         title="Content & Thought Leadership"
         blurb="The Hub mirrors the Google Sheet (production status stays source of truth) with field-level merge and a conflict queue — never a clobber. Channels stay distinct, content-to-conversion is a real app_form × UTM join, and the X conversion figure is measured (not a constant). The brand-voice auditor suggests; it never gates publish."
-        basePath="/m/content"
         viewerName={viewer.name}
         viewerTitle={viewer.title}
         viewerRole={viewer.role}
-        devMode={DEV_MODE}
       />
 
       <div className="mx-auto max-w-[1280px] px-5 py-6 sm:px-7 lg:px-9">

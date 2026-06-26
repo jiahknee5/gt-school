@@ -7,7 +7,7 @@
 import Link from "next/link";
 import { generate } from "@/lib/seed/generate";
 import { demoUserByRole } from "@/lib/phase2";
-import { DEV_MODE, getSession } from "@/lib/auth";
+import { getSession } from "@/lib/auth";
 import { parityThreshold } from "@/lib/parity";
 import { seedBannerState } from "@/lib/crm-ops/parity-view";
 import { DataConfidenceBanner } from "@/app/_components/DataConfidenceBanner";
@@ -78,11 +78,9 @@ export default async function AdmissionsPage({
         moduleN={9}
         title="Admissions & Voice of Customer"
         blurb="The feedback-to-marketing loop: objections logged as real spans (de-duped, theme-validated), the objection→content bridge, consent-gated Voice of Families, and a closure-tracked feedback loop. Pipeline numbers read app_form; quotes never surface without consent."
-        basePath="/m/admissions"
         viewerName={viewer.name}
         viewerTitle={viewer.title}
         viewerRole={viewer.role}
-        devMode={DEV_MODE}
       />
 
       <div className="mx-auto max-w-[1280px] px-5 py-6 sm:px-7 lg:px-9">

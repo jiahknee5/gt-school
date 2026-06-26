@@ -1,9 +1,9 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { moduleBySlug } from "@/lib/modules";
-import { DEMO_USERS, buildModuleSurface, type SurfaceMetric, type SurfaceRow } from "@/lib/phase2";
+import { buildModuleSurface, type SurfaceMetric, type SurfaceRow } from "@/lib/phase2";
 import { generate } from "@/lib/seed/generate";
-import { DEV_MODE, getSession } from "@/lib/auth";
+import { getSession } from "@/lib/auth";
 
 const EXTRA_SLUGS = ["gt-challenge"];
 
@@ -19,10 +19,6 @@ export async function generateMetadata({
   const moduleDef = moduleBySlug(slug);
   if (slug === "gt-challenge") return { title: "GT Challenge | GT Marketing Hub" };
   return { title: moduleDef ? `${moduleDef.name} | GT Marketing Hub` : "GT Marketing Hub" };
-}
-
-function roleHref(slug: string, role: string) {
-  return `/api/auth/login?role=${role}&next=${encodeURIComponent(`/m/${slug}`)}`;
 }
 
 function toneClass(tone: SurfaceMetric["tone"] | SurfaceRow["tone"] = "neutral") {
@@ -83,26 +79,8 @@ export default async function ModulePage({
             </div>
 
             <div className="rounded-card border border-hairline bg-canvas p-3">
-              <p className="mono text-[11px] font-semibold text-label">
-                {DEV_MODE ? "Role lens (dev switcher)" : "Active role"}
-              </p>
-              {DEV_MODE && (
-                <div className="mt-2 flex flex-wrap gap-1.5">
-                  {DEMO_USERS.map((user) => (
-                    <a
-                      key={user.id}
-                      href={roleHref(slug, user.role)}
-                      className={`rounded-card border px-2.5 py-1.5 text-[12px] font-semibold transition-colors ${
-                        surface.viewer.role === user.role
-                          ? "border-gold bg-amber-soft text-ink"
-                          : "border-hairline bg-surface text-muted hover:border-border hover:text-ink"
-                      }`}
-                    >
-                      {user.role}
-                    </a>
-                  ))}
-                </div>
-              )}
+              <p className="mono text-[11px] font-semibold text-label">Active role</p>
+              <p className="mt-2 text-[12px] font-semibold text-ink">{surface.viewer.role}</p>
               <p className="mt-2 text-[12px] text-muted">
                 {surface.viewer.name} | {surface.viewer.title}
               </p>

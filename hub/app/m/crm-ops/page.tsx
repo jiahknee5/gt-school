@@ -13,8 +13,7 @@
 
 import Link from "next/link";
 import { generate } from "@/lib/seed/generate";
-import { DEMO_USERS } from "@/lib/phase2";
-import { DEV_MODE, getSession } from "@/lib/auth";
+import { getSession } from "@/lib/auth";
 import { parityThreshold } from "@/lib/parity";
 import { computeSeedParity, seedBannerState } from "@/lib/crm-ops/parity-view";
 import { summarizeAttribution } from "@/lib/crm-ops/attribution";
@@ -52,10 +51,6 @@ function tabHref(tab: TabKey): string {
   return tab === "overview" ? "/m/crm-ops" : `/m/crm-ops?tab=${tab}`;
 }
 
-function loginHref(role: string) {
-  return `/api/auth/login?role=${role}&next=${encodeURIComponent("/m/crm-ops")}`;
-}
-
 export default async function CrmOpsPage({
   searchParams,
 }: {
@@ -91,26 +86,8 @@ export default async function CrmOpsPage({
             </div>
 
             <div className="rounded-card border border-hairline bg-canvas p-3">
-              <p className="mono text-[11px] font-semibold text-label">
-                {DEV_MODE ? "Role lens (dev switcher)" : "Active role"}
-              </p>
-              {DEV_MODE && (
-                <div className="mt-2 flex flex-wrap gap-1.5">
-                  {DEMO_USERS.map((user) => (
-                    <a
-                      key={user.id}
-                      href={loginHref(user.role)}
-                      className={`rounded-card border px-2.5 py-1.5 text-[12px] font-semibold transition-colors ${
-                        role === user.role
-                          ? "border-gold bg-amber-soft text-ink"
-                          : "border-hairline bg-surface text-muted hover:border-border hover:text-ink"
-                      }`}
-                    >
-                      {user.role}
-                    </a>
-                  ))}
-                </div>
-              )}
+              <p className="mono text-[11px] font-semibold text-label">Active role</p>
+              <p className="mt-2 text-[12px] font-semibold text-ink">{role ?? "Not signed in"}</p>
               <p className="mt-2 text-[12px] text-muted">
                 Admin + Leader read · Operators denied
               </p>

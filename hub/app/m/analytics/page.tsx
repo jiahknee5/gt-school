@@ -8,7 +8,7 @@
 import Link from "next/link";
 import { generate } from "@/lib/seed/generate";
 import { demoUserByRole } from "@/lib/phase2";
-import { DEV_MODE, getSession } from "@/lib/auth";
+import { getSession } from "@/lib/auth";
 import { Card, MetricTile, ModuleHeader, Pill, Tabs } from "@/app/_components/modkit";
 import {
   siteTotals,
@@ -80,11 +80,9 @@ export default async function AnalyticsPage({
         moduleN={13}
         title="Website & Digital Analytics"
         blurb="GA4 is the single source of truth for gt.school + anywhere.gt.school. Per-site and aggregate reconcile by summation (no cross-property double-count); bounce has one definition; (not set) UTMs are explicit and counted. This module reads GA4, not HubSpot — it is not gated by the sync-parity banner and shows its own GA4-confidence note."
-        basePath="/m/analytics"
         viewerName={viewer.name}
         viewerTitle={viewer.title}
         viewerRole={viewer.role}
-        devMode={DEV_MODE}
       />
 
       <div className="mx-auto max-w-[1280px] px-5 py-6 sm:px-7 lg:px-9">

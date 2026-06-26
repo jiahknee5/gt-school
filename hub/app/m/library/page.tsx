@@ -6,7 +6,7 @@
 
 import { generate } from "@/lib/seed/generate";
 import { demoUserByRole } from "@/lib/phase2";
-import { DEV_MODE, getSession } from "@/lib/auth";
+import { getSession } from "@/lib/auth";
 import { Card, MetricTile, ModuleHeader, Pill } from "@/app/_components/modkit";
 import { SAMPLE_RESOURCES } from "@/lib/library/data";
 import { TAGS, type Tag } from "@/lib/library/types";
@@ -55,11 +55,9 @@ export default async function LibraryPage({
         moduleN={12}
         title="Resource Library"
         blurb="A flat, tag-filterable shelf of plans, decks, trackers, and dossiers. The Library owns metadata only — download counts are read-only from Analytics and never fabricated. Visibility is enforced at the query layer, so leadership-only resources never reach an Operator. Dead links surface a visible 'unreachable' state."
-        basePath="/m/library"
         viewerName={viewer.name}
         viewerTitle={viewer.title}
         viewerRole={viewer.role}
-        devMode={DEV_MODE}
       />
 
       <div className="mx-auto max-w-[1280px] px-5 py-6 sm:px-7 lg:px-9">

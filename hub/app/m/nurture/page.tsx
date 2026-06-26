@@ -7,7 +7,7 @@
 
 import { generate } from "@/lib/seed/generate";
 import { demoUserByRole } from "@/lib/phase2";
-import { DEV_MODE, getSession } from "@/lib/auth";
+import { getSession } from "@/lib/auth";
 import { parityThreshold } from "@/lib/parity";
 import { seedBannerState } from "@/lib/crm-ops/parity-view";
 import { DataConfidenceBanner } from "@/app/_components/DataConfidenceBanner";
@@ -71,11 +71,9 @@ export default async function NurturePage({
         moduleN={5}
         title="Nurture & Lifecycle"
         blurb="Segments, the engagement×attribute heatmap, pipeline + handoff, read-only sequence health, the PII-gated SMS inbox, and the 24-hour follow-up SLA. Engagement tier and conversion are measured from disjoint fields, so the heatmap is a real predictor — not a tautology."
-        basePath="/m/nurture"
         viewerName={viewer.name}
         viewerTitle={viewer.title}
         viewerRole={viewer.role}
-        devMode={DEV_MODE}
       />
 
       <div className="mx-auto max-w-[1280px] px-5 py-6 sm:px-7 lg:px-9">

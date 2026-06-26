@@ -7,7 +7,7 @@
 import Link from "next/link";
 import { generate } from "@/lib/seed/generate";
 import { demoUserByRole } from "@/lib/phase2";
-import { DEV_MODE, getSession } from "@/lib/auth";
+import { getSession } from "@/lib/auth";
 import { parityThreshold } from "@/lib/parity";
 import { seedBannerState } from "@/lib/crm-ops/parity-view";
 import { DataConfidenceBanner } from "@/app/_components/DataConfidenceBanner";
@@ -70,11 +70,9 @@ export default async function GrassrootsPage({
         moduleN={2}
         title="Grassroots Engine"
         blurb="Ambassador program reconciled from community.gt.school + HubSpot (dual-source, survivorship-resolved), referral sprints, a market map with a real coverage denominator, and parent-led events owned here. Influenced enrollments trace to app_form attribution — measured, not asserted."
-        basePath="/m/grassroots"
         viewerName={viewer.name}
         viewerTitle={viewer.title}
         viewerRole={viewer.role}
-        devMode={DEV_MODE}
       />
 
       <div className="mx-auto max-w-[1280px] px-5 py-6 sm:px-7 lg:px-9">

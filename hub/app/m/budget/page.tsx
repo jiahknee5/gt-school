@@ -13,8 +13,8 @@
 
 import Link from "next/link";
 import { generate } from "@/lib/seed/generate";
-import { DEMO_USERS, demoUserByRole } from "@/lib/phase2";
-import { DEV_MODE, getSession } from "@/lib/auth";
+import { demoUserByRole } from "@/lib/phase2";
+import { getSession } from "@/lib/auth";
 import { reconcileBudget } from "@/lib/budget/reconcile";
 import { buildBurnSeries, actualAllocation } from "@/lib/metrics/budget";
 import { BudgetTable } from "./_components/BudgetTable";
@@ -43,10 +43,6 @@ type TabKey = (typeof TABS)[number]["key"];
 
 function tabHref(tab: TabKey): string {
   return tab === "table" ? "/m/budget" : `/m/budget?tab=${tab}`;
-}
-
-function loginHref(role: string) {
-  return `/api/auth/login?role=${role}&next=${encodeURIComponent("/m/budget")}`;
 }
 
 export default async function BudgetPage({
@@ -93,26 +89,8 @@ export default async function BudgetPage({
             </div>
 
             <div className="rounded-card border border-hairline bg-canvas p-3">
-              <p className="mono text-[11px] font-semibold text-label">
-                {DEV_MODE ? "Role lens (dev switcher)" : "Active role"}
-              </p>
-              {DEV_MODE && (
-                <div className="mt-2 flex flex-wrap gap-1.5">
-                  {DEMO_USERS.map((user) => (
-                    <a
-                      key={user.id}
-                      href={loginHref(user.role)}
-                      className={`rounded-card border px-2.5 py-1.5 text-[12px] font-semibold transition-colors ${
-                        viewer.role === user.role
-                          ? "border-gold bg-amber-soft text-ink"
-                          : "border-hairline bg-surface text-muted hover:border-border hover:text-ink"
-                      }`}
-                    >
-                      {user.role}
-                    </a>
-                  ))}
-                </div>
-              )}
+              <p className="mono text-[11px] font-semibold text-label">Active role</p>
+              <p className="mt-2 text-[12px] font-semibold text-ink">{viewer.role}</p>
               <p className="mt-2 text-[12px] text-muted">
                 {viewer.name} | {viewer.title}
               </p>

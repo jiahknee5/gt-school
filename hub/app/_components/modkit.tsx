@@ -4,7 +4,6 @@
 
 import Link from "next/link";
 import type { ReactNode } from "react";
-import { DEMO_USERS } from "@/lib/phase2";
 
 export type Tone = "neutral" | "good" | "watch" | "risk";
 
@@ -109,28 +108,27 @@ export function Tabs<T extends string>({
   );
 }
 
-/** The standard module page header with the dev role-lens switcher. */
+/** The standard module page header. Role switching lives in the global TopBar; this
+ * header shows the signed-in identity as read-only context only. */
 export function ModuleHeader({
   moduleN,
   title,
   blurb,
-  basePath,
   viewerName,
   viewerTitle,
   viewerRole,
-  devMode,
 }: {
   moduleN: number;
   title: string;
   blurb: string;
-  basePath: string;
   viewerName: string;
   viewerTitle: string;
   viewerRole: string;
-  devMode: boolean;
+  /** Deprecated: role switching moved to the global TopBar. Kept for old call sites. */
+  basePath?: string;
+  /** Deprecated: role switching moved to the global TopBar. Kept for old call sites. */
+  devMode?: boolean;
 }) {
-  const loginHref = (role: string) =>
-    `/api/auth/login?role=${role}&next=${encodeURIComponent(basePath)}`;
   return (
     <section className="border-b border-hairline bg-canvas">
       <div className="mx-auto max-w-[1280px] px-5 py-7 sm:px-7 lg:px-9">
@@ -153,25 +151,8 @@ export function ModuleHeader({
           </div>
           <div className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
             <p className="mono text-[10px] font-semibold uppercase tracking-[0.08em] text-label">
-              {devMode ? "Role lens (dev switcher)" : "Active role"}
+              Active role
             </p>
-            {devMode && (
-              <div className="mt-2 flex flex-wrap gap-1.5">
-                {DEMO_USERS.map((user) => (
-                  <a
-                    key={user.id}
-                    href={loginHref(user.role)}
-                    className={`rounded-card border px-2.5 py-1.5 text-[12px] font-semibold transition-colors ${
-                      viewerRole === user.role
-                        ? "border-gold bg-amber-soft text-ink"
-                        : "border-hairline bg-surface text-muted hover:border-border hover:text-ink"
-                    }`}
-                  >
-                    {user.role}
-                  </a>
-                ))}
-              </div>
-            )}
             <p className="mt-2 text-[12px] font-semibold text-ink">
               {viewerName}
             </p>

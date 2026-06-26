@@ -225,23 +225,12 @@ export default async function Home() {
               </p>
             </div>
             <div className="rounded-card border border-border bg-surface p-4 shadow-sm">
-              <p className="text-[12px] font-semibold text-muted">Active role lens</p>
+              <p className="text-[12px] font-semibold text-muted">Active role</p>
               <p className="mt-2 text-[18px] font-semibold text-ink">{viewer.name}</p>
               <p className="text-[13px] text-muted">{viewer.title}</p>
-              <div className="mt-4 grid grid-cols-3 gap-2">
-                {DEMO_USERS.map((user) => (
-                  <div
-                    key={user.id}
-                    className={`rounded-card border px-2 py-2 text-center ${
-                      user.role === viewer.role
-                        ? "border-gold bg-amber-soft text-ink"
-                        : "border-hairline bg-canvas text-muted"
-                    }`}
-                  >
-                    <p className="mono text-[11px] font-semibold">{user.role}</p>
-                  </div>
-                ))}
-              </div>
+              <p className="mono mt-4 inline-flex rounded-card border border-hairline bg-canvas px-2.5 py-1.5 text-[11px] font-semibold text-ink">
+                {viewer.role}
+              </p>
             </div>
           </div>
 

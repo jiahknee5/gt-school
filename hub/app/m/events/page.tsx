@@ -7,7 +7,7 @@
 import Link from "next/link";
 import { generate } from "@/lib/seed/generate";
 import { demoUserByRole } from "@/lib/phase2";
-import { DEV_MODE, getSession } from "@/lib/auth";
+import { getSession } from "@/lib/auth";
 import { Card, MetricTile, ModuleHeader, Pill, Tabs } from "@/app/_components/modkit";
 import { FIELD_EVENTS } from "@/lib/events/data";
 import {
@@ -76,11 +76,9 @@ export default async function EventsPage({
         moduleN={8}
         title="Field Marketing & Events"
         blurb="GT-organized events only — Shadow Days, chess, AMAs, festivals, webinars — captured by manual entry (no API in v1). Event→consult is uninstrumented and shown with a loud 'manual v1' badge, never faked. Ambassador events appear read-only from Grassroots and are never counted here; event spend rolls into a workstream so the $365K plan stays intact."
-        basePath="/m/events"
         viewerName={viewer.name}
         viewerTitle={viewer.title}
         viewerRole={viewer.role}
-        devMode={DEV_MODE}
       />
 
       <div className="mx-auto max-w-[1280px] px-5 py-6 sm:px-7 lg:px-9">
