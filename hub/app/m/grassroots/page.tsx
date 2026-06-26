@@ -75,12 +75,12 @@ export default async function GrassrootsPage({
         viewerRole={viewer.role}
       />
 
-      <div className="mx-auto max-w-[1280px] px-5 py-6 sm:px-7 lg:px-9">
-        <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
-          <div className="space-y-5">
+      <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
+        <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
+          <div className="space-y-3">
             <DataConfidenceBanner state={banner} />
 
-            <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <section className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
               <MetricTile label="Active ambassadors" value={String(active)} note="stage Active or Champion (counted once)" tone="good" />
               <MetricTile label="Warm intros" value={String(intros)} note="de-duplicated activity log" tone="neutral" />
               <MetricTile label="P2P calls" value={String(calls)} note="de-duplicated activity log" tone="neutral" />
@@ -98,10 +98,10 @@ export default async function GrassrootsPage({
                     { label: "P2P calls", value: calls, goal: 50 },
                     { label: "Influenced enrollments", value: influenced.length, goal: 30 },
                   ].map((b) => (
-                    <div key={b.label} className="grid grid-cols-[180px_1fr_90px] items-center gap-3">
-                      <span className="text-[13px] font-semibold text-ink">{b.label}</span>
+                    <div key={b.label} className="grid grid-cols-[180px_1fr_90px] items-center gap-2">
+                      <span className="text-[12px] font-semibold text-ink">{b.label}</span>
                       <Bar pct={Math.min(100, (100 * b.value) / b.goal)} tone={b.value >= b.goal ? "good" : "watch"} />
-                      <span className="mono num text-right text-[13px] text-ink">{b.value} / {b.goal}</span>
+                      <span className="mono num text-right text-[12px] text-ink">{b.value} / {b.goal}</span>
                     </div>
                   ))}
                 </div>
@@ -110,7 +110,7 @@ export default async function GrassrootsPage({
 
             {activeTab === "roster" && (
               <Card title="Ambassador roster (reconciled)" note={`${ambassadors.length} golden records from two feeds · ${conflicts.length} survivorship conflict(s) logged to CRM Ops`}>
-                <div className="mb-3 flex flex-wrap gap-2">
+                <div className="mb-2.5 flex flex-wrap gap-1.5">
                   {stageCounts.map((s) => (
                     <Pill key={s.stage} tone={s.stage === "Champion" || s.stage === "Active" ? "good" : "neutral"}>
                       {s.stage}: {s.count}
@@ -118,24 +118,24 @@ export default async function GrassrootsPage({
                   ))}
                 </div>
                 <div className="overflow-x-auto">
-                  <table className="w-full min-w-[560px] border-collapse text-[13px]">
+                  <table className="w-full min-w-[560px] border-collapse text-[11px]">
                     <thead>
-                      <tr className="border-b border-hairline text-left text-[11px] uppercase tracking-wide text-label">
-                        <th className="py-2 pr-3 font-semibold">Name</th>
-                        <th className="py-2 pr-3 font-semibold">Stage</th>
-                        <th className="py-2 pr-3 font-semibold">Source winner</th>
-                        <th className="py-2 font-semibold">Confidence</th>
+                      <tr className="border-b border-hairline text-left text-[10px] uppercase tracking-wide text-label">
+                        <th className="py-1 pr-2.5 font-semibold">Name</th>
+                        <th className="py-1 pr-2.5 font-semibold">Stage</th>
+                        <th className="py-1 pr-2.5 font-semibold">Source winner</th>
+                        <th className="py-1 font-semibold">Confidence</th>
                       </tr>
                     </thead>
                     <tbody>
                       {ambassadors.slice(0, 22).map((a) => (
                         <tr key={a.matchKey} className="border-b border-hairline">
-                          <td className="py-2 pr-3 text-ink">{a.name}</td>
-                          <td className="py-2 pr-3">
+                          <td className="py-1 pr-2.5 text-ink">{a.name}</td>
+                          <td className="py-1 pr-2.5">
                             <Pill tone={a.stage === "Champion" || a.stage === "Active" ? "good" : "neutral"}>{a.stage}</Pill>
                           </td>
-                          <td className="py-2 pr-3 text-muted">{a.sourceWinner}</td>
-                          <td className="py-2">
+                          <td className="py-1 pr-2.5 text-muted">{a.sourceWinner}</td>
+                          <td className="py-1">
                             <Pill tone={a.statusConfidence === "low" ? "watch" : "good"}>{a.statusConfidence}</Pill>
                           </td>
                         </tr>
@@ -144,7 +144,7 @@ export default async function GrassrootsPage({
                   </table>
                 </div>
                 {conflicts.length > 0 && (
-                  <p className="mt-3 text-[12px] text-muted">
+                  <p className="mt-3 text-[11px] text-muted">
                     Survivorship example: {conflicts[0].name} — community {conflicts[0].communityStage} vs HubSpot {conflicts[0].hubspotStage} → golden {conflicts[0].winner}.
                   </p>
                 )}
@@ -153,12 +153,12 @@ export default async function GrassrootsPage({
 
             {activeTab === "market" && (
               <Card title="Market map coverage" note="Coverage % = contacted ÷ total per category. Ungeocoded nodes land in an explicit bucket, never dropped.">
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   {coverage.map((c) => (
-                    <div key={c.category} className="grid grid-cols-[200px_1fr_120px] items-center gap-3">
-                      <span className="text-[13px] text-ink">{c.category}</span>
+                    <div key={c.category} className="grid grid-cols-[200px_1fr_120px] items-center gap-2">
+                      <span className="text-[12px] text-ink">{c.category}</span>
                       <Bar pct={c.coveragePct} tone={c.coveragePct >= 60 ? "good" : c.coveragePct >= 30 ? "watch" : "risk"} />
-                      <span className="mono num text-right text-[12px] text-muted">
+                      <span className="mono num text-right text-[11px] text-muted">
                         {c.contacted}/{c.total}{c.ungeocoded ? ` · ${c.ungeocoded} ungeo` : ""}
                       </span>
                     </div>
@@ -169,14 +169,14 @@ export default async function GrassrootsPage({
 
             {activeTab === "sprints" && (
               <Card title="Referral sprints (14-day windows)" note="Enlist ambassadors; track families identified → conversions; archive on close.">
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   {REFERRAL_SPRINTS.map((s) => (
-                    <div key={s.id} className="rounded-card border border-hairline bg-canvas p-3">
+                    <div key={s.id} className="rounded-card border border-hairline bg-canvas p-2.5">
                       <div className="flex items-center justify-between">
-                        <p className="text-[13px] font-semibold text-ink">{s.name}</p>
+                        <p className="text-[12px] font-semibold text-ink">{s.name}</p>
                         <Pill tone={s.status === "active" ? "good" : "neutral"}>{s.status}</Pill>
                       </div>
-                      <p className="mt-1 text-[12px] text-muted">
+                      <p className="mt-0.5 text-[11px] text-muted">
                         {s.windowStart} → {s.windowEnd} · {s.enlisted} enlisted · {s.familiesIdentified} families · {s.conversions} conversions
                       </p>
                     </div>
@@ -187,7 +187,7 @@ export default async function GrassrootsPage({
 
             {activeTab === "community" && (
               <Card title="Parent community" note="Active parents + event attendance. NPS / forum is manual/stand-in unless a community API is wired.">
-                <div className="grid gap-3 sm:grid-cols-3">
+                <div className="grid gap-2 sm:grid-cols-3">
                   <MetricTile label="Parent events" value={String(PARENT_EVENTS.length)} note="hosted this sprint" tone="neutral" />
                   <MetricTile label="Total attendance" value={String(PARENT_EVENTS.reduce((s, e) => s + e.attendance, 0))} note="across events" tone="good" />
                   <MetricTile label="NPS" value="not instrumented" note="needs a community API" tone="watch" />
@@ -197,14 +197,14 @@ export default async function GrassrootsPage({
 
             {activeTab === "events" && (
               <Card title="Parent-led event calendar (source of truth)" note="Owned here. Field Marketing (Module 8) shows these read-only.">
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   {PARENT_EVENTS.map((e) => (
-                    <div key={e.id} className="rounded-card border border-hairline bg-canvas p-3">
+                    <div key={e.id} className="rounded-card border border-hairline bg-canvas p-2.5">
                       <div className="flex items-center justify-between">
-                        <p className="text-[13px] font-semibold text-ink">{e.name}</p>
+                        <p className="text-[12px] font-semibold text-ink">{e.name}</p>
                         <Pill tone="neutral">{e.type.replace("_", " ")}</Pill>
                       </div>
-                      <p className="mt-1 text-[12px] text-muted">
+                      <p className="mt-0.5 text-[11px] text-muted">
                         {e.date} · {e.location} · host {e.host} · {e.attendance}/{e.rsvpCount} attended · {e.conversionsInfluenced} influenced
                       </p>
                     </div>
@@ -214,26 +214,26 @@ export default async function GrassrootsPage({
             )}
           </div>
 
-          <aside className="space-y-4">
-            <section className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-              <h2 className="font-serif text-[18px] font-semibold text-ink">Source of truth</h2>
-              <ul className="mt-3 space-y-2 text-[12px] leading-relaxed text-muted">
+          <aside className="space-y-3">
+            <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+              <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Source of truth</h2>
+              <ul className="mt-2 space-y-1.5 text-[11px] leading-snug text-muted">
                 <li>Ambassadors = community.gt.school + HubSpot, reconciled by survivorship (no double-count).</li>
                 <li>Influenced enrollments read app_form referral attribution — measured.</li>
                 <li>parent_events are writable only here; Field Marketing reads them.</li>
                 <li>Status conflicts surface as a data-quality issue in CRM Ops.</li>
               </ul>
             </section>
-            <section className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-              <h2 className="font-serif text-[18px] font-semibold text-ink">Your access</h2>
-              <p className="mt-2 text-[12px] leading-relaxed text-muted">
+            <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+              <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Your access</h2>
+              <p className="mt-1 text-[11px] leading-snug text-muted">
                 {viewer.role === "operator"
                   ? "Grassroots Owner (Operator): read/write this module; you may SUBMIT a budget ask to the Decision Queue but cannot view the full queue."
                   : viewer.role === "leader"
                     ? "Leader: read all + approve grassroots budget asks in the Decision Queue."
                     : "Admin: full read/write."}
               </p>
-              <Link href={decisionStatusHref(viewer.role)} className="mt-3 inline-flex text-[12px] font-semibold text-gold hover:underline">
+              <Link href={decisionStatusHref(viewer.role)} className="mt-2 inline-flex text-[11px] font-semibold text-gold hover:underline">
                 {decisionStatusLabel(viewer.role)} →
               </Link>
             </section>

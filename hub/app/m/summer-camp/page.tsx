@@ -71,10 +71,10 @@ export default async function SummerCampPage({
         viewerRole={viewer.role}
       />
 
-      <div className="mx-auto max-w-[1280px] px-5 py-6 sm:px-7 lg:px-9">
-        <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
-          <div className="space-y-5">
-            <section role="note" className="rounded-card border border-hairline bg-fill p-3 text-[12px] leading-relaxed text-slate">
+      <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
+        <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
+          <div className="space-y-3">
+            <section role="note" className="rounded-card border border-hairline bg-fill p-2.5 text-[11px] leading-snug text-slate">
               <span className="font-semibold text-ink">Camp source note:</span> Summer Camp reads summer.gt.school,
               the registration form, and Stripe camp payments. It is a separate P&amp;L and does not mount the shared
               HubSpot data-confidence banner.
@@ -85,7 +85,7 @@ export default async function SummerCampPage({
               </section>
             )}
 
-            <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <section className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
               <MetricTile label="Capacity sold" value={pct(aggCapacity ? aggPaid / aggCapacity : 0)} note={`${aggPaid}/${aggCapacity} seats (sum of campuses)`} tone="neutral" />
               <MetricTile label="Cash revenue" value={usd(revenue.cashRevenue)} note={`${pct(revenue.pctToTarget)} of ${usd(revenue.target)} target`} tone={revenue.pctToTarget >= 0.5 ? "good" : "watch"} />
               <MetricTile label="Reconciled dupes" value={fmt(mergedCount)} note="site + form merged to one" tone="good" />
@@ -97,17 +97,17 @@ export default async function SummerCampPage({
             {activeTab === "overview" && (
               <>
                 <Card title="Revenue vs target" note="Cash = Stripe succeeded payments (program=summer_camp). Booked = Σ resolved amount. Target is Leader-set.">
-                  <div className="grid gap-3 sm:grid-cols-3">
+                  <div className="grid gap-2 sm:grid-cols-3">
                     <MetricTile label="Cash (Stripe)" value={usd(revenue.cashRevenue)} note="cash truth" tone="good" />
                     <MetricTile label="Booked" value={usd(revenue.bookedRevenue)} note="expected" tone="neutral" />
                     <MetricTile label="Rev / family" value={usd(revenue.revenuePerFamily)} note={`${revenue.distinctFamilies} distinct families`} tone="neutral" />
                   </div>
                 </Card>
-                <div className="grid gap-3 sm:grid-cols-2">
+                <div className="grid gap-2 sm:grid-cols-2">
                   <Card title="Top channels (organic / owned only)" note="No ad-spend row — ads are paused. Shares sum to 100%.">
                     <div className="space-y-1">
                       {channels.map((c) => (
-                        <div key={c.channel} className="flex items-center justify-between border-b border-hairline py-1 text-[12px]">
+                        <div key={c.channel} className="flex items-center justify-between border-b border-hairline py-1 text-[11px]">
                           <span className="text-ink">{c.channel}</span>
                           <span className="mono num text-muted">{pct(c.pct)}</span>
                         </div>
@@ -123,7 +123,7 @@ export default async function SummerCampPage({
 
             {activeTab === "funnel" && (
               <Card title="Registration funnel" note="Lead → Registered → Paid → Attended. Each family counted once (reconciled). Attended pending an attendance roster source.">
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   {([
                     ["Lead", funnel.lead],
                     ["Registered", funnel.registered],
@@ -133,13 +133,13 @@ export default async function SummerCampPage({
                     const prev = i === 0 ? n : arr[i - 1][1];
                     const drop = prev > 0 ? 1 - n / prev : 0;
                     return (
-                      <div key={label} className="rounded-card border border-hairline bg-canvas p-3">
+                      <div key={label} className="rounded-card border border-hairline bg-canvas p-2.5">
                         <div className="flex items-center justify-between">
-                          <span className="text-[13px] font-semibold text-ink">{label}</span>
-                          <span className="mono num text-[13px] text-ink">{fmt(n)}</span>
+                          <span className="text-[12px] font-semibold text-ink">{label}</span>
+                          <span className="mono num text-[12px] text-ink">{fmt(n)}</span>
                         </div>
                         <Bar pct={funnel.lead > 0 ? (n / funnel.lead) * 100 : 0} tone={label === "Paid" ? "good" : "neutral"} />
-                        {i > 0 && <p className="mt-1 text-[11px] text-muted">drop-off {pct(drop)} from {arr[i - 1][0]}</p>}
+                        {i > 0 && <p className="mt-0.5 text-[11px] text-muted">drop-off {pct(drop)} from {arr[i - 1][0]}</p>}
                       </div>
                     );
                   })}
@@ -152,16 +152,16 @@ export default async function SummerCampPage({
                 {campContent.length > 0 ? (
                   <div className="space-y-1">
                     {campContent.map((c, i) => (
-                      <div key={i} className="flex items-center justify-between border-b border-hairline py-1 text-[12px]">
+                      <div key={i} className="flex items-center justify-between border-b border-hairline py-1 text-[11px]">
                         <span className="text-ink">{c.piece}</span>
                         <Pill tone="neutral">{c.status}</Pill>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-[13px] text-muted">No camp-tagged content this window. Tag pieces with summer_camp_2026 in Module 3.</p>
+                  <p className="text-[11px] text-muted">No camp-tagged content this window. Tag pieces with summer_camp_2026 in Module 3.</p>
                 )}
-                <Link href="/m/content" className="mt-3 inline-flex text-[12px] font-semibold text-gold hover:underline">
+                <Link href="/m/content" className="mt-2 inline-flex text-[11px] font-semibold text-gold hover:underline">
                   Open Content pipeline →
                 </Link>
               </Card>
@@ -169,16 +169,16 @@ export default async function SummerCampPage({
 
             {activeTab === "sessions" && (
               <Card title="Sessions — 4 campus cards" note="Per-campus capacity is real (Georgetown 60 / Austin 48 / Dallas 40 / Houston 30). Roster drill-in is role-gated (minors' PII).">
-                <div className="grid gap-3 sm:grid-cols-2">
+                <div className="grid gap-2 sm:grid-cols-2">
                   {campuses.map((c) => (
-                    <div key={c.campusKey} className="rounded-card border border-hairline bg-canvas p-3">
+                    <div key={c.campusKey} className="rounded-card border border-hairline bg-canvas p-2.5">
                       <div className="flex items-center justify-between">
                         <p className="text-[14px] font-semibold text-ink">{c.name}</p>
                         {c.overflow ? <Pill tone="risk">overflow</Pill> : <Pill tone="neutral">{c.capacity} cap</Pill>}
                       </div>
-                      <p className="mt-1 text-[12px] text-muted">{c.registered} registered · {c.paid} paid · {c.waitlist} waitlist</p>
+                      <p className="mt-0.5 text-[11px] text-muted">{c.registered} registered · {c.paid} paid · {c.waitlist} waitlist</p>
                       <Bar pct={c.capacitySoldPct * 100} tone={c.capacitySoldPct > 0.9 ? "risk" : "good"} />
-                      <p className="mt-1 text-[11px] text-muted">{pct(c.capacitySoldPct)} capacity sold</p>
+                      <p className="mt-0.5 text-[11px] text-muted">{pct(c.capacitySoldPct)} capacity sold</p>
                       {c.capacitySoldPct > 0.9 && <p className="mt-1 text-[11px] text-gold">→ auto-suggest: add a session? (Decision Queue)</p>}
                     </div>
                   ))}
@@ -188,7 +188,7 @@ export default async function SummerCampPage({
                   {rosterAllowed ? (
                     <div className="mt-2 space-y-1">
                       {resolved.slice(0, 6).map((r) => (
-                        <div key={r.resolvedKey} className="flex items-center justify-between border-b border-hairline py-1 text-[12px]">
+                        <div key={r.resolvedKey} className="flex items-center justify-between border-b border-hairline py-1 text-[11px]">
                           <span className="text-ink">{maskName(r.matchKey)} · {r.campusName}</span>
                           <span className="text-muted">{r.weeks}wk · {r.funnelStage}</span>
                         </div>
@@ -202,10 +202,10 @@ export default async function SummerCampPage({
             )}
           </div>
 
-          <aside className="space-y-4">
-            <section className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-              <h2 className="font-serif text-[18px] font-semibold text-ink">Source of truth</h2>
-              <ul className="mt-3 space-y-2 text-[12px] leading-relaxed text-muted">
+          <aside className="space-y-3">
+            <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+              <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Source of truth</h2>
+              <ul className="mt-2 space-y-1.5 text-[11px] leading-snug text-muted">
                 <li>summer.gt.school is primary (payment + status); form is alternate intake.</li>
                 <li>One golden record per match_key + campus — counted once everywhere.</li>
                 <li>Week conflict → site value kept + a data-quality issue (never averaged).</li>
@@ -213,14 +213,14 @@ export default async function SummerCampPage({
                 <li>Camp is a separate P&L — out of the $365K marketing budget.</li>
               </ul>
             </section>
-            <section className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-              <h2 className="font-serif text-[18px] font-semibold text-ink">Your access</h2>
-              <p className="mt-2 text-[12px] leading-relaxed text-muted">
+            <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+              <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Your access</h2>
+              <p className="mt-1 text-[11px] leading-snug text-muted">
                 {canSetTarget(viewer.role)
                   ? "Leader: approve pricing/session changes and set the revenue target."
                   : "Operator/Admin: read/write camp; submit pricing + add-session proposals to the Decision Queue (Operators can't view/act on the full queue)."}
               </p>
-              <Link href={decisionStatusHref(viewer.role)} className="mt-3 inline-flex text-[12px] font-semibold text-gold hover:underline">
+              <Link href={decisionStatusHref(viewer.role)} className="mt-2 inline-flex text-[11px] font-semibold text-gold hover:underline">
                 {decisionStatusLabel(viewer.role)} →
               </Link>
             </section>

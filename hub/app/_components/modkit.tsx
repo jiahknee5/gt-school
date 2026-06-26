@@ -16,7 +16,7 @@ export function toneClass(tone: Tone = "neutral"): string {
 
 export function Pill({ tone = "neutral", children }: { tone?: Tone; children: ReactNode }) {
   return (
-    <span className={`mono w-fit rounded-card border px-2 py-1 text-[11px] font-semibold ${toneClass(tone)}`}>
+    <span className={`mono w-fit rounded-card border px-1.5 py-0.5 text-[10px] font-semibold ${toneClass(tone)}`}>
       {children}
     </span>
   );
@@ -34,15 +34,15 @@ export function Card({
   right?: ReactNode;
 }) {
   return (
-    <section className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-      <div className="flex items-start justify-between gap-3 border-b border-hairline pb-3">
+    <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+      <div className="flex items-start justify-between gap-2 border-b border-hairline pb-2.5">
         <div>
-          <h2 className="font-serif text-[20px] font-semibold text-ink">{title}</h2>
-          {note && <p className="mt-1 text-[13px] leading-relaxed text-muted">{note}</p>}
+          <h2 className="font-serif text-[15px] font-bold tracking-[-0.01em] text-ink">{title}</h2>
+          {note && <p className="mt-0.5 text-[11px] leading-snug text-muted">{note}</p>}
         </div>
         {right}
       </div>
-      <div className="pt-3">{children}</div>
+      <div className="pt-2.5">{children}</div>
     </section>
   );
 }
@@ -59,12 +59,12 @@ export function MetricTile({
   tone?: Tone;
 }) {
   return (
-    <article className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-      <div className={`mono inline-flex rounded-card border px-2 py-1 text-[11px] font-semibold ${toneClass(tone)}`}>
+    <article className="rounded-card border border-hairline bg-surface p-2.5 shadow-sm">
+      <div className={`mono inline-flex rounded-card border px-1.5 py-0.5 text-[10px] font-semibold ${toneClass(tone)}`}>
         {label}
       </div>
-      <p className="mono num mt-3 text-[26px] font-semibold leading-none text-ink">{value}</p>
-      <p className="mt-2 text-[12px] leading-snug text-muted">{note}</p>
+      <p className="mono num mt-1.5 text-[18px] font-bold leading-none text-ink">{value}</p>
+      <p className="mt-1 text-[11px] leading-snug text-muted">{note}</p>
     </article>
   );
 }
@@ -88,7 +88,7 @@ export function Tabs<T extends string>({
   hrefFor: (key: T) => string;
 }) {
   return (
-    <nav className="flex flex-wrap gap-1.5 rounded-card border border-hairline bg-surface p-1.5">
+    <nav className="flex flex-wrap gap-1 rounded-card border border-hairline bg-surface p-1">
       {tabs.map((t) => {
         const isActive = t.key === active;
         return (
@@ -96,7 +96,7 @@ export function Tabs<T extends string>({
             key={t.key}
             href={hrefFor(t.key)}
             aria-current={isActive ? "page" : undefined}
-            className={`rounded-card px-3 py-1.5 text-[12px] font-semibold transition-colors ${
+            className={`rounded-card px-2.5 py-1 text-[11px] font-semibold transition-colors ${
               isActive ? "bg-ink-cta text-on-cta shadow-sm" : "text-muted hover:bg-hover hover:text-ink"
             }`}
           >
@@ -131,29 +131,29 @@ export function ModuleHeader({
 }) {
   return (
     <section className="border-b border-hairline bg-canvas">
-      <div className="mx-auto max-w-[1280px] px-5 py-7 sm:px-7 lg:px-9">
-        <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+      <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
+        <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
           <div className="min-w-0">
-            <div className="flex flex-wrap items-center gap-2">
-              <Link href="/" className="mono text-[11px] font-semibold text-gold hover:underline">
+            <div className="flex flex-wrap items-center gap-1.5">
+              <Link href="/" className="mono text-[10px] font-semibold text-gold hover:underline">
                 Home
               </Link>
               <span className="text-label">/</span>
-              <span className="mono rounded-card border border-hairline bg-fill px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-slate">
+              <span className="mono rounded-card border border-hairline bg-fill px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-slate">
                 Module {moduleN}
               </span>
-              <span className="mono rounded-card border border-hairline bg-surface px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-label">
+              <span className="mono rounded-card border border-hairline bg-surface px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-label">
                 {viewerTitle}
               </span>
             </div>
-            <h1 className="mt-3 font-serif text-[34px] font-semibold leading-tight text-ink">{title}</h1>
-            <p className="mt-2 max-w-[760px] text-[14px] leading-relaxed text-muted">{blurb}</p>
+            <h1 className="mt-1 font-serif text-[20px] font-bold leading-tight tracking-[-0.02em] text-ink">{title}</h1>
+            <p className="mt-1.5 max-w-[760px] text-[12px] leading-snug text-muted">{blurb}</p>
           </div>
-          <div className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+          <div className="rounded-card border border-hairline bg-surface p-2.5 shadow-sm">
             <p className="mono text-[10px] font-semibold uppercase tracking-[0.08em] text-label">
               Active role
             </p>
-            <p className="mt-2 text-[12px] font-semibold text-ink">
+            <p className="mt-1 text-[12px] font-semibold text-ink">
               {viewerName}
             </p>
             <p className="mono mt-0.5 text-[10px] text-label">

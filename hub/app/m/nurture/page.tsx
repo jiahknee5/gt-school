@@ -76,12 +76,12 @@ export default async function NurturePage({
         viewerRole={viewer.role}
       />
 
-      <div className="mx-auto max-w-[1280px] px-5 py-6 sm:px-7 lg:px-9">
-        <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
-          <div className="space-y-5">
+      <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
+        <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
+          <div className="space-y-3">
             <DataConfidenceBanner state={banner} />
 
-            <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <section className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
               <MetricTile label="Clicked tier" value={mix.clicked.toLocaleString()} note="Most engaged cohort" tone="good" />
               <MetricTile label="Cold tier" value={mix.cold.toLocaleString()} note="Re-engagement targets" tone="watch" />
               <MetricTile label="24h SLA" value={pct(sla.slaPct)} note={`${sla.contactedWithin24h}/${sla.newApplicants} new applicants`} tone={sla.slaPct >= 80 ? "good" : "risk"} />
@@ -92,15 +92,15 @@ export default async function NurturePage({
 
             {activeTab === "overview" && (
               <Card title="Engagement tier is a measured conversion predictor" note="Tier reads HubSpot engagement; conversion reads app_form funnel. Disjoint by construction.">
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   {tierConv.map((t) => (
-                    <div key={t.tier} className="grid grid-cols-[110px_1fr_70px] items-center gap-3">
-                      <span className="text-[13px] font-semibold capitalize text-ink">{t.tier}</span>
+                    <div key={t.tier} className="grid grid-cols-[110px_1fr_70px] items-center gap-2">
+                      <span className="text-[12px] font-semibold capitalize text-ink">{t.tier}</span>
                       <Bar pct={t.pct} tone={t.tier === "clicked" ? "good" : t.tier === "cold" ? "risk" : "watch"} />
-                      <span className="mono num text-right text-[13px] text-ink">{pct(t.pct)}</span>
+                      <span className="mono num text-right text-[12px] text-ink">{pct(t.pct)}</span>
                     </div>
                   ))}
-                  <p className="pt-2 text-[12px] text-muted">
+                  <p className="pt-1.5 text-[11px] text-muted">
                     n per tier: {tierConv.map((t) => `${t.tier} ${t.n}`).join(" · ")}
                   </p>
                 </div>
@@ -108,20 +108,20 @@ export default async function NurturePage({
             )}
 
             {activeTab === "segments" && (
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <Card title="Nurture segments + reachability" note="T1/T2/T3 read app_form (the SSOT). Reachability = share with an email on file.">
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     {segments.map((s) => (
-                      <div key={s.tier} className="flex items-center justify-between rounded-card border border-hairline bg-canvas px-3 py-2">
+                      <div key={s.tier} className="flex items-center justify-between rounded-card border border-hairline bg-canvas px-2.5 py-1.5">
                         <div>
-                          <p className="text-[13px] font-semibold text-ink">{s.tier} · {s.name}</p>
-                          <p className="text-[12px] text-muted">{s.count.toLocaleString()} families · {pct(s.reachablePct)} reachable</p>
+                          <p className="text-[12px] font-semibold text-ink">{s.tier} · {s.name}</p>
+                          <p className="text-[11px] text-muted">{s.count.toLocaleString()} families · {pct(s.reachablePct)} reachable</p>
                         </div>
                         <Pill tone={s.reachablePct >= 90 ? "good" : "watch"}>{pct(s.reachablePct)}</Pill>
                       </div>
                     ))}
                   </div>
-                  <div className="mt-3 flex flex-wrap gap-2">
+                  <div className="mt-2.5 flex flex-wrap gap-1.5">
                     {t3Buckets(ds.families).map((b) => (
                       <Pill key={b.key} tone="neutral">{b.label}: {b.count}</Pill>
                     ))}
@@ -133,20 +133,20 @@ export default async function NurturePage({
 
             {activeTab === "pipeline" && (
               <Card title="Parent pipeline + marketing→onboarding handoff" note="Each fall deal counted once; parent and child are never merged. Handoff conversion ≤ 1.">
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   {parentStageDistribution(ds.enrollments).map((s) => (
-                    <div key={s.stage} className="flex items-center justify-between border-b border-hairline py-2">
-                      <span className="text-[13px] capitalize text-ink">{s.stage.replace("_", " ")}</span>
-                      <span className="mono num text-[13px] text-ink">{s.count.toLocaleString()}</span>
+                    <div key={s.stage} className="flex items-center justify-between border-b border-hairline py-1.5">
+                      <span className="text-[12px] capitalize text-ink">{s.stage.replace("_", " ")}</span>
+                      <span className="mono num text-[12px] text-ink">{s.count.toLocaleString()}</span>
                     </div>
                   ))}
                 </div>
-                <div className="mt-3 grid gap-2 sm:grid-cols-3">
+                <div className="mt-2.5 grid gap-1.5 sm:grid-cols-3">
                   <Pill tone="neutral">Handed off: {handoff.handedOff}</Pill>
                   <Pill tone="good">Onboarded: {handoff.onboarded}</Pill>
                   <Pill tone="neutral">Conv: {pct(handoff.convRate * 100)}</Pill>
                 </div>
-                <div className="mt-3 flex flex-wrap gap-2">
+                <div className="mt-2.5 flex flex-wrap gap-1.5">
                   {stuckInStage(ds.enrollments, asOf).map((st) => (
                     <Pill key={st.stage} tone="watch">Stuck in {st.stage}: {st.count} (&gt;{st.thresholdDays}d)</Pill>
                   ))}
@@ -156,17 +156,17 @@ export default async function NurturePage({
 
             {activeTab === "sequences" && (
               <Card title="Sequence health (read-only)" note="HubSpot is the system of record. Approve/kill raises a Decision Queue item — it never mutates HubSpot.">
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   {sequenceHealth().map((s) => (
-                    <div key={s.seqId} className="rounded-card border border-hairline bg-canvas p-3">
+                    <div key={s.seqId} className="rounded-card border border-hairline bg-canvas p-2.5">
                       <div className="flex items-center justify-between">
-                        <p className="text-[13px] font-semibold text-ink">{s.name}</p>
+                        <p className="text-[12px] font-semibold text-ink">{s.name}</p>
                         <Pill tone={s.healthy ? "good" : "risk"}>{s.healthy ? "healthy" : "review"}</Pill>
                       </div>
-                      <p className="mt-1 text-[12px] text-muted">
+                      <p className="mt-0.5 text-[11px] text-muted">
                         {s.type} · {s.audienceSize.toLocaleString()} in audience · open {pct(s.openRate * 100)} · click {pct(s.clickRate * 100)} · conv {pct(s.convRate * 100)}
                       </p>
-                      <div className="mt-2 flex gap-2">
+                      <div className="mt-1.5 flex gap-1.5">
                         <Pill tone="neutral">Approve → Decision</Pill>
                         <Pill tone="neutral">Kill → Decision</Pill>
                       </div>
@@ -182,14 +182,14 @@ export default async function NurturePage({
 
             {activeTab === "sla" && (
               <Card title="24-hour first-contact SLA" note="Clock starts at app_form funnel entry. SLA% = contacted within 24h ÷ new applicants. Late-list is owner-attributable.">
-                <div className="grid gap-3 sm:grid-cols-3">
+                <div className="grid gap-2 sm:grid-cols-3">
                   <MetricTile label="SLA %" value={pct(sla.slaPct)} note="contacted within 24h" tone={sla.slaPct >= 80 ? "good" : "risk"} />
                   <MetricTile label="New applicants" value={sla.newApplicants.toLocaleString()} note="in the SLA window" tone="neutral" />
                   <MetricTile label="Late (uncontacted)" value={String(sla.lateList.length)} note=">24h, no first contact" tone={sla.lateList.length ? "risk" : "good"} />
                 </div>
-                <div className="mt-3">
+                <div className="mt-2.5">
                   <p className="mono text-[11px] font-semibold text-label">Red list by owner</p>
-                  <div className="mt-2 flex flex-wrap gap-2">
+                  <div className="mt-1.5 flex flex-wrap gap-1.5">
                     {lateListByOwner(sla).map((o) => (
                       <Pill key={o.owner} tone="risk">{o.owner}: {o.count}</Pill>
                     ))}
@@ -199,19 +199,19 @@ export default async function NurturePage({
             )}
           </div>
 
-          <aside className="space-y-4">
-            <section className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-              <h2 className="font-serif text-[18px] font-semibold text-ink">Source of truth</h2>
-              <ul className="mt-3 space-y-2 text-[12px] leading-relaxed text-muted">
+          <aside className="space-y-3">
+            <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+              <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Source of truth</h2>
+              <ul className="mt-2 space-y-1.5 text-[11px] leading-snug text-muted">
                 <li>Funnel / TEFA / income / grade read app_form (families) — never HubSpot values.</li>
                 <li>Engagement tier reads HubSpot signals only; conversion reads funnel only.</li>
                 <li>Sequences are read-only; approve/kill raises a Decision, not a HubSpot write.</li>
                 <li>Heatmap cells with n&lt;{MIN_CELL_N} are suppressed, never reported.</li>
               </ul>
             </section>
-            <section className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-              <h2 className="font-serif text-[18px] font-semibold text-ink">Your access</h2>
-              <p className="mt-2 text-[12px] leading-relaxed text-muted">
+            <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+              <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Your access</h2>
+              <p className="mt-1 text-[11px] leading-snug text-muted">
                 {showPii
                   ? "Admin/Leader: raw SMS phone + body visible."
                   : "Operator: SMS phone masked, message body hidden (PII gate)."}
@@ -231,32 +231,32 @@ function Heatmap({ families }: { families: ReturnType<typeof generate>["families
   return (
     <Card title="Engagement × income conversion heatmap" note={`Cell = commit% + n (Wilson 95% CI). Cells with n<${MIN_CELL_N} are suppressed.`}>
       <div className="overflow-x-auto">
-        <table className="w-full min-w-[640px] border-collapse text-[12px]">
+        <table className="w-full min-w-[640px] border-collapse text-[11px]">
           <thead>
-            <tr className="text-left text-[11px] uppercase tracking-wide text-label">
-              <th className="py-2 pr-3 font-semibold">tier \ income</th>
+            <tr className="text-left text-[10px] uppercase tracking-wide text-label">
+              <th className="py-1 pr-2.5 font-semibold">tier \ income</th>
               {heat.cols.map((c) => (
-                <th key={c} className="py-2 pr-3 font-semibold">{c}</th>
+                <th key={c} className="py-1 pr-2.5 font-semibold">{c}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {tiers.map((tier) => (
               <tr key={tier} className="border-t border-hairline">
-                <td className="py-2 pr-3 font-semibold capitalize text-ink">{tier}</td>
+                <td className="py-1 pr-2.5 font-semibold capitalize text-ink">{tier}</td>
                 {heat.cols.map((col) => {
                   const cell = heat.cells.find((x) => x.tier === tier && x.col === col)!;
                   if (cell.suppressed) {
                     return (
-                      <td key={col} className="py-2 pr-3 text-muted" title={`n=${cell.n} (suppressed)`}>
+                      <td key={col} className="py-1 pr-2.5 text-muted" title={`n=${cell.n} (suppressed)`}>
                         <span className="mono text-[11px]">n&lt;{MIN_CELL_N}</span>
                       </td>
                     );
                   }
                   const tone = (cell.pct ?? 0) >= 30 ? "good" : (cell.pct ?? 0) >= 15 ? "watch" : "risk";
                   return (
-                    <td key={col} className="py-2 pr-3">
-                      <span className={`mono inline-flex rounded-card border px-2 py-1 text-[11px] font-semibold ${toneClass(tone)}`}>
+                    <td key={col} className="py-1 pr-2.5">
+                      <span className={`mono inline-flex rounded-card border px-1.5 py-0.5 text-[10px] font-semibold ${toneClass(tone)}`}>
                         {cell.pct}% ±{cell.ci} · n{cell.n}
                       </span>
                     </td>
@@ -292,14 +292,14 @@ function SmsInbox({
       note="GT Anywhere / HubSpot Conversations. v1 keyword theming. STOP suppresses quick-reply. Raw phone/body gated to Admin/Leader."
       right={<Pill tone={showPii ? "good" : "watch"}>{showPii ? "PII visible" : "PII masked"}</Pill>}
     >
-      <p className="mb-3 text-[12px] text-muted">
+      <p className="mb-2.5 text-[11px] text-muted">
         {objections.length} objection thread(s) · viewing as {role}
       </p>
-      <div className="space-y-2">
+      <div className="space-y-1.5">
         {inbox.slice(0, 8).map((t) => (
-          <div key={t.threadId} className="rounded-card border border-hairline bg-canvas p-3">
+          <div key={t.threadId} className="rounded-card border border-hairline bg-canvas p-2.5">
             <div className="flex flex-wrap items-center justify-between gap-2">
-              <span className="mono text-[12px] font-semibold text-ink">
+              <span className="mono text-[11px] font-semibold text-ink">
                 {showPii ? t.responderPhone ?? "(no phone)" : maskPhone(t.responderPhone)}
               </span>
               <div className="flex flex-wrap gap-1.5">
@@ -309,10 +309,10 @@ function SmsInbox({
                 {t.unread && <Pill tone="watch">unread</Pill>}
               </div>
             </div>
-            <p className="mt-1 text-[13px] leading-snug text-ink">
+            <p className="mt-1 text-[12px] leading-snug text-ink">
               {showPii ? t.body : "[message body hidden — Admin/Leader only]"}
             </p>
-            <div className="mt-2 flex gap-2">
+            <div className="mt-1.5 flex gap-1.5">
               {canQuickReply(t) ? (
                 <Pill tone="neutral">Quick reply</Pill>
               ) : (

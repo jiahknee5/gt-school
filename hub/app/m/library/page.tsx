@@ -60,10 +60,10 @@ export default async function LibraryPage({
         viewerRole={viewer.role}
       />
 
-      <div className="mx-auto max-w-[1280px] px-5 py-6 sm:px-7 lg:px-9">
-        <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
-          <div className="space-y-5">
-            <section className="grid gap-3 sm:grid-cols-3">
+      <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
+        <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
+          <div className="space-y-3">
+            <section className="grid gap-2 sm:grid-cols-3">
               <MetricTile label="Resources" value={String(total)} note="you can see" tone="neutral" />
               <MetricTile label="Showing" value={String(resources.length)} note={q || tag ? "filtered" : "all"} tone="good" />
               <MetricTile label="Dead links" value={String(deadLinks)} note="flagged unreachable" tone={deadLinks ? "risk" : "good"} />
@@ -76,34 +76,34 @@ export default async function LibraryPage({
                   name="q"
                   defaultValue={q}
                   placeholder="Search resources…"
-                  className="h-9 flex-1 rounded-card border border-hairline bg-canvas px-3 text-[13px] text-ink"
+                  className="h-9 flex-1 rounded-card border border-hairline bg-canvas px-3 text-[12px] text-ink"
                 />
                 {viewer.role && <input type="hidden" name="role" value={viewer.role} />}
                 <button type="submit" className="h-9 rounded-card bg-ink-cta px-3 text-[12px] font-semibold text-on-cta">Search</button>
               </form>
               <div className="mt-3 flex flex-wrap gap-1.5">
-                <a href={hrefFor()} className={`rounded-card border px-2.5 py-1 text-[12px] font-semibold ${!tag ? "border-gold bg-amber-soft text-ink" : "border-hairline text-muted"}`}>all</a>
+                <a href={hrefFor()} className={`rounded-card border px-2.5 py-1 text-[11px] font-semibold ${!tag ? "border-gold bg-amber-soft text-ink" : "border-hairline text-muted"}`}>all</a>
                 {TAGS.map((t) => (
-                  <a key={t} href={hrefFor(t)} className={`rounded-card border px-2.5 py-1 text-[12px] font-semibold ${tag === t ? "border-gold bg-amber-soft text-ink" : "border-hairline text-muted"}`}>{t}</a>
+                  <a key={t} href={hrefFor(t)} className={`rounded-card border px-2.5 py-1 text-[11px] font-semibold ${tag === t ? "border-gold bg-amber-soft text-ink" : "border-hairline text-muted"}`}>{t}</a>
                 ))}
               </div>
             </Card>
 
             {resources.length === 0 ? (
               <Card title="No matches" note={q ? `Nothing matched “${q}”.` : "No resources under this filter."}>
-                <p className="text-[13px] text-muted">Try a different search or clear the tag filter.</p>
+                <p className="text-[11px] text-muted">Try a different search or clear the tag filter.</p>
               </Card>
             ) : (
-              <section className="grid gap-3 sm:grid-cols-2">
+              <section className="grid gap-2 sm:grid-cols-2">
                 {resources.map((r) => {
                   const chip = downloadChip(r, ds);
                   return (
-                    <article key={r.id} className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
+                    <article key={r.id} className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
                       <div className="flex items-start justify-between gap-2">
                         <h3 className="text-[14px] font-semibold text-ink">{r.title}</h3>
                         <Pill tone={BADGE_TONE[r.fileType]}>{r.fileType}</Pill>
                       </div>
-                      <p className="mt-1 text-[12px] text-muted">{r.description}</p>
+                      <p className="mt-0.5 text-[11px] text-muted">{r.description}</p>
                       <div className="mt-2 flex flex-wrap gap-1">
                         {r.tags.map((t) => (
                           <span key={t} className="rounded-card border border-hairline bg-fill px-2 py-0.5 text-[11px] text-slate">{t}</span>
@@ -126,19 +126,19 @@ export default async function LibraryPage({
             )}
           </div>
 
-          <aside className="space-y-4">
-            <section className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-              <h2 className="font-serif text-[18px] font-semibold text-ink">Add a resource</h2>
-              <p className="mt-2 text-[12px] leading-relaxed text-muted">
+          <aside className="space-y-3">
+            <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+              <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Add a resource</h2>
+              <p className="mt-1 text-[11px] leading-snug text-muted">
                 {canUpload(viewer.role)
                   ? "Anyone can upload: title + ≥1 tag + visibility + a URL or file. Owner and date auto-fill; the badge is derived from the link."
                   : "Sign in to upload a resource."}
               </p>
               {canUpload(viewer.role) && <Pill tone="good">+ Add resource</Pill>}
             </section>
-            <section className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-              <h2 className="font-serif text-[18px] font-semibold text-ink">How this shelf works</h2>
-              <ul className="mt-3 space-y-2 text-[12px] leading-relaxed text-muted">
+            <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+              <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">How this shelf works</h2>
+              <ul className="mt-2 space-y-1.5 text-[11px] leading-snug text-muted">
                 <li>Library owns metadata only; counts are read-only from Analytics.</li>
                 <li>Visibility is enforced at the query layer (no leadership leak).</li>
                 <li>Badges are derived from the URL/MIME — never typed.</li>

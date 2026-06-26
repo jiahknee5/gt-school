@@ -91,12 +91,12 @@ export default async function ContentPage({
         viewerRole={viewer.role}
       />
 
-      <div className="mx-auto max-w-[1280px] px-5 py-6 sm:px-7 lg:px-9">
-        <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
-          <div className="space-y-5">
+      <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
+        <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
+          <div className="space-y-3">
             <DataConfidenceBanner state={banner} />
 
-            <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <section className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
               <MetricTile label="In flight" value={fmt(inFlight)} note={`${onTrack} on track (sched/pub)`} tone="neutral" />
               <MetricTile label="Published" value={fmt(published)} note="this sprint" tone="good" />
               <MetricTile label="X conversion share" value={`${Math.round(xRatio.ratio * 100)}%`} note={`measured · ${xRatio.xConversions}/${xRatio.total}`} tone="watch" />
@@ -108,12 +108,12 @@ export default async function ContentPage({
             {activeTab === "overview" && (
               <>
                 <Card title="Top performers (by conversion)" note={`content_to_conversion = app_form × UTM · ${noUtm} piece(s) with (not set) UTM still counted`}>
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     {topPieces.map((p) => (
-                      <div key={p.pieceId} className="flex items-center justify-between rounded-card border border-hairline bg-canvas px-3 py-2">
+                      <div key={p.pieceId} className="flex items-center justify-between rounded-card border border-hairline bg-canvas px-2.5 py-1.5">
                         <div>
-                          <p className="text-[13px] font-semibold text-ink">{p.title}</p>
-                          <p className="text-[12px] text-muted">{p.channel} · {p.utmCampaign}</p>
+                          <p className="text-[12px] font-semibold text-ink">{p.title}</p>
+                          <p className="text-[11px] text-muted">{p.channel} · {p.utmCampaign}</p>
                         </div>
                         <Pill tone={p.conversions > 0 ? "good" : "neutral"}>{p.conversions} conv</Pill>
                       </div>
@@ -121,7 +121,7 @@ export default async function ContentPage({
                   </div>
                 </Card>
                 <Card title="Audience (manual v1)" note="Substack subs + podcast listens are manual until the APIs land.">
-                  <div className="grid gap-3 sm:grid-cols-3">
+                  <div className="grid gap-2 sm:grid-cols-3">
                     <MetricTile label="Substack subs" value={fmt(MANUAL_AUDIENCE.substackSubscribers)} note={`+${Math.round(MANUAL_AUDIENCE.substackGrowthPct * 100)}% growth`} tone="neutral" />
                     <MetricTile label="Podcast listens" value={fmt(MANUAL_AUDIENCE.podcastListens)} note="AGL podcast" tone="neutral" />
                     <MetricTile label="Brand-voice tips" value={fmt(suggestions.length)} note="advisory, non-blocking" tone="neutral" />
@@ -132,11 +132,11 @@ export default async function ContentPage({
 
             {activeTab === "pipeline" && (
               <Card title="Production pipeline" note="Card move = status write → pushed to the sheet. Camp cards are read-only; grassroots stubs need consent before leaving concept.">
-                <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
+                <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-5">
                   {columns.map((col) => (
                     <div key={col.status} className="rounded-card border border-hairline bg-canvas p-2">
                       <p className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-label">{STATUS_LABEL[col.status]} · {col.pieces.length}</p>
-                      <div className="space-y-2">
+                      <div className="space-y-1.5">
                         {col.pieces.map((p) => {
                           const adv = canAdvance(p);
                           return (
@@ -158,23 +158,23 @@ export default async function ContentPage({
             {activeTab === "calendar" && (
               <Card title="Content calendar" note={`Color-coded by channel. ${conflicts.length} same-day/channel conflict(s) flagged.`}>
                 {conflicts.length > 0 ? (
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     {conflicts.map((c) => (
-                      <div key={`${c.day}:${c.channel}`} className="flex items-center justify-between rounded-card border border-hairline bg-canvas px-3 py-2">
-                        <p className="text-[13px] text-ink">{c.day} · {c.channel}</p>
+                      <div key={`${c.day}:${c.channel}`} className="flex items-center justify-between rounded-card border border-hairline bg-canvas px-2.5 py-1.5">
+                        <p className="text-[12px] text-ink">{c.day} · {c.channel}</p>
                         <Pill tone="risk">{c.count} pieces — conflict</Pill>
                       </div>
                     ))}
                   </div>
                 ) : (
-                  <p className="text-[13px] text-muted">No scheduling conflicts this window.</p>
+                  <p className="text-[11px] text-muted">No scheduling conflicts this window.</p>
                 )}
                 <div className="mt-3 space-y-1">
                   {pieces
                     .filter((p) => p.status === "scheduled" || p.status === "published")
                     .sort((a, b) => a.publishDate.localeCompare(b.publishDate))
                     .map((p) => (
-                      <div key={p.id} className="flex items-center justify-between border-b border-hairline py-1 text-[12px]">
+                      <div key={p.id} className="flex items-center justify-between border-b border-hairline py-1 text-[11px]">
                         <span className="text-muted">{p.publishDate}</span>
                         <span className="text-ink">{p.title}</span>
                         <Pill tone="neutral">{p.channel}</Pill>
@@ -188,23 +188,23 @@ export default async function ContentPage({
               <>
                 <Card title="Channel performance (distinct rows)" note="FB, IG, and X are never blended into one 'social'. Email from HubSpot; Substack/podcast manual.">
                   <div className="overflow-x-auto">
-                    <table className="w-full min-w-[560px] border-collapse text-[13px]">
+                    <table className="w-full min-w-[560px] border-collapse text-[11px]">
                       <thead>
-                        <tr className="border-b border-hairline text-left text-[11px] uppercase tracking-wide text-label">
-                          <th className="py-2 pr-3 font-semibold">Channel</th>
-                          <th className="py-2 pr-3 font-semibold">Source</th>
-                          <th className="py-2 pr-3 font-semibold">Reach</th>
-                          <th className="py-2 pr-3 font-semibold">Clicks</th>
-                          <th className="py-2 font-semibold">Engagements</th>
+                        <tr className="border-b border-hairline text-left text-[10px] uppercase tracking-wide text-label">
+                          <th className="py-1 pr-2.5 font-semibold">Channel</th>
+                          <th className="py-1 pr-2.5 font-semibold">Source</th>
+                          <th className="py-1 pr-2.5 font-semibold">Reach</th>
+                          <th className="py-1 pr-2.5 font-semibold">Clicks</th>
+                          <th className="py-1 font-semibold">Engagements</th>
                         </tr>
                       </thead>
                       <tbody>
                         {channels.map((c) => (
                           <tr key={c.channel} className="border-b border-hairline">
-                            <td className="py-2 pr-3 font-semibold text-ink">{c.channel}</td>
-                            <td className="py-2 pr-3 text-muted">{c.source}</td>
-                            <td className="mono num py-2 pr-3 text-muted">{fmt(c.reach)}</td>
-                            <td className="mono num py-2 pr-3 text-muted">{fmt(c.clicks)}</td>
+                            <td className="py-1 pr-2.5 font-semibold text-ink">{c.channel}</td>
+                            <td className="py-1 pr-2.5 text-muted">{c.source}</td>
+                            <td className="mono num py-1 pr-2.5 text-muted">{fmt(c.reach)}</td>
+                            <td className="mono num py-1 pr-2.5 text-muted">{fmt(c.clicks)}</td>
                             <td className="mono num py-2 text-muted">{fmt(c.engagements)}</td>
                           </tr>
                         ))}
@@ -213,10 +213,10 @@ export default async function ContentPage({
                   </div>
                 </Card>
                 <Card title="Content-to-conversion by channel" note="Measured share of attributed conversions — the X figure changes with the seed.">
-                  <div className="space-y-2">
+                  <div className="space-y-1.5">
                     {shares.map((s) => (
-                      <div key={s.channel} className="flex items-center justify-between rounded-card border border-hairline bg-canvas px-3 py-2">
-                        <p className="text-[13px] text-ink">{s.channel}</p>
+                      <div key={s.channel} className="flex items-center justify-between rounded-card border border-hairline bg-canvas px-2.5 py-1.5">
+                        <p className="text-[12px] text-ink">{s.channel}</p>
                         <Pill tone={s.channel === "x" ? "watch" : "neutral"}>{Math.round(s.ratio * 100)}% · {s.conversions} conv</Pill>
                       </div>
                     ))}
@@ -227,8 +227,8 @@ export default async function ContentPage({
 
             {activeTab === "library" && (
               <Card title="Library + brand-voice auditor" note="Published archive (flat v1). The auditor is advisory (suggest-only) — it never blocks a status transition.">
-                <p className="mb-2 text-[12px] text-muted">Sample draft: &ldquo;{draft}&rdquo; · {suggestions.length} advisory suggestion(s)</p>
-                <div className="space-y-2">
+                <p className="mb-2 text-[11px] text-muted">Sample draft: &ldquo;{draft}&rdquo; · {suggestions.length} advisory suggestion(s)</p>
+                <div className="space-y-1.5">
                   {suggestions.map((s) => (
                     <div key={s.id} className="rounded-card border border-hairline bg-canvas p-2">
                       <p className="text-[12px] text-ink"><span className="line-through text-muted">{s.originalText}</span> → <span className="font-semibold">{s.suggestedText}</span></p>
@@ -238,7 +238,7 @@ export default async function ContentPage({
                 </div>
                 <div className="mt-3 space-y-1">
                   {pieces.filter((p) => p.status === "published").map((p) => (
-                    <div key={p.id} className="flex items-center justify-between border-b border-hairline py-1 text-[12px]">
+                    <div key={p.id} className="flex items-center justify-between border-b border-hairline py-1 text-[11px]">
                       <span className="text-ink">{p.title}</span>
                       <Pill tone="neutral">{p.channel} · {p.type}</Pill>
                     </div>
@@ -248,37 +248,37 @@ export default async function ContentPage({
             )}
           </div>
 
-          <aside className="space-y-4">
-            <section className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-              <h2 className="font-serif text-[18px] font-semibold text-ink">Source of truth</h2>
-              <ul className="mt-3 space-y-2 text-[12px] leading-relaxed text-muted">
+          <aside className="space-y-3">
+            <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+              <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Source of truth</h2>
+              <ul className="mt-2 space-y-1.5 text-[11px] leading-snug text-muted">
                 <li>Google Sheet stays SoT for production status; the Hub mirrors + pushes back.</li>
                 <li>Both-sides edits conflict (both values retained), never a clobber.</li>
                 <li>FB / IG / X are distinct channels — never a blended &ldquo;social&rdquo;.</li>
                 <li>Conversion = app_form × UTM; the X figure is measured, not constant.</li>
               </ul>
             </section>
-            <section className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-              <h2 className="font-serif text-[18px] font-semibold text-ink">Sync conflicts</h2>
+            <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+              <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Sync conflicts</h2>
               {syncConflicts.length > 0 ? (
-                <div className="mt-2 space-y-2">
+                <div className="mt-2 space-y-1.5">
                   {syncConflicts.map((s) => (
-                    <div key={s.pieceId} className="rounded-card border border-hairline bg-canvas p-2 text-[12px]">
+                    <div key={s.pieceId} className="rounded-card border border-hairline bg-canvas p-2 text-[11px]">
                       <p className="font-semibold text-ink">{s.field} conflict</p>
                       <p className="text-muted">app: {s.appValue} · sheet: {s.sheetValue}</p>
                     </div>
                   ))}
                 </div>
               ) : (
-                <p className="mt-2 text-[12px] text-muted">No open conflicts.</p>
+                <p className="mt-2 text-[11px] text-muted">No open conflicts.</p>
               )}
             </section>
-            <section className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-              <h2 className="font-serif text-[18px] font-semibold text-ink">Your access</h2>
-              <p className="mt-2 text-[12px] leading-relaxed text-muted">
+            <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+              <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Your access</h2>
+              <p className="mt-1 text-[11px] leading-snug text-muted">
                 Operator (Content Owner): read/write content; submit-only to the Decision Queue (concept approve/kill + founder travel). Camp content is read-only here.
               </p>
-              <Link href={decisionStatusHref(viewer.role)} className="mt-3 inline-flex text-[12px] font-semibold text-gold hover:underline">
+              <Link href={decisionStatusHref(viewer.role)} className="mt-2 inline-flex text-[11px] font-semibold text-gold hover:underline">
                 {decisionStatusLabel(viewer.role)} →
               </Link>
             </section>

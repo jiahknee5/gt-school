@@ -85,17 +85,17 @@ export default async function AnalyticsPage({
         viewerRole={viewer.role}
       />
 
-      <div className="mx-auto max-w-[1280px] px-5 py-6 sm:px-7 lg:px-9">
-        <div className="grid gap-6 lg:grid-cols-[1fr_300px]">
-          <div className="space-y-5">
-            <section role="note" className="rounded-card border border-hairline bg-fill p-3 text-[12px] leading-relaxed text-slate">
+      <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
+        <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
+          <div className="space-y-3">
+            <section role="note" className="rounded-card border border-hairline bg-fill p-2.5 text-[11px] leading-snug text-slate">
               <span className="font-semibold text-ink">GA4-confidence note:</span> figures reflect GA4 realities — data
               thresholding (low-volume suppression), sampling, an explicit <code>(not set)</code> bucket, and
               consent-mode-modeled conversions. {thresholdedCount} subpage row(s) are below the threshold and flagged,
               not dropped. This module is not gated by the HubSpot sync-parity banner.
             </section>
 
-            <section className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <section className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
               <MetricTile label="Total sessions" value={fmt(agg.sessions)} note={reconciled ? "aggregate = sum of sites ✓" : "reconcile error"} tone={reconciled ? "good" : "risk"} />
               <MetricTile label="Bounce (aggregate)" value={pct(bounce(agg.sessions, agg.engagedSessions))} note="1 − engaged/sessions" tone="neutral" />
               <MetricTile label="Avg duration" value={`${avgSessionDuration(agg)}s`} note="modeled from engagement" tone="neutral" />
@@ -107,9 +107,9 @@ export default async function AnalyticsPage({
             {activeTab === "overview" && (
               <>
                 <Card title="Sessions by site (small-multiples, shared baseline)" note="Aggregate must equal the sum of the two properties — no cross-property double-count.">
-                  <div className="grid gap-3 sm:grid-cols-2">
+                  <div className="grid gap-2 sm:grid-cols-2">
                     {sites.map((s) => (
-                      <div key={s.site} className="rounded-card border border-hairline bg-canvas p-3">
+                      <div key={s.site} className="rounded-card border border-hairline bg-canvas p-2.5">
                         <p className="text-[12px] font-semibold text-ink">{s.site}</p>
                         <p className="mono num mt-1 text-[22px] font-semibold text-ink">{fmt(s.sessions)}</p>
                         <p className="text-[11px] text-muted">bounce {pct(bounce(s.sessions, s.engagedSessions))} · {fmt(s.totalUsers)} users</p>
@@ -117,7 +117,7 @@ export default async function AnalyticsPage({
                     ))}
                   </div>
                 </Card>
-                <div className="grid gap-3 sm:grid-cols-2">
+                <div className="grid gap-2 sm:grid-cols-2">
                   <Card title="New vs returning" note="derived split (newUsers not in current seed)">
                     <div className="flex gap-2">
                       <Pill tone="good">new {fmt(nvr.newUsers)}</Pill>
@@ -127,7 +127,7 @@ export default async function AnalyticsPage({
                   <Card title="Top landing pages" note="by sessions (same ranking emitted to Content)">
                     <div className="space-y-1">
                       {top.map((p) => (
-                        <div key={p.landingPage} className="flex items-center justify-between border-b border-hairline py-1 text-[12px]">
+                        <div key={p.landingPage} className="flex items-center justify-between border-b border-hairline py-1 text-[11px]">
                           <span className="text-ink">{p.landingPage}</span>
                           <span className="mono num text-muted">{fmt(p.sessions)}</span>
                         </div>
@@ -141,26 +141,26 @@ export default async function AnalyticsPage({
             {activeTab === "subpages" && (
               <Card title="Subpage performance" note="Thresholded rows are flagged, not omitted. Bounce uses the single shared definition.">
                 <div className="overflow-x-auto">
-                  <table className="w-full min-w-[640px] border-collapse text-[13px]">
+                  <table className="w-full min-w-[640px] border-collapse text-[11px]">
                     <thead>
-                      <tr className="border-b border-hairline text-left text-[11px] uppercase tracking-wide text-label">
-                        <th className="py-2 pr-3 font-semibold">Page</th>
-                        <th className="py-2 pr-3 font-semibold">Site</th>
-                        <th className="py-2 pr-3 font-semibold">Type</th>
-                        <th className="py-2 pr-3 font-semibold">Sessions</th>
-                        <th className="py-2 pr-3 font-semibold">Bounce</th>
-                        <th className="py-2 font-semibold">Flag</th>
+                      <tr className="border-b border-hairline text-left text-[10px] uppercase tracking-wide text-label">
+                        <th className="py-1 pr-2.5 font-semibold">Page</th>
+                        <th className="py-1 pr-2.5 font-semibold">Site</th>
+                        <th className="py-1 pr-2.5 font-semibold">Type</th>
+                        <th className="py-1 pr-2.5 font-semibold">Sessions</th>
+                        <th className="py-1 pr-2.5 font-semibold">Bounce</th>
+                        <th className="py-1 font-semibold">Flag</th>
                       </tr>
                     </thead>
                     <tbody>
                       {pages.slice(0, 20).map((p) => (
                         <tr key={`${p.site}|${p.landingPage}`} className="border-b border-hairline">
-                          <td className="py-2 pr-3 font-semibold text-ink">{p.landingPage}</td>
-                          <td className="py-2 pr-3 text-muted">{p.site}</td>
-                          <td className="py-2 pr-3 text-muted">{p.pageType}</td>
-                          <td className="mono num py-2 pr-3 text-muted">{fmt(p.sessions)}</td>
-                          <td className="mono num py-2 pr-3 text-muted">{pct(p.bounce)}</td>
-                          <td className="py-2">{p.thresholded ? <Pill tone="watch">thresholded</Pill> : <Pill tone="neutral">ok</Pill>}</td>
+                          <td className="py-1 pr-2.5 font-semibold text-ink">{p.landingPage}</td>
+                          <td className="py-1 pr-2.5 text-muted">{p.site}</td>
+                          <td className="py-1 pr-2.5 text-muted">{p.pageType}</td>
+                          <td className="mono num py-1 pr-2.5 text-muted">{fmt(p.sessions)}</td>
+                          <td className="mono num py-1 pr-2.5 text-muted">{pct(p.bounce)}</td>
+                          <td className="py-1">{p.thresholded ? <Pill tone="watch">thresholded</Pill> : <Pill tone="neutral">ok</Pill>}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -174,7 +174,7 @@ export default async function AnalyticsPage({
                 <Card title="Traffic source breakdown" note="Channel rollup from GA4 sessionDefaultChannelGroup.">
                   <div className="space-y-1">
                     {sources.map((s) => (
-                      <div key={s.channel} className="flex items-center justify-between border-b border-hairline py-1 text-[12px]">
+                      <div key={s.channel} className="flex items-center justify-between border-b border-hairline py-1 text-[11px]">
                         <span className="text-ink">{s.channel}</span>
                         <span className="mono num text-muted">{fmt(s.sessions)} sess · {fmt(s.leads)} leads</span>
                       </div>
@@ -182,20 +182,20 @@ export default async function AnalyticsPage({
                   </div>
                 </Card>
                 <Card title="UTM validation → CRM Ops" note="This module is the UTM origin. (not set) is missing, counted — never silent pass-through.">
-                  <div className="mb-3 flex gap-2">
+                  <div className="mb-2.5 flex gap-1.5">
                     <Pill tone="good">valid {fmt(utmSummary.valid)}</Pill>
                     <Pill tone="risk">invalid {fmt(utmSummary.invalid)}</Pill>
                     <Pill tone="watch">missing {fmt(utmSummary.missing)}</Pill>
                   </div>
                   <div className="space-y-1">
                     {utm.slice(0, 10).map((u) => (
-                      <div key={u.utm_campaign} className="flex items-center justify-between border-b border-hairline py-1 text-[12px]">
+                      <div key={u.utm_campaign} className="flex items-center justify-between border-b border-hairline py-1 text-[11px]">
                         <span className="text-ink">{u.utm_campaign}</span>
                         <Pill tone={u.status === "valid" ? "good" : u.status === "invalid" ? "risk" : "watch"}>{u.status} · {fmt(u.sessions)}</Pill>
                       </div>
                     ))}
                   </div>
-                  <Link href="/m/crm-ops" className="mt-3 inline-flex text-[12px] font-semibold text-gold hover:underline">
+                  <Link href="/m/crm-ops" className="mt-2 inline-flex text-[11px] font-semibold text-gold hover:underline">
                     Open CRM Ops attribution health →
                   </Link>
                 </Card>
@@ -205,21 +205,21 @@ export default async function AnalyticsPage({
             {activeTab === "downloads" && (
               <Card title="PDF & download tracking" note={`Per-file rollup reconciles to the PDF widget: sum = ${fmt(totalPdf)}. File names are a stand-in until GA4 file_download params are configured.`}>
                 <div className="overflow-x-auto">
-                  <table className="w-full min-w-[520px] border-collapse text-[13px]">
+                  <table className="w-full min-w-[520px] border-collapse text-[11px]">
                     <thead>
-                      <tr className="border-b border-hairline text-left text-[11px] uppercase tracking-wide text-label">
-                        <th className="py-2 pr-3 font-semibold">File</th>
-                        <th className="py-2 pr-3 font-semibold">Weekly</th>
-                        <th className="py-2 pr-3 font-semibold">Cumulative</th>
-                        <th className="py-2 font-semibold">Top referrer</th>
+                      <tr className="border-b border-hairline text-left text-[10px] uppercase tracking-wide text-label">
+                        <th className="py-1 pr-2.5 font-semibold">File</th>
+                        <th className="py-1 pr-2.5 font-semibold">Weekly</th>
+                        <th className="py-1 pr-2.5 font-semibold">Cumulative</th>
+                        <th className="py-1 font-semibold">Top referrer</th>
                       </tr>
                     </thead>
                     <tbody>
                       {dl.map((d) => (
                         <tr key={d.file} className="border-b border-hairline">
-                          <td className="py-2 pr-3 font-semibold text-ink">{d.file}</td>
-                          <td className="mono num py-2 pr-3 text-muted">{fmt(d.downloadsWeekly)}</td>
-                          <td className="mono num py-2 pr-3 text-muted">{fmt(d.downloadsCumulative)}</td>
+                          <td className="py-1 pr-2.5 font-semibold text-ink">{d.file}</td>
+                          <td className="mono num py-1 pr-2.5 text-muted">{fmt(d.downloadsWeekly)}</td>
+                          <td className="mono num py-1 pr-2.5 text-muted">{fmt(d.downloadsCumulative)}</td>
                           <td className="py-2 text-muted">{d.topReferringPage}</td>
                         </tr>
                       ))}
@@ -231,13 +231,13 @@ export default async function AnalyticsPage({
 
             {activeTab === "paths" && (
               <Card title="Conversion paths" note="Measured step counts to the application form. Multi-hop / cross-site flow is a stand-in (BigQuery / path-exploration TBD) and badged as such.">
-                <div className="mb-3 rounded-card border border-hairline bg-fill p-3 text-[12px] text-slate">
+                <div className="mb-2.5 rounded-card border border-hairline bg-fill p-3 text-[12px] text-slate">
                   Pre-funnel journey: entry <span className="font-semibold text-ink">{journey.entryPage}</span> · {journey.stepsToForm} steps to form · {pct(journey.dropOffRate)} drop-off
                   <Pill tone="watch">stand-in (BigQuery TBD)</Pill>
                 </div>
-                <div className="space-y-2">
+                <div className="space-y-1.5">
                   {paths.map((p) => (
-                    <div key={`${p.fromPage}->${p.toPage}`} className="flex items-center justify-between rounded-card border border-hairline bg-canvas px-3 py-2 text-[12px]">
+                    <div key={`${p.fromPage}->${p.toPage}`} className="flex items-center justify-between rounded-card border border-hairline bg-canvas px-2.5 py-1.5 text-[12px]">
                       <span className="text-ink">{p.fromPage} → {p.toPage}</span>
                       <span className="flex items-center gap-2">
                         <span className="mono num text-muted">{fmt(p.count)}</span>
@@ -250,19 +250,19 @@ export default async function AnalyticsPage({
             )}
           </div>
 
-          <aside className="space-y-4">
-            <section className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-              <h2 className="font-serif text-[18px] font-semibold text-ink">Source of truth</h2>
-              <ul className="mt-3 space-y-2 text-[12px] leading-relaxed text-muted">
+          <aside className="space-y-3">
+            <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+              <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Source of truth</h2>
+              <ul className="mt-2 space-y-1.5 text-[11px] leading-snug text-muted">
                 <li>GA4 Data API — gt.school + anywhere.gt.school (stood-in as ga4_days).</li>
                 <li>Aggregate = sum of the two properties; no cross-property double-count.</li>
                 <li>One bounce definition: 1 − engagedSessions/sessions.</li>
                 <li>This is the UTM origin — validated before it reaches CRM Ops.</li>
               </ul>
             </section>
-            <section className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-              <h2 className="font-serif text-[18px] font-semibold text-ink">Your access</h2>
-              <p className="mt-2 text-[12px] leading-relaxed text-muted">
+            <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+              <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Your access</h2>
+              <p className="mt-1 text-[11px] leading-snug text-muted">
                 {canFlagPage(viewer.role)
                   ? "Admin/Leader: request a page/campaign analysis and flag an underperforming page (emits a Content hypothesis with the source-mix caveat)."
                   : "Operator: read-only. Request-analysis and flag-page are denied."}
