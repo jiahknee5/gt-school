@@ -13,7 +13,7 @@
     "test:backend": "vitest run tests/reconcile.test.ts tests/payments.test.ts tests/hubspot-webhook.test.ts tests/outbox-worker.test.ts tests/parity.test.ts tests/r1-connection.test.ts",
     "test:e2e": "vitest run tests/brief-usecases.test.ts tests/phase2.test.ts",
     "test:frontend": "vitest run tests/module-routes.test.ts",
-    "test:ci": "vitest run tests/seed.test.ts tests/matchkey.test.ts tests/seed-hubspot.test.ts tests/catalog.test.ts tests/opendata.test.ts tests/opendata-route.test.ts tests/module-routes.test.ts tests/brief-usecases.test.ts tests/phase2.test.ts",
+    "test:ci": "vitest run tests/seed.test.ts tests/matchkey.test.ts tests/seed-hubspot.test.ts tests/catalog.test.ts tests/opendata.test.ts tests/opendata-route.test.ts tests/module-routes.test.ts tests/brief-usecases.test.ts tests/phase2.test.ts tests/rbac.test.ts",
     "test:live": "vitest run tests/seed-fixtures.test.ts tests/reconcile.test.ts tests/payments.test.ts tests/hubspot-webhook.test.ts tests/outbox-worker.test.ts tests/parity.test.ts tests/r1-connection.test.ts",
     "seed": "esbuild scripts/seed.ts --bundle --platform=node --format=esm --packages=external --outfile=.seed-build/seed.mjs && node .seed-build/seed.mjs",
     "seed:hubspot": "esbuild scripts/seed-hubspot.ts --bundle --platform=node --format=esm --packages=external --outfile=.seed-build/seed-hubspot.mjs && node .seed-build/seed-hubspot.mjs",

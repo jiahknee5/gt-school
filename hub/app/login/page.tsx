@@ -1,0 +1,83 @@
+import Link from "next/link";
+import { DEV_MODE } from "@/lib/auth";
+import { DEMO_USERS } from "@/lib/phase2";
+
+export const dynamic = "force-dynamic";
+
+export const metadata = { title: "Sign in | GT Marketing Hub" };
+
+const ROLE_BLURB: Record<string, string> = {
+  admin: "Marketing Lead — full access to every module and internal/dev surfaces.",
+  leader: "Growth leader — Decision Queue view + act (exclusive); broad read access.",
+  operator: "Module owner — read/write your module, read-only elsewhere; submit (not view) decisions.",
+};
+
+function safeNext(value: string | undefined): string {
+  if (!value || !value.startsWith("/") || value.startsWith("//")) return "/";
+  return value;
+}
+
+export default async function LoginPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ next?: string }>;
+}) {
+  const query = searchParams ? await searchParams : {};
+  const next = safeNext(query.next);
+
+  return (
+    <main className="grid min-h-[100dvh] place-items-center bg-canvas px-5 py-12">
+      <div className="w-full max-w-[460px]">
+        <div className="flex items-center gap-2.5">
+          <span className="grid h-8 w-8 place-items-center rounded-card bg-gold text-[14px] font-bold text-ink shadow-sm">
+            GT
+          </span>
+          <span className="text-[16px] font-semibold text-ink">Marketing Hub</span>
+        </div>
+
+        <h1 className="mt-6 font-serif text-[28px] font-semibold leading-tight text-ink">
+          Sign in
+        </h1>
+
+        {DEV_MODE ? (
+          <>
+            <p className="mt-2 text-[14px] leading-relaxed text-muted">
+              Dev auth mode is on. Pick a role to start a real, server-enforced session.
+              Every route stays deny-by-default behind this session.
+            </p>
+            <div className="mt-6 space-y-3">
+              {DEMO_USERS.map((user) => (
+                <Link
+                  key={user.id}
+                  href={`/api/auth/login?role=${user.role}&next=${encodeURIComponent(next)}`}
+                  prefetch={false}
+                  className="block rounded-card border border-hairline bg-surface p-4 shadow-sm transition-colors hover:border-border hover:bg-hover"
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="text-[14px] font-semibold text-ink">{user.name}</p>
+                    <span className="mono rounded-card bg-fill px-2 py-1 text-[11px] font-semibold text-slate">
+                      {user.role}
+                    </span>
+                  </div>
+                  <p className="mt-1 text-[12px] leading-snug text-muted">
+                    {ROLE_BLURB[user.role] ?? user.title}
+                  </p>
+                </Link>
+              ))}
+            </div>
+            <p className="mono mt-6 text-[11px] leading-relaxed text-label">
+              Dev mode is for the competition demo only. In production set
+              AUTH_DEV_MODE=false and wire a real identity provider; the same
+              middleware and role checks apply unchanged.
+            </p>
+          </>
+        ) : (
+          <p className="mt-2 text-[14px] leading-relaxed text-muted">
+            No identity provider is configured for this deployment. Set AUTH_DEV_MODE=true
+            for local development, or connect a real IdP.
+          </p>
+        )}
+      </div>
+    </main>
+  );
+}

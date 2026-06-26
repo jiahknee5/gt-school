@@ -4,6 +4,7 @@ import { Suspense } from "react";
 import "./globals.css";
 import { Sidebar } from "./_components/Sidebar";
 import { TopBar } from "./_components/TopBar";
+import { DEV_MODE, getSession } from "@/lib/auth";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -33,11 +34,16 @@ export const metadata: Metadata = {
     "Centralized marketing operations workspace for GT Anywhere — grassroots, content, nurture, ops, events, admissions, and summer camp.",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const session = await getSession();
+  const viewer = session
+    ? { id: session.id, name: session.name, title: session.title, role: session.role }
+    : null;
+
   return (
     <html lang="en">
       <body
@@ -45,11 +51,11 @@ export default function RootLayout({
       >
         <div className="flex min-h-screen bg-canvas">
           <Suspense fallback={null}>
-            <Sidebar />
+            <Sidebar viewer={viewer} devMode={DEV_MODE} />
           </Suspense>
           <div className="min-w-0 flex-1">
             <Suspense fallback={null}>
-              <TopBar />
+              <TopBar viewer={viewer} devMode={DEV_MODE} />
             </Suspense>
             {children}
           </div>

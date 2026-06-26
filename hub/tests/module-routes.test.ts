@@ -12,8 +12,8 @@ async function renderModule(slug: string, role?: string): Promise<string> {
 }
 
 describe("Phase 2 rendered route surfaces", () => {
-  it("Home renders the PRD top-level signals and links to the deep module slice", () => {
-    const html = renderToStaticMarkup(HomePage());
+  it("Home renders the PRD top-level signals and links to the deep module slice", async () => {
+    const html = renderToStaticMarkup(await HomePage());
 
     expect(html).toContain("One trustworthy operating room for GT marketing.");
     expect(html).toContain("Data confidence needs review");

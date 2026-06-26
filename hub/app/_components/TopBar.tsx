@@ -1,26 +1,38 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import { MODULES, moduleHref } from "@/lib/modules";
-import { DEMO_USERS, demoUserByRole } from "@/lib/phase2";
+import { DEMO_USERS, type Role } from "@/lib/phase2";
+
+export type TopBarViewer = {
+  id: string;
+  name: string;
+  title: string;
+  role: Role;
+};
 
 function daysToCutoff() {
   const cutoff = new Date("2026-08-17T00:00:00-05:00").getTime();
   return Math.max(0, Math.ceil((cutoff - Date.now()) / 86_400_000));
 }
 
-function roleHref(pathname: string, role: string) {
-  return `${pathname}?role=${role}`;
+// Dev role switcher: minting a real signed session via the login route (server-side),
+// not a spoofable ?role= query param.
+function switchRoleHref(pathname: string, role: string) {
+  return `/api/auth/login?role=${role}&next=${encodeURIComponent(pathname)}`;
 }
 
-export function TopBar() {
+export function TopBar({
+  viewer,
+  devMode,
+}: {
+  viewer: TopBarViewer | null;
+  devMode: boolean;
+}) {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
   const [dark, setDark] = useState(false);
-  const role = searchParams.get("role");
-  const viewer = demoUserByRole(role);
   const isHome = pathname === "/";
   const days = useMemo(() => daysToCutoff(), []);
 
@@ -59,26 +71,41 @@ export function TopBar() {
             </button>
           )}
 
-          <div className="hidden items-center rounded-card border border-hairline bg-canvas p-0.5 md:flex">
-            {DEMO_USERS.map((user) => (
-              <Link
-                key={user.id}
-                href={roleHref(pathname, user.role)}
-                className={`rounded-[6px] px-2.5 py-1 text-[11px] font-semibold ${
-                  viewer.role === user.role
-                    ? "bg-ink-cta text-on-cta"
-                    : "text-muted hover:text-ink"
-                }`}
-              >
-                {user.role}
-              </Link>
-            ))}
-          </div>
+          {devMode && (
+            <div
+              className="hidden items-center rounded-card border border-hairline bg-canvas p-0.5 md:flex"
+              title="Dev role switcher — starts a real server-enforced session"
+            >
+              {DEMO_USERS.map((user) => (
+                <a
+                  key={user.id}
+                  href={switchRoleHref(pathname, user.role)}
+                  className={`rounded-[6px] px-2.5 py-1 text-[11px] font-semibold ${
+                    viewer?.role === user.role
+                      ? "bg-ink-cta text-on-cta"
+                      : "text-muted hover:text-ink"
+                  }`}
+                >
+                  {user.role}
+                </a>
+              ))}
+            </div>
+          )}
 
-          <div className="hidden min-w-0 sm:block">
-            <p className="truncate text-right text-[12px] font-semibold text-ink">{viewer.name}</p>
-            <p className="mono truncate text-right text-[10px] text-label">{viewer.title}</p>
-          </div>
+          {viewer ? (
+            <div className="hidden min-w-0 sm:block">
+              <p className="truncate text-right text-[12px] font-semibold text-ink">{viewer.name}</p>
+              <p className="mono truncate text-right text-[10px] text-label">{viewer.title}</p>
+            </div>
+          ) : (
+            <Link
+              href="/login"
+              prefetch={false}
+              className="hidden rounded-card border border-border bg-canvas px-2.5 py-1.5 text-[12px] font-semibold text-ink sm:block"
+            >
+              Sign in
+            </Link>
+          )}
 
           <button
             type="button"

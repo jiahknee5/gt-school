@@ -11,6 +11,9 @@ import {
   widgetsForUser,
 } from "@/lib/phase2";
 import { generate } from "@/lib/seed/generate";
+import { getSession } from "@/lib/auth";
+
+export const dynamic = "force-dynamic";
 
 const money = new Intl.NumberFormat("en-US", {
   style: "currency",
@@ -102,13 +105,17 @@ function ConfidenceBanner({
   );
 }
 
-export default function Home() {
+export default async function Home() {
+  const session = await getSession();
   const dataset = generate({ seed: 424242, families: 1200 });
-  const leader = DEMO_USERS.find((user) => user.role === "leader") ?? DEMO_USERS[0];
-  const widgets = widgetsForUser(leader);
+  const viewer = session ?? DEMO_USERS.find((user) => user.role === "leader") ?? DEMO_USERS[0];
+  const canViewDecisions = viewer.role === "leader";
+  const widgets = widgetsForUser(viewer);
   const budget = summarizeBudget(dataset.budget_workstream);
   const decisions = ensureBudgetVarianceDecision(dataset.budget_workstream, dataset.decisions);
-  const openDecisions = decisions.filter((decision) => decision.status === "open");
+  const openDecisions = canViewDecisions
+    ? decisions.filter((decision) => decision.status === "open")
+    : [];
   const confidence = buildConfidenceBanner(dataset.field_state);
   const challenge = summarizeGtChallengeCampaign(dataset.meta_insights, dataset.families);
   const deposits = dataset.enrollments.filter(
@@ -187,14 +194,14 @@ export default function Home() {
             </div>
             <div className="rounded-card border border-border bg-surface p-4 shadow-sm">
               <p className="text-[12px] font-semibold text-muted">Active role lens</p>
-              <p className="mt-2 text-[18px] font-semibold text-ink">{leader.name}</p>
-              <p className="text-[13px] text-muted">{leader.title}</p>
+              <p className="mt-2 text-[18px] font-semibold text-ink">{viewer.name}</p>
+              <p className="text-[13px] text-muted">{viewer.title}</p>
               <div className="mt-4 grid grid-cols-3 gap-2">
                 {DEMO_USERS.map((user) => (
                   <div
                     key={user.id}
                     className={`rounded-card border px-2 py-2 text-center ${
-                      user.id === leader.id
+                      user.role === viewer.role
                         ? "border-gold bg-amber-soft text-ink"
                         : "border-hairline bg-canvas text-muted"
                     }`}
@@ -213,9 +220,13 @@ export default function Home() {
               note={`${money.format(budget.totals.remaining)} remaining against planned spend`}
             />
             <MetricTile
-              label="Open decisions"
-              value={String(openDecisions.length)}
-              note={`${openDecisions.filter((decision) => decision.auto_flag).length} auto-flagged by system rules`}
+              label={canViewDecisions ? "Open decisions" : "Decision access"}
+              value={canViewDecisions ? String(openDecisions.length) : "Restricted"}
+              note={
+                canViewDecisions
+                  ? `${openDecisions.filter((decision) => decision.auto_flag).length} auto-flagged by system rules`
+                  : "Current role can submit requests, not view the leadership queue"
+              }
             />
             <MetricTile
               label="CRM confidence"
@@ -287,26 +298,43 @@ export default function Home() {
 
           <section className="grid gap-4 lg:grid-cols-[0.85fr_1.15fr]">
             <div className="rounded-card border border-hairline bg-ink-cta p-5 text-on-cta shadow-sm">
-              <h2 className="font-serif text-[24px] font-semibold">Decision preview</h2>
-              <p className="mt-2 text-[13px] leading-relaxed text-on-cta/80">
-                Leader-only queue cards land here so the meeting can close with rulings.
-              </p>
-              <div className="mt-5 space-y-3">
-                {openDecisions.slice(0, 2).map((decision) => (
+              {canViewDecisions ? (
+                <>
+                  <h2 className="font-serif text-[24px] font-semibold">Decision preview</h2>
+                  <p className="mt-2 text-[13px] leading-relaxed text-on-cta/80">
+                    Leader-only queue cards land here so the meeting can close with rulings.
+                  </p>
+                  <div className="mt-5 space-y-3">
+                    {openDecisions.slice(0, 2).map((decision) => (
+                      <Link
+                        key={decision.id}
+                        href="/m/decisions"
+                        className="block rounded-card border border-white/20 bg-white/10 p-3 transition-colors hover:bg-white/15"
+                      >
+                        <p className="text-[13px] font-semibold leading-snug">
+                          {cleanCopy(decision.question)}
+                        </p>
+                        <p className="mono mt-2 text-[11px] text-on-cta/70">
+                          {decision.priority} | {decision.workstream ?? "general"}
+                        </p>
+                      </Link>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <>
+                  <h2 className="font-serif text-[24px] font-semibold">Decision Queue restricted</h2>
+                  <p className="mt-2 text-[13px] leading-relaxed text-on-cta/80">
+                    This role can submit decision requests, but the full queue and ruling controls are leadership-only.
+                  </p>
                   <Link
-                    key={decision.id}
                     href="/m/decisions"
-                    className="block rounded-card border border-white/20 bg-white/10 p-3 transition-colors hover:bg-white/15"
+                    className="mt-5 inline-flex h-9 items-center justify-center rounded-card border border-white/20 bg-white/10 px-3 text-[12px] font-semibold transition-colors hover:bg-white/15"
                   >
-                    <p className="text-[13px] font-semibold leading-snug">
-                      {cleanCopy(decision.question)}
-                    </p>
-                    <p className="mono mt-2 text-[11px] text-on-cta/70">
-                      {decision.priority} | {decision.workstream ?? "general"}
-                    </p>
+                    Open access state
                   </Link>
-                ))}
-              </div>
+                </>
+              )}
             </div>
 
             <div className="rounded-card border border-hairline bg-surface p-5 shadow-sm">

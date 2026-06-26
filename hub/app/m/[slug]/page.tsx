@@ -1,17 +1,14 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { MODULES, moduleBySlug } from "@/lib/modules";
+import { moduleBySlug } from "@/lib/modules";
 import { DEMO_USERS, buildModuleSurface, type SurfaceMetric, type SurfaceRow } from "@/lib/phase2";
 import { generate } from "@/lib/seed/generate";
+import { DEV_MODE, getSession } from "@/lib/auth";
 
 const EXTRA_SLUGS = ["gt-challenge"];
 
-export function generateStaticParams() {
-  return [
-    ...MODULES.filter((module) => module.slug !== "home").map((module) => ({ slug: module.slug })),
-    ...EXTRA_SLUGS.map((slug) => ({ slug })),
-  ];
-}
+// Behind app auth (cookies()), so rendered per-request rather than statically.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({
   params,
@@ -25,7 +22,7 @@ export async function generateMetadata({
 }
 
 function roleHref(slug: string, role: string) {
-  return `/m/${slug}?role=${role}`;
+  return `/api/auth/login?role=${role}&next=${encodeURIComponent(`/m/${slug}`)}`;
 }
 
 function toneClass(tone: SurfaceMetric["tone"] | SurfaceRow["tone"] = "neutral") {
@@ -55,8 +52,14 @@ export default async function ModulePage({
   const known = moduleBySlug(slug) || EXTRA_SLUGS.includes(slug);
   if (!known || slug === "home") notFound();
 
+  // Role is authoritative from the authenticated session. The ?role= query is only a
+  // dev/test view-lens fallback used when there is no session — middleware redirects
+  // unauthenticated users to /login, so it can never escalate privilege at runtime,
+  // and all real data access (e.g. /api/decisions) is gated server-side regardless.
+  const session = await getSession();
+  const role = session?.role ?? query.role;
   const dataset = generate({ seed: 424242, families: 1200 });
-  const surface = buildModuleSurface(slug, dataset, query.role);
+  const surface = buildModuleSurface(slug, dataset, role);
   const moduleDef = moduleBySlug(slug);
 
   return (
@@ -81,23 +84,25 @@ export default async function ModulePage({
 
             <div className="rounded-card border border-hairline bg-canvas p-3">
               <p className="mono text-[11px] font-semibold text-label">
-                Role lens
+                {DEV_MODE ? "Role lens (dev switcher)" : "Active role"}
               </p>
-              <div className="mt-2 flex flex-wrap gap-1.5">
-                {DEMO_USERS.map((user) => (
-                  <Link
-                    key={user.id}
-                    href={roleHref(slug, user.role)}
-                    className={`rounded-card border px-2.5 py-1.5 text-[12px] font-semibold transition-colors ${
-                      surface.viewer.role === user.role
-                        ? "border-gold bg-amber-soft text-ink"
-                        : "border-hairline bg-surface text-muted hover:border-border hover:text-ink"
-                    }`}
-                  >
-                    {user.role}
-                  </Link>
-                ))}
-              </div>
+              {DEV_MODE && (
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {DEMO_USERS.map((user) => (
+                    <a
+                      key={user.id}
+                      href={roleHref(slug, user.role)}
+                      className={`rounded-card border px-2.5 py-1.5 text-[12px] font-semibold transition-colors ${
+                        surface.viewer.role === user.role
+                          ? "border-gold bg-amber-soft text-ink"
+                          : "border-hairline bg-surface text-muted hover:border-border hover:text-ink"
+                      }`}
+                    >
+                      {user.role}
+                    </a>
+                  ))}
+                </div>
+              )}
               <p className="mt-2 text-[12px] text-muted">
                 {surface.viewer.name} | {surface.viewer.title}
               </p>

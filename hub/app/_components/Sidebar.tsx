@@ -1,10 +1,26 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 import { MODULES, moduleHref } from "@/lib/modules";
-import { demoUserByRole } from "@/lib/phase2";
+import type { Role } from "@/lib/phase2";
+
+export type SidebarViewer = {
+  id: string;
+  name: string;
+  title: string;
+  role: Role;
+};
+
+function initials(name: string): string {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() ?? "")
+    .join("");
+}
 
 // Compact line icons keyed by module slug. Stroke = currentColor so active
 // states recolor them for free.
@@ -184,10 +200,16 @@ function LinkIcon({ children }: { children: ReactNode }) {
   );
 }
 
-export function Sidebar() {
+export function Sidebar({
+  viewer,
+  devMode,
+}: {
+  viewer: SidebarViewer | null;
+  devMode: boolean;
+}) {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const viewer = demoUserByRole(searchParams.get("role"));
+  // Internal/dev surfaces are Admin-only (middleware enforces; hide them otherwise).
+  const showDevLinks = viewer?.role === "admin";
 
   return (
     <aside className="sticky top-0 hidden h-[100dvh] w-[228px] shrink-0 flex-col border-r border-hairline bg-side lg:flex">
@@ -270,36 +292,40 @@ export function Sidebar() {
           })}
         </ul>
 
-        <p className="mono px-2.5 pb-1.5 pt-4 text-[11px] font-semibold text-label">
-          Developer
-        </p>
-        <ul className="flex flex-col gap-0.5">
-          {DEV_LINKS.map((l) => {
-            const active = l.exact
-              ? pathname === l.href
-              : pathname === l.href || pathname.startsWith(`${l.href}/`);
-            return (
-              <li key={l.href}>
-                <Link
-                  href={l.href}
-                  aria-current={active ? "page" : undefined}
-                  className={`group flex items-center gap-2.5 rounded-card px-2.5 py-[7px] text-[13px] font-medium transition-colors ${
-                    active ? "bg-ink-cta text-on-cta shadow-sm" : "text-slate hover:bg-hover hover:text-ink"
-                  }`}
-                >
-                  <span
-                    className={`grid h-[18px] w-[18px] shrink-0 place-items-center ${
-                      active ? "text-gold" : "text-label group-hover:text-muted"
-                    }`}
-                  >
-                    <LinkIcon>{l.icon}</LinkIcon>
-                  </span>
-                  <span className="truncate">{l.label}</span>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+        {showDevLinks && (
+          <>
+            <p className="mono px-2.5 pb-1.5 pt-4 text-[11px] font-semibold text-label">
+              Developer
+            </p>
+            <ul className="flex flex-col gap-0.5">
+              {DEV_LINKS.map((l) => {
+                const active = l.exact
+                  ? pathname === l.href
+                  : pathname === l.href || pathname.startsWith(`${l.href}/`);
+                return (
+                  <li key={l.href}>
+                    <Link
+                      href={l.href}
+                      aria-current={active ? "page" : undefined}
+                      className={`group flex items-center gap-2.5 rounded-card px-2.5 py-[7px] text-[13px] font-medium transition-colors ${
+                        active ? "bg-ink-cta text-on-cta shadow-sm" : "text-slate hover:bg-hover hover:text-ink"
+                      }`}
+                    >
+                      <span
+                        className={`grid h-[18px] w-[18px] shrink-0 place-items-center ${
+                          active ? "text-gold" : "text-label group-hover:text-muted"
+                        }`}
+                      >
+                        <LinkIcon>{l.icon}</LinkIcon>
+                      </span>
+                      <span className="truncate">{l.label}</span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </>
+        )}
 
         <p className="mono px-2.5 pb-1.5 pt-4 text-[11px] font-semibold text-label">
           Help
@@ -338,17 +364,34 @@ export function Sidebar() {
 
       {/* user and role */}
       <div className="shrink-0 border-t border-hairline px-3 py-3">
-        <div className="flex items-center gap-2.5">
-          <span className="grid h-7 w-7 place-items-center rounded-full bg-ink-cta text-[11px] font-semibold text-on-cta">
-            JC
-          </span>
-          <div className="min-w-0">
-            <p className="truncate text-[12px] font-semibold text-ink">{viewer.name}</p>
-            <p className="mono truncate text-[10px] text-label">
-              {viewer.role} | GT Anywhere
-            </p>
+        {viewer ? (
+          <div className="flex items-center gap-2.5">
+            <span className="grid h-7 w-7 place-items-center rounded-full bg-ink-cta text-[11px] font-semibold text-on-cta">
+              {initials(viewer.name)}
+            </span>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-[12px] font-semibold text-ink">{viewer.name}</p>
+              <p className="mono truncate text-[10px] text-label">
+                {viewer.role} | GT Anywhere
+              </p>
+            </div>
+            <a
+              href="/api/auth/logout"
+              title={devMode ? "Sign out (dev session)" : "Sign out"}
+              className="mono shrink-0 rounded-card border border-hairline px-2 py-1 text-[10px] font-semibold text-slate hover:bg-hover hover:text-ink"
+            >
+              Sign out
+            </a>
           </div>
-        </div>
+        ) : (
+          <Link
+            href="/login"
+            prefetch={false}
+            className="flex items-center justify-center rounded-card border border-border bg-canvas px-2.5 py-2 text-[12px] font-semibold text-ink hover:bg-hover"
+          >
+            Sign in
+          </Link>
+        )}
       </div>
     </aside>
   );
