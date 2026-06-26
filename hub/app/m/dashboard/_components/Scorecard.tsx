@@ -50,7 +50,7 @@ export function Scorecard({ scorecard, compact = false }: { scorecard: Scorecard
       )}
 
       <div data-tour={compact ? undefined : "tour-dashboard-scorecard"}>
-        <Card title="Weekly scorecard" note={`Versioned snapshot · week of ${weekOf} · identical for every role`}>
+        <Card title="Weekly scorecard" note={`Versioned snapshot. Week of ${weekOf}. Identical for every role.`}>
           <div className="overflow-x-auto">
           <table className="w-full min-w-[680px] border-collapse text-[11px]">
             <thead>
@@ -84,14 +84,14 @@ export function Scorecard({ scorecard, compact = false }: { scorecard: Scorecard
                     <Sparkline values={row.sparkline} tone={statusTone(row.status)} />
                   </td>
                   <td className="mono num py-2.5 pr-3 text-muted">
-                    {row.target !== null ? fmtValue(row.target, row.unit) : "—"}
+                    {row.target !== null ? fmtValue(row.target, row.unit) : "n/a"}
                   </td>
                   <td className="py-2.5 pr-3">
                     <Pill tone={statusTone(row.status)}>{row.status.replace("_", " ")}</Pill>
                   </td>
                   <td className="py-2.5 text-[11px] text-muted">
                     {row.source}
-                    {row.freshness ? ` · ${humanizeAge(row.freshness.ageMinutes)}` : ""}
+                    {row.freshness ? `, ${humanizeAge(row.freshness.ageMinutes)}` : ""}
                   </td>
                 </tr>
               ))}

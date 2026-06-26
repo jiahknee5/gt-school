@@ -155,7 +155,7 @@ export default async function NurturePage({
             )}
 
             {activeTab === "sequences" && (
-              <Card title="Sequence health (read-only)" note="HubSpot is the system of record. Approve/kill raises a Decision Queue item — it never mutates HubSpot.">
+              <Card title="Sequence health (read-only)" note="HubSpot is the system of record. Approve/kill raises a Decision Queue item; it never mutates HubSpot.">
                 <div className="space-y-1.5">
                   {sequenceHealth().map((s) => (
                     <div key={s.seqId} className="rounded-card border border-hairline bg-canvas p-2.5">
@@ -203,7 +203,7 @@ export default async function NurturePage({
             <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
               <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Source of truth</h2>
               <ul className="mt-2 space-y-1.5 text-[11px] leading-snug text-muted">
-                <li>Funnel / TEFA / income / grade read app_form (families) — never HubSpot values.</li>
+                <li>Funnel / TEFA / income / grade read app_form (families), never HubSpot values.</li>
                 <li>Engagement tier reads HubSpot signals only; conversion reads funnel only.</li>
                 <li>Sequences are read-only; approve/kill raises a Decision, not a HubSpot write.</li>
                 <li>Heatmap cells with n&lt;{MIN_CELL_N} are suppressed, never reported.</li>

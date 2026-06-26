@@ -65,7 +65,7 @@ export const MODULE_NAV_GROUPS: ModuleNavGroup[] = [
   {
     key: "growth-channels",
     label: "Growth Channels",
-    description: "Where demand is created — grassroots, content, programs, field.",
+    description: "Demand creation across grassroots, content, programs, and field.",
     slugs: ["grassroots", "content", "summer-camp", "events"],
   },
   {

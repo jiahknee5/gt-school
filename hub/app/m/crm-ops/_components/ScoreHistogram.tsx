@@ -10,7 +10,7 @@ export function ScoreHistogram({ scoring }: { scoring: ScoringSummary }) {
     <div className="space-y-3">
       <Card
         title="Lead score distribution"
-        note={`${scoring.scored} scored · ${scoring.unscored} unscored. Read-only mirror of HubSpot gt_lead_score.`}
+        note={`${scoring.scored} scored. ${scoring.unscored} unscored. Read-only mirror of HubSpot gt_lead_score.`}
         right={<Pill tone="neutral">read-only</Pill>}
       >
         <div className="space-y-2.5">
@@ -24,7 +24,7 @@ export function ScoreHistogram({ scoring }: { scoring: ScoringSummary }) {
         </div>
       </Card>
 
-      <Card title="Tier breakdown" note="Deposit rate per tier — descriptive, not a model output.">
+      <Card title="Tier breakdown" note="Deposit rate per tier. Descriptive, not a model output.">
         <div className="divide-y divide-hairline">
           {scoring.tiers.map((t) => (
             <div key={t.tier} className="grid gap-2 py-3 sm:grid-cols-[1fr_100px_100px] sm:items-center">

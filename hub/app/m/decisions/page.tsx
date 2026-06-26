@@ -88,7 +88,7 @@ export default async function DecisionsPage({
                 )}
               </h1>
               <p className="mt-1.5 max-w-[760px] text-[12px] leading-snug text-muted">
-                Where leadership rules on cross-module asks — budget reallocations, guerrilla bets,
+                Where leadership rules on cross-module asks: budget reallocations, guerrilla bets,
                 hot-family escalations, capacity expansions. View + act is Leadership-only and enforced
                 server-side; every other role submits and watches the outcome in My submissions.
               </p>
@@ -97,7 +97,7 @@ export default async function DecisionsPage({
             <div className="rounded-card border border-hairline bg-canvas p-2.5">
               <p className="mono text-[10px] font-semibold text-label">Active role</p>
               <p className="mt-1 text-[12px] font-semibold text-ink">{role ?? "Not signed in"}</p>
-              <p className="mt-0.5 text-[11px] text-muted">Leader: view + act · others: submit only</p>
+              <p className="mt-0.5 text-[11px] text-muted">Leader: view + act. Others submit only.</p>
             </div>
           </div>
         </div>
@@ -170,7 +170,7 @@ export default async function DecisionsPage({
                   <li>A ruling requires a note; the submitter sees it in My submissions.</li>
                   <li>
                     Budget variance &gt;10% auto-flags here{" "}
-                    <span className="font-semibold text-ink">once</span> (idempotent — re-tripping never duplicates).
+                    <span className="font-semibold text-ink">once</span> (idempotent; re-tripping never duplicates).
                   </li>
                   <li>Approvals/rejections are append-only; History keeps the trail.</li>
                 </ul>
@@ -209,7 +209,7 @@ export default async function DecisionsPage({
                   href="/api/opendata/decision-enrichment?counties=TRAVIS,DALLAS"
                   className="mt-2 inline-flex text-[11px] font-semibold text-gold hover:underline"
                 >
-                  Refresh enrichment →
+                  Refresh enrichment
                 </Link>
               </section>
             </aside>

@@ -89,7 +89,7 @@ export default async function CrmOpsPage({
               <p className="mono text-[10px] font-semibold text-label">Active role</p>
               <p className="mt-1 text-[12px] font-semibold text-ink">{role ?? "Not signed in"}</p>
               <p className="mt-0.5 text-[11px] text-muted">
-                Admin + Leader read · Operators denied
+                Admin + Leader read. Operators denied.
               </p>
             </div>
           </div>
@@ -206,7 +206,7 @@ function CrmOpsBody({ activeTab, role }: { activeTab: TabKey; role: "admin" | "l
           <ul className="mt-2 space-y-1.5 text-[11px] leading-snug text-muted">
             <li>Supabase app_form is authoritative for funnel, TEFA, income, grade.</li>
             <li>HubSpot is authoritative for lifecycle, lead score, source.</li>
-            <li>Lead scoring is read-only — the Hub never writes scores back.</li>
+            <li>Lead scoring is read-only. The Hub never writes scores back.</li>
             <li>
               Rendered from the deterministic seed snapshot through the same pure parity/detect/queue
               logic the live engine uses.
@@ -243,7 +243,7 @@ function OverviewView({
         <MetricTile
           label="UTM health"
           value={`${attribution.health.healthPct}%`}
-          note={`${attribution.health.broken} broken of ${attribution.health.total} — attribution is a pinned red flag until rebuilt.`}
+          note={`${attribution.health.broken} broken of ${attribution.health.total}. Attribution is a pinned red flag until rebuilt.`}
           tone="risk"
         />
         <MetricTile
@@ -251,7 +251,7 @@ function OverviewView({
           value={String(openIssues)}
           note={`Auto-detected + manual. ${Object.entries(detectByCategory)
             .map(([c, n]) => `${c}:${n}`)
-            .join(" · ")}`}
+            .join(", ")}`}
           tone={openIssues ? "watch" : "good"}
         />
         <MetricTile

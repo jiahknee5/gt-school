@@ -192,7 +192,7 @@ export default async function DashboardPage({
             <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
               <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Single source of truth</h2>
               <ul className="mt-2 space-y-1.5 text-[11px] leading-snug text-muted">
-                <li>Every KPI is computed in ONE place — lib/metrics/registry.ts.</li>
+                <li>Every KPI is computed in one place: lib/metrics/registry.ts.</li>
                 <li>This board reads home-module values; it never re-derives a number.</li>
                 <li>The Home widget reuses the same Scorecard component + data (no drift).</li>
                 <li>The HubSpot mirror is display-only and never reconciled into a Hub KPI.</li>

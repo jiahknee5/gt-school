@@ -68,8 +68,8 @@ export function BudgetTable({ recon, viewer }: { recon: Reconciliation; viewer: 
                     </div>
                     <p className="mono mt-0.5 text-[11px] text-muted">
                       {row.lastEdit
-                        ? `last: ${usd(row.lastEdit.amount)} ${row.lastEdit.kind} by ${row.lastEdit.entered_by} · ${fmtDate(row.lastEdit.created_at)}`
-                        : "no entries yet — $0 actual"}
+                        ? `last: ${usd(row.lastEdit.amount)} ${row.lastEdit.kind} by ${row.lastEdit.entered_by}, ${fmtDate(row.lastEdit.created_at)}`
+                        : "no entries yet, $0 actual"}
                     </p>
                   </td>
                   <td className="mono num px-3 py-3 text-right align-top text-slate">{usd(row.recommended)}</td>
@@ -139,7 +139,7 @@ export function BudgetTable({ recon, viewer }: { recon: Reconciliation; viewer: 
         </table>
       </div>
       <p className="mt-3 text-[12px] leading-relaxed text-muted">
-        Corrections are new rows (append-only) — there is no in-place edit, so every number traces to a
+        Corrections are new rows (append-only). There is no in-place edit, so every number traces to a
         ledger entry with who/when. You can write to {viewer.owns.length || (viewer.role === "admin" ? "all" : 0)}{" "}
         workstream row(s) as {viewer.title}.
       </p>

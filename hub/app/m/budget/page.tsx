@@ -168,7 +168,7 @@ export default async function BudgetPage({
             <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
               <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Source of truth</h2>
               <ul className="mt-2 space-y-1.5 text-[11px] leading-snug text-muted">
-                <li>The Hub IS the budget system of record — there is no Google Sheet.</li>
+                <li>The Hub is the budget system of record. There is no Google Sheet.</li>
                 <li>committed/actual are DERIVED from the append-only budget_entry ledger.</li>
                 <li>Campaign spend rolls in once as an origin=campaign entry (never re-typed).</li>
                 <li>remaining = planned - actual; available = planned - committed.</li>

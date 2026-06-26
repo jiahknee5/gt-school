@@ -31,7 +31,7 @@ export function AttributionChain({ attribution }: { attribution: AttributionSumm
                 {hop.hop} <span className="mono text-[11px] text-label">({hop.system})</span>
               </p>
               <p className="mt-1 text-[12px] leading-relaxed text-muted">
-                <span className="mono">{hop.field}</span> — {hop.detail}
+                <span className="mono">{hop.field}</span>: {hop.detail}
               </p>
             </div>
             <Pill tone={hopTone(hop.status)}>{hop.status}</Pill>

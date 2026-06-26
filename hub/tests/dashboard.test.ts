@@ -228,7 +228,7 @@ describe("Dashboard · rendered sub-views", () => {
     expect(html).toContain("Weekly scorecard");
     expect(html).toContain("Applicants (new / wk)");
     expect(html).toContain("low-confidence");
-    expect(html).toContain("identical for every role");
+    expect(html).toContain("Identical for every role");
   });
 
   it("renders trends, sla, pacing, and the display-only mirror", async () => {

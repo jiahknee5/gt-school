@@ -79,7 +79,7 @@ export default async function AnalyticsPage({
       <ModuleHeader
         moduleN={13}
         title="Website & Digital Analytics"
-        blurb="GA4 is the single source of truth for gt.school + anywhere.gt.school. Per-site and aggregate reconcile by summation (no cross-property double-count); bounce has one definition; (not set) UTMs are explicit and counted. This module reads GA4, not HubSpot — it is not gated by the sync-parity banner and shows its own GA4-confidence note."
+        blurb="GA4 is the single source of truth for gt.school + anywhere.gt.school. Per-site and aggregate reconcile by summation (no cross-property double-count); bounce has one definition; (not set) UTMs are explicit and counted. This module reads GA4, not HubSpot. It is not gated by the sync-parity banner and shows its own GA4-confidence note."
         viewerName={viewer.name}
         viewerTitle={viewer.title}
         viewerRole={viewer.role}
@@ -89,7 +89,7 @@ export default async function AnalyticsPage({
         <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
           <div className="space-y-3">
             <section role="note" className="rounded-card border border-hairline bg-fill p-2.5 text-[11px] leading-snug text-slate">
-              <span className="font-semibold text-ink">GA4-confidence note:</span> figures reflect GA4 realities — data
+              <span className="font-semibold text-ink">GA4-confidence note:</span> figures reflect GA4 realities: data
               thresholding (low-volume suppression), sampling, an explicit <code>(not set)</code> bucket, and
               consent-mode-modeled conversions. {thresholdedCount} subpage row(s) are below the threshold and flagged,
               not dropped. This module is not gated by the HubSpot sync-parity banner.
@@ -106,13 +106,13 @@ export default async function AnalyticsPage({
 
             {activeTab === "overview" && (
               <>
-                <Card title="Sessions by site (small-multiples, shared baseline)" note="Aggregate must equal the sum of the two properties — no cross-property double-count.">
+                <Card title="Sessions by site (small-multiples, shared baseline)" note="Aggregate must equal the sum of the two properties. No cross-property double-count.">
                   <div className="grid gap-2 sm:grid-cols-2">
                     {sites.map((s) => (
                       <div key={s.site} className="rounded-card border border-hairline bg-canvas p-2.5">
                         <p className="text-[12px] font-semibold text-ink">{s.site}</p>
                         <p className="mono num mt-1 text-[18px] font-bold text-ink">{fmt(s.sessions)}</p>
-                        <p className="text-[11px] text-muted">bounce {pct(bounce(s.sessions, s.engagedSessions))} · {fmt(s.totalUsers)} users</p>
+                        <p className="text-[11px] text-muted">bounce {pct(bounce(s.sessions, s.engagedSessions))}, {fmt(s.totalUsers)} users</p>
                       </div>
                     ))}
                   </div>
@@ -176,12 +176,12 @@ export default async function AnalyticsPage({
                     {sources.map((s) => (
                       <div key={s.channel} className="flex items-center justify-between border-b border-hairline py-1 text-[11px]">
                         <span className="text-ink">{s.channel}</span>
-                        <span className="mono num text-muted">{fmt(s.sessions)} sess · {fmt(s.leads)} leads</span>
+                        <span className="mono num text-muted">{fmt(s.sessions)} sess, {fmt(s.leads)} leads</span>
                       </div>
                     ))}
                   </div>
                 </Card>
-                <Card title="UTM validation → CRM Ops" note="This module is the UTM origin. (not set) is missing, counted — never silent pass-through.">
+                <Card title="UTM validation to CRM Ops" note="This module is the UTM origin. (not set) is missing and counted, never silent pass-through.">
                   <div className="mb-2.5 flex gap-1.5">
                     <Pill tone="good">valid {fmt(utmSummary.valid)}</Pill>
                     <Pill tone="risk">invalid {fmt(utmSummary.invalid)}</Pill>
@@ -254,10 +254,10 @@ export default async function AnalyticsPage({
             <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
               <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Source of truth</h2>
               <ul className="mt-2 space-y-1.5 text-[11px] leading-snug text-muted">
-                <li>GA4 Data API — gt.school + anywhere.gt.school (stood-in as ga4_days).</li>
+                <li>GA4 Data API: gt.school + anywhere.gt.school (stood-in as ga4_days).</li>
                 <li>Aggregate = sum of the two properties; no cross-property double-count.</li>
-                <li>One bounce definition: 1 − engagedSessions/sessions.</li>
-                <li>This is the UTM origin — validated before it reaches CRM Ops.</li>
+                <li>One bounce definition: 1 - engagedSessions/sessions.</li>
+                <li>This is the UTM origin. It is validated before it reaches CRM Ops.</li>
               </ul>
             </section>
             <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">

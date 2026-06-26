@@ -12,7 +12,7 @@ export function ParityScore({
   thresholdPct: number;
 }) {
   const overallTone: Tone = parity.overallPct >= thresholdPct ? "good" : "risk";
-  const worst = parity.fieldDetail[0]; // asc by pct → worst first
+  const worst = parity.fieldDetail[0]; // asc by pct, worst first
   const worstBelow = worst ? worst.pct < thresholdPct : false;
   const worstTone: Tone = !worstBelow ? "good" : worst?.expectedUnreliable ? "watch" : "risk";
 
@@ -21,18 +21,18 @@ export function ParityScore({
       <MetricTile
         label="Overall parity"
         value={`${parity.overallPct}%`}
-        note={`${parity.inParityRows}/${parity.totalRows} field rows in parity · threshold ${thresholdPct}%`}
+        note={`${parity.inParityRows}/${parity.totalRows} field rows in parity. Threshold ${thresholdPct}%.`}
         tone={overallTone}
       />
       <MetricTile
         label="Worst field"
-        value={worst ? `${worst.field} ${worst.pct}%` : "—"}
+        value={worst ? `${worst.field} ${worst.pct}%` : "n/a"}
         note={
           worst
             ? worstBelow
               ? worst.expectedUnreliable
                 ? "Below threshold but known-unreliable (calm)."
-                : "Below threshold — unexpected drift. Investigate."
+                : "Below threshold. Unexpected drift. Investigate."
               : "All fields at or above threshold."
             : "No governed fields in scope."
         }

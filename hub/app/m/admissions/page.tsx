@@ -145,7 +145,7 @@ export default async function AdmissionsPage({
             )}
 
             {activeTab === "bridge" && (
-              <Card title="Objection→content bridge" note="One open brief per theme (idempotent). Effectiveness is a correlational pre/post delta — never a causal claim.">
+              <Card title="Objection to content bridge" note="One open brief per theme (idempotent). Effectiveness is a correlational pre/post delta, never a causal claim.">
                 <div className="grid gap-2 sm:grid-cols-2">
                   <MetricTile label="Bridge hit-rate" value={`${Math.round(hitRate * 100)}%`} note="briefs produced ÷ sent" tone="neutral" />
                   <MetricTile label="Open briefs" value={String(publishedBriefs.filter((b) => b.status === "open").length)} note="awaiting production" tone="watch" />
@@ -220,7 +220,7 @@ export default async function AdmissionsPage({
               <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Source of truth</h2>
               <ul className="mt-2 space-y-1.5 text-[11px] leading-snug text-muted">
                 <li>Objections from HubSpot Conversations + manual; de-duped per thread.</li>
-                <li>Pipeline numbers read app_form funnel_stage — never HubSpot lifecycle.</li>
+                <li>Pipeline numbers read app_form funnel_stage, never HubSpot lifecycle.</li>
                 <li>Quotes never surface without consent (Home + Voice of Families).</li>
                 <li>Bridge effect is correlational (pre/post delta), not a causal claim.</li>
               </ul>
