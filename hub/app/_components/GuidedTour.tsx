@@ -93,7 +93,9 @@ export function TourProvider({ children }: { children: React.ReactNode }) {
   const [spec, setSpec] = useState<TourSpec | null>(null);
   const [index, setIndex] = useState(0);
   const [hole, setHole] = useState<Rect | null>(null);
-  const [gateEl, setGateEl] = useState<HTMLElement | null>(null);
+  // When the target is a click control, gateTarget holds its data-tour value and the
+  // tour will not advance until the user clicks it (delegated, so it survives remounts).
+  const [gateTarget, setGateTarget] = useState<string | null>(null);
   const [gateLabel, setGateLabel] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
 
@@ -132,7 +134,7 @@ export function TourProvider({ children }: { children: React.ReactNode }) {
 
   const clearTarget = useCallback(() => {
     setHole(null);
-    setGateEl(null);
+    setGateTarget(null);
     setGateLabel(null);
   }, []);
 
@@ -173,7 +175,7 @@ export function TourProvider({ children }: { children: React.ReactNode }) {
     if (!el) return false;
     const control = clickGate(el);
     setHole(rectOf(holeElement(el, control)));
-    setGateEl(control);
+    setGateTarget(control ? target : null);
     setGateLabel(
       control ? control.textContent?.replace(/\s+/g, " ").trim().slice(0, 36) || null : null,
     );
@@ -227,17 +229,21 @@ export function TourProvider({ children }: { children: React.ReactNode }) {
   }, [spec, index, measure]);
 
   // ACTION GATE: when the target is a click control, advance only after the user clicks
-  // it. A disabled control (e.g. a submit button before the form is filled) emits no
-  // click, so the tour stays put until the user completes the action and clicks.
+  // it. Delegated at the document (capture) so it keeps working if the element remounts;
+  // a disabled control (e.g. a submit button before the form is filled) emits no click,
+  // so the tour stays put until the user completes the action and clicks.
   useEffect(() => {
-    if (!gateEl) return;
-    const onClick = () => {
-      // let the element's own handler (form submit, navigation) run first
-      setTimeout(() => go(index + 1), 80);
+    if (!gateTarget) return;
+    const onClick = (e: MouseEvent) => {
+      const t = e.target;
+      if (t instanceof Element && t.closest(`[data-tour="${gateTarget}"]`)) {
+        // let the element's own handler (form submit, navigation) run first
+        setTimeout(() => go(index + 1), 80);
+      }
     };
-    gateEl.addEventListener("click", onClick);
-    return () => gateEl.removeEventListener("click", onClick);
-  }, [gateEl, index, go]);
+    document.addEventListener("click", onClick, true);
+    return () => document.removeEventListener("click", onClick, true);
+  }, [gateTarget, index, go]);
 
   // Esc to exit.
   useEffect(() => {
@@ -261,7 +267,7 @@ export function TourProvider({ children }: { children: React.ReactNode }) {
           total={spec.steps.length}
           title={spec.title}
           hole={hole}
-          gated={Boolean(gateEl)}
+          gated={Boolean(gateTarget)}
           gateLabel={gateLabel}
           onBack={() => go(index - 1)}
           onNext={() => go(index + 1)}

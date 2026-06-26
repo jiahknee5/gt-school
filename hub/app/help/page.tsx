@@ -43,6 +43,19 @@ export default function HelpIndex() {
 
       <div className="mt-6 grid grid-cols-1 gap-3.5 lg:grid-cols-2">
         <Link
+          href="/help/roles"
+          className="group flex items-center justify-between gap-4 rounded-card border border-hairline bg-surface p-4 shadow-sm transition-colors hover:border-gold"
+        >
+          <div>
+            <p className="text-[14px] font-semibold text-ink group-hover:text-gold">Roles &amp; access -&gt;</p>
+            <p className="mt-0.5 text-[13px] text-muted">How the Hub is organized: agenda, menu, permission tiers, and who owns what.</p>
+          </div>
+          <span className="mono shrink-0 rounded-[6px] bg-fill px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.06em] text-slate">
+            3 tiers
+          </span>
+        </Link>
+
+        <Link
           href="/help/roadmap"
           className="group flex items-center justify-between gap-4 rounded-card border border-hairline bg-surface p-4 shadow-sm transition-colors hover:border-gold"
         >
