@@ -36,3 +36,4 @@ Applied as gates in the per-module build loop (`../05-build/MODULE-RUNBOOK.md`):
 | `gt-hub-test-panel` | does it work? | `../08-tests/TEST-PLAN.md` |
 | `gt-hub-security-panel` | safe to ship? | `../audits/SECURITY-REVIEW.md` |
 | `gt-hub-cohesion-panel` | usable as one app? | `../use-cases/README.md` |
+| `gt-hub-ia-panel` | organized the right way? (module grouping / nav IA) | `../audits/IA-MODULE-ORGANIZATION.md` |
