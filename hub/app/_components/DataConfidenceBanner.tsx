@@ -70,18 +70,18 @@ export function DataConfidenceBanner({
   return (
     <section
       role={alarm ? "alert" : "status"}
-      className={`rounded-card border ${tone} p-4`}
+      className={`rounded-card border ${tone} p-3`}
     >
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <p className={`text-[14px] font-semibold ${headColor}`}>
+          <p className={`text-[12px] font-semibold ${headColor}`}>
             {alarm ? "Data confidence alarm" : "Data confidence warning"}
           </p>
-          <p className="mt-1 text-[13px] leading-relaxed text-slate">{cleanCopy(message)}</p>
+          <p className="mt-1 text-[11px] leading-snug text-slate">{cleanCopy(message)}</p>
         </div>
         <Link
           href={href}
-          className="inline-flex h-9 shrink-0 items-center justify-center rounded-card bg-ink-cta px-3 text-[12px] font-semibold text-on-cta transition-transform active:translate-y-px"
+          className="inline-flex h-8 shrink-0 items-center justify-center rounded-card bg-ink-cta px-3 text-[11px] font-semibold text-on-cta transition-transform active:translate-y-px"
         >
           Open CRM Ops
         </Link>

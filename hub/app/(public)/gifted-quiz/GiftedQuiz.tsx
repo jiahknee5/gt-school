@@ -106,9 +106,9 @@ function ScaleField({
   onChange: (v: Scale) => void;
 }) {
   return (
-    <fieldset className="rounded-card border border-hairline bg-surface p-4">
-      <legend className="px-1 text-[14px] font-semibold text-ink">{question.prompt}</legend>
-      <p className="mt-1 text-[12px] leading-relaxed text-muted">{question.help}</p>
+    <fieldset className="rounded-card border border-hairline bg-surface p-3">
+      <legend className="px-1 text-[13px] font-semibold text-ink">{question.prompt}</legend>
+              <p className="mt-1 text-[11px] leading-snug text-muted">{question.help}</p>
       <div className="mt-3 flex items-center gap-1.5">
         {([1, 2, 3, 4, 5] as Scale[]).map((n) => {
           const active = value === n;
@@ -119,7 +119,7 @@ function ScaleField({
               aria-pressed={active}
               aria-label={`${question.prompt}: ${n} of 5`}
               onClick={() => onChange(n)}
-              className={`h-11 flex-1 rounded-card border text-[14px] font-semibold transition-colors ${
+              className={`h-10 flex-1 rounded-card border text-[13px] font-semibold transition-colors ${
                 active
                   ? "border-gold bg-ink-cta text-on-cta shadow-sm"
                   : "border-border bg-canvas text-slate hover:border-gold hover:text-ink"
@@ -262,7 +262,7 @@ export function GiftedQuiz() {
 
   return (
     <div className="fixed inset-0 z-[60] overflow-y-auto bg-[linear-gradient(160deg,var(--paper)_0%,var(--paper)_55%,var(--fill)_100%)]">
-      <div className="mx-auto w-full max-w-[560px] px-5 py-10 sm:py-14">
+      <div className="mx-auto w-full max-w-[560px] px-4 py-8 sm:py-10">
         <header className="flex items-center gap-2.5">
           <Image
             src="/gt-icon.svg"
@@ -271,29 +271,29 @@ export function GiftedQuiz() {
             height={32}
             priority
             unoptimized
-            className="h-8 w-8"
+            className="h-7 w-7"
           />
-          <span className="text-[15px] font-semibold text-ink">GT Anywhere</span>
+          <span className="text-[13px] font-semibold text-ink">GT Anywhere</span>
         </header>
 
         {status === "done" && result ? (
           <ResultScreen result={result} childFirstName={childFirstName} />
         ) : (
-          <form onSubmit={handleSubmit} className="mt-7">
-            <p className="mono text-[11px] font-semibold uppercase tracking-[0.12em] text-gold">
+          <form onSubmit={handleSubmit} className="mt-5">
+            <p className="mono text-[10px] font-semibold uppercase tracking-[0.12em] text-gold">
               The GT Challenge
             </p>
-            <h1 className="mt-2 font-serif text-[30px] font-semibold leading-tight text-ink sm:text-[34px]">
+            <h1 className="mt-1 font-serif text-[20px] font-bold leading-tight tracking-[-0.02em] text-ink sm:text-[24px]">
               Is your child ready for more?
             </h1>
-            <p className="mt-3 text-[14px] leading-relaxed text-muted">
+            <p className="mt-1.5 text-[12px] leading-snug text-muted">
               Six quick questions about how your child learns. You get an instant fit
               indicator. This is a screen to start a conversation, not a gifted test or a
               verdict on your child.
             </p>
 
             {/* progress */}
-            <div className="mt-6" aria-hidden="true">
+            <div className="mt-4" aria-hidden="true">
               <div className="h-1.5 w-full overflow-hidden rounded-full bg-fill">
                 <div
                   className="h-full rounded-full bg-gold transition-all"
@@ -305,7 +305,7 @@ export function GiftedQuiz() {
               </p>
             </div>
 
-            <div className="mt-5 space-y-4">
+            <div className="mt-4 space-y-2.5">
               {SCALE_QUESTIONS.map((q) => (
                 <ScaleField
                   key={q.key}
@@ -315,11 +315,11 @@ export function GiftedQuiz() {
                 />
               ))}
 
-              <fieldset className="rounded-card border border-hairline bg-surface p-4">
-                <legend className="px-1 text-[14px] font-semibold text-ink">
+              <fieldset className="rounded-card border border-hairline bg-surface p-3">
+                <legend className="px-1 text-[13px] font-semibold text-ink">
                   Reads above their grade level
                 </legend>
-                <p className="mt-1 text-[12px] leading-relaxed text-muted">
+                <p className="mt-1 text-[11px] leading-snug text-muted">
                   Chooses books or material meant for older kids.
                 </p>
                 <div className="mt-3 flex gap-2">
@@ -334,7 +334,7 @@ export function GiftedQuiz() {
                         type="button"
                         aria-pressed={active}
                         onClick={() => setReadingAboveGrade(opt.value)}
-                        className={`h-11 flex-1 rounded-card border text-[14px] font-semibold transition-colors ${
+                        className={`h-10 flex-1 rounded-card border text-[13px] font-semibold transition-colors ${
                           active
                             ? "border-gold bg-ink-cta text-on-cta shadow-sm"
                             : "border-border bg-canvas text-slate hover:border-gold hover:text-ink"
@@ -347,8 +347,8 @@ export function GiftedQuiz() {
                 </div>
               </fieldset>
 
-              <label className="block rounded-card border border-hairline bg-surface p-4">
-                <span className="text-[14px] font-semibold text-ink">
+              <label className="block rounded-card border border-hairline bg-surface p-3">
+                <span className="text-[13px] font-semibold text-ink">
                   Anything you&apos;d add? <span className="font-normal text-label">(optional)</span>
                 </span>
                 <textarea
@@ -356,23 +356,23 @@ export function GiftedQuiz() {
                   onChange={(e) => setParentObservation(e.target.value)}
                   rows={3}
                   placeholder="A moment that made you think: where did that come from?"
-                  className="mt-2 w-full resize-y rounded-card border border-border bg-canvas px-3 py-2 text-[14px] text-ink placeholder:text-label focus:border-gold focus:outline-none"
+                  className="mt-2 w-full resize-y rounded-card border border-border bg-canvas px-3 py-2 text-[13px] text-ink placeholder:text-label focus:border-gold focus:outline-none"
                 />
               </label>
             </div>
 
             {/* contact + child */}
-            <div className="mt-6 space-y-3 rounded-card border border-hairline bg-surface p-4">
-              <p className="mono text-[11px] font-semibold uppercase tracking-[0.1em] text-label">
+            <div className="mt-4 space-y-2.5 rounded-card border border-hairline bg-surface p-3">
+              <p className="mono text-[10px] font-semibold uppercase tracking-[0.1em] text-label">
                 Where do we send the result?
               </p>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-2.5">
                 <label className="block">
                   <span className="text-[12px] font-semibold text-slate">Child&apos;s first name</span>
                   <input
                     value={childFirstName}
                     onChange={(e) => setChildFirstName(e.target.value)}
-                    className="mt-1 w-full rounded-card border border-border bg-canvas px-3 py-2 text-[14px] text-ink focus:border-gold focus:outline-none"
+                    className="mt-1 w-full rounded-card border border-border bg-canvas px-3 py-2 text-[13px] text-ink focus:border-gold focus:outline-none"
                     placeholder="Optional"
                   />
                 </label>
@@ -384,7 +384,7 @@ export function GiftedQuiz() {
                     value={childGrade}
                     onChange={(e) => setChildGrade(e.target.value)}
                     required
-                    className="mt-1 h-[42px] w-full rounded-card border border-border bg-canvas px-2 text-[14px] text-ink focus:border-gold focus:outline-none"
+                    className="mt-1 h-[42px] w-full rounded-card border border-border bg-canvas px-2 text-[13px] text-ink focus:border-gold focus:outline-none"
                   >
                     <option value="">Select</option>
                     {GRADES.map((g) => (
@@ -401,7 +401,7 @@ export function GiftedQuiz() {
                   type="email"
                   value={parentEmail}
                   onChange={(e) => setParentEmail(e.target.value)}
-                  className="mt-1 w-full rounded-card border border-border bg-canvas px-3 py-2 text-[14px] text-ink focus:border-gold focus:outline-none"
+                  className="mt-1 w-full rounded-card border border-border bg-canvas px-3 py-2 text-[13px] text-ink focus:border-gold focus:outline-none"
                   placeholder="you@example.com"
                 />
               </label>
@@ -412,7 +412,7 @@ export function GiftedQuiz() {
                     type="tel"
                     value={parentPhone}
                     onChange={(e) => setParentPhone(e.target.value)}
-                    className="mt-1 w-full rounded-card border border-border bg-canvas px-3 py-2 text-[14px] text-ink focus:border-gold focus:outline-none"
+                    className="mt-1 w-full rounded-card border border-border bg-canvas px-3 py-2 text-[13px] text-ink focus:border-gold focus:outline-none"
                     placeholder="(512) 555-0100"
                   />
                 </label>
@@ -421,7 +421,7 @@ export function GiftedQuiz() {
                   <input
                     value={zip}
                     onChange={(e) => setZip(e.target.value)}
-                    className="mt-1 w-full rounded-card border border-border bg-canvas px-3 py-2 text-[14px] text-ink focus:border-gold focus:outline-none"
+                    className="mt-1 w-full rounded-card border border-border bg-canvas px-3 py-2 text-[13px] text-ink focus:border-gold focus:outline-none"
                     placeholder="78704"
                   />
                 </label>
@@ -432,14 +432,14 @@ export function GiftedQuiz() {
             </div>
 
             {/* consent — directly above the submit (Schwartz / Lindqvist gate) */}
-            <label className="mt-5 flex items-start gap-3 rounded-card border border-hairline bg-canvas p-4">
+            <label className="mt-4 flex items-start gap-2.5 rounded-card border border-hairline bg-canvas p-3">
               <input
                 type="checkbox"
                 checked={consent}
                 onChange={(e) => setConsent(e.target.checked)}
                 className="mt-0.5 h-4 w-4 shrink-0 accent-[var(--gold)]"
               />
-              <span className="text-[12px] leading-relaxed text-slate">
+              <span className="text-[11px] leading-snug text-slate">
                 I&apos;m this child&apos;s parent or guardian and I consent to GT Anywhere using
                 these responses to follow up about programs. We collect the minimum needed and
                 never label a child out. No submission is stored without this consent.
@@ -449,7 +449,7 @@ export function GiftedQuiz() {
             {error && (
               <p
                 role="alert"
-                className="mt-4 rounded-card border border-red-soft bg-red-soft px-3 py-2 text-[13px] font-medium text-red"
+                className="mt-3 rounded-card border border-red-soft bg-red-soft px-3 py-2 text-[12px] font-medium text-red"
               >
                 {error}
               </p>
@@ -458,7 +458,7 @@ export function GiftedQuiz() {
             <button
               type="submit"
               disabled={!canSubmit}
-              className="mt-5 h-12 w-full rounded-card bg-ink-cta text-[15px] font-semibold text-on-cta shadow-sm transition-colors hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-50"
+              className="mt-4 h-11 w-full rounded-card bg-ink-cta text-[14px] font-semibold text-on-cta shadow-sm transition-colors hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {status === "submitting" ? "Submitting..." : "See our fit"}
             </button>
@@ -468,7 +468,7 @@ export function GiftedQuiz() {
           </form>
         )}
 
-        <footer className="mt-10 border-t border-hairline pt-5 text-center text-[11px] leading-relaxed text-label">
+        <footer className="mt-6 border-t border-hairline pt-4 text-center text-[11px] leading-snug text-label">
           GT Anywhere is the accredited K–8 virtual school from{" "}
           <a href="https://gt.school" className="font-semibold text-muted underline-offset-2 hover:underline">
             GT School
@@ -495,31 +495,31 @@ function ResultScreen({
   const name = childFirstName.trim() || "Your child";
 
   return (
-    <div className="mt-8">
+    <div className="mt-6">
       {result.duplicate && (
-        <p className="mono mb-4 rounded-card border border-amber-soft bg-amber-soft px-3 py-2 text-[12px] font-semibold text-amber">
+        <p className="mono mb-3 rounded-card border border-amber-soft bg-amber-soft px-3 py-2 text-[11px] font-semibold text-amber">
           We already have these responses. Here is your result again. We will not create a
           duplicate.
         </p>
       )}
-      <p className="mono text-[11px] font-semibold uppercase tracking-[0.12em] text-gold">
+      <p className="mono text-[10px] font-semibold uppercase tracking-[0.12em] text-gold">
         Your GT Challenge result
       </p>
-      <h1 className="mt-2 font-serif text-[28px] font-semibold leading-tight text-ink sm:text-[32px]">
+      <h1 className="mt-1 font-serif text-[20px] font-bold leading-tight tracking-[-0.02em] text-ink sm:text-[24px]">
         {name}: {copy.title}
       </h1>
       <span
-        className={`mono mt-4 inline-block rounded-card border px-3 py-1 text-[12px] font-semibold ${copy.tone}`}
+        className={`mono mt-3 inline-block rounded-card border px-2 py-0.5 text-[11px] font-semibold ${copy.tone}`}
       >
         {copy.title} &middot; fit indicator
       </span>
-      <p className="mt-4 text-[15px] leading-relaxed text-muted">{copy.body}</p>
+      <p className="mt-2 text-[12px] leading-snug text-muted">{copy.body}</p>
 
-      <div className="mt-6 rounded-card border border-hairline bg-surface p-4">
-        <p className="mono text-[11px] font-semibold uppercase tracking-[0.1em] text-label">
+      <div className="mt-4 rounded-card border border-hairline bg-surface p-3">
+        <p className="mono text-[10px] font-semibold uppercase tracking-[0.1em] text-label">
           What happens next
         </p>
-        <ul className="mt-2 space-y-1.5 text-[13px] leading-relaxed text-slate">
+        <ul className="mt-2 space-y-1 text-[11px] leading-snug text-slate">
           <li>Your responses were captured securely and deduplicated.</li>
           <li>Our admissions team reviews fit indicators. No child is gated out.</li>
           <li>We will reach out with relevant GT programs and events.</li>
@@ -528,7 +528,7 @@ function ResultScreen({
 
       <a
         href="https://gt.school"
-        className="mt-6 flex h-12 w-full items-center justify-center rounded-card bg-ink-cta text-[15px] font-semibold text-on-cta shadow-sm hover:opacity-95"
+        className="mt-4 flex h-11 w-full items-center justify-center rounded-card bg-ink-cta text-[14px] font-semibold text-on-cta shadow-sm hover:opacity-95"
       >
         Explore GT Anywhere
       </a>

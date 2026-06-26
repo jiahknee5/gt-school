@@ -192,7 +192,7 @@ function FlowRail({ workflow }: { workflow: Workflow }) {
           <span className={`mono absolute -left-[24px] top-1 grid h-5 w-5 place-items-center rounded-full text-[10px] font-bold ${tone.node}`}>
             {index + 1}
           </span>
-          <div className="rounded-card border border-hairline bg-canvas px-3 py-2 text-[12px] font-semibold leading-snug text-ink">
+          <div className="rounded-card border border-hairline bg-canvas px-2.5 py-1.5 text-[12px] font-semibold leading-snug text-ink">
             {step}
           </div>
         </li>
@@ -205,31 +205,31 @@ function ValueBlock({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-card border border-hairline bg-canvas p-3">
       <p className="mono text-[10px] font-semibold uppercase tracking-[0.1em] text-label">{label}</p>
-      <p className="mt-1.5 text-[12px] leading-relaxed text-muted">{value}</p>
+      <p className="mt-1 text-[11px] leading-snug text-muted">{value}</p>
     </div>
   );
 }
 
 export default function PriorityWorkflowsPage() {
   return (
-    <div className="mx-auto max-w-[1280px] px-5 py-10 sm:px-7 lg:px-9">
-      <Link href="/help" className="mono text-[11px] text-blue hover:underline">
+    <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
+      <Link href="/help" className="mono text-[10px] text-blue hover:underline">
         &lt;- All guides
       </Link>
 
-      <p className="mono mt-5 text-[11px] font-semibold uppercase tracking-[0.12em] text-gold">
+      <p className="mono mt-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-gold">
         Help / Priority workflows
       </p>
-      <h1 className="mt-2 max-w-[920px] font-serif text-[32px] font-bold leading-tight tracking-[-0.02em] text-ink">
+      <h1 className="mt-1 max-w-[920px] font-serif text-[20px] font-bold leading-tight tracking-[-0.02em] text-ink">
         Side-by-side workflow map for the grader demo
       </h1>
-      <p className="mt-3 max-w-[840px] text-[15px] leading-relaxed text-muted">
+      <p className="mt-1.5 max-w-[840px] text-[12px] leading-snug text-muted">
         These are the five highest-leverage use cases to build and narrate. Each one shows
         the workflow, business value, technical value, modules, data, and implementation
         pieces needed to make the demo credible.
       </p>
 
-      <div className="mt-8 grid grid-cols-1 gap-3.5 sm:grid-cols-5">
+      <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-5">
         {[
           ["Workflows", `${WORKFLOWS.length}`],
           ["Build first", "1-3"],
@@ -237,19 +237,19 @@ export default function PriorityWorkflowsPage() {
           ["Demo path", "5-10m"],
           ["Value lens", "Biz + tech"],
         ].map(([label, value]) => (
-          <div key={label} className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
-            <div className="mono text-[11px] uppercase tracking-[0.1em] text-label">{label}</div>
-            <div className="num mt-1 font-serif text-[24px] font-bold text-ink">{value}</div>
+          <div key={label} className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+            <div className="mono text-[10px] uppercase tracking-[0.1em] text-label">{label}</div>
+            <div className="num mt-0.5 font-serif text-[18px] font-bold text-ink">{value}</div>
           </div>
         ))}
       </div>
 
-      <section className="mt-9 overflow-x-auto rounded-card border border-hairline bg-surface shadow-sm">
-        <table className="min-w-[1120px] border-collapse text-left text-[12px]">
+      <section className="mt-6 overflow-x-auto rounded-card border border-hairline bg-surface shadow-sm">
+        <table className="min-w-[1120px] border-collapse text-left text-[11px]">
           <thead className="border-b border-hairline bg-fill text-ink">
             <tr>
               {["#", "Workflow", "Business value", "Technical value", "Modules", "Data", "Tech"].map((head) => (
-                <th key={head} className="px-3 py-3 mono text-[10px] font-semibold uppercase tracking-[0.08em]">
+                <th key={head} className="px-2.5 py-1.5 mono text-[10px] font-semibold uppercase tracking-[0.08em]">
                   {head}
                 </th>
               ))}
@@ -258,24 +258,24 @@ export default function PriorityWorkflowsPage() {
           <tbody>
             {WORKFLOWS.map((workflow) => (
               <tr key={workflow.priority} className="border-b border-hairline last:border-0">
-                <td className="px-3 py-3 align-top">
+                <td className="px-2.5 py-1.5 align-top">
                   <span className={`mono rounded-[5px] px-1.5 py-0.5 text-[10px] font-semibold ${TONE[workflow.tone].pill}`}>
                     P{workflow.priority}
                   </span>
                 </td>
-                <td className="px-3 py-3 align-top">
+                <td className="px-2.5 py-1.5 align-top">
                   <p className="font-semibold leading-snug text-ink">{workflow.shortName}</p>
                   <p className="mt-1 text-[11px] leading-snug text-muted">{workflow.title}</p>
                 </td>
-                <td className="max-w-[220px] px-3 py-3 align-top leading-relaxed text-muted">{workflow.businessValue}</td>
-                <td className="max-w-[220px] px-3 py-3 align-top leading-relaxed text-muted">{workflow.technicalValue}</td>
-                <td className="px-3 py-3 align-top">
+                <td className="max-w-[220px] px-2.5 py-1.5 align-top leading-relaxed text-muted">{workflow.businessValue}</td>
+                <td className="max-w-[220px] px-2.5 py-1.5 align-top leading-relaxed text-muted">{workflow.technicalValue}</td>
+                <td className="px-2.5 py-1.5 align-top">
                   <ChipList items={workflow.modules} tint="border border-hairline bg-fill text-slate" />
                 </td>
-                <td className="px-3 py-3 align-top">
+                <td className="px-2.5 py-1.5 align-top">
                   <ChipList items={workflow.data} tint="border border-hairline bg-fill text-slate" />
                 </td>
-                <td className="px-3 py-3 align-top">
+                <td className="px-2.5 py-1.5 align-top">
                   <ChipList items={workflow.tech} tint="border border-hairline bg-fill text-slate" />
                 </td>
               </tr>
@@ -284,37 +284,37 @@ export default function PriorityWorkflowsPage() {
         </table>
       </section>
 
-      <section className="mt-12">
+      <section className="mt-6">
         <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="mono text-[11px] font-semibold uppercase tracking-[0.12em] text-gold">
+            <p className="mono text-[10px] font-semibold uppercase tracking-[0.12em] text-gold">
               Workflow cards
             </p>
-            <h2 className="mt-1 font-serif text-[24px] font-bold tracking-[-0.01em] text-ink">
+            <h2 className="mt-0.5 font-serif text-[15px] font-bold tracking-[-0.01em] text-ink">
               What each use case needs
             </h2>
           </div>
-          <p className="max-w-[480px] text-[12px] leading-relaxed text-muted">
+          <p className="max-w-[480px] text-[11px] leading-snug text-muted">
             Read left to right inside each card. The rail is the demo path; the right side is
             the value and implementation checklist.
           </p>
         </div>
 
-        <div className="mt-5 grid grid-cols-1 gap-4 xl:grid-cols-2">
+        <div className="mt-3 grid grid-cols-1 gap-2 xl:grid-cols-2">
           {WORKFLOWS.map((workflow) => (
-            <article key={workflow.priority} className="rounded-card border border-hairline bg-surface p-5 shadow-sm">
+            <article key={workflow.priority} className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
               <div className="flex flex-wrap items-start justify-between gap-3">
                 <div>
                   <span className={`mono rounded-[5px] px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-[0.06em] ${TONE[workflow.tone].pill}`}>
                     Priority {workflow.priority}
                   </span>
-                  <h3 className="mt-2 font-serif text-[21px] font-bold leading-tight tracking-[-0.01em] text-ink">
+                  <h3 className="mt-1.5 font-serif text-[15px] font-bold leading-tight tracking-[-0.01em] text-ink">
                     {workflow.title}
                   </h3>
                 </div>
               </div>
 
-              <div className="mt-5 grid gap-5 lg:grid-cols-[0.85fr_1.15fr]">
+              <div className="mt-3 grid gap-3 lg:grid-cols-[0.85fr_1.15fr]">
                 <div>
                   <p className="mono mb-3 text-[10px] font-semibold uppercase tracking-[0.1em] text-label">
                     HTML workflow diagram
@@ -349,11 +349,11 @@ export default function PriorityWorkflowsPage() {
         </div>
       </section>
 
-      <section className="mt-10 rounded-card border border-hairline bg-surface p-5 shadow-sm">
-        <p className="mono text-[11px] font-semibold uppercase tracking-[0.12em] text-gold">
+      <section className="mt-10 rounded-card border border-hairline bg-surface p-3 shadow-sm">
+        <p className="mono text-[10px] font-semibold uppercase tracking-[0.12em] text-gold">
           Implementation cut line
         </p>
-        <p className="mt-2 max-w-[920px] text-[14px] leading-relaxed text-muted">
+        <p className="mt-1.5 max-w-[920px] text-[12px] leading-snug text-muted">
           Build workflows 1-3 before expanding surface area. They prove the backbone,
           source-of-truth discipline, role gates, and visible cross-module handoffs. Add
           Open Data as a focused enhancement to Decision Queue, then use the Monday meeting
@@ -361,7 +361,7 @@ export default function PriorityWorkflowsPage() {
         </p>
       </section>
 
-      <footer className="mt-12 border-t border-hairline pt-5 text-[12px] text-label">
+      <footer className="mt-6 border-t border-hairline pt-4 text-[11px] text-label">
         Source doc: <span className="mono">docs/use-cases/PRIORITY-WORKFLOWS.md</span> /{" "}
         <Link href="/help/roadmap" className="text-blue hover:underline">
           build roadmap

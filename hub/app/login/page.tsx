@@ -27,9 +27,9 @@ export default async function LoginPage({
   const next = safeNext(query.next);
 
   return (
-    <main className="grid min-h-[100dvh] place-items-center bg-canvas px-5 py-12">
+    <main className="grid min-h-[100dvh] place-items-center bg-canvas px-4 py-8">
       <div className="w-full max-w-[460px]">
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           <Image
             src="/gt-school-logo.svg"
             alt="GT School"
@@ -37,56 +37,56 @@ export default async function LoginPage({
             height={32}
             priority
             unoptimized
-            className="h-8 w-auto"
+            className="h-7 w-auto"
           />
           <span className="h-6 w-px bg-hairline" />
-          <span className="text-[15px] font-semibold text-muted">Marketing Hub</span>
+          <span className="text-[13px] font-semibold text-muted">Marketing Hub</span>
         </div>
 
-        <h1 className="mt-6 font-serif text-[28px] font-semibold leading-tight text-ink">
+        <h1 className="mt-4 font-serif text-[20px] font-bold leading-tight tracking-[-0.02em] text-ink">
           Sign in
         </h1>
 
         {DEV_MODE ? (
           <>
-            <p className="mt-2 text-[14px] leading-relaxed text-muted">
+            <p className="mt-1.5 text-[12px] leading-snug text-muted">
               Dev auth mode is on. Pick a role to start a real, server-enforced session.
               Every route stays deny-by-default behind this session.
             </p>
-            <div className="mt-6 space-y-3">
+            <div className="mt-4 space-y-2">
               {DEMO_USERS.map((user) => (
                 <Link
                   key={user.id}
                   href={`/api/auth/login?role=${user.role}&next=${encodeURIComponent(next)}`}
                   prefetch={false}
-                  className="block rounded-card border border-hairline bg-surface p-4 shadow-sm transition-colors hover:border-border hover:bg-hover"
+                  className="block rounded-card border border-hairline bg-surface p-3 shadow-sm transition-colors hover:border-border hover:bg-hover"
                 >
-                  <div className="flex items-center justify-between gap-3">
-                    <p className="text-[14px] font-semibold text-ink">{user.name}</p>
-                    <span className="mono rounded-card bg-fill px-2 py-1 text-[11px] font-semibold text-slate">
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="text-[12px] font-semibold text-ink">{user.name}</p>
+                    <span className="mono rounded-card bg-fill px-1.5 py-0.5 text-[10px] font-semibold text-slate">
                       {user.role}
                     </span>
                   </div>
-                  <p className="mt-1 text-[12px] leading-snug text-muted">
+                  <p className="mt-0.5 text-[11px] leading-snug text-muted">
                     {ROLE_BLURB[user.role] ?? user.title}
                   </p>
                 </Link>
               ))}
             </div>
-            <p className="mono mt-6 text-[11px] leading-relaxed text-label">
+            <p className="mono mt-4 text-[11px] leading-snug text-label">
               Dev mode is for the competition demo only. In production set
               AUTH_DEV_MODE=false and wire a real identity provider; the same
               middleware and role checks apply unchanged.
             </p>
           </>
         ) : (
-          <p className="mt-2 text-[14px] leading-relaxed text-muted">
+          <p className="mt-1.5 text-[12px] leading-snug text-muted">
             No identity provider is configured for this deployment. Set AUTH_DEV_MODE=true
             for local development, or connect a real IdP.
           </p>
         )}
 
-        <p className="mt-10 border-t border-hairline pt-5 text-[12px] leading-relaxed text-label">
+        <p className="mt-6 border-t border-hairline pt-4 text-[11px] leading-snug text-label">
           Internal marketing operations workspace for{" "}
           <a
             href="https://gt.school"

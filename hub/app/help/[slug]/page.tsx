@@ -50,28 +50,28 @@ export default async function GuidePage({
     .filter((g): g is NonNullable<typeof g> => Boolean(g));
 
   return (
-    <div className="mx-auto max-w-[860px] px-7 py-10">
-      <Link href="/help" className="mono text-[11px] text-blue hover:underline">
+    <div className="mx-auto max-w-[860px] px-4 py-5">
+      <Link href="/help" className="mono text-[10px] text-blue hover:underline">
         ← All guides
       </Link>
 
-      <p className="mono mt-5 text-[11px] font-semibold uppercase tracking-[0.12em] text-gold">
+      <p className="mono mt-3 text-[10px] font-semibold uppercase tracking-[0.12em] text-gold">
         {guide.category}
       </p>
-      <h1 className="mt-2 font-serif text-[30px] font-bold leading-tight tracking-[-0.02em] text-ink">
+      <h1 className="mt-1 font-serif text-[20px] font-bold leading-tight tracking-[-0.02em] text-ink">
         {guide.title}
       </h1>
-      <p className="mt-3 text-[15px] leading-relaxed text-muted">{cleanCopy(guide.objective)}</p>
+      <p className="mt-1.5 text-[12px] leading-snug text-muted">{cleanCopy(guide.objective)}</p>
 
       {guide.fromSpec && (
-        <div className="mt-5 rounded-card border border-gold bg-fill px-4 py-3 text-[12px] leading-relaxed text-ink">
+        <div className="mt-3 rounded-card border border-gold bg-fill px-3 py-2.5 text-[11px] leading-snug text-ink">
           <span className="mono font-semibold uppercase tracking-[0.08em] text-gold">From the spec</span>{" "}
           - {cleanCopy(guide.fromSpec)}
         </div>
       )}
 
       {/* meta */}
-      <div className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+      <div className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-3">
         <div>
           <p className="mono text-[10px] uppercase tracking-[0.1em] text-label">Who</p>
           <div className="mt-1.5">
@@ -86,24 +86,24 @@ export default async function GuidePage({
         </div>
       </div>
 
-      <div className="mt-5 rounded-card border border-hairline bg-surface px-4 py-3 text-[13px] leading-relaxed text-muted">
+      <div className="mt-3 rounded-card border border-hairline bg-surface px-3 py-2.5 text-[11px] leading-snug text-muted">
         <span className="mono text-[10px] font-semibold uppercase tracking-[0.1em] text-label">Starts when</span>
         <br />
         {cleanCopy(guide.trigger)}
       </div>
 
       {/* steps */}
-      <h2 className="mt-10 font-serif text-[22px] font-bold tracking-[-0.01em] text-ink">Steps</h2>
-      <ol className="mt-5 space-y-4">
+      <h2 className="mt-6 font-serif text-[15px] font-bold tracking-[-0.01em] text-ink">Steps</h2>
+      <ol className="mt-2 space-y-1.5">
         {guide.steps.map((step, i) => (
-          <li key={i} className="flex gap-4 rounded-card border border-hairline bg-surface p-4 shadow-sm">
-            <span className="num grid h-7 w-7 shrink-0 place-items-center rounded-full bg-ink-cta text-[13px] font-bold text-on-cta">
+          <li key={i} className="flex gap-4 rounded-card border border-hairline bg-surface p-3 shadow-sm">
+            <span className="num grid h-6 w-6 shrink-0 place-items-center rounded-full bg-ink-cta text-[11px] font-bold text-on-cta">
               {i + 1}
             </span>
             <div className="min-w-0">
-              <p className="text-[14px] font-semibold leading-snug text-ink">{cleanCopy(step.do)}</p>
-              <p className="mono mt-1.5 text-[11px] text-slate">{cleanCopy(step.where)}</p>
-              <p className="mt-1.5 text-[13px] leading-relaxed text-muted">
+              <p className="text-[12px] font-semibold leading-snug text-ink">{cleanCopy(step.do)}</p>
+              <p className="mono mt-1 text-[11px] text-slate">{cleanCopy(step.where)}</p>
+              <p className="mt-1 text-[11px] leading-snug text-muted">
                 <span className="font-semibold text-slate">Result:</span> {cleanCopy(step.result)}
               </p>
             </div>
@@ -112,12 +112,12 @@ export default async function GuidePage({
       </ol>
 
       {/* success */}
-      <h2 className="mt-10 font-serif text-[20px] font-bold tracking-[-0.01em] text-ink">
+      <h2 className="mt-6 font-serif text-[15px] font-bold tracking-[-0.01em] text-ink">
         What good looks like
       </h2>
-      <ul className="mt-3 space-y-2">
+      <ul className="mt-2 space-y-1.5">
         {guide.success.map((s) => (
-          <li key={s} className="flex gap-2.5 text-[13px] leading-relaxed text-muted">
+          <li key={s} className="flex gap-2 text-[11px] leading-snug text-muted">
             <span className="mono mt-0.5 text-[10px] font-semibold uppercase text-gold">Good</span>
             <span>{cleanCopy(s)}</span>
           </li>
@@ -125,10 +125,10 @@ export default async function GuidePage({
       </ul>
 
       {/* watch for */}
-      <h2 className="mt-8 font-serif text-[20px] font-bold tracking-[-0.01em] text-ink">Watch for</h2>
-      <ul className="mt-3 space-y-2">
+      <h2 className="mt-6 font-serif text-[15px] font-bold tracking-[-0.01em] text-ink">Watch for</h2>
+      <ul className="mt-2 space-y-1.5">
         {guide.watchFor.map((w) => (
-          <li key={w} className="flex gap-2.5 text-[13px] leading-relaxed text-muted">
+          <li key={w} className="flex gap-2 text-[11px] leading-snug text-muted">
             <span className="mt-0.5 text-amber">!</span>
             <span>{cleanCopy(w)}</span>
           </li>
@@ -138,13 +138,13 @@ export default async function GuidePage({
       {/* related */}
       {related.length > 0 && (
         <>
-          <h2 className="mt-10 font-serif text-[18px] font-bold tracking-[-0.01em] text-ink">Related guides</h2>
-          <div className="mt-3 flex flex-wrap gap-2">
+          <h2 className="mt-6 font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Related guides</h2>
+          <div className="mt-2 flex flex-wrap gap-1.5">
             {related.map((r) => (
               <Link
                 key={r.slug}
                 href={`/help/${r.slug}`}
-                className="rounded-card border border-hairline bg-surface px-3 py-1.5 text-[12px] text-slate transition-colors hover:border-gold hover:text-gold"
+                className="rounded-card border border-hairline bg-surface px-2.5 py-1 text-[11px] text-slate transition-colors hover:border-gold hover:text-gold"
               >
                 {r.title}
               </Link>
