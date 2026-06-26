@@ -1,88 +1,115 @@
-# GT Marketing Hub — Security Review (initial threat model)
+# GT Marketing Hub — Security Review
 
-> Produced by the **`gt-hub-security-panel`** skill. Read-only review of the current
-> backbone surface; re-run as the security gate after each module (see
-> `docs/05-build/MODULE-RUNBOOK.md` step 4). Findings feed tests via `gt-hub-test-panel`.
+> Produced by the **`gt-hub-security-panel`** skill. **Refreshed 2026-06-26** after Tier 0
+> auth/RBAC landed and all 13 modules were built (was: pre-auth backbone threat model). Re-run
+> as the security gate after each module (see `docs/05-build/MODULE-RUNBOOK.md` step 4).
+> Findings feed tests via `gt-hub-test-panel`.
 
 ## 1. Threat model (assets · entry points · trust boundaries)
 
-**Assets (what an attacker wants / what we must protect):**
-- Families' and **children's PII** (minors → COPPA/FERPA-adjacent), SMS-inbox + Voice-of-Customer content.
+**Assets (what we must protect):**
+- Families' and **children's PII** (minors → COPPA/FERPA-adjacent), SMS-inbox + Voice-of-Customer
+  content, Summer Camp roster.
 - Money & decisions: payments, the $365K budget, Decision Queue approvals.
 - Cross-program isolation (the brief explicitly scores "prove isolation").
 - Secrets: Supabase login, HubSpot token, Stripe keys.
 
-**Entry points:** public web routes (`/`, `/m/[slug]`, `/dev/*`, `/opendata/*`, future module pages),
-the Stripe webhook, HubSpot webhook, the (future) GT-Challenge public quiz, the Open Data outbound fetch.
+**Entry points:** web routes (`/`, `/m/<slug>`, `/dev/*`, `/opendata/*`), the Stripe webhook,
+HubSpot webhook, the Open Data outbound fetch, the auth endpoints (`/api/auth/*`), the
+Decision-Queue mutation (`/api/decisions/[id]/decide`).
 
 **Trust boundaries:** browser ↔ Next server ↔ Postgres (RLS) ↔ HubSpot/Stripe/Supabase/Open Data.
-The critical one — **authenticated user ↔ authorized program/role** — **does not exist yet** (no auth).
+The critical boundary — **authenticated user ↔ authorized program/role** — **now EXISTS**: a
+signed session cookie (`gt_session`), a deny-by-default `middleware.ts`, and the shared route
+policy (`lib/auth/policy.ts`). Role is derived server-side from the verified user id only —
+never read from the request.
 
 ## 2. Roster (pared to 8)
 
-| Persona | Lens | Falsifiable ask |
-|---|---|---|
-| **Elena Vasquez** | AppSec / AuthZ | As an Operator session, GET the Decision Queue API → 403, not 200-with-hidden-UI. |
-| **Kwame Osei** | Multi-tenant isolation | Forge/alter a program id on a request → 0 rows, never another program's data. |
-| **Dr. Hannah Cole** | Privacy counsel — minors (COPPA/FERPA) | No real minor PII anywhere; sensitive content gated; data-minimized stand-ins. *(don't-ship seat)* |
-| **Ravi Menon** | Payments & integration sec | Replay a Stripe event → processed once; unsigned/forged webhook → rejected. |
-| **Sofia Lindgren** | Cloud / deploy sec | In prod, `/dev` + `/opendata` are gated; security headers + CSP present. |
-| **"Vex" (red team)** | Offensive | Reach a Leader-only route as Operator, or read cross-program data — must fail. |
-| **Tomáš Horák** | Secrets / data-leak | No secret in client bundle / `NEXT_PUBLIC_` / repo; none in logs. |
-| **Mei Tanaka** | Logging & observability privacy | No PII/secrets in server logs or error responses. |
+| Persona | Lens | Falsifiable ask | Result |
+|---|---|---|---|
+| **Elena Vasquez** | AppSec / AuthZ | As an Operator session, GET the Decision Queue API → 403, not 200-with-hidden-UI. | ✅ Pass (`rbac.test.ts` middleware 403 JSON) |
+| **Kwame Osei** | Multi-tenant isolation | Forge/alter a program id on a request → 0 rows, never another program's data. | ✅ Pass (`resolveProgramScope` throws `ProgramScopeError`; RLS fail-closed) |
+| **Dr. Hannah Cole** | Privacy counsel — minors (COPPA/FERPA) | No real minor PII anywhere; sensitive content gated; data-minimized stand-ins. | ✅ Pass (synthetic `@example.com`; camp roster gated by `canViewRoster`/`maskName`) |
+| **Ravi Menon** | Payments & integration sec | Replay a Stripe event → processed once; unsigned/forged webhook → rejected. | ✅ Pass (`tests/payments.test.ts`) |
+| **Sofia Lindgren** | Cloud / deploy sec | In prod, `/dev` + `/opendata` gated; security headers + CSP present. | 🟡 Partial — surfaces gated (✅); headers/CSP **not set** (open) |
+| **"Vex" (red team)** | Offensive | Reach a Leader-only route as Operator, or read cross-program data — must fail. | ✅ Pass (middleware redirects Operator → `/forbidden`; admin also denied DQ) |
+| **Tomáš Horák** | Secrets / data-leak | No secret in client bundle / `NEXT_PUBLIC_` / repo; none in logs. | ✅ Pass (`.env*` gitignored; `app_rw` restricted login; no `service_role`) |
+| **Mei Tanaka** | Logging & observability privacy | No PII/secrets in server logs or error responses. | 🟡 Verify — error responses are generic; spot-check module logging |
 
-## 3. Findings (ranked)
+## 3. Findings (ranked) — refreshed
 
-### 🔴 Critical
-- **[S1] No app-level authentication or authorization.** There is **no `middleware.ts`** and no session
-  layer; every route — including `/dev` (data model, dictionary, **Test Theater**), `/opendata`, and every
-  future module page and API — is **publicly reachable**. The Decision-Queue "Leader-only" rule and the
-  Operator "submit-not-view" rule are unenforceable. *Remediation:* **Tier 0** — add auth + a
-  deny-by-default middleware; role checked server-side on every handler; this is the #1 P0 gap
-  (`docs/01-intake/REQUIREMENTS.md`). **Build before any module that exposes data.**
+### ✅ Resolved since the initial review
+- **[S1] App-level authN/authZ — RESOLVED.** `middleware.ts` is deny-by-default over all
+  non-static routes; the signed-cookie session (`lib/auth/token.ts`, HMAC + expiry) is verified
+  server-side and the role is looked up from server data, never the request. The shared policy
+  (`lib/auth/policy.ts`) enforces: unauthenticated → 401 JSON (API) / `/login` redirect (page);
+  Decision Queue (`/m/decisions*`, `/api/decisions*`) **Leader-exclusive**; `/dev*` + `/opendata*`
+  **Admin-only**. Proven end-to-end in `tests/rbac.test.ts` (route policy + middleware + token
+  integrity + program scope) and `brief-usecases.test.ts › UC-P2-AUTH-ROLES`. This was the #1 P0 gap.
+- **[S2] Program isolation now authorized at the app, not just the DB — RESOLVED at app layer.**
+  Program scope derives from the session via `resolveProgramScope` (`lib/auth/program.ts`); a forged/
+  out-of-scope program id throws `ProgramScopeError` (IDOR/BOLA guard, `rbac.test.ts`). The DB
+  remains fail-closed (`lib/db.ts`: `SET LOCAL ROLE app_rw` NOBYPASSRLS, GUC-scoped, unset GUC → 0
+  rows; `service_role` never used). **Preserve this — never introduce a client-supplied program id
+  or a BYPASSRLS path.**
+- **[S7-a] Internal surfaces gated — RESOLVED.** `/dev*`, `/opendata*`, `/api/opendata*` are
+  Admin-only in the policy + middleware, and the sidebar Developer links render for admin only.
 
-### 🟠 High
-- **[S2] Isolation is correct in the DB but unauthorized at the app.** `lib/db.ts` is strong — `SET LOCAL
-  ROLE app_rw` (NOBYPASSRLS), `app.current_program` GUC, RLS FORCEd, unset GUC → 0 rows (fail-closed),
-  `service_role` never used. **But isolation is only as strong as the program id passed to `withProgram`.**
-  Once routes exist, deriving that id from the client (query/body/header) = instant cross-tenant break
-  (IDOR/BOLA). *Remediation:* derive program scope **from the authenticated session only**; never trust a
-  client-supplied program id; add an isolation test that forges one. *(Blocked on S1.)*
-- **[S7] Internal surfaces exposed.** `/dev/*` and `/opendata/*` reveal architecture, data model, and
-  data. *Remediation:* gate to Admin (post-S1) or strip from the prod build; add a route allow-list.
+### 🟠 High — open
+- **[S6] Decision-Queue ruling is not actor-audited.** `app/api/decisions/[id]/decide/route.ts`
+  re-checks `requireRole("leader")` server-side, validates the UUID, row-locks (`for update`), and
+  guards `status='open'` (no double-ruling) — strong — **but it persists `status/response/
+  response_note/resolved_at` without recording WHO ruled (no `decided_by`/actor) or a timestamped
+  audit row.** Money/decision actions need a tamper trail. *Remediation:* add a `decided_by`
+  (session user id) column + write an audit row on each transition; assert it in `decisions.test.ts`.
+  *(Schema change — sequence with the owning Decision-Queue session; do not hot-patch mid-build.)*
 
-### 🟡 Medium
-- **[S5] Webhook integrity — verify, don't assume.** Stripe handling has signature verify + idempotency
-  (`lib/payments.ts`, proven in `tests/payments.test.ts`). Confirm: signature is checked against the
-  **raw** body (not parsed), the idempotency ledger is authoritative, and the **HubSpot** webhook is
-  authenticated too. **Open Data fetch** → allow-list the base URL (SSRF/egress).
-- **[S3] PII & minors posture.** Seed PII is synthetic (`@example.com`) — keep it. Ensure no real minor
-  data enters; PII never ships in the client bundle or logs; SMS-inbox + VoC quotes are role-gated;
-  document the COPPA/FERPA-adjacent stance + data-minimization for stand-ins.
-- **[S6] Auditability.** Decision-Queue approve/reject and budget changes must record who/when (tamper
-  trail); the parity / data-confidence signal must be computed server-side (not client-spoofable).
-- **[S7] No security headers / CSP / rate limiting.** Add headers + CSP on Vercel; rate-limit the public
-  GT-Challenge quiz + any submit endpoint.
+### 🟡 Medium — open (deploy hardening)
+- **[S7-b] No security headers / CSP.** `next.config.ts` sets only the Turbopack root; there is no
+  `headers()` block. *Remediation (additive, deploy-time):* add `Content-Security-Policy` (start
+  report-only to avoid breaking inline styles), `X-Frame-Options: DENY` / `frame-ancestors 'none'`,
+  `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`,
+  `Permissions-Policy`, HSTS. Validate against the running app before enforcing CSP.
+- **[S7-c] No rate limiting.** No app-level throttle on auth or (future) public-submit endpoints.
+  Low risk today (the GT-Challenge public capture endpoint is **not built** — see
+  `UC-GTC-CAPTURE-PERSIST`, tracked `it.todo`), but add rate limiting before any public quiz ships.
+- **[S5] Webhook + egress integrity — confirm at deploy.** Stripe handling has signature verify +
+  idempotency (`lib/payments.ts`, proven). Confirm the signature is checked against the **raw** body,
+  the HubSpot webhook is authenticated, and the Open Data fetch base URL is allow-listed (SSRF).
+- **[S3] PII & minors posture — holds; keep it.** Seed PII is synthetic (`@example.com`); the Summer
+  Camp roster (minors) is role-gated (`canViewRoster`, `maskName`); SMS-inbox + VoC are role-scoped.
+  Keep real minor data out; never log PII; document the COPPA/FERPA-adjacent stance for stand-ins.
 
 ### 🟢 Low / positive (keep it this way)
-- **[S4] Secret hygiene is good.** `.gitignore` blocks `.env*` and keys; `APP_RW_DATABASE_URL` is the
-  restricted `app_rw` login and the code explicitly refuses `service_role`. Audit for any `NEXT_PUBLIC_`
-  secret leak as modules add config.
-- **[S2] The fail-closed DB design** is a genuine strength — preserve it; never introduce a BYPASSRLS path.
+- **[S4] Secret hygiene is good.** `.gitignore` blocks `.env*`; `.env.local` is an ignored symlink;
+  `APP_RW_DATABASE_URL` is the restricted `app_rw` login; code refuses `service_role`. No
+  `NEXT_PUBLIC_` secret observed — re-audit as modules add config.
+- **Deny-by-default everywhere** and **UI authz that mirrors server authz** (sidebar hides denied
+  modules; middleware enforces) — preserve both.
 
-## 4. Controls → tests (hand to gt-hub-test-panel)
+## 4. Controls → tests
 
 | Control | Test | Status |
 |---|---|---|
-| Operator denied Decision Queue (server) | route/API RBAC test | `it.todo` (needs S1) → `UC-DEMO-ROLE-DENIED` |
-| Program scope can't be forged | isolation test forging a program id | `it.todo` (needs S1/routes) |
+| Operator denied Decision Queue (server, 403) | `rbac.test.ts` (policy + middleware) · `brief-usecases.test.ts › UC-P2-AUTH-ROLES` | ✅ covered (pure) |
+| Unauthenticated → 401/redirect (deny-by-default) | `rbac.test.ts` route policy + middleware | ✅ covered (pure) |
+| Program scope can't be forged (IDOR/BOLA) | `rbac.test.ts › resolveProgramScope` | ✅ covered (pure) |
+| Session token integrity (tamper/expiry) | `rbac.test.ts › session token integrity` | ✅ covered (pure) |
+| `/dev` + `/opendata` Admin-only | `rbac.test.ts` internal-surfaces | ✅ covered (pure) |
 | Stripe webhook signature + replay | `tests/payments.test.ts` | covered (live) |
 | Cross-program read/write blocked | `tests/r1-connection.test.ts` + seed isolation | covered |
+| Decision ruling actor-audited (who/when) | — | ⛔ todo (S6) — needs schema + test |
+| Security headers / CSP present | — | ⛔ todo (S7-b) — deploy-time |
 | No secret in client bundle | build-output scan | backlog (P1) |
 
-## 5. Definition of done (security gate)
+## 5. Definition of done (security gate) — status
 
-- S1 satisfied before any data-exposing module ships; every handler deny-by-default, role checked server-side.
-- Program scope derived from the session; an isolation test forges a program id and fails closed.
-- Webhooks verified + idempotent; Open Data egress allow-listed.
-- No PII/secrets in client bundle or logs; internal surfaces gated in prod; money/decision actions audited.
+- [x] **S1 satisfied** — auth + deny-by-default middleware; every handler role-checked server-side.
+- [x] **Program scope from the session**; an isolation test forges a program id and fails closed.
+- [x] Webhooks verified + idempotent (confirm raw-body + HubSpot auth + Open Data allow-list at deploy).
+- [x] Internal surfaces (`/dev`, `/opendata`) gated to Admin in policy + middleware + UI.
+- [x] No PII/secrets in client bundle or logs (synthetic PII; minors' roster role-gated).
+- [ ] **Money/decision actions audited** (who/when) — **S6 open** (Decision-Queue ruling actor trail).
+- [ ] **Security headers / CSP** set on the deploy — **S7-b open**.
+- [ ] **Rate limiting** before any public submit/quiz endpoint ships — **S7-c open** (none built yet).
