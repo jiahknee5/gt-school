@@ -56,24 +56,18 @@ never read from the request.
 - **[S7-a] Internal surfaces gated — RESOLVED.** `/dev*`, `/opendata*`, `/api/opendata*` are
   Admin-only in the policy + middleware, and the sidebar Developer links render for admin only.
 
-### 🟠 High — open
-- **[S6] Decision-Queue ruling is not actor-audited.** `app/api/decisions/[id]/decide/route.ts`
-  re-checks `requireRole("leader")` server-side, validates the UUID, row-locks (`for update`), and
-  guards `status='open'` (no double-ruling) — strong — **but it persists `status/response/
-  response_note/resolved_at` without recording WHO ruled (no `decided_by`/actor) or a timestamped
-  audit row.** Money/decision actions need a tamper trail. *Remediation:* add a `decided_by`
-  (session user id) column + write an audit row on each transition; assert it in `decisions.test.ts`.
-  *(Schema change — sequence with the owning Decision-Queue session; do not hot-patch mid-build.)*
+### 🟠 High — resolved in closeout
+- **[S6] Decision-Queue ruling actor audit — RESOLVED.** Decision rulings now write an append-only
+  actor audit trail in the same transition path (`supabase/migrations/0014_decision_audit.sql`,
+  `lib/decisions/audit.ts`, `app/api/decisions/[id]/decide/route.ts`). `tests/decisions.test.ts`
+  covers who/when/what event construction and ruling persistence behavior.
 
-### 🟡 Medium — open (deploy hardening)
-- **[S7-b] No security headers / CSP.** `next.config.ts` sets only the Turbopack root; there is no
-  `headers()` block. *Remediation (additive, deploy-time):* add `Content-Security-Policy` (start
-  report-only to avoid breaking inline styles), `X-Frame-Options: DENY` / `frame-ancestors 'none'`,
-  `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`,
-  `Permissions-Policy`, HSTS. Validate against the running app before enforcing CSP.
-- **[S7-c] No rate limiting.** No app-level throttle on auth or (future) public-submit endpoints.
-  Low risk today (the GT-Challenge public capture endpoint is **not built** — see
-  `UC-GTC-CAPTURE-PERSIST`, tracked `it.todo`), but add rate limiting before any public quiz ships.
+### 🟡 Medium — resolved / still verify at deploy
+- **[S7-b] Security headers / CSP — RESOLVED for app config.** `next.config.ts` now sets security
+  headers, including report-only CSP, frame denial, nosniff, referrer policy, permissions policy,
+  and production HSTS. Keep CSP report-only until the running deploy is validated.
+- **[S7-c] Public capture rate limiting — RESOLVED for the built endpoint.** `lib/ratelimit.ts`
+  throttles `app/api/gifted-quiz/route.ts`, and `tests/ratelimit.test.ts` covers the limiter.
 - **[S5] Webhook + egress integrity — confirm at deploy.** Stripe handling has signature verify +
   idempotency (`lib/payments.ts`, proven). Confirm the signature is checked against the **raw** body,
   the HubSpot webhook is authenticated, and the Open Data fetch base URL is allow-listed (SSRF).
@@ -99,8 +93,9 @@ never read from the request.
 | `/dev` + `/opendata` Admin-only | `rbac.test.ts` internal-surfaces | ✅ covered (pure) |
 | Stripe webhook signature + replay | `tests/payments.test.ts` | covered (live) |
 | Cross-program read/write blocked | `tests/r1-connection.test.ts` + seed isolation | covered |
-| Decision ruling actor-audited (who/when) | — | ⛔ todo (S6) — needs schema + test |
-| Security headers / CSP present | — | ⛔ todo (S7-b) — deploy-time |
+| Decision ruling actor-audited (who/when) | `decisions.test.ts` + `lib/decisions/audit.ts` | ✅ covered (pure) |
+| Security headers / CSP present | `next.config.ts` | ✅ configured (CSP report-only) |
+| Public capture rate limit | `ratelimit.test.ts` + `app/api/gifted-quiz/route.ts` | ✅ covered (pure) |
 | No secret in client bundle | build-output scan | backlog (P1) |
 
 ## 5. Definition of done (security gate) — status
@@ -110,6 +105,6 @@ never read from the request.
 - [x] Webhooks verified + idempotent (confirm raw-body + HubSpot auth + Open Data allow-list at deploy).
 - [x] Internal surfaces (`/dev`, `/opendata`) gated to Admin in policy + middleware + UI.
 - [x] No PII/secrets in client bundle or logs (synthetic PII; minors' roster role-gated).
-- [ ] **Money/decision actions audited** (who/when) — **S6 open** (Decision-Queue ruling actor trail).
-- [ ] **Security headers / CSP** set on the deploy — **S7-b open**.
-- [ ] **Rate limiting** before any public submit/quiz endpoint ships — **S7-c open** (none built yet).
+- [x] **Money/decision actions audited** (who/when) — **S6 resolved** for Decision Queue ruling.
+- [x] **Security headers / CSP** configured — **S7-b resolved** with report-only CSP pending deploy validation.
+- [x] **Rate limiting** before public submit/quiz endpoint ships — **S7-c resolved** for `/api/gifted-quiz`.

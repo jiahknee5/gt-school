@@ -849,13 +849,13 @@ export interface RequirementAuditItem {
 
 export const PHASE2_REQUIREMENT_AUDIT: RequirementAuditItem[] = [
   { id: "P2-ROLE", requirement: "Admin, Leader, Operator roles; Decision Queue gated to Leaders.", status: "partial", evidence: "Role policy helpers + tests cover behavior; full Supabase Auth account provisioning remains." },
-  { id: "P2-HOME", requirement: "Composable per-user Home with 30+ widget library and starter pack.", status: "partial", evidence: "Widget catalog, Home surface, home_layout migration, and GET/PUT layout persistence exist; picker and drag UI remain deferred." },
+  { id: "P2-HOME", requirement: "Composable per-user Home with 30+ widget library and starter pack.", status: "partial", evidence: "Widget catalog, Home surface, picker search/add/remove/reorder, home_layout migration, and GET/PUT layout persistence exist; pointer drag-and-drop polish remains." },
   { id: "P2-BUDGET", requirement: "$365K Budget Tracker reconciles and >10% variance auto-flags.", status: "covered", evidence: "budget_entry ledger, /m/budget, budget.test, and seed invariants cover $365K reconciliation, burn/allocation, owner-scoped writes, and variance auto-flag payloads." },
   { id: "P2-DECISIONS", requirement: "Leader-only Decision Queue with approve/reject/need-info actions.", status: "partial", evidence: "Leader-only route/API gates and a persisted ruling transition API exist; submitter status, audit trail, notifications, and source-module propagation remain." },
   { id: "P2-CRMOPS", requirement: "CRM Ops surfaces parity, UTM broken, reliability flags, and data-quality queue.", status: "covered", evidence: "Dedicated CRM Ops page, detector route, and crm-ops.test cover parity, UTM health, scoring, reliability flags, and queue RBAC." },
   { id: "P2-GTC", requirement: "GT Challenge capture, score, route, budget/CAC loop.", status: "partial", evidence: "Assessment and campaign economics are modeled; public quiz persistence/API remains." },
   { id: "P2-ASK", requirement: "Ask-the-Hub agent over HubSpot + Supabase + Open Data.", status: "missing", evidence: "Open Data enrichment exists; natural-language agent route not built." },
-  { id: "P2-DESIGN", requirement: "Analog Futurism PRD design overrides Attio mockup.", status: "partial", evidence: "Theme and core pages moved to PRD tokens; deeper visual QA remains." },
+  { id: "P2-DESIGN", requirement: "Analog Futurism PRD design overrides Attio mockup.", status: "partial", evidence: "Theme, shell, module headers, Help, and Home picker use PRD tokens with Attio-style workspace density; representative desktop/mobile QA passed, full page-by-page visual QA remains." },
   { id: "P2-XLINKS", requirement: "Auto-created cross-links across Grassroots, Content, Admissions, Decision Queue, and Field Marketing.", status: "partial", evidence: "Pure workflow helpers and tests cover the cross-link contracts; persisted UI actions remain." },
   { id: "P2-MEETING", requirement: "Weekly meeting scorecard and marketing handoff metrics.", status: "partial", evidence: "Pure scorecard/handoff rollups exist; full Module 6 UI remains." },
 ];

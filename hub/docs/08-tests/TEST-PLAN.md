@@ -64,14 +64,14 @@ Source of truth: `lib/dev/usecases.ts` (`useCaseCounts()`), surfaced live at `/d
 |---|---|---|---|
 | Phase 1 · Backbone | 8 | 1 | 0 |
 | Test data | 8 | 0 | 0 |
-| Phase 2 · Product | 9 | 0 | 1 |
+| Phase 2 · Product | 10 | 0 | 0 |
 | Spec · Marketing Hub | 14 | 0 | 0 |
-| Demo signal | 7 | 1 | 0 |
-| **Total** | **46** | **2** | **1** |
+| Demo signal | 8 | 0 | 0 |
+| **Total** | **48** | **1** | **0** |
 
 `npm run test:ci` (pure gate): green, no keys, < 5s. Latest pure gate:
-25 files, 348 passed, 1 todo. `tests/brief-usecases.test.ts`: all `covered`
-proven, the remaining `pending` use case is tracked as `it.todo`.
+28 files, 374 passed, 0 todo. `tests/brief-usecases.test.ts`: all `covered`
+catalog entries are proven; there are currently no `pending` catalog entries.
 
 ## 4. Prioritized backlog
 
@@ -87,9 +87,10 @@ proven, the remaining `pending` use case is tracked as `it.todo`.
   provisioning and real identity lifecycle remain pending under `UC-P2-AUTH-ROLES`.
 - **Browser workflow coverage**: Home picker state + API persistence are covered, but add Playwright before
   claiming browser-level drag/reorder/save coverage.
-- **GT Challenge persistence**: public quiz ingest, idempotency key, stored lead, HubSpot outbox handoff.
-- **Decision Queue workflow remainder**: Leader approve/reject/need-info persistence and submitter own-status
-  are covered; immutable audit history, notification, and source-link propagation remain.
+- **GT Challenge persistence**: public quiz ingest and idempotency contract are covered with an in-memory
+  store; add the DB migration/transactional adapter and HubSpot outbox handoff before claiming live persistence.
+- **Decision Queue workflow remainder**: Leader approve/reject/need-info persistence, immutable audit history,
+  and submitter own-status are covered; notification and source-link propagation remain.
 - Wire **`npm run verify`** (build + lint + test:ci) into a PR check / pre-push hook. *(Noor — T7)*
 
 **P2 — hardening:**
@@ -102,7 +103,9 @@ proven, the remaining `pending` use case is tracked as `it.todo`.
 ## 5. Definition of done (the bar)
 
 - Every **P0** requirement → ≥1 use case (traceability test green).
-- Every `covered` use case has an always-green assertion; every `pending` has an `it.todo`; nothing faked.
+- Every `covered` use case has an always-green assertion; any future `pending` use case must have an
+  `it.todo`; nothing faked.
 - `test:ci` green with no keys, deterministic, fast.
 - Live tests skip cleanly without keys and clean up with keys.
-- Each of the four "show us it works" signals has a test or a tracked todo.
+- Each of the four "show us it works" signals has a pure/live test; browser-level proof remains the
+  explicit frontend backlog.

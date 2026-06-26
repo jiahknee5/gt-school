@@ -12,22 +12,21 @@
 
 ## Headline
 
-The product build is materially stronger than the original intake review, but it is **not submission-complete**.
-Core code paths for the P0 slice are mostly built and tested; the remaining blockers are submission
-artifacts, production/deploy proof, browser-level workflow proof, and GT Challenge public-capture
-persistence. E1 now has a deterministic `/dev/payments` watcher with a live DB path when credentials
-are present. Tests: **348 passed (pure gate), 1 todo** before the E1 watcher add; targeted E1 tests
-pass in `payment-propagation-surface.test.ts`.
+The product build is materially stronger than the original intake review, but it is **not fully
+submission-complete**. Core code paths for the P0 slice are built and tested; the remaining blockers
+are the walkthrough video, browser-level workflow proof, and live DB-backed GT Challenge persistence.
+E1 has a deterministic `/dev/payments` watcher with a live DB path when credentials are present.
+Latest local verification: `npm run verify` passes with **374 tests passed, 0 todo**.
 
 ## A. Submission deliverables (meta — all ★ P0)
 
 | # | Requirement | Status | Evidence / gap |
 |---|---|---|---|
-| A1 | Repo + README that runs in minutes | 🟡 | code + `.env.example` present; confirm a top-level run-in-minutes README + setup steps |
-| A2 | Write-up (deep vs stubbed & why, trade-offs, bent rules) | ⛔ | not started — graded heavily; draft from this matrix + `REQUIREMENTS.md` §F |
+| A1 | Repo + README that runs in minutes | ✅ | `README.md` quickstart + `.env.example` + `npm run verify` documented |
+| A2 | Write-up (deep vs stubbed & why, trade-offs, bent rules) | ✅ | `docs/SUBMISSION.md` is the candidate write-up and proof index |
 | A3 | Proof it works (tests/scripts; isolation, idempotency, dual-source, budget, role gating) | ✅ | `npm run test:ci` pure gate; `rbac.test.ts`, `payments.test.ts`, `payment-propagation-surface.test.ts`, `budget.test.ts`, `reconcile.test.ts`, `summer-camp.test.ts` |
-| A4 | Walkthrough video 5–10 min (+≥1 failure/edge) | ⛔ | record after deploy |
-| A5 | Live demo URL + 3 role logins (Admin/Leader/Operator) | 🟡 | auth + 3 demo identities ready (`DEMO_USERS`, `/login`); **deploy pending** |
+| A4 | Walkthrough video 5–10 min (+≥1 failure/edge) | ⛔ | still needs user recording against the live URL |
+| A5 | Live demo URL + 3 role logins (Admin/Leader/Operator) | ✅ | `docs/SUBMISSION.md` records `https://gt-school-hub.vercel.app`, `/login`, and Admin/Leader/Operator dev-auth smoke proof |
 | A6 | No secrets in git | ✅ | `.env*` gitignored; `.env.local` is an ignored symlink; only `.env.example` tracked |
 
 ## B. Phase 1 — backbone non-negotiables (all ★ P0)
@@ -97,13 +96,13 @@ All 13 modules now render a real surface (was: 0). Depth tiers per the runbook b
   without a live DB: consent gates persistence, idempotency replays return the original
   submission/lead, UTM falls back to `(not set)`, and score/bucket/qualified persist with no
   "not gifted" verdict. Remaining gap: additive DB migration plus transactional route adapter.
-- **S6** — Decision-Queue ruling lacks an actor audit trail (who/when). See `SECURITY-REVIEW.md`.
-- **S7-b/c** — security headers/CSP + rate limiting are deploy-time hardening (no public quiz ships yet).
+- **Browser workflow proof** — no Playwright/browser E2E yet for the demo path or Home drag/reorder/save.
 - **C5 browser drag/E2E** — partial above.
+- **Live service proof** — pure gate is green; `test:live` still depends on real Supabase/HubSpot/Stripe credentials.
 
 ## Bottom line
 
 The foundation, the three deep P0 modules (CRM Ops · Budget · Decision Queue), and **auth/RBAC**
-are in place and tested at the app/pure-test layer. Do **not** call the project complete yet: the score
-now hinges on the **submission deliverables** (A2 write-up, A4 video, A5 deploy + role logins), plus
-the honest partials above.
+are in place and tested at the app/pure-test layer. Do **not** call the project fully complete yet:
+the remaining score risk is the **A4 walkthrough video**, browser-level proof, live integration proof,
+and the GT Challenge DB adapter gap above.
