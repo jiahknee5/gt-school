@@ -40,12 +40,14 @@ function formatWeekLabel(week: string): string {
 function WeekContextControl({
   compact = false,
   days,
+  pacingHref,
   onChange,
   selectedWeek,
   weeks,
 }: {
   compact?: boolean;
   days: number;
+  pacingHref: string;
   onChange: (week: string) => void;
   selectedWeek: string;
   weeks: string[];
@@ -81,12 +83,22 @@ function WeekContextControl({
           </option>
         ))}
       </select>
-      <span
-        className="mono shrink-0 rounded-card bg-fill px-2 py-1 text-[11px] font-semibold text-slate"
-        title="Days remaining until the August 17 Fall enrollment cutoff."
+      <Link
+        href={pacingHref}
+        className={`mono shrink-0 rounded-card px-2 py-1 text-[11px] font-semibold transition-colors ${
+          days < 14
+            ? "bg-amber-soft text-amber hover:opacity-80"
+            : "bg-fill text-slate hover:text-ink"
+        }`}
+        title={`Fall 2026 enrollment deadline is August 17. ${days} ${
+          days === 1 ? "day" : "days"
+        } left. Opens the Dashboard goal-pacing view.`}
       >
-        {days} days to cutoff
-      </span>
+        <span className="hidden sm:inline">
+          {days} {days === 1 ? "day" : "days"} to Fall enrollment (Aug 17)
+        </span>
+        <span className="sm:hidden">{days}d to Aug 17</span>
+      </Link>
       <button
         type="button"
         aria-label="How reporting week is used"
@@ -149,6 +161,10 @@ export function TopBar({
     return `${href}?week=${encodeURIComponent(scopedWeek)}`;
   }
 
+  const pacingHref = scopedWeek
+    ? `/m/dashboard?tab=pacing&week=${encodeURIComponent(scopedWeek)}`
+    : "/m/dashboard?tab=pacing";
+
   return (
     <header className="sticky top-0 z-30 border-b border-hairline bg-topbar/95 backdrop-blur">
       <div className="flex min-h-[58px] items-center gap-3 px-4 sm:px-6 lg:px-8">
@@ -166,6 +182,7 @@ export function TopBar({
         <div className="hidden min-w-0 items-center gap-2 lg:flex">
           <WeekContextControl
             days={days}
+            pacingHref={pacingHref}
             onChange={setReportingWeek}
             selectedWeek={selectedWeek}
             weeks={weeks}
@@ -231,6 +248,7 @@ export function TopBar({
         <WeekContextControl
           compact
           days={days}
+          pacingHref={pacingHref}
           onChange={setReportingWeek}
           selectedWeek={selectedWeek}
           weeks={weeks}
