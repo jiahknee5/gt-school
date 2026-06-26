@@ -67,6 +67,7 @@ describe("Phase 2 Home widget library", () => {
       "sla-24",
       "executive-narrative",
       "workstream-health",
+      "key-dates",
     ]);
     expect(widgetsForUser(leader).some((w) => w.id === "decision-preview")).toBe(true);
     expect(widgetsForUser(operator).some((w) => w.id === "content-pipeline")).toBe(true);

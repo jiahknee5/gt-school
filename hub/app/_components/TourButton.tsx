@@ -44,7 +44,6 @@ export function TourButton({
         "inline-flex items-center gap-1.5 rounded-card border border-gold bg-fill px-2.5 py-1.5 text-[11px] font-semibold text-ink transition-colors hover:bg-gold hover:text-on-cta"
       }
     >
-      <span aria-hidden>▷</span>
       {label}
       {live && (
         <span className="mono rounded-[4px] bg-ink-cta px-1 py-0.5 text-[8px] font-semibold uppercase tracking-[0.06em] text-on-cta">

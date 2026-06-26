@@ -13,40 +13,162 @@ import {
   isBudgetVariance,
 } from "@/lib/budget/variance";
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Two ORTHOGONAL layers describe a user (PRD §2 user roles):
+//
+//   1. PERMISSION TIER (`role`)  — the security gate. admin | leader | operator.
+//      Drives RBAC everywhere (middleware.ts, lib/auth/policy.ts, budget rbac,
+//      Decision Queue gate). NEVER weakened by the functional layer below.
+//
+//   2. FUNCTIONAL ROLE (`functionalRoles` + `ownsModules`) — the org/job layer.
+//      Which marketing function a user runs and which MODULES they own. This is
+//      what the §5 weekly-meeting agenda is organized around. It is descriptive
+//      (who presents / who is accountable), not a permission grant.
+//
+// `owns` (budget WorkstreamKey[]) is the legacy, budget-only ownership used by the
+// Budget Tracker's per-row write RBAC (lib/budget/rbac.ts). It is intentionally a
+// DIFFERENT axis from `ownsModules` (module slugs) — workstreams are budget lines,
+// modules are app surfaces — and both are kept as data, not code.
+// ─────────────────────────────────────────────────────────────────────────────
+
 export type Role = "admin" | "leader" | "operator";
 export type WorkstreamKey = "grassroots" | "thought_leadership" | "guerrilla" | "foundations";
+
+/** Functional / org roles — the job a user does, independent of permission tier. */
+export type FunctionalRole =
+  | "Marketing Lead"
+  | "Growth Marketing Officer"
+  | "Budget Owner"
+  | "Co-founder"
+  | "Content Owner"
+  | "Grassroots Owner"
+  | "Field & Events Owner"
+  | "Admissions Owner";
 
 export interface DemoUser {
   id: string;
   name: string;
+  /** Permission TIER — the security gate. */
   role: Role;
+  /** Display title (kept stable for submission attribution + existing tests). */
   title: string;
+  /** Functional/org role(s) — the agenda layer. Descriptive, not a permission. */
+  functionalRoles: FunctionalRole[];
+  /** Module slugs (lib/modules.ts) this user owns/presents. Canonical module-ownership key. */
+  ownsModules: string[];
+  /** §5 weekly-meeting agenda item(s) this user owns or acts on. */
+  agendaSlots: number[];
+  /** Legacy budget-workstream ownership (Budget Tracker per-row write RBAC only). */
   owns: WorkstreamKey[];
 }
 
 export const DEMO_USERS: DemoUser[] = [
+  // Admin tier — the Marketing Lead. Full access to every module EXCEPT acting on
+  // the Decision Queue (PRD §2). Presents agenda items 2, 5, 7.
   {
     id: "marketing-lead",
     name: "Johnny Chung",
     role: "admin",
     title: "Marketing Lead",
+    functionalRoles: ["Marketing Lead"],
+    ownsModules: ["dashboard", "nurture", "crm-ops", "analytics"],
+    agendaSlots: [2, 5, 7],
     owns: ["foundations", "thought_leadership", "grassroots", "guerrilla"],
   },
+  // Leadership tier (3 designated leadership users — PRD §11). All three can view +
+  // act on the Decision Queue. The first leader owns the `guerrilla` budget
+  // workstream (PRD §10: Guerrilla / earned media bets is a Leadership line).
   {
     id: "growth-leader",
     name: "David Chen",
     role: "leader",
     title: "Growth Marketing Officer",
+    functionalRoles: ["Growth Marketing Officer"],
+    ownsModules: [],
+    agendaSlots: [],
     owns: ["guerrilla"],
   },
+  {
+    id: "budget-owner",
+    name: "Priya Anand",
+    role: "leader",
+    title: "Budget Owner",
+    functionalRoles: ["Budget Owner"],
+    ownsModules: ["budget"],
+    agendaSlots: [1, 8],
+    owns: [],
+  },
+  {
+    id: "cofounder",
+    name: "Dave Reynolds",
+    role: "leader",
+    title: "Co-founder, GT Anywhere",
+    functionalRoles: ["Co-founder"],
+    ownsModules: [],
+    agendaSlots: [1, 8],
+    owns: [],
+  },
+  // Operator tier — function owners. R/W on their own module(s), read elsewhere,
+  // submit (not view/act) decisions. The FIRST operator owns the `thought_leadership`
+  // budget workstream (Content). Order here is load-bearing for budget/phase2 tests.
   {
     id: "content-operator",
     name: "Maya Patel",
     role: "operator",
     title: "Content Owner",
+    functionalRoles: ["Content Owner"],
+    ownsModules: ["content", "summer-camp"],
+    agendaSlots: [4],
     owns: ["thought_leadership"],
   },
+  {
+    id: "grassroots-operator",
+    name: "Sofia Reyes",
+    role: "operator",
+    title: "Grassroots Owner",
+    functionalRoles: ["Grassroots Owner"],
+    ownsModules: ["grassroots"],
+    agendaSlots: [3],
+    owns: ["grassroots"],
+  },
+  {
+    id: "field-events-operator",
+    name: "Marcus Hill",
+    role: "operator",
+    title: "Field & Events Owner",
+    functionalRoles: ["Field & Events Owner"],
+    // Primary presenter on Admissions (PRD §9 co-ownership) + owns Field & Events.
+    ownsModules: ["events", "admissions"],
+    agendaSlots: [6],
+    owns: [],
+  },
+  {
+    id: "admissions-operator",
+    name: "Hannah Brooks",
+    role: "operator",
+    title: "Admissions Owner",
+    functionalRoles: ["Admissions Owner"],
+    // Co-owner of Admissions (PRD §9 — Field & Events Owner is primary presenter).
+    ownsModules: ["admissions"],
+    agendaSlots: [6],
+    owns: [],
+  },
 ];
+
+/** Users who own (present / are accountable for) a given module slug. */
+export function usersOwningModule(slug: string, users: DemoUser[] = DEMO_USERS): DemoUser[] {
+  return users.filter((u) => u.ownsModules.includes(slug));
+}
+
+/** Module slugs a user owns, in canonical lib/modules.ts order is the caller's job. */
+export function modulesOwnedBy(user: DemoUser): string[] {
+  return user.ownsModules;
+}
+
+/** Users who present / act on a given §5 agenda item (1–8). */
+export function usersForAgendaSlot(slot: number, users: DemoUser[] = DEMO_USERS): DemoUser[] {
+  return users.filter((u) => u.agendaSlots.includes(slot));
+}
 
 export function canViewDecisionQueue(user: DemoUser): boolean {
   return user.role === "leader";
@@ -72,6 +194,52 @@ export interface WidgetDef {
   size: "small" | "medium" | "large";
   starter?: boolean;
 }
+
+export interface MarketingKeyDate {
+  date: string;
+  label: string;
+  detail: string;
+  owner: string;
+}
+
+export const MARKETING_KEY_DATES: MarketingKeyDate[] = [
+  {
+    date: "2026-06-01",
+    label: "Sprint window starts",
+    detail: "Week 1 of the 13-week Fall enrollment operating window.",
+    owner: "Marketing Lead",
+  },
+  {
+    date: "2026-06-15",
+    label: "Grassroots launch",
+    detail: "Ambassador referral sprints and parent-led event tracking become active.",
+    owner: "Grassroots Owner",
+  },
+  {
+    date: "2026-07-01",
+    label: "July scale phase",
+    detail: "Paid proof, field events, content cadence, and nurture follow-up scale together.",
+    owner: "Growth team",
+  },
+  {
+    date: "2026-07-21",
+    label: "Late-July push",
+    detail: "Red-flag pacing, objections, and budget variance route into weekly decisions.",
+    owner: "Leadership",
+  },
+  {
+    date: "2026-08-17",
+    label: "Fall enrollment cutoff",
+    detail: "Cutoff used by topbar countdown, goal pacing, and Dashboard projections.",
+    owner: "Leadership",
+  },
+  {
+    date: "2026-08-31",
+    label: "End-of-Aug review",
+    detail: "Campaign retrospective and next-window planning from the scorecard history.",
+    owner: "Marketing Lead",
+  },
+];
 
 export const WIDGET_LIBRARY: WidgetDef[] = [
   { id: "applicants-total", label: "Applicants total + w/w delta", category: "Volume & conversion", source: "Supabase app_form", size: "small", starter: true },
@@ -107,6 +275,7 @@ export const WIDGET_LIBRARY: WidgetDef[] = [
   { id: "family-quote", label: "Family quote of the week", category: "Voice of customer", source: "Manual", size: "medium" },
   { id: "executive-narrative", label: "Executive narrative", category: "Narrative & sprint", source: "Manual", size: "large", starter: true },
   { id: "workstream-health", label: "Workstream health grid", category: "Narrative & sprint", source: "Manual + live KPI pull", size: "large", starter: true },
+  { id: "key-dates", label: "Key dates", category: "Calendar & budget", source: "Config + screenshots", size: "large", starter: true },
   { id: "decision-preview", label: "Decision queue preview", category: "Narrative & sprint", source: "Decision Queue", size: "large" },
   { id: "sprint-phase", label: "Sprint phase tracker", category: "Narrative & sprint", source: "Config", size: "medium" },
   { id: "wins-log", label: "Wins log", category: "Narrative & sprint", source: "Manual", size: "medium" },

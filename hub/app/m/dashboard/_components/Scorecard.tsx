@@ -49,8 +49,9 @@ export function Scorecard({ scorecard, compact = false }: { scorecard: Scorecard
         </div>
       )}
 
-      <Card title="Weekly scorecard" note={`Versioned snapshot · week of ${weekOf} · identical for every role`}>
-        <div className="overflow-x-auto">
+      <div data-tour={compact ? undefined : "tour-dashboard-scorecard"}>
+        <Card title="Weekly scorecard" note={`Versioned snapshot · week of ${weekOf} · identical for every role`}>
+          <div className="overflow-x-auto">
           <table className="w-full min-w-[680px] border-collapse text-[11px]">
             <thead>
               <tr className="border-b border-hairline text-left text-[10px] uppercase tracking-wide text-label">
@@ -96,8 +97,9 @@ export function Scorecard({ scorecard, compact = false }: { scorecard: Scorecard
               ))}
             </tbody>
           </table>
-        </div>
-      </Card>
+          </div>
+        </Card>
+      </div>
     </div>
   );
 }

@@ -56,7 +56,10 @@ function WeekContextControl({
     "Choose the Monday-starting reporting week used by the Dashboard scorecard, Home widgets, and week-aware recommendations. Module calendars can still use their own date filters.";
 
   return (
-    <div className={`group relative flex shrink-0 items-center gap-2 ${compact ? "" : "min-w-0"}`}>
+    <div
+      data-tour={compact ? undefined : "tour-week-selector"}
+      className={`group relative flex shrink-0 items-center gap-2 ${compact ? "" : "min-w-0"}`}
+    >
       <label
         htmlFor={selectId}
         className="mono shrink-0 text-[11px] font-semibold uppercase tracking-[0.1em] text-label"
@@ -141,7 +144,7 @@ export function TopBar({
   return (
     <header className="sticky top-0 z-30 border-b border-hairline bg-topbar/95 backdrop-blur">
       <div className="flex min-h-[58px] items-center gap-3 px-4 sm:px-6 lg:px-8">
-        <Link href="/" className="flex shrink-0 items-center gap-2" title="GT School Marketing Hub">
+        <Link href="/" className="flex shrink-0 items-center gap-2 lg:hidden" title="GT School Marketing Hub">
           <Image
             src="/gt-icon.svg"
             alt="GT School"
@@ -156,8 +159,6 @@ export function TopBar({
             <span className="hidden text-[13px] font-medium text-muted sm:inline">Marketing Hub</span>
           </span>
         </Link>
-
-        <div className="hidden h-7 w-px bg-hairline lg:block" />
 
         <div className="hidden min-w-0 items-center gap-2 lg:flex">
           <WeekContextControl

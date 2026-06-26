@@ -203,6 +203,7 @@ describe("Phase 2 · product (data-level proofs)", () => {
       "sla-24",
       "executive-narrative",
       "workstream-health",
+      "key-dates",
     ]);
     expect(widgetsForUser(leader).map((w) => w.id)).toContain("decision-preview");
     expect(widgetsForUser(operator).map((w) => w.id)).toContain("content-pipeline");

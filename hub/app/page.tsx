@@ -1,7 +1,8 @@
 import Link from "next/link";
-import { MODULES, TINT_CLASS, moduleHref } from "@/lib/modules";
+import { MODULES, MODULE_NAV_GROUPS, TINT_CLASS, moduleHref } from "@/lib/modules";
 import {
   DEMO_USERS,
+  MARKETING_KEY_DATES,
   PHASE2_REQUIREMENT_AUDIT,
   WIDGET_LIBRARY,
   type DemoUser,
@@ -31,6 +32,12 @@ const compact = new Intl.NumberFormat("en-US", {
 
 const percent = new Intl.NumberFormat("en-US", {
   maximumFractionDigits: 1,
+});
+
+const shortDate = new Intl.DateTimeFormat("en-US", {
+  month: "short",
+  day: "numeric",
+  timeZone: "UTC",
 });
 
 function cleanCopy(value: string | null | undefined): string {
@@ -154,6 +161,10 @@ export default async function Home() {
   const tierCounts = sourceCount(
     tierRows.map((row) => ({ source: row.app_value ?? "unknown" })),
   );
+  const todayKey = new Date().toISOString().slice(0, 10);
+  const nextKeyDate =
+    MARKETING_KEY_DATES.find((item) => item.date >= todayKey) ??
+    MARKETING_KEY_DATES[MARKETING_KEY_DATES.length - 1];
 
   const widgetValues: Record<string, { value: string; note: string }> = {
     "applicants-total": {
@@ -198,6 +209,12 @@ export default async function Home() {
       note: canViewDecisions
         ? "Leader-only preview from the Decision Queue"
         : "Leader-only preview hidden for this role",
+    },
+    "key-dates": {
+      value: nextKeyDate ? shortDate.format(new Date(`${nextKeyDate.date}T00:00:00.000Z`)) : "No date",
+      note: nextKeyDate
+        ? `${nextKeyDate.label}: ${nextKeyDate.detail}`
+        : "No configured campaign milestone.",
     },
   };
 
@@ -303,6 +320,7 @@ export default async function Home() {
                 return (
                   <article
                     key={item.widget_key}
+                    data-tour={widget?.id === "executive-narrative" ? "tour-executive-narrative" : undefined}
                     className={`rounded-card border border-hairline bg-canvas p-2.5 ${
                       item.size === "large" ? "md:col-span-2 xl:col-span-3" : ""
                     }`}
@@ -320,10 +338,42 @@ export default async function Home() {
                         {widget?.source ?? "Saved layout"}
                       </span>
                     </div>
-                    <p className="mono num mt-2 text-[18px] font-bold leading-none text-ink">
-                      {data.value}
-                    </p>
-                    <p className="mt-1 text-[11px] leading-snug text-muted">{data.note}</p>
+                    {widget?.id === "key-dates" ? (
+                      <div className="mt-2 grid gap-1.5 md:grid-cols-2 xl:grid-cols-3">
+                        {MARKETING_KEY_DATES.slice(0, 6).map((date) => {
+                          const active = date.date === nextKeyDate?.date;
+                          return (
+                            <div
+                              key={date.date}
+                              className={`grid grid-cols-[48px_1fr] gap-2 rounded-card border px-2 py-1.5 ${
+                                active
+                                  ? "border-gold bg-amber-soft"
+                                  : "border-hairline bg-surface"
+                              }`}
+                            >
+                              <span className="mono text-[10px] font-semibold text-slate">
+                                {shortDate.format(new Date(`${date.date}T00:00:00.000Z`))}
+                              </span>
+                              <span className="min-w-0">
+                                <span className="block truncate text-[11px] font-semibold text-ink">
+                                  {date.label}
+                                </span>
+                                <span className="block truncate text-[10px] text-muted">
+                                  {date.owner}
+                                </span>
+                              </span>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    ) : (
+                      <>
+                        <p className="mono num mt-2 text-[18px] font-bold leading-none text-ink">
+                          {data.value}
+                        </p>
+                        <p className="mt-1 text-[11px] leading-snug text-muted">{data.note}</p>
+                      </>
+                    )}
                   </article>
                 );
               })}
@@ -422,26 +472,43 @@ export default async function Home() {
 
           <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
             <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">All PRD modules</h2>
-            <div className="mt-2 grid gap-1.5">
-              {MODULES.filter((module) => module.slug !== "home" && (!module.leaderOnly || canViewDecisions)).map((module) => (
-                <Link
-                  key={module.slug}
-                  href={moduleHref(module.slug)}
-                  className="flex items-center gap-2 rounded-card border border-hairline bg-canvas px-2.5 py-1.5 transition-colors hover:border-border hover:bg-hover"
-                >
-                  <span
-                    className={`mono grid h-6 w-6 place-items-center rounded-card text-[11px] font-semibold ${TINT_CLASS[module.tint]}`}
-                  >
-                    {module.n}
-                  </span>
-                  <span className="min-w-0">
-                    <span className="block truncate text-[12px] font-semibold text-ink">
-                      {module.short}
-                    </span>
-                    <span className="block truncate text-[11px] text-muted">{module.owner}</span>
-                  </span>
-                </Link>
-              ))}
+            <div className="mt-2 space-y-3">
+              {MODULE_NAV_GROUPS.map((group) => {
+                const groupModules = group.slugs
+                  .map((slug) => MODULES.find((module) => module.slug === slug))
+                  .filter((module): module is (typeof MODULES)[number] =>
+                    Boolean(module && module.slug !== "home" && (!module.leaderOnly || canViewDecisions)),
+                  );
+                if (!groupModules.length) return null;
+                return (
+                  <div key={group.key}>
+                    <p className="mono px-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-label">
+                      {group.label}
+                    </p>
+                    <div className="mt-1 grid gap-1.5">
+                      {groupModules.map((module) => (
+                        <Link
+                          key={module.slug}
+                          href={moduleHref(module.slug)}
+                          className="flex items-center gap-2 rounded-card border border-hairline bg-canvas px-2.5 py-1.5 transition-colors hover:border-border hover:bg-hover"
+                        >
+                          <span
+                            className={`mono grid h-6 w-6 place-items-center rounded-card text-[11px] font-semibold ${TINT_CLASS[module.tint]}`}
+                          >
+                            {module.n}
+                          </span>
+                          <span className="min-w-0">
+                            <span className="block truncate text-[12px] font-semibold text-ink">
+                              {module.short}
+                            </span>
+                            <span className="block truncate text-[11px] text-muted">{module.owner}</span>
+                          </span>
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </section>
         </aside>

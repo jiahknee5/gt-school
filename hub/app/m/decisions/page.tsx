@@ -141,7 +141,7 @@ export default async function DecisionsPage({
               </nav>
 
               {activeTab === "active" && (
-                <div className="space-y-4">
+                <div data-tour="tour-decision-queue" className="space-y-4">
                   {active.length ? (
                     active.map((d) => <DecisionCard key={d.id} decision={d} canAct />)
                   ) : (

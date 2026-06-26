@@ -130,7 +130,7 @@ export function ModuleHeader({
   devMode?: boolean;
 }) {
   return (
-    <section className="border-b border-hairline bg-canvas">
+    <section data-tour="tour-module-overview" className="border-b border-hairline bg-canvas">
       <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
         <div className="flex flex-col gap-3 lg:flex-row lg:items-start lg:justify-between">
           <div className="min-w-0">

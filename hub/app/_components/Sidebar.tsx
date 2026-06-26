@@ -1,9 +1,10 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
-import { MODULES, moduleHref } from "@/lib/modules";
+import { MODULES, MODULE_NAV_GROUPS, moduleBySlug, moduleHref } from "@/lib/modules";
 import type { Role } from "@/lib/phase2";
 
 export type SidebarViewer = {
@@ -213,117 +214,137 @@ export function Sidebar({
   const visibleModules = MODULES.filter((m) => !m.leaderOnly || viewer?.role === "leader");
 
   return (
-    <aside className="sticky top-0 hidden h-[100dvh] w-[228px] shrink-0 flex-col border-r border-hairline bg-side lg:flex">
-      {/* Workspace label. The full GT logo/title lives in the PRD top bar. */}
+    <aside className="sticky top-0 hidden h-[100dvh] w-[248px] shrink-0 flex-col border-r border-hairline bg-side lg:flex">
       <Link
         href="/"
-        className="flex h-[57px] shrink-0 items-center gap-2.5 border-b border-hairline px-[18px] text-[13px] font-semibold text-ink"
+        className="flex min-h-[66px] shrink-0 items-center gap-2.5 border-b border-hairline px-[18px] text-[13px] font-semibold text-ink"
       >
-        <span className="grid h-6 w-6 place-items-center rounded-card border border-border bg-canvas text-[11px] font-bold text-gold shadow-sm">
-          M
-        </span>
+        <Image
+          src="/gt-icon.svg"
+          alt="GT School"
+          width={28}
+          height={28}
+          priority
+          unoptimized
+          className="h-7 w-7 shrink-0"
+        />
         <span className="min-w-0">
-          <span className="block truncate">Modules</span>
-          <span className="mono block truncate text-[10px] font-normal text-label">13 workstreams</span>
+          <span className="block truncate">GT School</span>
+          <span className="mono block truncate text-[10px] font-normal text-label">Marketing Hub</span>
         </span>
       </Link>
 
-      {/* module nav */}
       <nav className="flex-1 overflow-y-auto px-2.5 py-3">
-        <p className="mono px-2.5 pb-1.5 text-[11px] font-semibold text-label">
-          Modules
-        </p>
-        <ul className="flex flex-col gap-0.5">
-          {visibleModules.map((m) => {
-            const active =
-              m.slug === "home" ? pathname === "/" : pathname === `/m/${m.slug}`;
-            return (
-              <li key={m.slug}>
+        {MODULE_NAV_GROUPS.map((group) => {
+          const groupModules = group.slugs
+            .map(moduleBySlug)
+            .filter((module): module is (typeof MODULES)[number] =>
+              Boolean(module && visibleModules.some((visible) => visible.slug === module.slug)),
+            );
+          const campaignLinks = group.key === "growth-channels" ? CAMPAIGN_LINKS : [];
+          if (!groupModules.length && !campaignLinks.length) return null;
+
+          return (
+            <section key={group.key} className="pb-3">
+              <div className="px-2.5 pb-1.5">
+                <p className="mono text-[10px] font-semibold uppercase tracking-[0.08em] text-label">
+                  {group.label}
+                </p>
+                <p className="mt-0.5 truncate text-[10px] text-label">{group.description}</p>
+              </div>
+              <ul className="flex flex-col gap-0.5">
+                {groupModules.map((m) => {
+                  const href = moduleHref(m.slug);
+                  const active = pathname === href;
+                  return (
+                    <li key={m.slug}>
+                      <Link
+                        href={href}
+                        aria-current={active ? "page" : undefined}
+                        className={`group flex items-center gap-2.5 rounded-card px-2.5 py-[7px] text-[13px] font-medium transition-colors ${
+                          active
+                            ? "bg-ink-cta text-on-cta shadow-sm"
+                            : "text-slate hover:bg-hover hover:text-ink"
+                        }`}
+                      >
+                        <span
+                          className={`grid h-[18px] w-[18px] shrink-0 place-items-center ${
+                            active ? "text-gold" : "text-label group-hover:text-muted"
+                          }`}
+                        >
+                          <ModuleIcon slug={m.slug} />
+                        </span>
+                        <span className="truncate">{m.short}</span>
+                        {m.leaderOnly && (
+                          <span className="mono ml-auto rounded-card bg-violet-soft px-1.5 py-px text-[9px] font-semibold text-violet">
+                            Lead
+                          </span>
+                        )}
+                      </Link>
+                    </li>
+                  );
+                })}
+                {campaignLinks.map((l) => {
+                  const active = pathname === l.href;
+                  return (
+                    <li key={l.href}>
+                      <Link
+                        href={l.href}
+                        aria-current={active ? "page" : undefined}
+                        className={`group flex items-center gap-2.5 rounded-card px-2.5 py-[7px] text-[13px] font-medium transition-colors ${
+                          active ? "bg-ink-cta text-on-cta shadow-sm" : "text-slate hover:bg-hover hover:text-ink"
+                        }`}
+                      >
+                        <span
+                          className={`grid h-[18px] w-[18px] shrink-0 place-items-center ${
+                            active ? "text-gold" : "text-label group-hover:text-muted"
+                          }`}
+                        >
+                          <ModuleIcon slug={l.slug} />
+                        </span>
+                        <span className="truncate">{l.label}</span>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </section>
+          );
+        })}
+
+        {viewer && (
+          <section className="pb-3">
+            <p className="mono px-2.5 pb-1.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-label">
+              My Work
+            </p>
+            <ul className="flex flex-col gap-0.5">
+              <li>
                 <Link
-                  href={moduleHref(m.slug)}
-                  aria-current={active ? "page" : undefined}
+                  href="/m/submissions"
+                  aria-current={pathname === "/m/submissions" ? "page" : undefined}
                   className={`group flex items-center gap-2.5 rounded-card px-2.5 py-[7px] text-[13px] font-medium transition-colors ${
-                    active
+                    pathname === "/m/submissions"
                       ? "bg-ink-cta text-on-cta shadow-sm"
                       : "text-slate hover:bg-hover hover:text-ink"
                   }`}
                 >
                   <span
                     className={`grid h-[18px] w-[18px] shrink-0 place-items-center ${
-                      active ? "text-gold" : "text-label group-hover:text-muted"
+                      pathname === "/m/submissions" ? "text-gold" : "text-label group-hover:text-muted"
                     }`}
                   >
-                    <ModuleIcon slug={m.slug} />
+                    <LinkIcon>
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                      <path d="M14 2v6h6" />
+                      <path d="m9 15 2 2 4-4" />
+                    </LinkIcon>
                   </span>
-                  <span className="truncate">{m.short}</span>
-                  {m.leaderOnly && (
-                    <span className="mono ml-auto rounded-card bg-violet-soft px-1.5 py-px text-[9px] font-semibold text-violet">
-                      Lead
-                    </span>
-                  )}
+                  <span className="truncate">My submissions</span>
                 </Link>
               </li>
-            );
-          })}
-        </ul>
-
-        {viewer && (
-          <ul className="mt-0.5 flex flex-col gap-0.5">
-            <li>
-              <Link
-                href="/m/submissions"
-                aria-current={pathname === "/m/submissions" ? "page" : undefined}
-                className={`group flex items-center gap-2.5 rounded-card px-2.5 py-[7px] text-[13px] font-medium transition-colors ${
-                  pathname === "/m/submissions"
-                    ? "bg-ink-cta text-on-cta shadow-sm"
-                    : "text-slate hover:bg-hover hover:text-ink"
-                }`}
-              >
-                <span
-                  className={`grid h-[18px] w-[18px] shrink-0 place-items-center ${
-                    pathname === "/m/submissions" ? "text-gold" : "text-label group-hover:text-muted"
-                  }`}
-                >
-                  <LinkIcon>
-                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-                    <path d="M14 2v6h6" />
-                    <path d="m9 15 2 2 4-4" />
-                  </LinkIcon>
-                </span>
-                <span className="truncate">My submissions</span>
-              </Link>
-            </li>
-          </ul>
+            </ul>
+          </section>
         )}
-
-        <p className="mono px-2.5 pb-1.5 pt-4 text-[11px] font-semibold text-label">
-          Campaigns
-        </p>
-        <ul className="flex flex-col gap-0.5">
-          {CAMPAIGN_LINKS.map((l) => {
-            const active = pathname === l.href;
-            return (
-              <li key={l.href}>
-                <Link
-                  href={l.href}
-                  aria-current={active ? "page" : undefined}
-                  className={`group flex items-center gap-2.5 rounded-card px-2.5 py-[7px] text-[13px] font-medium transition-colors ${
-                    active ? "bg-ink-cta text-on-cta shadow-sm" : "text-slate hover:bg-hover hover:text-ink"
-                  }`}
-                >
-                  <span
-                    className={`grid h-[18px] w-[18px] shrink-0 place-items-center ${
-                      active ? "text-gold" : "text-label group-hover:text-muted"
-                    }`}
-                  >
-                    <ModuleIcon slug={l.slug} />
-                  </span>
-                  <span className="truncate">{l.label}</span>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
 
         {showDevLinks && (
           <>
@@ -390,6 +411,31 @@ export function Sidebar({
                 </LinkIcon>
               </span>
               <span className="truncate">User guides</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/help/roles"
+              aria-current={pathname === "/help/roles" ? "page" : undefined}
+              className={`group flex items-center gap-2.5 rounded-card px-2.5 py-[7px] text-[13px] font-medium transition-colors ${
+                pathname === "/help/roles"
+                  ? "bg-ink-cta text-on-cta shadow-sm"
+                  : "text-slate hover:bg-hover hover:text-ink"
+              }`}
+            >
+              <span
+                className={`grid h-[18px] w-[18px] shrink-0 place-items-center ${
+                  pathname === "/help/roles" ? "text-gold" : "text-label group-hover:text-muted"
+                }`}
+              >
+                <LinkIcon>
+                  <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                  <circle cx="9" cy="7" r="4" />
+                  <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+                </LinkIcon>
+              </span>
+              <span className="truncate">Roles &amp; access</span>
             </Link>
           </li>
         </ul>

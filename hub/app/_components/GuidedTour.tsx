@@ -2,10 +2,14 @@
 
 // Homegrown, zero-dependency product tour (a.k.a. guided walkthrough / coach marks).
 // A <TourProvider> lives in the root layout so its state survives client navigation
-// between modules. useTour().start(spec) launches a step-by-step overlay that, per
-// step, navigates to the right route, spotlights a real element tagged with
-// data-tour="<target>", and explains WHAT to do, WHY, and WHAT HAPPENS. Steps with no
-// target render as a centered "what's happening" card (e.g. background work).
+// between modules. useTour().start(spec) launches a step-by-step overlay that, per step:
+//   - navigates to the right route,
+//   - BLURS + dims the whole page except a sharp cut-out around the target element
+//     (tagged with data-tour="<target>") so the user's focus is forced there,
+//   - explains WHAT to do, WHY, and WHAT HAPPENS,
+//   - and, when the highlighted element is something you CLICK (a button/link), GATES
+//     advancement on the user actually clicking it — you can't move on until you do.
+// Steps with no target render as a centered "what's happening" card (e.g. background work).
 //
 // Data comes from lib/help/guides.ts (Guide.steps); see TourButton.tsx for the launcher.
 
@@ -14,7 +18,6 @@ import {
   useCallback,
   useContext,
   useEffect,
-  useRef,
   useState,
 } from "react";
 import { usePathname, useRouter } from "next/navigation";
@@ -56,24 +59,49 @@ export function useTour(): TourContextValue {
 const STORAGE_KEY = "gt-hub-tour";
 const POPOVER_W = 344;
 
+// clip-path: path() is what lets one blurred overlay keep a SHARP hole over the target.
+// Modern Chrome/Safari/Firefox support it; degrade to a non-blur dim ring otherwise.
+const SUPPORTS_CLIP =
+  typeof CSS !== "undefined" && typeof CSS.supports === "function"
+    ? CSS.supports("clip-path", 'path("M0 0Z")')
+    : false;
+
 type Rect = { top: number; left: number; width: number; height: number };
+
+/** The element a click on advances the tour, if the target is a click control. */
+function clickGate(el: HTMLElement): HTMLElement | null {
+  return el.matches('button, a[href], [role="button"]') ? el : null;
+}
+
+/** Sharp cut-out region: a submit button widens to its whole form so the user can fill it. */
+function holeElement(el: HTMLElement, control: HTMLElement | null): HTMLElement {
+  if (control && control.getAttribute("type") === "submit") {
+    const form = control.closest("form");
+    if (form instanceof HTMLElement) return form;
+  }
+  return el;
+}
+
+function rectOf(el: Element): Rect {
+  const r = el.getBoundingClientRect();
+  return { top: r.top, left: r.left, width: r.width, height: r.height };
+}
 
 export function TourProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pathname = usePathname();
   const [spec, setSpec] = useState<TourSpec | null>(null);
   const [index, setIndex] = useState(0);
-  const [rect, setRect] = useState<Rect | null>(null);
+  const [hole, setHole] = useState<Rect | null>(null);
+  const [gateEl, setGateEl] = useState<HTMLElement | null>(null);
+  const [gateLabel, setGateLabel] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
-  const pollRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Resume across a hard reload (client nav already preserves provider state).
   useEffect(() => {
     let cancelled = false;
-
     queueMicrotask(() => {
       if (cancelled) return;
-
       setMounted(true);
       try {
         const raw = sessionStorage.getItem(STORAGE_KEY);
@@ -88,7 +116,6 @@ export function TourProvider({ children }: { children: React.ReactNode }) {
         /* ignore malformed storage */
       }
     });
-
     return () => {
       cancelled = true;
     };
@@ -103,21 +130,27 @@ export function TourProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
+  const clearTarget = useCallback(() => {
+    setHole(null);
+    setGateEl(null);
+    setGateLabel(null);
+  }, []);
+
   const start = useCallback(
     (next: TourSpec) => {
+      clearTarget();
       setSpec(next);
       setIndex(0);
-      setRect(null);
       persist(next, 0);
     },
-    [persist],
+    [persist, clearTarget],
   );
 
   const close = useCallback(() => {
+    clearTarget();
     setSpec(null);
-    setRect(null);
     persist(null, 0);
-  }, [persist]);
+  }, [persist, clearTarget]);
 
   const go = useCallback(
     (i: number) => {
@@ -126,12 +159,26 @@ export function TourProvider({ children }: { children: React.ReactNode }) {
         close();
         return;
       }
-      setRect(null);
+      clearTarget();
       setIndex(i);
       persist(spec, i);
     },
-    [spec, close, persist],
+    [spec, close, persist, clearTarget],
   );
+
+  // Measure the current step's target into state (hole + click-gate). Returns false
+  // if the element isn't in the DOM yet (caller keeps polling).
+  const measure = useCallback((target: string): boolean => {
+    const el = document.querySelector<HTMLElement>(`[data-tour="${target}"]`);
+    if (!el) return false;
+    const control = clickGate(el);
+    setHole(rectOf(holeElement(el, control)));
+    setGateEl(control);
+    setGateLabel(
+      control ? control.textContent?.replace(/\s+/g, " ").trim().slice(0, 36) || null : null,
+    );
+    return true;
+  }, []);
 
   // Navigate to the step's route, then poll for its spotlight target.
   useEffect(() => {
@@ -143,51 +190,54 @@ export function TourProvider({ children }: { children: React.ReactNode }) {
       router.push(step.href);
       return; // effect re-runs once pathname updates
     }
-
     if (!step.target) {
-      queueMicrotask(() => setRect(null)); // centered "what's happening" card
+      queueMicrotask(clearTarget); // centered "what's happening" card
       return;
     }
 
     let tries = 0;
+    let timer: ReturnType<typeof setTimeout> | null = null;
     const tick = () => {
       const el = document.querySelector<HTMLElement>(`[data-tour="${step.target}"]`);
       if (el) {
         el.scrollIntoView({ block: "center", behavior: "smooth" });
-        const r = el.getBoundingClientRect();
-        setRect({ top: r.top, left: r.left, width: r.width, height: r.height });
+        measure(step.target!);
         return;
       }
-      if (tries++ < 50) {
-        pollRef.current = setTimeout(tick, 60);
-      } else {
-        setRect(null); // never appeared — fall back to a centered card
-      }
+      if (tries++ < 50) timer = setTimeout(tick, 60);
+      else clearTarget(); // never appeared — fall back to a centered card
     };
     tick();
     return () => {
-      if (pollRef.current) clearTimeout(pollRef.current);
+      if (timer) clearTimeout(timer);
     };
-  }, [spec, index, pathname, router]);
+  }, [spec, index, pathname, router, measure, clearTarget]);
 
-  // Keep the spotlight glued to the element as the page scrolls / resizes.
+  // Keep the cut-out glued to the element as the page scrolls / resizes.
   useEffect(() => {
     const step = spec?.steps[index];
     if (!step?.target) return;
-    const update = () => {
-      const el = document.querySelector<HTMLElement>(`[data-tour="${step.target}"]`);
-      if (el) {
-        const r = el.getBoundingClientRect();
-        setRect({ top: r.top, left: r.left, width: r.width, height: r.height });
-      }
-    };
+    const update = () => measure(step.target!);
     window.addEventListener("scroll", update, true);
     window.addEventListener("resize", update);
     return () => {
       window.removeEventListener("scroll", update, true);
       window.removeEventListener("resize", update);
     };
-  }, [spec, index]);
+  }, [spec, index, measure]);
+
+  // ACTION GATE: when the target is a click control, advance only after the user clicks
+  // it. A disabled control (e.g. a submit button before the form is filled) emits no
+  // click, so the tour stays put until the user completes the action and clicks.
+  useEffect(() => {
+    if (!gateEl) return;
+    const onClick = () => {
+      // let the element's own handler (form submit, navigation) run first
+      setTimeout(() => go(index + 1), 80);
+    };
+    gateEl.addEventListener("click", onClick);
+    return () => gateEl.removeEventListener("click", onClick);
+  }, [gateEl, index, go]);
 
   // Esc to exit.
   useEffect(() => {
@@ -210,7 +260,9 @@ export function TourProvider({ children }: { children: React.ReactNode }) {
           index={index}
           total={spec.steps.length}
           title={spec.title}
-          rect={rect}
+          hole={hole}
+          gated={Boolean(gateEl)}
+          gateLabel={gateLabel}
           onBack={() => go(index - 1)}
           onNext={() => go(index + 1)}
           onClose={close}
@@ -225,7 +277,9 @@ function TourOverlay({
   index,
   total,
   title,
-  rect,
+  hole,
+  gated,
+  gateLabel,
   onBack,
   onNext,
   onClose,
@@ -234,57 +288,104 @@ function TourOverlay({
   index: number;
   total: number;
   title: string;
-  rect: Rect | null;
+  hole: Rect | null;
+  gated: boolean;
+  gateLabel: string | null;
   onBack: () => void;
   onNext: () => void;
   onClose: () => void;
 }) {
   const last = index === total - 1;
   const first = index === 0;
+  const vw = window.innerWidth;
+  const vh = window.innerHeight;
 
-  // Popover placement: anchored under the spotlight when it fits, else above, and
-  // always clamped fully inside the viewport. Targets taller than the viewport (e.g.
-  // a long table) would otherwise push the popover and its Next button off-screen.
+  // Popover placement: beside the cut-out when there's a gutter (so it never covers the
+  // thing you must interact with), else above/below, always clamped fully on-screen.
+  const EST_H = 300;
   let popoverStyle: React.CSSProperties;
-  if (rect) {
-    const vw = window.innerWidth;
-    const vh = window.innerHeight;
-    const EST_H = 264; // approximate popover height; only used to keep it on-screen
-    const left = Math.min(Math.max(rect.left, 12), vw - POPOVER_W - 12);
-    let top = rect.top + rect.height + 14; // prefer below the target
-    if (top + EST_H > vh - 12) top = rect.top - 14 - EST_H; // not enough room → above
-    top = Math.min(Math.max(top, 12), vh - EST_H - 12); // clamp on-screen regardless
-    popoverStyle = { position: "fixed", top, left, width: POPOVER_W };
+  if (hole) {
+    const clampTop = (t: number) => Math.min(Math.max(t, 12), vh - EST_H - 12);
+    const rightGutter = vw - (hole.left + hole.width);
+    if (rightGutter >= POPOVER_W + 28) {
+      popoverStyle = { position: "fixed", top: clampTop(hole.top), left: hole.left + hole.width + 16, width: POPOVER_W };
+    } else if (hole.left >= POPOVER_W + 28) {
+      popoverStyle = { position: "fixed", top: clampTop(hole.top), left: hole.left - POPOVER_W - 16, width: POPOVER_W };
+    } else {
+      const left = Math.min(Math.max(hole.left, 12), vw - POPOVER_W - 12);
+      let top = hole.top + hole.height + 14;
+      if (top + EST_H > vh - 12) top = hole.top - 14 - EST_H;
+      popoverStyle = { position: "fixed", top: clampTop(top), left, width: POPOVER_W };
+    }
   } else {
-    popoverStyle = {
-      position: "fixed",
-      top: "50%",
-      left: "50%",
-      width: POPOVER_W,
-      transform: "translate(-50%, -50%)",
-    };
+    popoverStyle = { position: "fixed", top: "50%", left: "50%", width: POPOVER_W, transform: "translate(-50%, -50%)" };
+  }
+
+  // Blurred dimmer with a sharp rectangular hole over the target (evenodd clip-path).
+  const PAD = 8;
+  let clip: string | undefined;
+  if (hole && SUPPORTS_CLIP) {
+    const x = Math.round(Math.max(hole.left - PAD, 0));
+    const y = Math.round(Math.max(hole.top - PAD, 0));
+    const r = Math.round(Math.min(hole.left + hole.width + PAD, vw));
+    const b = Math.round(Math.min(hole.top + hole.height + PAD, vh));
+    clip = `path(evenodd, "M0 0H${vw}V${vh}H0Z M${x} ${y}H${r}V${b}H${x}Z")`;
   }
 
   return (
     <>
-      {/* Dimmer. With a target, a box-shadow ring cuts the spotlight hole and lets
-          clicks pass through (pointer-events-none). Without one, a plain blocking scrim. */}
-      {rect ? (
+      {hole && SUPPORTS_CLIP ? (
+        <>
+          {/* Blur + dim everything; the clip-path hole stays sharp AND lets clicks through
+              to the target, while clicks elsewhere are absorbed (forced focus). */}
+          <div
+            aria-hidden
+            className="fixed inset-0 z-[90]"
+            style={{
+              backgroundColor: "rgba(0, 17, 23, 0.34)",
+              backdropFilter: "blur(4px)",
+              WebkitBackdropFilter: "blur(4px)",
+              clipPath: clip,
+              WebkitClipPath: clip,
+            }}
+          />
+          {/* Gold ring around the cut-out */}
+          <div
+            aria-hidden
+            className="pointer-events-none fixed z-[95] rounded-[10px]"
+            style={{
+              top: hole.top - PAD,
+              left: hole.left - PAD,
+              width: hole.width + PAD * 2,
+              height: hole.height + PAD * 2,
+              border: "2px solid var(--gold)",
+              boxShadow: "0 0 0 2px rgba(228,139,83,0.25), 0 8px 30px rgba(0,17,23,0.25)",
+            }}
+          />
+        </>
+      ) : hole ? (
+        // Fallback (no clip-path path support): dim ring via box-shadow, target clickable.
         <div
           aria-hidden
           className="pointer-events-none fixed z-[90] rounded-[10px]"
           style={{
-            top: rect.top - 6,
-            left: rect.left - 6,
-            width: rect.width + 12,
-            height: rect.height + 12,
+            top: hole.top - 6,
+            left: hole.left - 6,
+            width: hole.width + 12,
+            height: hole.height + 12,
             boxShadow: "0 0 0 9999px rgba(0, 17, 23, 0.55)",
             outline: "2px solid var(--gold)",
             outlineOffset: "2px",
           }}
         />
       ) : (
-        <div aria-hidden className="fixed inset-0 z-[90] bg-[rgba(0,17,23,0.55)]" onClick={onClose} />
+        // No target: full blurred scrim; click it to dismiss.
+        <div
+          aria-hidden
+          className="fixed inset-0 z-[90] bg-[rgba(0,17,23,0.45)]"
+          style={{ backdropFilter: "blur(4px)", WebkitBackdropFilter: "blur(4px)" }}
+          onClick={onClose}
+        />
       )}
 
       {/* Popover */}
@@ -337,10 +438,19 @@ function TourOverlay({
           {step.result}
         </p>
 
-        {step.target && (
-          <p className="mono mt-2 text-[10px] font-semibold uppercase tracking-[0.06em] text-gold">
-            Highlighted on the page
-          </p>
+        {/* Action prompt: a gated step tells the user exactly what to do to proceed. */}
+        {gated ? (
+          <div className="mt-2.5 rounded-card border border-gold bg-fill px-2.5 py-2">
+            <p className="text-[11px] font-semibold leading-snug text-ink">
+              Do it to continue{gateLabel ? <> — click <span className="text-gold">“{gateLabel}”</span> in the highlighted area.</> : " — use the highlighted control."}
+            </p>
+          </div>
+        ) : (
+          step.target && (
+            <p className="mono mt-2 text-[10px] font-semibold uppercase tracking-[0.06em] text-gold">
+              Highlighted on the page
+            </p>
+          )
         )}
 
         <div aria-hidden className="mt-3 flex items-center gap-1">
@@ -361,13 +471,17 @@ function TourOverlay({
           >
             Back
           </button>
-          <button
-            type="button"
-            onClick={onNext}
-            className="rounded-card bg-ink-cta px-3 py-1.5 text-[12px] font-semibold text-on-cta shadow-sm transition-transform active:translate-y-px"
-          >
-            {last ? "Finish" : "Next"}
-          </button>
+          {gated ? (
+            <span className="mono text-[10px] text-label">Waiting for your action…</span>
+          ) : (
+            <button
+              type="button"
+              onClick={onNext}
+              className="rounded-card bg-ink-cta px-3 py-1.5 text-[12px] font-semibold text-on-cta shadow-sm transition-transform active:translate-y-px"
+            >
+              {last ? "Finish" : "Next"}
+            </button>
+          )}
         </div>
       </div>
     </>
