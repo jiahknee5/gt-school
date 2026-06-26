@@ -242,22 +242,19 @@ function TourOverlay({
   const last = index === total - 1;
   const first = index === 0;
 
-  // Popover placement: anchored under (or over) the spotlight, else centered.
+  // Popover placement: anchored under the spotlight when it fits, else above, and
+  // always clamped fully inside the viewport. Targets taller than the viewport (e.g.
+  // a long table) would otherwise push the popover and its Next button off-screen.
   let popoverStyle: React.CSSProperties;
   if (rect) {
     const vw = window.innerWidth;
     const vh = window.innerHeight;
-    const below = rect.top + rect.height + 16 + 220 < vh;
+    const EST_H = 264; // approximate popover height; only used to keep it on-screen
     const left = Math.min(Math.max(rect.left, 12), vw - POPOVER_W - 12);
-    popoverStyle = below
-      ? { position: "fixed", top: rect.top + rect.height + 14, left, width: POPOVER_W }
-      : {
-          position: "fixed",
-          top: rect.top - 14,
-          left,
-          width: POPOVER_W,
-          transform: "translateY(-100%)",
-        };
+    let top = rect.top + rect.height + 14; // prefer below the target
+    if (top + EST_H > vh - 12) top = rect.top - 14 - EST_H; // not enough room → above
+    top = Math.min(Math.max(top, 12), vh - EST_H - 12); // clamp on-screen regardless
+    popoverStyle = { position: "fixed", top, left, width: POPOVER_W };
   } else {
     popoverStyle = {
       position: "fixed",
@@ -303,11 +300,12 @@ function TourOverlay({
             Product tour
           </p>
           <button
+            type="button"
             onClick={onClose}
             aria-label="End tour"
-            className="mono text-[11px] text-label hover:text-ink"
+            className="rounded-card border border-hairline px-2 py-1 text-[11px] font-semibold text-muted transition-colors hover:bg-hover hover:text-ink"
           >
-            Esc ✕
+            Close
           </button>
         </div>
 
@@ -345,8 +343,7 @@ function TourOverlay({
           </p>
         )}
 
-        {/* progress dots */}
-        <div className="mt-3 flex items-center gap-1">
+        <div aria-hidden className="mt-3 flex items-center gap-1">
           {Array.from({ length: total }).map((_, i) => (
             <span
               key={i}
@@ -357,17 +354,19 @@ function TourOverlay({
 
         <div className="mt-3 flex items-center justify-between gap-2">
           <button
+            type="button"
             onClick={onBack}
             disabled={first}
             className="rounded-card px-2.5 py-1.5 text-[11px] font-semibold text-muted transition-colors hover:text-ink disabled:cursor-not-allowed disabled:opacity-40"
           >
-            ← Back
+            Back
           </button>
           <button
+            type="button"
             onClick={onNext}
             className="rounded-card bg-ink-cta px-3 py-1.5 text-[12px] font-semibold text-on-cta shadow-sm transition-transform active:translate-y-px"
           >
-            {last ? "Finish ✓" : "Next →"}
+            {last ? "Finish" : "Next"}
           </button>
         </div>
       </div>
