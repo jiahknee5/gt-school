@@ -67,6 +67,7 @@ export const SUITES: Suite[] = [
     script: "npm run test:scenarios",
     files: [
       { file: "tests/brief-usecases.test.ts", kind: "pure", needs: [], what: "Every brief use case made runnable + catalog integrity." },
+      { file: "tests/payment-propagation-surface.test.ts", kind: "pure", needs: [], what: "Visible E1 payment watcher signals: processed status, replay no-op, isolation, and contamination warning." },
       { file: "tests/phase2.test.ts", kind: "pure", needs: [], what: "Phase 2 roles, widgets, budget, confidence banner, GT Challenge helpers, and requirement audit." },
     ],
   },

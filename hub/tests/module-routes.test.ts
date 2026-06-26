@@ -62,6 +62,9 @@ describe("Phase 2 rendered route surfaces", () => {
     expect(html).toContain("Need info");
     expect(html).toContain("Comment");
     expect(html).toContain("Open Data enrichment");
+    expect(html).toContain("Decision impact");
+    expect(html).toContain("pilot -&gt; approve");
+    expect(html).toContain("recommendation changed");
     expect(html).toContain("Travis + Dallas");
     expect(html).not.toContain("Access denied for this role");
   });

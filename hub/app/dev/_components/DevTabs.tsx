@@ -7,6 +7,7 @@ const TABS = [
   { href: "/dev", label: "Overview" },
   { href: "/dev/data-model", label: "Data model" },
   { href: "/dev/dictionary", label: "Data dictionary" },
+  { href: "/dev/payments", label: "Payments" },
   { href: "/dev/tests", label: "Test theater" },
 ];
 

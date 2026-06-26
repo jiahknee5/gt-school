@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>GT School — Design System Preview</title>
+<!-- Real typefaces used by gt.school. Loaded from Google Fonts for portability. -->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Inconsolata:wght@400;500;600;700&family=Inter+Tight:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Literata:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="tokens.css" />
+<link rel="icon" href="logos/favicon-32.png" sizes="32x32" />
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: var(--gt-font-body);
+    color: var(--gt-text-primary);
+    background: var(--gt-bg-primary);
+    line-height: var(--gt-leading-large);
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: var(--gt-container-medium); margin: 0 auto; padding: var(--gt-section-padding-medium) var(--gt-global-padding); }
+  header.hero {
+    background: var(--gt-bg-tertiary);
+    color: var(--gt-text-alternate);
+    padding: var(--gt-section-padding-medium) var(--gt-global-padding);
+  }
+  header.hero .inner { max-width: var(--gt-container-medium); margin: 0 auto; }
+  header.hero img.logo { height: 40px; display: block; margin-bottom: var(--gt-space-large); }
+  header.hero h1 {
+    font-family: var(--gt-font-heading);
+    font-weight: var(--gt-weight-light);
+    font-size: var(--gt-h1-size);
+    line-height: var(--gt-leading-small);
+    letter-spacing: var(--gt-tracking-tight);
+    margin: 0 0 var(--gt-space-small);
+  }
+  header.hero h1 em { font-style: italic; }
+  header.hero p { font-size: var(--gt-text-regular); color: var(--gt-color-grey-light); margin: 0; }
+
+  h2.section-title {
+    font-family: var(--gt-font-heading);
+    font-weight: var(--gt-weight-light);
+    font-size: var(--gt-h3-size);
+    letter-spacing: var(--gt-tracking-default);
+    margin: 0 0 var(--gt-space-medium);
+    padding-bottom: var(--gt-space-small);
+    border-bottom: var(--gt-border-width) solid var(--gt-border-primary);
+  }
+  .eyebrow {
+    font-family: var(--gt-font-utility);
+    text-transform: uppercase;
+    font-size: var(--gt-text-tiny);
+    letter-spacing: 0.05em;
+    color: var(--gt-color-brand-orange);
+    font-weight: var(--gt-weight-semibold);
+    margin: 0 0 var(--gt-space-xsmall);
+  }
+  section { margin-bottom: var(--gt-space-xxhuge); }
+
+  /* swatches */
+  .swatches { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: var(--gt-gap-medium); }
+  .swatch { border: var(--gt-border-width) solid var(--gt-border-primary); border-radius: var(--gt-radius-medium); overflow: hidden; box-shadow: var(--gt-shadow-sm); background: #fff; }
+  .swatch .chip { height: 84px; }
+  .swatch .meta { padding: var(--gt-space-small); }
+  .swatch .meta .name { font-weight: var(--gt-weight-medium); font-size: var(--gt-text-tiny); }
+  .swatch .meta .hex { font-family: var(--gt-font-utility); font-size: var(--gt-text-tiny); color: var(--gt-text-secondary); text-transform: uppercase; }
+  .swatch .meta .role { font-size: 12px; color: var(--gt-text-secondary); margin-top: 4px; }
+
+  /* type specimen */
+  .type-row { display: flex; align-items: baseline; gap: var(--gt-space-medium); padding: var(--gt-space-small) 0; border-bottom: 1px solid var(--gt-border-primary); flex-wrap: wrap; }
+  .type-row .label { font-family: var(--gt-font-utility); font-size: 12px; color: var(--gt-text-secondary); text-transform: uppercase; min-width: 200px; }
+  .specimen-h { font-family: var(--gt-font-heading); font-weight: var(--gt-weight-light); line-height: var(--gt-leading-small); margin: 0; }
+
+  /* buttons */
+  .btn {
+    font-family: var(--gt-font-utility);
+    text-transform: uppercase;
+    font-size: var(--gt-body-size);
+    font-weight: var(--gt-weight-medium);
+    padding: 8px 16px;
+    border-radius: var(--gt-radius-medium);
+    cursor: pointer;
+    transition: var(--gt-transition);
+    display: inline-block;
+    text-decoration: none;
+    line-height: 1.4;
+  }
+  .btn-primary { background: var(--gt-color-brand-navy); color: var(--gt-color-white); border: none; }
+  .btn-primary:hover { background: var(--gt-color-brand-navy-dark); }
+  .btn-secondary { background: transparent; color: var(--gt-color-brand-navy); border: var(--gt-border-width) solid var(--gt-color-grey); }
+  .btn-secondary:hover { color: var(--gt-color-brand-orange); }
+  .btn-accent { background: var(--gt-color-brand-orange); color: var(--gt-color-white); border: none; }
+  .btn-row { display: flex; gap: var(--gt-gap-medium); flex-wrap: wrap; align-items: center; }
+
+  /* logos */
+  .logo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: var(--gt-gap-medium); }
+  .logo-card { border: 1px solid var(--gt-border-primary); border-radius: var(--gt-radius-large); padding: var(--gt-space-large); text-align: center; }
+  .logo-card.on-dark { background: var(--gt-bg-tertiary); }
+  .logo-card img { max-width: 100%; max-height: 56px; }
+  .logo-card .cap { margin-top: var(--gt-space-small); font-size: 12px; color: var(--gt-text-secondary); font-family: var(--gt-font-utility); }
+  .logo-card.on-dark .cap { color: var(--gt-color-grey-light); }
+
+  /* misc cards */
+  .card { background: #fff; border: 1px solid var(--gt-border-primary); border-radius: var(--gt-radius-large); box-shadow: var(--gt-shadow-sm); padding: var(--gt-space-large); }
+  .card.warm { background: var(--gt-bg-secondary); }
+  .scale-list { display: grid; gap: var(--gt-space-xsmall); }
+  .scale-item { display: flex; align-items: center; gap: var(--gt-space-medium); }
+  .scale-item .bar { background: var(--gt-color-brand-orange); height: 14px; border-radius: 3px; }
+  .scale-item .tok { font-family: var(--gt-font-utility); font-size: 12px; min-width: 160px; color: var(--gt-text-secondary); }
+  .footnote { font-size: var(--gt-text-tiny); color: var(--gt-text-secondary); }
+  footer.df { background: var(--gt-color-brand-navy-dark); color: var(--gt-text-alternate); padding: var(--gt-section-padding-small) var(--gt-global-padding); }
+  footer.df .inner { max-width: var(--gt-container-medium); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: var(--gt-space-large); flex-wrap: wrap; }
+  footer.df img { height: 34px; }
+  footer.df span { font-family: var(--gt-font-utility); font-size: 12px; color: var(--gt-color-grey-light); }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="inner">
+    <img class="logo" src="logos/gt-school-logo-horizontal-footer.svg" alt="GT School logo (inverted)" />
+    <h1><em>School Reimagined.</em> Design system, captured from the&nbsp;real&nbsp;site.</h1>
+    <p>A living style guide reverse-engineered from gt.school — real colors, type, spacing &amp; components.</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- COLORS -->
+  <section>
+    <p class="eyebrow">Tokens</p>
+    <h2 class="section-title">Color palette</h2>
+    <div class="swatches" id="brand-swatches"></div>
+    <h3 style="font-family:var(--gt-font-heading);font-weight:300;margin:2rem 0 1rem;">Neutrals &amp; semantic</h3>
+    <div class="swatches" id="neutral-swatches"></div>
+  </section>
+
+  <!-- TYPE -->
+  <section>
+    <p class="eyebrow">Typography</p>
+    <h2 class="section-title">Type specimen</h2>
+    <p class="footnote" style="margin-top:-0.5rem;">Headings: <strong>Literata</strong> (serif, light 300). Body/UI: <strong>Inter Tight</strong>. Buttons/labels: <strong>Inconsolata</strong> (mono, uppercase).</p>
+    <div class="type-row"><span class="label">H1 · Literata 300 · 52px · -0.1rem</span><p class="specimen-h" style="font-size:var(--gt-h1-size);letter-spacing:var(--gt-tracking-tight);"><em style="font-style:italic;">School</em> Reimagined</p></div>
+    <div class="type-row"><span class="label">H2 · Literata 300 · 48px</span><p class="specimen-h" style="font-size:var(--gt-h2-size);">Gifted education</p></div>
+    <div class="type-row"><span class="label">H3 · Literata 300 · 32px</span><p class="specimen-h" style="font-size:var(--gt-h3-size);">For kids who love to learn</p></div>
+    <div class="type-row"><span class="label">H4 · Literata 400 · 24px</span><p class="specimen-h" style="font-size:var(--gt-h4-size);font-weight:400;">The Gifted Academy</p></div>
+    <div class="type-row"><span class="label">Body · Inter Tight 400 · 16px / 1.3</span><p style="font-family:var(--gt-font-body);max-width:42ch;margin:0;">1400+ SAT. AP 5s. 3X learning velocity. That's the standard — clean, readable Inter Tight body copy at sixteen pixels.</p></div>
+    <div class="type-row"><span class="label">Utility · Inconsolata 500 · uppercase</span><p style="font-family:var(--gt-font-utility);text-transform:uppercase;letter-spacing:0.05em;margin:0;">Apply Now · Book a Tour</p></div>
+  </section>
+
+  <!-- BUTTONS -->
+  <section>
+    <p class="eyebrow">Components</p>
+    <h2 class="section-title">Buttons</h2>
+    <div class="btn-row">
+      <a class="btn btn-primary" href="#">Apply Now</a>
+      <a class="btn btn-secondary" href="#">Book a Tour</a>
+      <a class="btn btn-accent" href="#">Get Started</a>
+    </div>
+    <p class="footnote" style="margin-top:1rem;">Primary = navy <code>#002a3a</code> fill · Secondary = transparent with grey <code>#cac6c4</code> hairline · Accent = orange <code>#e48b53</code>. All: Inconsolata 500, uppercase, 8px radius, 8px/16px padding, 0.2s ease.</p>
+  </section>
+
+  <!-- LOGOS -->
+  <section>
+    <p class="eyebrow">Brand</p>
+    <h2 class="section-title">Logos &amp; marks</h2>
+    <div class="logo-grid">
+      <div class="logo-card"><img src="logos/gt-school-logo-horizontal.svg" alt="Header logo" /><div class="cap">Header (light bg)</div></div>
+      <div class="logo-card on-dark"><img src="logos/gt-school-logo-horizontal-footer.svg" alt="Footer logo" /><div class="cap">Footer (dark bg)</div></div>
+      <div class="logo-card"><img src="logos/gt-icon.svg" alt="Atom icon" /><div class="cap">Icon mark</div></div>
+      <div class="logo-card"><img src="logos/gt-summer-camps-logo.svg" alt="Summer camps" /><div class="cap">GT Summer Camps</div></div>
+      <div class="logo-card on-dark"><img src="logos/alpha-logo-white.svg" alt="Alpha School" /><div class="cap">Alpha School (partner)</div></div>
+      <div class="logo-card"><img src="logos/apple-touch-icon-180.png" alt="App icon" style="border-radius:18px;max-height:72px;" /><div class="cap">App / touch icon</div></div>
+    </div>
+  </section>
+
+  <!-- SPACING -->
+  <section>
+    <p class="eyebrow">Tokens</p>
+    <h2 class="section-title">Spacing scale</h2>
+    <div class="scale-list" id="spacing-scale"></div>
+  </section>
+
+  <!-- RADII / SHADOW -->
+  <section>
+    <p class="eyebrow">Tokens</p>
+    <h2 class="section-title">Radius, shadow &amp; surface</h2>
+    <div style="display:flex;gap:var(--gt-gap-medium);flex-wrap:wrap;align-items:flex-end;">
+      <div style="text-align:center;"><div style="width:96px;height:96px;background:#fff;border:1px solid var(--gt-border-primary);border-radius:var(--gt-radius-small);"></div><div class="footnote">sm · 4px</div></div>
+      <div style="text-align:center;"><div style="width:96px;height:96px;background:#fff;border:1px solid var(--gt-border-primary);border-radius:var(--gt-radius-medium);"></div><div class="footnote">md · 8px</div></div>
+      <div style="text-align:center;"><div style="width:96px;height:96px;background:#fff;border:1px solid var(--gt-border-primary);border-radius:var(--gt-radius-large);"></div><div class="footnote">lg · 12px</div></div>
+      <div style="text-align:center;"><div class="card" style="width:140px;height:96px;"></div><div class="footnote">shadow-sm</div></div>
+      <div style="text-align:center;"><div class="card warm" style="width:140px;height:96px;"></div><div class="footnote">warm surface</div></div>
+    </div>
+  </section>
+
+</div>
+
+<footer class="df">
+  <div class="inner">
+    <img src="logos/gt-school-logo-horizontal-footer.svg" alt="GT School" />
+    <span>Reverse-engineered from gt.school · tokens are real, extracted values</span>
+  </div>
+</footer>
+
+<script>
+  const brand = [
+    ["brand.orange", "#e48b53", "Primary accent"],
+    ["brand.navy", "#002a3a", "Button / dark bg"],
+    ["brand.navyDark", "#001117", "Text / footer"],
+    ["brand.blue", "#004f71", "Secondary blue"],
+    ["brand.blueDark", "#003b5c", "Secondary blue"],
+    ["brand.goldLightest", "#f8e8de", "Warm tint"],
+    ["brand.goldLighter", "#f5ddcd", "Warm tint"],
+    ["brand.goldLight", "#ebba9b", "Warm tint"],
+    ["brand.yellowDarker", "#5e5515", "Warning text"],
+  ];
+  const neutral = [
+    ["neutral.white", "#ffffff", "Background"],
+    ["neutral.offWhite", "#fcf4ef", "Section bg"],
+    ["neutral.greyLight", "#d9d9d9", "Border"],
+    ["neutral.grey", "#cac6c4", "Btn border"],
+    ["neutral.greyDark", "#5b5b5b", "Muted text"],
+  ];
+  const mk = ([name, hex, role]) => {
+    const light = ["#ffffff", "#fcf4ef", "#f8e8de", "#f5ddcd", "#d9d9d9", "#cac6c4", "#ebba9b"].includes(hex.toLowerCase());
+    return `<div class="swatch"><div class="chip" style="background:${hex};${light ? 'border-bottom:1px solid #e5e5e5;' : ''}"></div><div class="meta"><div class="name">${name}</div><div class="hex">${hex}</div><div class="role">${role}</div></div></div>`;
+  };
+  document.getElementById("brand-swatches").innerHTML = brand.map(mk).join("");
+  document.getElementById("neutral-swatches").innerHTML = neutral.map(mk).join("");
+
+  const spacing = [
+    ["tiny", 2], ["xxsmall", 4], ["xsmall", 8], ["small", 12], ["regular", 16],
+    ["medium", 24], ["large", 32], ["xlarge", 48], ["xxlarge", 64], ["huge", 80], ["xhuge", 96], ["xxhuge", 128],
+  ];
+  document.getElementById("spacing-scale").innerHTML = spacing.map(([n, px]) =>
+    `<div class="scale-item"><span class="tok">${n} · ${px}px</span><div class="bar" style="width:${px}px;"></div></div>`
+  ).join("");
+</script>
+
+</body>
+</html>

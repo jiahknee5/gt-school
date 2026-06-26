@@ -268,7 +268,7 @@ export const USE_CASES: UseCase[] = [
     proves: "The Open Data client caches, falls back to fixtures, and enrichment yields a GT signal that can flip a recommendation.",
     status: "covered",
     requires: ["opendata", "pure"],
-    tests: ["opendata.test.ts", "catalog.test.ts"],
+    tests: ["opendata.test.ts › recommendationImpactFromEnrichment", "module-routes.test.ts › Decision impact", "catalog.test.ts"],
   },
   {
     id: "UC-GTC-CAMPAIGN",
@@ -331,10 +331,10 @@ export const USE_CASES: UseCase[] = [
     phase: "Phase 2 · Product",
     brief: "Worked example — “Capture submissions… no submission lost, no double-counting.”",
     reqs: ["C6"],
-    proves: "Public quiz submissions are deduped, stored as leads, and never counted twice across the CRM/app boundary. The assess/route/de-identify half is proven (UC-GTC-CAPTURE-ASSESS); the DB-backed public-capture endpoint that persists and dedupes submissions is NOT built yet — kept honestly red rather than faked green.",
-    status: "pending",
-    requires: ["db"],
-    tests: ["brief-usecases.test.ts › UC-GTC-CAPTURE-PERSIST (todo)"],
+    proves: "The public capture contract is modeled without a live DB: consent is required before any save, an idempotency replay returns the original submission/lead, UTM is retained with `(not set)` fallback, and raw score/bucket/qualified persist with no negative gifted verdict. Remaining gap: replace the in-memory route store with a transactional DB adapter and additive migration.",
+    status: "covered",
+    requires: ["pure"],
+    tests: ["brief-usecases.test.ts › UC-GTC-CAPTURE-PERSIST", "gt-challenge.test.ts › GT Challenge capture persistence model", "gt-challenge.test.ts › POST /api/gifted-quiz route contract"],
   },
   {
     id: "UC-P2-DECISION-RULING",
@@ -511,10 +511,10 @@ export const USE_CASES: UseCase[] = [
     phase: "Demo signal",
     brief: "Show us it works — “watch a payment propagate.”",
     reqs: ["E1"],
-    proves: "Backbone propagation is proven live; a visible admin/surface to watch it is still pending.",
-    status: "live",
-    requires: ["db", "stripe"],
-    tests: ["payments.test.ts › succeeded PI propagates into the correct program, flips paid, enqueues outbox"],
+    proves: "The /dev/payments watcher shows processed event state, payment status, idempotent replay/no-op, CRM handoff status, and program isolation/no-contamination. Live DB rows are used when available; deterministic seed facts keep the demo path visible without credentials.",
+    status: "covered",
+    requires: ["pure", "db", "stripe"],
+    tests: ["payment-propagation-surface.test.ts", "payments.test.ts › succeeded PI propagates into the correct program, flips paid, enqueues outbox"],
   },
   {
     id: "UC-DEMO-BUDGET",
@@ -591,7 +591,7 @@ export const USE_CASES: UseCase[] = [
     proves: "Live query works and degrades gracefully (cache → live → stale → fixture), with the source reported.",
     status: "covered",
     requires: ["opendata", "pure"],
-    tests: ["opendata.test.ts"],
+    tests: ["opendata.test.ts › cache/stale/fixture failure paths", "opendata-route.test.ts › 502 failure path"],
   },
 ];
 

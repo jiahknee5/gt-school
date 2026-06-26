@@ -42,6 +42,7 @@ The suite is organized on **two axes** — and they are not the same axis:
 | `parity.test.ts` | backend | live | db | Parity / data-confidence computation |
 | `r1-connection.test.ts` | backend | live | db | RLS / program isolation smoke vs the DB |
 | `brief-usecases.test.ts` | scenarios | pure | — | Every brief use case made runnable + catalog integrity |
+| `payment-propagation-surface.test.ts` | scenarios | pure | — | Visible E1 payment watcher signals: processed status, replay no-op, isolation, and contamination warning |
 | `phase2.test.ts` | scenarios | pure | — | Phase 2 roles, widgets, budget, confidence banner, GT Challenge helpers, and requirement audit |
 | _(scaffold)_ | frontend | pure | — | Add browser/component tests as auth and persistence land |
 
@@ -75,7 +76,7 @@ after which the scripts simplify to `vitest run tests/<domain>`:
 tests/
   data/        seed, matchkey, seed-hubspot, catalog, opendata, seed-fixtures
   backend/     decisions, crm-ops, budget, rbac, reconcile, payments, hubspot-webhook, outbox-worker, parity, r1-connection
-  scenarios/   brief-usecases, phase2
+  scenarios/   brief-usecases, payment-propagation-surface, phase2
   frontend/    route/component/browser tests
 ```
 

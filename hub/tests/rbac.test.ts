@@ -44,6 +44,18 @@ describe("route policy — deny by default", () => {
     expect(routeDecision(null, "/login").allowed).toBe(true);
   });
 
+  it("exposes the GT Challenge public capture funnel without a session", () => {
+    // A parent arriving from a paid-social ad has no Hub account — the public
+    // landing + consent-gated capture endpoint must not be blocked by the auth gate.
+    expect(isPublicPath("/gifted-quiz")).toBe(true);
+    expect(isPublicPath("/api/gifted-quiz")).toBe(true);
+    expect(routeDecision(null, "/gifted-quiz").allowed).toBe(true);
+    expect(routeDecision(null, "/api/gifted-quiz").allowed).toBe(true);
+    // But the funnel is a single exact surface — it must not open a public subtree.
+    expect(isPublicPath("/api/gifted-quiz/admin")).toBe(false);
+    expect(isPublicPath("/m/gifted-quiz")).toBe(false);
+  });
+
   it("lets an authenticated operator into a normal module", () => {
     expect(routeDecision("operator", "/m/crm-ops").allowed).toBe(true);
   });

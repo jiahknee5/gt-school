@@ -79,7 +79,7 @@ Judge completeness against *that*, not module count.
 
 | # | Signal | Status | Gap to demoable |
 |---|---|---|---|
-| E1 | Watch a **payment propagate** without contamination | 🟡 | backbone ✅; needs a *visible* surface/admin view to watch it land |
+| E1 | Watch a **payment propagate** without contamination | ✅ | `/dev/payments` watcher shows processed event/payment status, idempotent replay/no-op, program isolation/no-contamination, and seed fallback; live path remains `payments.test.ts` + DB/Stripe env |
 | E2 | A **budget reconcile** to the total | ✅ | `/m/budget` + `budget.test.ts` visibly reconcile four workstreams to $365K |
 | E3 | A **role denied** the Decision Queue | ⛔ | needs C1 auth + C2 module |
 | E4 | **Data-confidence banner** appears when parity drops | 🟡 | parity compute ✅ (`lib/parity.ts`); banner component + cross-module wiring ⛔ |
@@ -130,9 +130,8 @@ lights all four E-signals at once.
 2. **Decision Queue** deep (C2) with the **Leader-only gate** (→ E3) and cross-module intake.
 3. **Budget Tracker** deep (C4): rows reconcile to **$365K** (→ E2) + **>10% variance auto-flags to DQ**.
 4. **CRM Ops** deep (C8/B4): parity score + **data-confidence banner** (→ E4) + honest known-gaps + UTM-broken surface.
-5. **A visible way to watch a payment propagate** (E1) — admin view or surface over the existing backbone.
-6. **Open Data visibly changing a decision** (C7/E5) + a failure path.
-7. **Deliverables**: README (A1), write-up (A2), proof (A3), **deploy + 3 role logins** (A5), **video** (A4).
+5. **Open Data visibly changing a decision** (C7/E5) + a failure path.
+6. **Deliverables**: README (A1), write-up (A2), proof (A3), **deploy + 3 role logins** (A5), **video** (A4).
 
 **P1 — high leverage after the P0 demo slice works:**
 8. Composable **Home** (C5) — the widget spine.

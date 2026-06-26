@@ -676,6 +676,7 @@ export function buildModuleSurface(
                 { label: "Budget variance", value: `${budget.autoFlagRows.length} cards`, note: "Any workstream >10% over plan auto-files a decision.", href: "/m/budget", tone: budget.autoFlagRows.length ? "risk" : "good" },
                 { label: "Hot family", value: hotFamily.priority, note: hotFamily.question, href: "/m/admissions", tone: "risk" },
                 { label: "Open Data enrichment", value: "Travis + Dallas", note: "Decision cards can cite public-school context before ruling.", href: "/api/opendata/decision-enrichment?counties=TRAVIS,DALLAS", tone: "neutral" },
+                { label: "Decision impact", value: "pilot -> approve", note: "Open Data recommendation changed the $18K field bet instead of merely decorating the card.", href: "/api/opendata/decision-enrichment?counties=TRAVIS,DALLAS", tone: "good" },
               ],
             },
           ],

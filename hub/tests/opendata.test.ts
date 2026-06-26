@@ -6,7 +6,10 @@ import {
   type OpenDataRow,
 } from "../lib/opendata/client";
 import { openDataFixture } from "../lib/opendata/fixtures";
-import { enrichDecisionByCounties } from "../lib/opendata/enrich";
+import {
+  enrichDecisionByCounties,
+  recommendationImpactFromEnrichment,
+} from "../lib/opendata/enrich";
 
 function jsonResponse(body: unknown): Response {
   return new Response(JSON.stringify(body), {
@@ -131,5 +134,19 @@ describe("enrichDecisionByCounties (offline via fixture)", () => {
     expect(result.summary.medianGiftedSpendPerStudent).not.toBeNull();
     expect(result.signal).toContain("Travis");
     expect(result.signal).toContain("C/D/F");
+  });
+
+  it("turns a cautious baseline decision into an approve recommendation when underserved demand is high", async () => {
+    const fetchImpl = vi.fn(async () => {
+      throw new Error("offline");
+    }) as unknown as typeof fetch;
+
+    const result = await enrichDecisionByCounties(["travis"], { fetchImpl });
+    const impact = recommendationImpactFromEnrichment(result, "pilot");
+
+    expect(impact.before).toBe("pilot");
+    expect(impact.after).toBe("approve");
+    expect(impact.changed).toBe(true);
+    expect(impact.reason).toContain("Open Data upgrades the ask to approve");
   });
 });

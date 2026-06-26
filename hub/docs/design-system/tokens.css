@@ -1,0 +1,141 @@
+/*
+ * GT School Design System — CSS Custom Properties
+ * Source: https://gt.school (redirects to https://www.gt.school) — Webflow site
+ * Extracted: 2026-06-26 via real computed values + :root variables (headless Chromium).
+ * Original Webflow variable names are noted in comments. 1rem = 16px.
+ *
+ * Usage: import this file, then reference e.g. var(--gt-color-brand-orange).
+ */
+
+:root {
+  /* ---------------------------------------------------------------- */
+  /* COLOR — Brand                                                    */
+  /* ---------------------------------------------------------------- */
+  --gt-color-brand-orange: #e48b53;        /* --brand--orange   — primary accent */
+  --gt-color-brand-navy: #002a3a;          /* --brand--navy     — solid button / dark bg */
+  --gt-color-brand-navy-dark: #001117;     /* --brand--navy-dark — body text / footer */
+  --gt-color-brand-blue: #004f71;          /* --brand--blue */
+  --gt-color-brand-blue-dark: #003b5c;     /* --brand--blue-dark */
+  --gt-color-brand-gold-lightest: #f8e8de; /* --brand--gold-lightest */
+  --gt-color-brand-gold-lighter: #f5ddcd;  /* --brand--gold-lighter */
+  --gt-color-brand-gold-light: #ebba9b;    /* --brand--gold-light */
+  --gt-color-brand-yellow-darker: #5e5515; /* --brand--yellow-darker */
+
+  /* COLOR — Neutral */
+  --gt-color-white: #ffffff;               /* --neutral--white */
+  --gt-color-off-white: #fcf4ef;           /* --neutral--off-white — warm section bg */
+  --gt-color-grey-light: #d9d9d9;          /* --neutral--grey-light — default border */
+  --gt-color-grey: #cac6c4;                /* --neutral--grey — secondary button border */
+  --gt-color-grey-dark: #5b5b5b;           /* --neutral--grey-dark — muted text */
+
+  /* COLOR — Semantic (theme) */
+  --gt-bg-primary: var(--gt-color-white);          /* --_theme---background--primary */
+  --gt-bg-secondary: var(--gt-color-off-white);    /* --_theme---background--secondary */
+  --gt-bg-tertiary: var(--gt-color-brand-navy);    /* --_theme---background--tertiary */
+  --gt-text-primary: var(--gt-color-brand-navy-dark);  /* --_theme---text-color--primary */
+  --gt-text-secondary: var(--gt-color-grey-dark);      /* --_theme---text-color--secondary */
+  --gt-text-alternate: var(--gt-color-white);          /* --_theme---text-color--alternate */
+  --gt-border-primary: var(--gt-color-grey-light);     /* --_theme---border-color--primary */
+
+  /* COLOR — State */
+  --gt-state-success-bg: #f5ddcd;
+  --gt-state-success-text: #f8e8de;
+  --gt-state-warning-bg: #fcf4ef;
+  --gt-state-warning-text: #5e5515;
+
+  /* ---------------------------------------------------------------- */
+  /* TYPOGRAPHY                                                       */
+  /* ---------------------------------------------------------------- */
+  --gt-font-heading: Literata, Georgia, sans-serif;       /* --font-family--heading (serif display) */
+  --gt-font-body: "Inter Tight", Arial, sans-serif;       /* --font-family--body */
+  --gt-font-utility: Inconsolata, Arial, sans-serif;      /* --font-family--utility (mono, buttons/labels) */
+
+  --gt-weight-thin: 100;
+  --gt-weight-xlight: 200;
+  --gt-weight-light: 300;
+  --gt-weight-normal: 400;
+  --gt-weight-medium: 500;
+  --gt-weight-semibold: 600;
+  --gt-weight-bold: 700;
+  --gt-weight-xbold: 800;
+  --gt-weight-black: 900;
+
+  /* Type scale (font-size tokens) */
+  --gt-text-tiny: 0.875rem;   /* 14px */
+  --gt-text-small: 1rem;      /* 16px */
+  --gt-text-regular: 1.125rem;/* 18px */
+  --gt-text-medium: 1.25rem;  /* 20px */
+  --gt-text-large: 1.5rem;    /* 24px */
+  --gt-text-xlarge: 2rem;     /* 32px */
+
+  /* Heading sizes */
+  --gt-h1-size: 3.25rem;      /* 52px */
+  --gt-h2-size: 3rem;         /* 48px */
+  --gt-h3-size: 2rem;         /* 32px */
+  --gt-h4-size: 1.5rem;       /* 24px */
+  --gt-h5-size: 1.25rem;      /* 20px */
+  --gt-h6-size: 0.875rem;     /* 14px */
+  --gt-body-size: 1rem;       /* 16px */
+
+  /* Line heights */
+  --gt-leading-small: 1.15;
+  --gt-leading-medium: 1.25;
+  --gt-leading-large: 1.3;
+
+  /* Letter spacing */
+  --gt-tracking-tight: -0.1rem;
+  --gt-tracking-default: 0rem;
+
+  /* ---------------------------------------------------------------- */
+  /* SPACING                                                          */
+  /* ---------------------------------------------------------------- */
+  --gt-space-none: 0rem;
+  --gt-space-tiny: 0.125rem;
+  --gt-space-xxsmall: 0.25rem;
+  --gt-space-xsmall: 0.5rem;
+  --gt-space-small: 0.75rem;
+  --gt-space-regular: 1rem;
+  --gt-space-medium: 1.5rem;
+  --gt-space-large: 2rem;
+  --gt-space-xlarge: 3rem;
+  --gt-space-xxlarge: 4rem;
+  --gt-space-huge: 5rem;
+  --gt-space-xhuge: 6rem;
+  --gt-space-xxhuge: 8rem;
+
+  --gt-global-padding: 2.5rem;
+  --gt-gap-small: 0.75rem;
+  --gt-gap-medium: 1.5rem;
+  --gt-section-padding-small: 3rem;
+  --gt-section-padding-medium: 5rem;
+  --gt-section-padding-large: 8rem;
+
+  /* ---------------------------------------------------------------- */
+  /* SIZE — containers & max-widths                                   */
+  /* ---------------------------------------------------------------- */
+  --gt-container-small: 48rem;
+  --gt-container-medium: 64rem;
+  --gt-container-large: 90rem;
+
+  --gt-max-xxsmall: 12rem;
+  --gt-max-xsmall: 16rem;
+  --gt-max-small: 20rem;
+  --gt-max-medium: 32rem;
+  --gt-max-large: 48rem;
+  --gt-max-xlarge: 64rem;
+  --gt-max-xxlarge: 80rem;
+
+  /* ---------------------------------------------------------------- */
+  /* RADIUS / BORDER / SHADOW / MOTION                                */
+  /* ---------------------------------------------------------------- */
+  --gt-radius-small: 0.25rem;  /* 4px */
+  --gt-radius-medium: 0.5rem;  /* 8px — buttons */
+  --gt-radius-large: 0.75rem;  /* 12px */
+  --gt-border-width: 1px;
+
+  --gt-shadow-sm: 1px 2px 14px 0px rgba(0, 0, 0, 0.03);
+
+  --gt-duration: 0.2s;
+  --gt-easing: ease;
+  --gt-transition: all var(--gt-duration) var(--gt-easing);
+}

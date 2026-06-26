@@ -14,9 +14,10 @@
 
 The product build is materially stronger than the original intake review, but it is **not submission-complete**.
 Core code paths for the P0 slice are mostly built and tested; the remaining blockers are submission
-artifacts, production/deploy proof, browser-level workflow proof, GT Challenge public-capture
-persistence, a visible payment-propagation surface, and an Open Data surface that visibly flips a
-decision. Tests: **348 passed (pure gate), 1 todo**.
+artifacts, production/deploy proof, browser-level workflow proof, and GT Challenge public-capture
+persistence. E1 now has a deterministic `/dev/payments` watcher with a live DB path when credentials
+are present. Tests: **348 passed (pure gate), 1 todo** before the E1 watcher add; targeted E1 tests
+pass in `payment-propagation-surface.test.ts`.
 
 ## A. Submission deliverables (meta — all ★ P0)
 
@@ -24,7 +25,7 @@ decision. Tests: **348 passed (pure gate), 1 todo**.
 |---|---|---|---|
 | A1 | Repo + README that runs in minutes | 🟡 | code + `.env.example` present; confirm a top-level run-in-minutes README + setup steps |
 | A2 | Write-up (deep vs stubbed & why, trade-offs, bent rules) | ⛔ | not started — graded heavily; draft from this matrix + `REQUIREMENTS.md` §F |
-| A3 | Proof it works (tests/scripts; isolation, idempotency, dual-source, budget, role gating) | ✅ | `npm run test:ci` 348 pass / 1 todo; `rbac.test.ts`, `payments.test.ts`, `budget.test.ts`, `reconcile.test.ts`, `summer-camp.test.ts` |
+| A3 | Proof it works (tests/scripts; isolation, idempotency, dual-source, budget, role gating) | ✅ | `npm run test:ci` pure gate; `rbac.test.ts`, `payments.test.ts`, `payment-propagation-surface.test.ts`, `budget.test.ts`, `reconcile.test.ts`, `summer-camp.test.ts` |
 | A4 | Walkthrough video 5–10 min (+≥1 failure/edge) | ⛔ | record after deploy |
 | A5 | Live demo URL + 3 role logins (Admin/Leader/Operator) | 🟡 | auth + 3 demo identities ready (`DEMO_USERS`, `/login`); **deploy pending** |
 | A6 | No secrets in git | ✅ | `.env*` gitignored; `.env.local` is an ignored symlink; only `.env.example` tracked |
@@ -49,7 +50,7 @@ decision. Tests: **348 passed (pure gate), 1 todo**.
 | C4 | **Budget reconciles to $365K** + >10% variance auto-flags to DQ | ✅ | `/m/budget`, append-only `budget_entry`, variance→DQ payload (`budget.test.ts`, `UC-DATA-VARIANCE`) |
 | C5 | **Composable per-user Home** (widget library, starter pack, saved layout) | 🟡 | library + role-aware starter pack + `home_layout` GET/PUT + picker add/remove/reorder/save exist; browser drag-style E2E remains |
 | C6 | **Real integrations + dual-source reconciliation** | ✅ | HubSpot connector live; Summer Camp reconciles summer.gt.school + form by `match_key` (counted once) |
-| C7 | **Open Data query that changes a decision** | 🟡 | `lib/opendata/*` + `app/api/opendata/decision-enrichment` ✅; a surface where enrichment *visibly flips the call* is partial |
+| C7 | **Open Data query that changes a decision** | ✅ | `recommendationImpactFromEnrichment`, `/api/opendata/decision-enrichment`, and Decision Queue surfaces show `pilot -> approve`; `opendata.test.ts` covers fallback + recommendation flip |
 | C8 | **Respect known gaps honestly** (UTM broken, unreliable fields, uninstrumented) | ✅ | CRM Ops surfaces parity/UTM; Analytics counts `(not set)` UTM bucket; Field Events flagged uninstrumented |
 
 ## D. Test data deliverable (★ P0 — explicitly scored)
@@ -65,7 +66,7 @@ decision. Tests: **348 passed (pure gate), 1 todo**.
 
 | # | Signal | Status | Evidence / gap |
 |---|---|---|---|
-| E1 | Watch a payment propagate without contamination | 🟡 | backbone proven (`payments.test.ts`); a *visible* admin surface to watch it land is partial |
+| E1 | Watch a payment propagate without contamination | ✅ | `/dev/payments` shows processed event/payment status, idempotent replay/no-op, program isolation/no-contamination, and deterministic seed fallback; live propagation remains proven by `payments.test.ts` when DB/Stripe env exists |
 | E2 | A budget reconcile to the total | ✅ | `/m/budget` + `budget.test.ts` reconcile 4 workstreams → $365K |
 | E3 | A role denied the Decision Queue | ✅ | auth + middleware redirect Operator → `/forbidden`; `rbac.test.ts`, `UC-DEMO-ROLE-DENIED-AUTH-UI` |
 | E4 | Data-confidence banner appears when parity drops | ✅ | `DataConfidenceBanner` + parity payload; `module-routes.test.ts` renders it on HubSpot modules |
@@ -92,12 +93,13 @@ All 13 modules now render a real surface (was: 0). Depth tiers per the runbook b
 
 ## H. Honest todos / deferred (tracked, not faked green)
 
-- `UC-GTC-CAPTURE-PERSIST` — GT Challenge **public-capture persistence** (DB-backed deduped quiz
-  submissions) **not built**; assess/route/de-identify half IS proven (`UC-GTC-CAPTURE-ASSESS`).
-  Tracked as `it.todo` in `brief-usecases.test.ts`.
+- `UC-GTC-CAPTURE-PERSIST` — GT Challenge **public-capture persistence contract** is now covered
+  without a live DB: consent gates persistence, idempotency replays return the original
+  submission/lead, UTM falls back to `(not set)`, and score/bucket/qualified persist with no
+  "not gifted" verdict. Remaining gap: additive DB migration plus transactional route adapter.
 - **S6** — Decision-Queue ruling lacks an actor audit trail (who/when). See `SECURITY-REVIEW.md`.
 - **S7-b/c** — security headers/CSP + rate limiting are deploy-time hardening (no public quiz ships yet).
-- **C5 browser drag/E2E / C7 decision-flip surface / E1 visible payment surface** — partials above.
+- **C5 browser drag/E2E** — partial above.
 
 ## Bottom line
 

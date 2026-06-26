@@ -5,6 +5,12 @@ import { SYNCED_FIELDS } from "@/lib/seed/dictionaries";
 import { USE_CASES } from "@/lib/dev/usecases";
 import { routeDecision } from "@/lib/auth/policy";
 import {
+  captureGiftedQuizSubmission,
+  InMemoryGiftedQuizCaptureStore,
+  NOT_SET,
+  summarizeGiftedQuizCaptures,
+} from "@/lib/gt-challenge/capture";
+import {
   addWidget,
   layoutForUser,
   removeWidget,
@@ -257,6 +263,87 @@ describe("Phase 2 · product (data-level proofs)", () => {
     expect(summary.caveat).toContain("UTM attribution is known broken");
   });
 
+  it("UC-GTC-CAPTURE-PERSIST: public capture persists once per idempotency key with UTM and score", async () => {
+    const store = new InMemoryGiftedQuizCaptureStore();
+    const answers = {
+      patternReasoning: 5,
+      curiosity: 5,
+      readingAboveGrade: true,
+      parentObservation:
+        "Builds systems, asks advanced questions, and keeps working through challenging logic puzzles.",
+    };
+
+    await expect(
+      captureGiftedQuizSubmission(
+        {
+          idempotencyKey: "brief-no-consent",
+          parentConsent: false,
+          parent: { email: "gtc-parent@example.com" },
+          child: { firstName: "Ava", grade: "2" },
+          answers,
+          utm: { source: "meta", medium: "paid_social", campaign: "gifted_quiz_2026" },
+        },
+        store,
+      ),
+    ).rejects.toThrow("Parent consent is required");
+    expect(store.snapshot()).toHaveLength(0);
+
+    const first = await captureGiftedQuizSubmission(
+      {
+        idempotencyKey: "brief-dup",
+        parentConsent: true,
+        parent: { email: "gtc-parent@example.com" },
+        child: { firstName: "Ava", grade: "2" },
+        answers,
+        utm: { source: "meta", medium: "paid_social", campaign: "gifted_quiz_2026" },
+      },
+      store,
+    );
+    const replay = await captureGiftedQuizSubmission(
+      {
+        idempotencyKey: "brief-dup",
+        parentConsent: true,
+        parent: { email: "gtc-parent@example.com" },
+        child: { firstName: "Ava", grade: "2" },
+        answers: { patternReasoning: 1, curiosity: 1, readingAboveGrade: false },
+        utm: { source: "meta", medium: "paid_social", campaign: "gifted_quiz_2026" },
+      },
+      store,
+    );
+
+    expect(replay.duplicate).toBe(true);
+    expect(replay.submission.id).toBe(first.submission.id);
+    expect(replay.lead.id).toBe(first.lead.id);
+    expect(store.snapshot()).toHaveLength(1);
+    expect(summarizeGiftedQuizCaptures(store.snapshot(), 125)).toMatchObject({
+      submissions: 1,
+      leads: 1,
+      qualified: 1,
+      costPerQualifiedLead: 125,
+    });
+    expect(first.submission.utm.source).toBe("meta");
+    expect(first.submission.rawScore).toBeGreaterThan(0);
+    expect(first.submission.qualified).toBe(true);
+    expect(first.submission.bucket).toBe("strong_fit");
+    expect(JSON.stringify(first.submission.bucket)).not.toContain("not gifted");
+
+    const missingUtm = await captureGiftedQuizSubmission(
+      {
+        idempotencyKey: "brief-missing-utm",
+        parentConsent: true,
+        parent: { email: "missing-utm@example.com" },
+        child: { firstName: "Noah", grade: "4" },
+        answers: { patternReasoning: 2, curiosity: 2, readingAboveGrade: false },
+      },
+      store,
+    );
+    expect(missingUtm.submission.utm).toEqual({
+      source: NOT_SET,
+      medium: NOT_SET,
+      campaign: NOT_SET,
+    });
+  });
+
   it("UC-P2-AUTH-ROLES: auth is required and Admin/Leader/Operator are enforced at the app layer", () => {
     // Deny-by-default: an unauthenticated request to any non-public route is denied (401 → /login).
     const anon = routeDecision(null, "/m/crm-ops");
@@ -454,12 +541,6 @@ describe("Marketing Hub spec (data-level proofs)", () => {
   });
 });
 
-// ───────────────────────── Pending — not built yet (tracked) ─────────────────────────
-describe("Pending product features (tracked, not yet built)", () => {
-  // UC-P2-AUTH-ROLES is now built (Tier 0 auth + RBAC); proven above and in rbac.test.ts.
-  it.todo("UC-GTC-CAPTURE-PERSIST: GT Challenge public quiz stores deduped submissions with no double-count");
-});
-
 // ───────────────────────── Catalog integrity ─────────────────────────
 describe("Use-case catalog integrity (lib/dev/usecases.ts)", () => {
   const IMPLEMENTED = new Set([
@@ -467,7 +548,7 @@ describe("Use-case catalog integrity (lib/dev/usecases.ts)", () => {
     "UC-P1-CONFLICT", "UC-P1-PARITY-SIGNAL", "UC-P1-RECON-SUMMER", "UC-P1-RECON-AMBASSADOR",
     "UC-DATA-DETERMINISM", "UC-DATA-EDGECASES", "UC-DATA-MESSY", "UC-DATA-HONEST", "UC-DATA-BUDGET-365",
     "UC-DATA-VARIANCE", "UC-DATA-ATTR-GAP", "UC-DATA-UTM-THREAD",
-    "UC-P2-SSOT", "UC-P2-CRMOPS-GAPS", "UC-P2-AUTH-ROLES", "UC-P2-HOME", "UC-P2-HOME-PERSISTENCE", "UC-GTC-CAPTURE-ASSESS", "UC-GTC-CAMPAIGN",
+    "UC-P2-SSOT", "UC-P2-CRMOPS-GAPS", "UC-P2-AUTH-ROLES", "UC-P2-HOME", "UC-P2-HOME-PERSISTENCE", "UC-GTC-CAPTURE-ASSESS", "UC-GTC-CAMPAIGN", "UC-GTC-CAPTURE-PERSIST",
     "UC-SPEC-BUDGET-WORKSTREAMS", "UC-SPEC-CAMP-PL", "UC-SPEC-FIELD-RELIABILITY",
     "UC-SPEC-SCORE-CONVERSION", "UC-SPEC-DQ-AUTODETECT", "UC-SPEC-OUTBOX-DLQ",
     "UC-SPEC-CONTENT-PIPELINE",
@@ -476,9 +557,7 @@ describe("Use-case catalog integrity (lib/dev/usecases.ts)", () => {
     "UC-DEMO-BUDGET", "UC-DEMO-ROLE-DENIED", "UC-DEMO-BANNER",
     "UC-DEMO-BUDGET-UI", "UC-DEMO-ROLE-DENIED-AUTH-UI", "UC-DEMO-BANNER-UI",
   ]);
-  const TODOS = new Set([
-    "UC-GTC-CAPTURE-PERSIST",
-  ]);
+  const TODOS = new Set<string>();
 
   it("every use case is well-formed (id, reqs, proves, tests)", () => {
     for (const u of USE_CASES) {

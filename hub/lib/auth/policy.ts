@@ -27,9 +27,13 @@ export type RouteDecision = {
 
 // Reachable WITHOUT a session. Webhooks authenticate by signature (not session),
 // the auth endpoints bootstrap the session, and /login + /forbidden must render
-// for signed-out users.
+// for signed-out users. The GT Challenge capture surface is a PUBLIC marketing
+// funnel (a parent on a social ad lands here with no Hub account) — the public
+// landing page and its consent-gated capture endpoint must bypass the auth gate.
+// Abuse is contained at the route by consent validation + rate limiting, not by
+// requiring a session (security findings S7-c).
 const PUBLIC_PREFIXES = ["/api/auth/", "/api/webhooks/"];
-const PUBLIC_EXACT = new Set(["/login", "/forbidden"]);
+const PUBLIC_EXACT = new Set(["/login", "/forbidden", "/gifted-quiz", "/api/gifted-quiz"]);
 
 export function isPublicPath(pathname: string): boolean {
   if (PUBLIC_EXACT.has(pathname)) return true;

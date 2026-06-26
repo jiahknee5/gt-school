@@ -19,7 +19,7 @@ import {
   historyDecisions,
   openBadgeCount,
 } from "@/lib/decisions/queries";
-import { enrichDecisionByCounties } from "@/lib/opendata/enrich";
+import { enrichDecisionByCounties, recommendationImpactFromEnrichment } from "@/lib/opendata/enrich";
 import { DecisionCard } from "./_components/DecisionCard";
 
 export const dynamic = "force-dynamic";
@@ -66,6 +66,7 @@ export default async function DecisionsPage({
     },
     now: () => Date.parse("2026-06-26T00:00:00.000Z"),
   });
+  const openDataImpact = recommendationImpactFromEnrichment(enrichment, "pilot");
 
   return (
     <main className="min-h-[100dvh] bg-canvas">
@@ -208,6 +209,18 @@ export default async function DecisionsPage({
 
               <section className="rounded-card border border-hairline bg-surface p-4 shadow-sm">
                 <h2 className="font-serif text-[18px] font-semibold text-ink">Open Data enrichment</h2>
+                <div className="mt-3 rounded-card border border-gold bg-amber-soft p-3">
+                  <p className="mono text-[10px] font-semibold uppercase tracking-[0.08em] text-label">
+                    Decision impact
+                  </p>
+                  <p className="mt-1 text-[13px] font-semibold text-ink">
+                    {openDataImpact.before} -&gt; {openDataImpact.after}
+                    {openDataImpact.changed ? " (recommendation changed)" : ""}
+                  </p>
+                  <p className="mt-1 text-[12px] leading-relaxed text-slate">
+                    {openDataImpact.reason}
+                  </p>
+                </div>
                 <p className="mt-2 text-[12px] leading-relaxed text-muted">
                   {enrichment.signal}
                 </p>

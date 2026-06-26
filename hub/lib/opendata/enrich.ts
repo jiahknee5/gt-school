@@ -70,6 +70,16 @@ export interface EnrichOptions extends FetchOptions {
   financeYear?: number;
 }
 
+export type DecisionPosture = "hold" | "pilot" | "approve";
+
+export interface DecisionRecommendationImpact {
+  before: DecisionPosture;
+  after: DecisionPosture;
+  changed: boolean;
+  confidence: "low" | "medium" | "high";
+  reason: string;
+}
+
 const DEFAULT_SCHOOL_YEAR = "2024-2025";
 const DEFAULT_FINANCE_YEAR = 2024;
 
@@ -169,6 +179,47 @@ export async function enrichDecisionByCounties(
   }
 
   return buildEnrichment(normalized, schoolYear, financeYear, ratings, giftedSpend, worst);
+}
+
+export function recommendationImpactFromEnrichment(
+  enrichment: Pick<DecisionEnrichment, "summary" | "source">,
+  before: DecisionPosture = "pilot",
+): DecisionRecommendationImpact {
+  const weakShare = enrichment.summary.weakDistrictShare;
+  const medianSpend = enrichment.summary.medianGiftedSpendPerStudent;
+  const noData = enrichment.summary.totalStudents === 0;
+  const underserved =
+    weakShare >= 0.5 &&
+    medianSpend !== null &&
+    medianSpend <= 35;
+
+  const after: DecisionPosture = noData
+    ? "hold"
+    : underserved
+      ? "approve"
+      : weakShare >= 0.35
+        ? "pilot"
+        : "hold";
+  const confidence =
+    enrichment.source === "live"
+      ? "high"
+      : enrichment.source === "cache"
+        ? "medium"
+        : "low";
+  const pct = Math.round(weakShare * 100);
+  const reason = noData
+    ? "No district data was returned, so the recommendation should wait for another source."
+    : underserved
+      ? `${pct}% of students are in C/D/F districts and median GT spend is $${Math.round(medianSpend ?? 0)}/student, so Open Data upgrades the ask to approve.`
+      : `${pct}% weak-district exposure is not enough to upgrade the ask beyond ${after}.`;
+
+  return {
+    before,
+    after,
+    changed: before !== after,
+    confidence,
+    reason,
+  };
 }
 
 function buildEnrichment(
