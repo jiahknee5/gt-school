@@ -17,6 +17,8 @@ The suite is organized on **two axes** — and they are not the same axis:
 | `catalog.test.ts` | data | pure | — | Open Data catalog curation + formatting (mocked fetch) |
 | `opendata.test.ts` | data | pure | — | Open Data client cache/fallback + enrichment (mocked fetch) |
 | `opendata-route.test.ts` | backend | pure | — | Decision-enrichment route validation, cache headers, and 502 failure path |
+| `ask-route.test.ts` | backend | pure | — | Ask-the-Hub route auth, role-aware answers, refusals, citations, and read-only audit metadata |
+| `ask-agents.test.ts` | backend | pure | — | Ask-the-Hub deterministic agents, de-identified context, Open Data decision impact, and safe refusals |
 | `decisions.test.ts` | backend | pure | — | Decision Queue ruling transitions and Leader-only mutation route |
 | `decisions-queue.test.ts` | backend | pure | — | Decision Queue read helpers and rendered Leader-only surface |
 | `crm-ops.test.ts` | backend | pure | — | CRM Ops parity, attribution, scoring, detector, queue RBAC, and rendered module surface |
@@ -75,7 +77,7 @@ after which the scripts simplify to `vitest run tests/<domain>`:
 ```
 tests/
   data/        seed, matchkey, seed-hubspot, catalog, opendata, seed-fixtures
-  backend/     decisions, crm-ops, budget, rbac, reconcile, payments, hubspot-webhook, outbox-worker, parity, r1-connection
+  backend/     ask, decisions, crm-ops, budget, rbac, reconcile, payments, hubspot-webhook, outbox-worker, parity, r1-connection
   scenarios/   brief-usecases, payment-propagation-surface, phase2
   frontend/    route/component/browser tests
 ```

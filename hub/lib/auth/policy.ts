@@ -55,6 +55,11 @@ export function isDecisionEnrichmentPath(pathname: string): boolean {
   return pathname === "/api/opendata/decision-enrichment";
 }
 
+/** Ask-the-Hub is authenticated, role-aware, read-only business assistance. */
+export function isAskHubPath(pathname: string): boolean {
+  return pathname === "/api/ask";
+}
+
 /**
  * The Decision Queue module and data surface are Leadership-only (view + act).
  * Operators can submit decision requests from their own modules, but the full queue
@@ -112,6 +117,10 @@ export function routeDecision(role: Role | null, pathname: string): RouteDecisio
       };
     }
     return { allowed: true, status: 200, reason: "Decision enrichment access." };
+  }
+
+  if (isAskHubPath(pathname)) {
+    return { allowed: true, status: 200, reason: "Authenticated Ask-the-Hub access." };
   }
 
   if (isLeaderOnlyPath(pathname)) {

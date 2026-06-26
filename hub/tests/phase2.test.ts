@@ -202,10 +202,11 @@ describe("Spec auto-cross-links and meeting workflow", () => {
 });
 
 describe("Phase 2 requirements audit stays honest", () => {
-  it("does not claim full completion while Auth, Ask-the-Hub, and Home UI controls remain partial/missing", () => {
+  it("does not claim full completion while Auth, Ask-the-Hub, and Home UI controls remain partial", () => {
     const byId = new Map(PHASE2_REQUIREMENT_AUDIT.map((r) => [r.id, r]));
     expect(byId.get("P2-BUDGET")?.status).toBe("covered");
-    expect(byId.get("P2-ASK")?.status).toBe("missing");
+    expect(byId.get("P2-ASK")?.status).toBe("partial");
+    expect(byId.get("P2-ASK")?.evidence).toContain("Ask-the-Hub route");
     expect([...byId.values()].some((r) => r.status !== "covered")).toBe(true);
   });
 });

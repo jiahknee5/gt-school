@@ -11,6 +11,7 @@ beforeAll(() => {
 });
 
 import {
+  isAskHubPath,
   isDecisionEnrichmentPath,
   decisionQueueRoleAllowed,
   isAdminOnlyPath,
@@ -110,6 +111,14 @@ describe("internal/dev surfaces — Admin only", () => {
     expect(routeDecision("leader", "/api/opendata/decision-enrichment").allowed).toBe(true);
     expect(routeDecision("admin", "/api/opendata/decision-enrichment").allowed).toBe(true);
     expect(routeDecision("operator", "/api/opendata/decision-enrichment").status).toBe(403);
+  });
+
+  it("classifies Ask-the-Hub as authenticated, role-aware, read-only assistance", () => {
+    expect(isAskHubPath("/api/ask")).toBe(true);
+    expect(routeDecision(null, "/api/ask").status).toBe(401);
+    expect(routeDecision("leader", "/api/ask").allowed).toBe(true);
+    expect(routeDecision("admin", "/api/ask").allowed).toBe(true);
+    expect(routeDecision("operator", "/api/ask").allowed).toBe(true);
   });
 });
 

@@ -271,6 +271,17 @@ export const USE_CASES: UseCase[] = [
     tests: ["opendata.test.ts › recommendationImpactFromEnrichment", "module-routes.test.ts › Decision impact", "catalog.test.ts"],
   },
   {
+    id: "UC-P2-ASK",
+    title: "Ask-the-Hub gives cited, role-aware operating answers",
+    phase: "Phase 2 · Product",
+    brief: "Optional AI layer — “an Ask-the-Hub agent answering … across HubSpot and Open Data.”",
+    reqs: ["C1", "C3", "C7", "C8"],
+    proves: "The route and Help console use role-derived context, cited source-of-truth facts, Open Data decision context, deterministic no-key answers, and safe refusals for broken CAC-by-channel, PII, and Decision Queue bypass prompts.",
+    status: "covered",
+    requires: ["pure", "opendata"],
+    tests: ["ask-agents.test.ts", "ask-route.test.ts", "rbac.test.ts › Ask-the-Hub"],
+  },
+  {
     id: "UC-GTC-CAMPAIGN",
     title: "GT Challenge stands up as a budgeted, threaded campaign",
     phase: "Phase 2 · Product",

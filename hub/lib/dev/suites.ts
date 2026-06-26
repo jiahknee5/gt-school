@@ -49,6 +49,8 @@ export const SUITES: Suite[] = [
       { file: "tests/payments.test.ts", kind: "live", needs: ["db", "stripe"], what: "Idempotent, monotonic, program-isolated payment propagation." },
       { file: "tests/hubspot-webhook.test.ts", kind: "live", needs: ["db", "hubspot"], what: "Inbound webhook ingest → app state." },
       { file: "tests/opendata-route.test.ts", kind: "pure", needs: [], what: "Decision-enrichment route validation, cache headers, and 502 failure path." },
+      { file: "tests/ask-route.test.ts", kind: "pure", needs: [], what: "Ask-the-Hub route auth, role-aware answers, refusals, citations, and read-only audit metadata." },
+      { file: "tests/ask-agents.test.ts", kind: "pure", needs: [], what: "Ask-the-Hub deterministic agents, de-identified context, Open Data decision impact, and safe refusals." },
       { file: "tests/decisions.test.ts", kind: "pure", needs: [], what: "Decision Queue ruling transitions and Leader-only mutation route." },
       { file: "tests/decisions-queue.test.ts", kind: "pure", needs: [], what: "Decision Queue read helpers and rendered Leader-only surface." },
       { file: "tests/crm-ops.test.ts", kind: "pure", needs: [], what: "CRM Ops parity, attribution, scoring, detector, queue RBAC, and rendered module surface." },

@@ -263,6 +263,34 @@ export const GUIDES: Guide[] = [
     watchFor: ["Some HubSpot fields (TEFA, income, source) are known-unreliable by design — app_form is the source of truth for those."],
     related: ["new-applicant", "weekly-meeting"],
   },
+  {
+    slug: "ask-the-hub",
+    title: "Use Ask-the-Hub for a cited operating answer",
+    category: "Govern & trust",
+    objective:
+      "Ask a role-aware AI agent for a business recommendation, inspect the sources and caveats, then route the work to the right module without bypassing Hub controls.",
+    who: ["Leadership", "Marketing Lead", "Operators"],
+    modules: ["Help", "CRM Ops", "Budget", "Decision Queue", "Open Data", "Dashboard / KPI"],
+    trigger: "A user needs a fast answer about pacing, budget, data trust, Open Data, or what to do next.",
+    steps: [
+      { do: "Open Ask-the-Hub and ask a business question in plain language.", where: "Help · AI agents", result: "The right specialist agent handles the question: growth strategy, data quality, decision support, or operator coaching." },
+      { do: "Read the answer, citations, confidence, and caveats before acting.", where: "Help · AI agents · Evidence", result: "Every numeric claim names a source such as Budget ledger, app_form, CRM Ops parity, or Open Data fixture/cache/live." },
+      { do: "Follow the recommended action in the named module.", where: "Budget / CRM Ops / Decision Queue / My submissions", result: "The AI advises; governed Hub workflows still perform approvals, edits, and audit trails." },
+    ],
+    success: [
+      "The answer is cited, de-identified, and role-aware.",
+      "Operators get coaching and own-submission guidance, not the full Decision Queue.",
+      "Unsupported prompts are refused with a safer next step.",
+    ],
+    watchFor: [
+      "Exact CAC-by-channel is refused while UTM attribution is known broken.",
+      "Open Data is read-only decision context and must not be written back to family records.",
+      "The agents do not reveal raw PII, SMS bodies, child names, or unconsented quotes.",
+    ],
+    related: ["data-confidence", "raise-a-decision", "budget-variance", "weekly-meeting"],
+    fromSpec:
+      "Technical Brief optional AI layer — Ask-the-Hub over HubSpot + Supabase + Open Data, with honest refusals and cited evidence.",
+  },
 ];
 
 export function guideBySlug(slug: string): Guide | undefined {
