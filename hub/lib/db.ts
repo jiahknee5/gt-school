@@ -36,10 +36,61 @@ function getClient(): postgres.Sql {
       prepare: false,
       max: 5,
       idle_timeout: 20,
+      // Fail fast if the pooler connection can't be established quickly. Without this,
+      // a slow/hung connect from the serverless render context blocked the request until
+      // the gateway 504'd (~25s); every DB read in the app has a graceful fallback
+      // (cookie store / deterministic-on-view), so failing fast is strictly better.
+      connect_timeout: 6,
       onnotice: () => {},
     });
   }
   return _sql;
+}
+
+/**
+ * Hard ceiling on any single scoped DB operation. A render must never hang on the DB —
+ * if the pooler is slow/unreachable, we reject after `DB_OP_TIMEOUT_MS` so the caller's
+ * fallback (cookie preference store, deterministic-on-view status) takes over instead of
+ * the request hanging to the gateway timeout. Generous enough that a healthy query
+ * (~50ms) always wins the race.
+ */
+const DB_OP_TIMEOUT_MS = 6000;
+const DB_BREAKER_COOLDOWN_MS = 30_000;
+
+// Circuit breaker: once a DB op times out / fails to connect, short-circuit subsequent ops
+// for a cooldown so a single slow render doesn't stack N × timeout (layout reads prefs +
+// the page reads the snapshot — 3-4 ops) toward the gateway limit. While tripped, ops fail
+// INSTANTLY and the caller's fallback runs. It self-heals after the cooldown.
+let _breakerUntil = 0;
+
+function breakerOpen(): boolean {
+  return Date.now() < _breakerUntil;
+}
+function tripBreaker(): void {
+  _breakerUntil = Date.now() + DB_BREAKER_COOLDOWN_MS;
+}
+
+const TIMEOUT_SENTINEL = "__db_op_timeout__";
+
+async function withDeadline<T>(p: Promise<T>): Promise<T> {
+  if (breakerOpen()) {
+    throw new Error("DB circuit breaker open — failing fast to the app fallback.");
+  }
+  try {
+    return await Promise.race([
+      p,
+      new Promise<T>((_, reject) => setTimeout(() => reject(new Error(TIMEOUT_SENTINEL)), DB_OP_TIMEOUT_MS)),
+    ]);
+  } catch (err) {
+    // Trip the breaker only when the DB is UNRESPONSIVE (timeout or connection failure) —
+    // an ordinary query error means the DB answered, so leave the breaker closed.
+    const msg = err instanceof Error ? err.message : String(err);
+    const isUnresponsive = msg === TIMEOUT_SENTINEL || /connect|timeout|ECONN|terminat|socket/i.test(msg);
+    if (isUnresponsive) tripBreaker();
+    throw err instanceof Error && msg === TIMEOUT_SENTINEL
+      ? new Error(`DB operation exceeded ${DB_OP_TIMEOUT_MS}ms — falling back.`)
+      : err;
+  }
 }
 
 async function assumeAppRw(tx: postgres.TransactionSql): Promise<void> {
@@ -69,11 +120,13 @@ export async function withProgram<T>(
   }
   const sql = getClient();
   let result!: T;
-  await sql.begin(async (tx) => {
-    await assumeAppRw(tx);
-    await tx`select set_config('app.current_program', ${programId}, true)`;
-    result = await fn(tx);
-  });
+  await withDeadline(
+    sql.begin(async (tx) => {
+      await assumeAppRw(tx);
+      await tx`select set_config('app.current_program', ${programId}, true)`;
+      result = await fn(tx);
+    }),
+  );
   return result;
 }
 
@@ -87,10 +140,12 @@ export async function withoutProgram<T>(
 ): Promise<T> {
   const sql = getClient();
   let result!: T;
-  await sql.begin(async (tx) => {
-    await assumeAppRw(tx);
-    result = await fn(tx);
-  });
+  await withDeadline(
+    sql.begin(async (tx) => {
+      await assumeAppRw(tx);
+      result = await fn(tx);
+    }),
+  );
   return result;
 }
 
