@@ -21,6 +21,10 @@ import { Explain } from "@/app/_components/InfoTip";
 import { buildScorecard } from "@/lib/dashboard/scorecard";
 import { buildPacing } from "@/lib/dashboard/pacing";
 import { canEditGoal } from "@/lib/dashboard/goals";
+import { reconcileFromDataset } from "@/lib/camp/reconcile";
+import { campRevenue, capacityByCampus } from "@/lib/camp/metrics";
+import { resolveProgramView } from "@/lib/program-view";
+import { ProgramScopeNote } from "@/app/_components/ProgramScopeNote";
 import { defaultReportingWeek, weekMondays } from "@/lib/metrics/registry";
 import { guideBySlug } from "@/lib/help/guides";
 import { fmtValue, MetricTile, statusTone } from "./_components/primitives";
@@ -63,6 +67,10 @@ function daysToCutoff(): number {
   return Math.max(0, Math.ceil((cutoff - Date.now()) / 86_400_000));
 }
 
+// Camp's Leader-set revenue target (mirrors the Summer Camp module). Camp KPIs are a
+// SEPARATE P&L and are never summed into the $365K-fall scorecard.
+const CAMP_TARGET = 180_000;
+
 export default async function DashboardPage({
   searchParams,
 }: {
@@ -74,7 +82,25 @@ export default async function DashboardPage({
   const viewer = session ?? demoUserByRole(role);
   const activeTab: TabKey = TABS.find((t) => t.key === query.tab)?.key ?? "scorecard";
 
+  // Active program lens. The weekly scorecard is the FALL ($365K) program; camp KPIs are
+  // a separate P&L surfaced as their own strip and never summed into the fall numbers.
+  const view = await resolveProgramView({ userId: session?.id, role: viewer.role });
+
   const ds = generate({ seed: 424242, families: 1200 });
+  const campKpis = view.showCamp
+    ? (() => {
+        const { resolved } = reconcileFromDataset(ds);
+        const campuses = capacityByCampus(resolved);
+        const cap = campuses.reduce((a, c) => a + c.capacity, 0);
+        const paid = campuses.reduce((a, c) => a + c.paid, 0);
+        return {
+          revenue: campRevenue(ds, resolved, CAMP_TARGET),
+          capacityPaid: paid,
+          capacityTotal: cap,
+          capacitySoldPct: cap > 0 ? paid / cap : 0,
+        };
+      })()
+    : null;
   const thresholdPct = Number((parityThreshold() * 100).toFixed(2));
   const banner = seedBannerState(ds.field_state, thresholdPct);
 
@@ -121,7 +147,19 @@ export default async function DashboardPage({
             <PageObjective slug="dashboard" />
             {/* Inbound contract: a parity drop shows the data-confidence banner here too. */}
             <DataConfidenceBanner state={banner} />
+            <ProgramScopeNote
+              scope={view.scope}
+              detail={
+                view.scope === "all"
+                  ? "Fall scorecard + Camp shown separately"
+                  : view.scope === "summer_camp"
+                    ? "Camp KPIs (separate P&L)"
+                    : "Fall weekly scorecard"
+              }
+            />
 
+            {view.showFall && (
+            <>
             <section className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
               <div className="relative">
                 <MetricTile
@@ -230,6 +268,37 @@ export default async function DashboardPage({
             {activeTab === "sla" && <SlaOpsHealth ds={ds} />}
             {activeTab === "pacing" && <GoalPacing rows={pacing} canEdit={editable} />}
             {activeTab === "mirror" && <HubspotMirror />}
+            </>
+            )}
+
+            {view.showCamp && campKpis && (
+              <section className="space-y-2 rounded-card border border-hairline bg-surface p-3 shadow-sm">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <h2 className="font-serif text-[14px] font-bold tracking-[-0.01em] text-ink">
+                    Summer Camp KPIs &mdash; separate P&amp;L
+                  </h2>
+                  <Link href="/m/summer-camp" className="mono text-[10px] font-semibold text-gold hover:underline">
+                    Open Summer Camp
+                  </Link>
+                </div>
+                <p className="text-[11px] leading-snug text-muted">
+                  Camp is a separate program (measured from Stripe). These figures are never summed into
+                  the $365K-fall scorecard{view.scope === "all" ? " above" : ""}.
+                </p>
+                <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+                  <MetricTile label="Camp capacity sold" value={`${Math.round(campKpis.capacitySoldPct * 100)}%`} note={`${campKpis.capacityPaid}/${campKpis.capacityTotal} seats`} tone="neutral" />
+                  <MetricTile label="Camp cash (Stripe)" value={`$${campKpis.revenue.cashRevenue.toLocaleString()}`} note="succeeded payments" tone="good" />
+                  <MetricTile label="Camp booked" value={`$${campKpis.revenue.bookedRevenue.toLocaleString()}`} note="resolved amount total" tone="neutral" />
+                  <MetricTile label="% to target" value={`${Math.round(campKpis.revenue.pctToTarget * 100)}%`} note={`of $${campKpis.revenue.target.toLocaleString()} target`} tone={campKpis.revenue.pctToTarget >= 0.5 ? "good" : "watch"} />
+                </div>
+              </section>
+            )}
+
+            {!view.showFall && (
+              <p className="text-[11px] text-muted">
+                Switch the sidebar Program to Fall or All to see the weekly KPI scorecard, pacing, and trends.
+              </p>
+            )}
           </div>
 
           <aside className="space-y-3">

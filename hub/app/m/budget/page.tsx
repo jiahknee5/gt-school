@@ -16,7 +16,11 @@ import { generate } from "@/lib/seed/generate";
 import { demoUserByRole } from "@/lib/phase2";
 import { getSession } from "@/lib/auth";
 import { reconcileBudget } from "@/lib/budget/reconcile";
+import { reconcileFromDataset } from "@/lib/camp/reconcile";
+import { campRevenue } from "@/lib/camp/metrics";
+import { resolveProgramView } from "@/lib/program-view";
 import { PageObjective } from "@/app/_components/PageObjective";
+import { ProgramScopeNote } from "@/app/_components/ProgramScopeNote";
 import { Explain } from "@/app/_components/InfoTip";
 import { buildBurnSeries, actualAllocation } from "@/lib/metrics/budget";
 import { BudgetTable } from "./_components/BudgetTable";
@@ -24,6 +28,10 @@ import { BurnChart } from "./_components/BurnChart";
 import { SpendByWorkstream } from "./_components/SpendByWorkstream";
 import { VarianceAlerts } from "./_components/VarianceAlerts";
 import { MetricTile, usd } from "./_components/primitives";
+
+// Camp's Leader-set revenue target (mirrors the Summer Camp module's stand-in default).
+// Camp is a SEPARATE P&L — this never rolls into the $365K fall marketing budget.
+const CAMP_TARGET = 180_000;
 
 export const dynamic = "force-dynamic";
 
@@ -58,8 +66,15 @@ export default async function BudgetPage({
   const viewer = session ?? demoUserByRole(role);
   const activeTab: TabKey = TABS.find((t) => t.key === query.tab)?.key ?? "table";
 
+  // Active program lens. Fall = the $365K workstreams; Camp = a separate P&L; "all"
+  // shows both sections side by side and NEVER merges camp into the $365K total.
+  const view = await resolveProgramView({ userId: session?.id, role: viewer.role });
+
   const ds = generate({ seed: 424242, families: 1200 });
   const recon = reconcileBudget(ds.budget_workstream, ds.budget_entry);
+  const camp = view.showCamp
+    ? campRevenue(ds, reconcileFromDataset(ds).resolved, CAMP_TARGET)
+    : null;
   const varianceRows = recon.rows.map((r) => ({ key: r.key, name: r.name, planned: r.planned, actual: r.actual }));
   const burn = buildBurnSeries(ds.budget_entry, recon.totals.planned, {
     sprintStart: SPRINT_START,
@@ -95,6 +110,18 @@ export default async function BudgetPage({
         <div className="grid gap-4 2xl:grid-cols-[minmax(0,1fr)_300px]">
           <div className="min-w-0 space-y-3">
             <PageObjective slug="budget" />
+            <ProgramScopeNote
+              scope={view.scope}
+              detail={
+                view.scope === "all"
+                  ? "Fall ($365K) and Summer Camp shown separately"
+                  : view.scope === "summer_camp"
+                    ? "Camp is a separate P&L"
+                    : "$365K marketing workstreams"
+              }
+            />
+            {view.showFall && (
+            <>
             <section className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
               <div className="relative">
                 <MetricTile
@@ -167,9 +194,36 @@ export default async function BudgetPage({
                 viewerRole={viewer.role}
               />
             )}
+            </>
+            )}
+
+            {view.showCamp && camp && (
+              <section className="space-y-2 rounded-card border border-hairline bg-surface p-3 shadow-sm">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <h2 className="font-serif text-[14px] font-bold tracking-[-0.01em] text-ink">
+                    Summer Camp &mdash; separate P&amp;L
+                  </h2>
+                  <Link href="/m/summer-camp" className="mono text-[10px] font-semibold text-gold hover:underline">
+                    Open Summer Camp
+                  </Link>
+                </div>
+                <p className="text-[11px] leading-snug text-muted">
+                  Camp is measured from Stripe (program=summer_camp) and is a SEPARATE P&amp;L. It never
+                  rolls into the $365K fall marketing budget{view.scope === "all" ? " shown above" : ""}.
+                </p>
+                <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
+                  <MetricTile label="Camp cash (Stripe)" value={usd(camp.cashRevenue)} note="succeeded payments" tone="good" />
+                  <MetricTile label="Camp booked" value={usd(camp.bookedRevenue)} note="resolved amount total" tone="neutral" />
+                  <MetricTile label="% to target" value={`${Math.round(camp.pctToTarget * 100)}%`} note={`of ${usd(camp.target)} target`} tone={camp.pctToTarget >= 0.5 ? "good" : "watch"} />
+                  <MetricTile label="$365K budget" value="Unchanged" note="camp excluded by design" tone="good" />
+                </div>
+              </section>
+            )}
           </div>
 
           <aside className="space-y-3">
+            {view.showFall && (
+            <>
             <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
               <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Source of truth <Explain k="shared.source-of-truth" /></h2>
               <ul className="mt-2 space-y-1.5 text-[11px] leading-snug text-muted">
@@ -190,6 +244,19 @@ export default async function BudgetPage({
                     : `Operator: write spend only for your row (${viewer.owns.join(", ") || "none"}); others are read-only.`}
               </p>
             </section>
+            </>
+            )}
+
+            {view.showCamp && (
+              <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+                <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Camp P&amp;L isolation</h2>
+                <ul className="mt-2 space-y-1.5 text-[11px] leading-snug text-muted">
+                  <li>Camp revenue is Stripe cash truth (program=summer_camp).</li>
+                  <li>Camp is a separate P&amp;L; it is out of the $365K marketing budget.</li>
+                  <li>Full camp funnel, capacity, and roster live in Summer Camp (Module 4).</li>
+                </ul>
+              </section>
+            )}
           </aside>
         </div>
       </div>

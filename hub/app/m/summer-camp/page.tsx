@@ -15,6 +15,8 @@ import { reconcileFromDataset } from "@/lib/camp/reconcile";
 import { capacityByCampus, campFunnel, campRevenue, topChannels, budgetUnchangedByCamp } from "@/lib/camp/metrics";
 import { canViewRoster, canSetTarget, maskName } from "@/lib/camp/rbac";
 import { decisionStatusHref, decisionStatusLabel } from "@/lib/decisions/routes";
+import { resolveProgramView } from "@/lib/program-view";
+import { ProgramScopeNote } from "@/app/_components/ProgramScopeNote";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Summer Camp | GT Marketing Hub" };
@@ -45,6 +47,10 @@ export default async function SummerCampPage({
   const role = session?.role ?? (query.role as "admin" | "leader" | "operator" | undefined);
   const viewer = session ?? demoUserByRole(role);
   const activeTab: TabKey = TABS.find((t) => t.key === query.tab)?.key ?? "overview";
+
+  // This module is inherently the Summer Camp program. Echo the active program lens so a
+  // viewer focused on Fall knows this is a separate program before reading camp numbers.
+  const view = await resolveProgramView({ userId: session?.id, role: viewer.role });
 
   const ds = generate({ seed: 424242, families: 1200 });
 
@@ -77,6 +83,17 @@ export default async function SummerCampPage({
         <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
           <div className="space-y-3">
             <PageObjective slug="summer-camp" />
+            <ProgramScopeNote
+              scope={view.scope}
+              detail={view.showCamp ? "Camp is in your active view" : "Camp is outside your active Fall view"}
+            />
+            {!view.showCamp && (
+              <section role="note" className="rounded-card border border-amber-soft bg-amber-soft p-2.5 text-[11px] leading-snug text-amber">
+                You&rsquo;re viewing the <span className="font-semibold">Fall</span> program. Summer Camp is a
+                separate program and P&amp;L. Switch the sidebar Program to <span className="font-semibold">Camp</span>{" "}
+                or <span className="font-semibold">All</span> to focus here.
+              </section>
+            )}
             <section role="note" className="rounded-card border border-hairline bg-fill p-2.5 text-[11px] leading-snug text-slate">
               <span className="font-semibold text-ink">Camp source note:</span> Summer Camp reads summer.gt.school,
               the registration form, and Stripe camp payments. It is a separate P&amp;L and does not mount the shared
