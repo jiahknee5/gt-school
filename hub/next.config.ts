@@ -46,7 +46,7 @@ const nextConfig: NextConfig = {
   // root as the workspace and resolve the WRONG React (19.2.7) for this app (19.2.4),
   // crashing the RSC client manifest ("global-error.js not found"). Pinning the root
   // to this dir forces resolution from hub/node_modules.
-  turbopack: { root: "/Users/johnny/projects/gt-school/hub" },
+  turbopack: { root: import.meta.dirname },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];
   },
