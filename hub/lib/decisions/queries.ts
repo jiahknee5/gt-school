@@ -40,6 +40,19 @@ export function activeDecisions(decisions: Decision[]): Decision[] {
     );
 }
 
+/** Rows still awaiting a leadership ruling, urgent first. The shared open list. */
+export function openDecisions(decisions: Decision[]): Decision[] {
+  return decisions
+    .filter((d) => d.status === "open")
+    .slice()
+    .sort(
+      (a, b) =>
+        priorityRank(a.priority) - priorityRank(b.priority) ||
+        dueRank(a.due_date) - dueRank(b.due_date) ||
+        new Date(a.created_at).getTime() - new Date(b.created_at).getTime(),
+    );
+}
+
 /** Decided decisions, most-recently-resolved first (the searchable archive). */
 export function historyDecisions(decisions: Decision[]): Decision[] {
   return decisions
