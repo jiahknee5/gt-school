@@ -161,7 +161,7 @@ export { modulesInAgendaOrder };
 // ───────────────────────────── Nav scope (soft filter) ─────────────────────────────
 
 export interface NavScopeDoc {
-  scope: "my" | "all" | "agenda";
+  scope: "my" | "all";
   label: string;
   description: string;
 }
@@ -179,11 +179,5 @@ export const NAV_SCOPE_DOCS: NavScopeDoc[] = [
     label: "All modules",
     description:
       "Full module list (still subject to permission-tier gates like the Leadership-only Decision Queue). Operators retain read access per PRD §2.",
-  },
-  {
-    scope: "agenda",
-    label: "Meeting agenda",
-    description:
-      "Modules in §5 weekly-meeting order — useful during the Monday leadership ritual.",
   },
 ];

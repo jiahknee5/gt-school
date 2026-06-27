@@ -51,7 +51,7 @@ export function NavScopeControl({
                   : "text-slate hover:bg-hover hover:text-ink"
               }`}
             >
-              {value === "my" ? "My" : value === "all" ? "All" : "Agenda"}
+              {value === "my" ? "My" : "All"}
             </button>
           );
         })}

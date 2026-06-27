@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { MODULES } from "@/lib/modules";
 import {
-  agendaModuleSlugs,
   moduleMatchesViewer,
   modulesForNavScope,
   parseNavScope,
@@ -29,8 +28,12 @@ describe("nav scope filtering", () => {
   it("parses nav scope values", () => {
     expect(parseNavScope("my")).toBe("my");
     expect(parseNavScope(" ALL ")).toBe("all");
-    expect(parseNavScope("agenda")).toBe("agenda");
     expect(parseNavScope("invalid")).toBeNull();
+  });
+
+  it("maps the legacy agenda scope to all (agenda moved to the Dashboard)", () => {
+    expect(parseNavScope("agenda")).toBe("all");
+    expect(parseNavScope(" AGENDA ")).toBe("all");
   });
 
   it("shows all RBAC-permitted modules in all scope", () => {
@@ -52,16 +55,6 @@ describe("nav scope filtering", () => {
     expect(slugs).not.toContain("content");
   });
 
-  it("agenda scope follows meeting order slugs", () => {
-    const marketing = DEMO_USERS.find((u) => u.id === "marketing-lead")!;
-    const rbac = MODULES.filter((m) => !m.leaderOnly);
-    const scoped = modulesForNavScope(rbac, viewer(marketing), "agenda");
-    const slugs = scoped.map((m) => m.slug);
-    expect(slugs).toEqual(
-      rbac.filter((m) => agendaModuleSlugs().includes(m.slug)).map((m) => m.slug),
-    );
-  });
-
   it("matches modules by functional role owners array", () => {
     const admissions = MODULES.find((m) => m.slug === "admissions")!;
     const fieldOwner = DEMO_USERS.find((u) => u.id === "field-events-operator")!;
@@ -79,21 +72,21 @@ describe("nav scope cookie store (demo fallback, no DB)", () => {
 
   it("keeps independent scopes for multiple users in one cookie", () => {
     let store = storeWithNavScope({}, "user-a", "all");
-    store = storeWithNavScope(store, "user-b", "agenda");
+    store = storeWithNavScope(store, "user-b", "my");
     const encoded = encodeNavScopeStore(store);
     const header = `gt_nav_scope=${encodeURIComponent(encoded)}`;
     const parsed = readNavScopeCookieFromHeader(header);
     expect(navScopeFromStore(parsed, "user-a")).toBe("all");
-    expect(navScopeFromStore(parsed, "user-b")).toBe("agenda");
+    expect(navScopeFromStore(parsed, "user-b")).toBe("my");
   });
 
   it("buildNavScopeCookieValue appends without clobbering other users", () => {
     const existing = buildNavScopeCookieValue("", "user-a", "all");
     const header = `gt_nav_scope=${encodeURIComponent(existing)}`;
-    const next = buildNavScopeCookieValue(header, "user-b", "agenda");
+    const next = buildNavScopeCookieValue(header, "user-b", "my");
     const store = decodeNavScopeStore(next);
     expect(navScopeFromStore(store, "user-a")).toBe("all");
-    expect(navScopeFromStore(store, "user-b")).toBe("agenda");
+    expect(navScopeFromStore(store, "user-b")).toBe("my");
   });
 
   it("ignores malformed cookie values and defaults to my", () => {

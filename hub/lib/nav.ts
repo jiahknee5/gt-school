@@ -2,17 +2,16 @@
 // RBAC (middleware + leaderOnly) is the ONLY hard access gate; this module never
 // blocks routes.
 
-import { MODULES, modulesInAgendaOrder, type ModuleDef } from "@/lib/modules";
+import { MODULES, type ModuleDef } from "@/lib/modules";
 import type { FunctionalRole, Role } from "@/lib/phase2";
 
-export type NavScope = "my" | "all" | "agenda";
+export type NavScope = "my" | "all";
 
-export const NAV_SCOPES: NavScope[] = ["my", "all", "agenda"];
+export const NAV_SCOPES: NavScope[] = ["my", "all"];
 
 export const NAV_SCOPE_LABELS: Record<NavScope, string> = {
   my: "My modules",
   all: "All modules",
-  agenda: "Meeting agenda",
 };
 
 /** Modules always shown in "My modules" scope regardless of ownership. */
@@ -25,12 +24,16 @@ export type NavViewer = {
 };
 
 export function isNavScope(value: unknown): value is NavScope {
-  return value === "my" || value === "all" || value === "agenda";
+  return value === "my" || value === "all";
 }
 
 export function parseNavScope(value: unknown): NavScope | null {
   if (typeof value !== "string") return null;
   const normalized = value.trim().toLowerCase();
+  // Legacy: the "agenda" view moved to the Dashboard standup board. Map any
+  // previously stored "agenda" preference (DB or cookie) to "all" so existing
+  // prefs keep working instead of erroring.
+  if (normalized === "agenda") return "all";
   return isNavScope(normalized) ? normalized : null;
 }
 
@@ -44,13 +47,6 @@ export function moduleMatchesViewer(module: ModuleDef, viewer: NavViewer): boole
   );
 }
 
-/** Agenda-ordered slugs for the meeting walkthrough lens. */
-export function agendaModuleSlugs(): string[] {
-  const slugs = modulesInAgendaOrder().map((m) => m.slug);
-  if (!slugs.includes("home")) slugs.unshift("home");
-  return slugs;
-}
-
 /**
  * Filter modules by nav scope after RBAC (leaderOnly) filtering is applied upstream.
  */
@@ -60,10 +56,6 @@ export function modulesForNavScope(
   scope: NavScope,
 ): ModuleDef[] {
   if (scope === "all") return modules;
-  if (scope === "agenda") {
-    const allowed = new Set(agendaModuleSlugs());
-    return modules.filter((m) => allowed.has(m.slug));
-  }
   return modules.filter((m) => moduleMatchesViewer(m, viewer));
 }
 

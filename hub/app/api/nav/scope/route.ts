@@ -46,7 +46,7 @@ export async function PUT(req: Request) {
     const scope = await parseBody(req);
     if (!scope) {
       return NextResponse.json(
-        { error: "navScope must be my, all, or agenda." },
+        { error: "navScope must be my or all." },
         { status: 400 },
       );
     }

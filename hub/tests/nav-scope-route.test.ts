@@ -77,10 +77,19 @@ describe("PUT /api/nav/scope", () => {
       role: "operator",
       title: "the Content Owner",
     });
-    const second = await PUT(jsonRequest({ navScope: "agenda" }, firstCookie));
+    const second = await PUT(jsonRequest({ navScope: "my" }, firstCookie));
     const store = decodeNavScopeStore(second.cookies.get(NAV_SCOPE_COOKIE)!.value);
     expect(navScopeFromStore(store, "grassroots-operator")).toBe("all");
-    expect(navScopeFromStore(store, "content-owner")).toBe("agenda");
+    expect(navScopeFromStore(store, "content-owner")).toBe("my");
+  });
+
+  it("maps a legacy agenda scope to all instead of erroring", async () => {
+    const res = await PUT(jsonRequest({ navScope: "agenda" }));
+    expect(res.status).toBe(200);
+    const body = await res.json();
+    expect(body).toEqual({ ok: true, navScope: "all" });
+    const store = decodeNavScopeStore(res.cookies.get(NAV_SCOPE_COOKIE)!.value);
+    expect(navScopeFromStore(store, "grassroots-operator")).toBe("all");
   });
 
   it("rejects invalid scope with 400 and sets no cookie", async () => {
