@@ -244,7 +244,37 @@ export const EXPLANATIONS = {
     text: "Camper records with personal data. Visible only to roles cleared for minors' PII — others see counts, not names.",
   },
 
+  // Content
+  "content.in-flight": {
+    label: "In flight",
+    text: "Pieces not yet published — everything still moving through concept, production, review, or scheduled.",
+  },
+  "content.published": {
+    label: "Published",
+    text: "Pieces shipped this sprint. The output signal for the editorial engine.",
+  },
+  "content.x-conversion": {
+    label: "X conversion share",
+    text: "Share of attributed conversions credited to X (Twitter), measured from a real app_form x UTM join — not a fixed assumption, so it moves with the data.",
+  },
+  "content.sync-conflicts": {
+    label: "Sync conflicts",
+    text: "Pieces edited on both the Hub and the Google Sheet at once. Both values are retained for review and never silently clobbered.",
+  },
+
   // Library
+  "library.resources": {
+    label: "Resources",
+    text: "How many assets your role is allowed to see. Visibility is enforced at the query layer, so leadership-only items never reach an Operator.",
+  },
+  "library.showing": {
+    label: "Showing",
+    text: "How many assets match your current search and tag filter out of the total you can see.",
+  },
+  "library.dead-links": {
+    label: "Dead links",
+    text: "Assets whose link could not be reached, flagged so the shelf stays trustworthy instead of pointing at broken files.",
+  },
   "library.tag-filter": {
     label: "Tag filter",
     text: "Narrow the shelf to assets carrying a tag. Combine with search to find an approved asset in seconds.",
@@ -252,22 +282,60 @@ export const EXPLANATIONS = {
 
   // Analytics
   "analytics.sessions": {
-    label: "Sessions",
-    text: "GA4 sessions across both GT sites. The top-of-funnel demand signal before a family ever fills a form.",
+    label: "Total sessions",
+    text: "GA4 sessions across both GT sites, where aggregate equals the sum of the two properties — no cross-property double-count. The top-of-funnel demand signal.",
+  },
+  "analytics.bounce": {
+    label: "Bounce",
+    text: "Share of sessions that did not engage, using one shared definition (1 minus engaged-sessions over sessions) everywhere so the number never disagrees between views.",
+  },
+  "analytics.avg-duration": {
+    label: "Avg duration",
+    text: "Average session length, modeled from GA4 engagement signals. A depth-of-interest proxy alongside raw session counts.",
+  },
+  "analytics.pdf-downloads": {
+    label: "PDF downloads",
+    text: "Resource downloads this window. A mid-funnel intent signal — a family pulling a curriculum PDF is leaning in.",
   },
   "analytics.conversion-paths": {
     label: "Conversion paths",
     text: "The sequence of sources and pages a converting visitor touched — shows which channels assist, not just which closed.",
   },
 
+  // Field Marketing & Events
+  "events.upcoming": {
+    label: "Upcoming (30d)",
+    text: "GT-organized events scheduled in the next 30 days. The near-term field workload to staff and promote.",
+  },
+  "events.completed": {
+    label: "Completed this month",
+    text: "GT-organized events finished this month — the basis for attendance and consult follow-through.",
+  },
+  "events.attendance": {
+    label: "Attendance rate",
+    text: "Total attended divided by total RSVPs across events. Shows how well interest converts to show-ups.",
+  },
+  "events.consult": {
+    label: "Event to consult",
+    text: "Estimated share of attendees who booked a consult. Uninstrumented in v1 and always badged manual — never presented as tracked.",
+  },
+
   // Decisions
   "decisions.active": {
-    label: "Active decisions",
-    text: "Open items awaiting a leadership ruling. Leaders approve, reject, or request more info; everyone else only sees their own submissions.",
+    label: "Open",
+    text: "Items awaiting a leadership ruling. Leaders approve, reject, or request more info; everyone else only sees their own submissions.",
   },
-  "decisions.due": {
-    label: "Due date",
-    text: "When the submitter needs a ruling by. Drives the priority ordering of the queue.",
+  "decisions.urgent-open": {
+    label: "Urgent open",
+    text: "Open decisions marked urgent — these are due first and should lead the meeting's governance segment.",
+  },
+  "decisions.awaiting-info": {
+    label: "Awaiting info",
+    text: "Decisions a leader sent back for more information. They sit in a need-more-info loop until the submitter responds.",
+  },
+  "decisions.budget-at-stake": {
+    label: "Budget at stake",
+    text: "Total dollars requested across all active asks — the financial exposure currently waiting on a ruling.",
   },
 } as const satisfies Record<string, Explanation>;
 

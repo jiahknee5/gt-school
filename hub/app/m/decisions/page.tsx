@@ -20,6 +20,8 @@ import {
   openBadgeCount,
 } from "@/lib/decisions/queries";
 import { enrichDecisionByCounties, recommendationImpactFromEnrichment } from "@/lib/opendata/enrich";
+import { PageObjective } from "@/app/_components/PageObjective";
+import { Explain } from "@/app/_components/InfoTip";
 import { DecisionCard } from "./_components/DecisionCard";
 
 export const dynamic = "force-dynamic";
@@ -96,21 +98,36 @@ export default async function DecisionsPage({
       </section>
 
       <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
+        <div className="mb-3">
+          <PageObjective slug="decisions" />
+        </div>
         {!isLeader ? (
           <AccessDenied role={role} />
         ) : (
           <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
             <div className="space-y-3">
               <section className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
-                <Tile label="Open" value={String(stats.open)} tone={stats.open ? "watch" : "good"} note="Awaiting a ruling" />
-                <Tile label="Urgent open" value={String(stats.urgentOpen)} tone={stats.urgentOpen ? "risk" : "good"} note="Due first" />
-                <Tile label="Awaiting info" value={String(stats.inFlight)} tone="neutral" note="Need-more-info loop" />
-                <Tile
-                  label="Budget at stake"
-                  value={`$${stats.budgetAtStake.toLocaleString("en-US")}`}
-                  tone="neutral"
-                  note="Across active asks"
-                />
+                <div className="relative">
+                  <Tile label="Open" value={String(stats.open)} tone={stats.open ? "watch" : "good"} note="Awaiting a ruling" />
+                  <span className="absolute right-1.5 top-1.5"><Explain k="decisions.active" /></span>
+                </div>
+                <div className="relative">
+                  <Tile label="Urgent open" value={String(stats.urgentOpen)} tone={stats.urgentOpen ? "risk" : "good"} note="Due first" />
+                  <span className="absolute right-1.5 top-1.5"><Explain k="decisions.urgent-open" /></span>
+                </div>
+                <div className="relative">
+                  <Tile label="Awaiting info" value={String(stats.inFlight)} tone="neutral" note="Need-more-info loop" />
+                  <span className="absolute right-1.5 top-1.5"><Explain k="decisions.awaiting-info" /></span>
+                </div>
+                <div className="relative">
+                  <Tile
+                    label="Budget at stake"
+                    value={`$${stats.budgetAtStake.toLocaleString("en-US")}`}
+                    tone="neutral"
+                    note="Across active asks"
+                  />
+                  <span className="absolute right-1.5 top-1.5"><Explain k="decisions.budget-at-stake" /></span>
+                </div>
               </section>
 
               <nav className="flex flex-wrap gap-1 rounded-card border border-hairline bg-surface p-1">

@@ -11,6 +11,8 @@ import { getSession } from "@/lib/auth";
 import { parityThreshold } from "@/lib/parity";
 import { seedBannerState } from "@/lib/crm-ops/parity-view";
 import { DataConfidenceBanner } from "@/app/_components/DataConfidenceBanner";
+import { PageObjective } from "@/app/_components/PageObjective";
+import { Explain } from "@/app/_components/InfoTip";
 import { Card, MetricTile, ModuleHeader, Pill, Tabs } from "@/app/_components/modkit";
 import { buildPieces, kanban, calendarConflicts, canAdvance } from "@/lib/content/pieces";
 import { contentToConversion, channelConversionShare, xConversionRatio } from "@/lib/content/attribution";
@@ -94,13 +96,26 @@ export default async function ContentPage({
       <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
         <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
           <div className="space-y-3">
+            <PageObjective slug="content" />
             <DataConfidenceBanner state={banner} />
 
             <section className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
-              <MetricTile label="In flight" value={fmt(inFlight)} note={`${onTrack} on track (sched/pub)`} tone="neutral" />
-              <MetricTile label="Published" value={fmt(published)} note="this sprint" tone="good" />
-              <MetricTile label="X conversion share" value={`${Math.round(xRatio.ratio * 100)}%`} note={`measured · ${xRatio.xConversions}/${xRatio.total}`} tone="watch" />
-              <MetricTile label="Sync conflicts" value={fmt(syncConflicts.length)} note="both-sides edits, retained" tone={syncConflicts.length ? "risk" : "good"} />
+              <div className="relative">
+                <MetricTile label="In flight" value={fmt(inFlight)} note={`${onTrack} on track (sched/pub)`} tone="neutral" />
+                <span className="absolute right-1.5 top-1.5"><Explain k="content.in-flight" /></span>
+              </div>
+              <div className="relative">
+                <MetricTile label="Published" value={fmt(published)} note="this sprint" tone="good" />
+                <span className="absolute right-1.5 top-1.5"><Explain k="content.published" /></span>
+              </div>
+              <div className="relative">
+                <MetricTile label="X conversion share" value={`${Math.round(xRatio.ratio * 100)}%`} note={`measured · ${xRatio.xConversions}/${xRatio.total}`} tone="watch" />
+                <span className="absolute right-1.5 top-1.5"><Explain k="content.x-conversion" /></span>
+              </div>
+              <div className="relative">
+                <MetricTile label="Sync conflicts" value={fmt(syncConflicts.length)} note="both-sides edits, retained" tone={syncConflicts.length ? "risk" : "good"} />
+                <span className="absolute right-1.5 top-1.5"><Explain k="content.sync-conflicts" /></span>
+              </div>
             </section>
 
             <Tabs tabs={TABS} active={activeTab} hrefFor={hrefFor} />

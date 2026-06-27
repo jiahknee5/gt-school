@@ -8,6 +8,8 @@ import { generate } from "@/lib/seed/generate";
 import { demoUserByRole } from "@/lib/phase2";
 import { getSession } from "@/lib/auth";
 import { Card, MetricTile, ModuleHeader, Pill } from "@/app/_components/modkit";
+import { PageObjective } from "@/app/_components/PageObjective";
+import { Explain } from "@/app/_components/InfoTip";
 import { SAMPLE_RESOURCES } from "@/lib/library/data";
 import { TAGS, type Tag } from "@/lib/library/types";
 import { visibleResources, canUpload } from "@/lib/library/rbac";
@@ -63,10 +65,20 @@ export default async function LibraryPage({
       <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
         <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
           <div className="space-y-3">
+            <PageObjective slug="library" />
             <section className="grid gap-2 sm:grid-cols-3">
-              <MetricTile label="Resources" value={String(total)} note="you can see" tone="neutral" />
-              <MetricTile label="Showing" value={String(resources.length)} note={q || tag ? "filtered" : "all"} tone="good" />
-              <MetricTile label="Dead links" value={String(deadLinks)} note="flagged unreachable" tone={deadLinks ? "risk" : "good"} />
+              <div className="relative">
+                <MetricTile label="Resources" value={String(total)} note="you can see" tone="neutral" />
+                <span className="absolute right-1.5 top-1.5"><Explain k="library.resources" /></span>
+              </div>
+              <div className="relative">
+                <MetricTile label="Showing" value={String(resources.length)} note={q || tag ? "filtered" : "all"} tone="good" />
+                <span className="absolute right-1.5 top-1.5"><Explain k="library.showing" /></span>
+              </div>
+              <div className="relative">
+                <MetricTile label="Dead links" value={String(deadLinks)} note="flagged unreachable" tone={deadLinks ? "risk" : "good"} />
+                <span className="absolute right-1.5 top-1.5"><Explain k="library.dead-links" /></span>
+              </div>
             </section>
 
             <Card title="Find a resource" note="Search spans title, description, tags, and owner (case/diacritic-insensitive). Filter by tag.">
@@ -81,7 +93,8 @@ export default async function LibraryPage({
                 {viewer.role && <input type="hidden" name="role" value={viewer.role} />}
                 <button type="submit" className="h-9 rounded-card bg-ink-cta px-3 text-[12px] font-semibold text-on-cta">Search</button>
               </form>
-              <div className="mt-3 flex flex-wrap gap-1.5">
+              <div className="mt-3 flex flex-wrap items-center gap-1.5">
+                <Explain k="library.tag-filter" />
                 <a href={hrefFor()} className={`rounded-card border px-2.5 py-1 text-[11px] font-semibold ${!tag ? "border-gold bg-amber-soft text-ink" : "border-hairline text-muted"}`}>all</a>
                 {TAGS.map((t) => (
                   <a key={t} href={hrefFor(t)} className={`rounded-card border px-2.5 py-1 text-[11px] font-semibold ${tag === t ? "border-gold bg-amber-soft text-ink" : "border-hairline text-muted"}`}>{t}</a>

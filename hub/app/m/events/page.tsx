@@ -9,6 +9,8 @@ import { generate } from "@/lib/seed/generate";
 import { demoUserByRole } from "@/lib/phase2";
 import { getSession } from "@/lib/auth";
 import { Card, MetricTile, ModuleHeader, Pill, Tabs } from "@/app/_components/modkit";
+import { PageObjective } from "@/app/_components/PageObjective";
+import { Explain } from "@/app/_components/InfoTip";
 import { FIELD_EVENTS } from "@/lib/events/data";
 import {
   dedupeEvents,
@@ -84,6 +86,7 @@ export default async function EventsPage({
       <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
         <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
           <div className="space-y-3">
+            <PageObjective slug="events" />
             <section role="note" className="rounded-card border border-hairline bg-fill p-2.5 text-[11px] leading-snug text-slate">
               <span className="font-semibold text-ink">Events source note:</span> GT-organized events are manual-entry
               records, not HubSpot-consuming rows. This module does not mount the shared CRM Ops data-confidence banner,
@@ -91,10 +94,22 @@ export default async function EventsPage({
             </section>
 
             <section className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
-              <MetricTile label="Upcoming (30d)" value={fmt(upcoming.length)} note="event_date within +30d" tone="neutral" />
-              <MetricTile label="Completed this month" value={fmt(completed.length)} note="status = completed" tone="good" />
-              <MetricTile label="Attendance rate" value={pct(attRate)} note="Σ attendance / Σ rsvp" tone="neutral" />
-              <MetricTile label="Event→consult" value={pct(e2c.rate)} note="manual v1 · uninstrumented" tone="watch" />
+              <div className="relative">
+                <MetricTile label="Upcoming (30d)" value={fmt(upcoming.length)} note="event_date within +30d" tone="neutral" />
+                <span className="absolute right-1.5 top-1.5"><Explain k="events.upcoming" /></span>
+              </div>
+              <div className="relative">
+                <MetricTile label="Completed this month" value={fmt(completed.length)} note="status = completed" tone="good" />
+                <span className="absolute right-1.5 top-1.5"><Explain k="events.completed" /></span>
+              </div>
+              <div className="relative">
+                <MetricTile label="Attendance rate" value={pct(attRate)} note="Σ attendance / Σ rsvp" tone="neutral" />
+                <span className="absolute right-1.5 top-1.5"><Explain k="events.attendance" /></span>
+              </div>
+              <div className="relative">
+                <MetricTile label="Event→consult" value={pct(e2c.rate)} note="manual v1 · uninstrumented" tone="watch" />
+                <span className="absolute right-1.5 top-1.5"><Explain k="events.consult" /></span>
+              </div>
             </section>
 
             <Tabs tabs={TABS} active={activeTab} hrefFor={hrefFor} />

@@ -12,6 +12,7 @@ import { ensureBudgetVarianceDecision } from "@/lib/phase2";
 import { generate } from "@/lib/seed/generate";
 import { outcomeLabel, outcomeTone, submittedBy, type OutcomeTone } from "@/lib/decisions/queries";
 import { RAISED_COOKIE, ownRaises } from "@/lib/decisions/raise";
+import { PageObjective } from "@/app/_components/PageObjective";
 import { RaiseDecisionForm, type RaisePrefill } from "./_components/RaiseDecisionForm";
 
 export const dynamic = "force-dynamic";
@@ -95,6 +96,9 @@ export default async function SubmissionsPage({
       </section>
 
       <div className="mx-auto max-w-[1024px] px-4 py-5 sm:px-6 lg:px-8">
+        <div className="mb-4">
+          <PageObjective slug="submissions" />
+        </div>
         <div className="mb-4">
           {session ? (
             <RaiseDecisionForm prefill={prefill} />

@@ -10,6 +10,8 @@ import { generate } from "@/lib/seed/generate";
 import { demoUserByRole } from "@/lib/phase2";
 import { getSession } from "@/lib/auth";
 import { Card, MetricTile, ModuleHeader, Pill, Tabs } from "@/app/_components/modkit";
+import { PageObjective } from "@/app/_components/PageObjective";
+import { Explain } from "@/app/_components/InfoTip";
 import {
   siteTotals,
   bounce,
@@ -88,6 +90,7 @@ export default async function AnalyticsPage({
       <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
         <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
           <div className="space-y-3">
+            <PageObjective slug="analytics" />
             <section role="note" className="rounded-card border border-hairline bg-fill p-2.5 text-[11px] leading-snug text-slate">
               <span className="font-semibold text-ink">GA4-confidence note:</span> figures reflect GA4 realities: data
               thresholding (low-volume suppression), sampling, an explicit <code>(not set)</code> bucket, and
@@ -96,10 +99,22 @@ export default async function AnalyticsPage({
             </section>
 
             <section className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
-              <MetricTile label="Total sessions" value={fmt(agg.sessions)} note={reconciled ? "aggregate = sum of sites ✓" : "reconcile error"} tone={reconciled ? "good" : "risk"} />
-              <MetricTile label="Bounce (aggregate)" value={pct(bounce(agg.sessions, agg.engagedSessions))} note="1 − engaged/sessions" tone="neutral" />
-              <MetricTile label="Avg duration" value={`${avgSessionDuration(agg)}s`} note="modeled from engagement" tone="neutral" />
-              <MetricTile label="PDF downloads" value={fmt(totalPdf)} note="this sprint window" tone="neutral" />
+              <div className="relative">
+                <MetricTile label="Total sessions" value={fmt(agg.sessions)} note={reconciled ? "aggregate = sum of sites ✓" : "reconcile error"} tone={reconciled ? "good" : "risk"} />
+                <span className="absolute right-1.5 top-1.5"><Explain k="analytics.sessions" /></span>
+              </div>
+              <div className="relative">
+                <MetricTile label="Bounce (aggregate)" value={pct(bounce(agg.sessions, agg.engagedSessions))} note="1 − engaged/sessions" tone="neutral" />
+                <span className="absolute right-1.5 top-1.5"><Explain k="analytics.bounce" /></span>
+              </div>
+              <div className="relative">
+                <MetricTile label="Avg duration" value={`${avgSessionDuration(agg)}s`} note="modeled from engagement" tone="neutral" />
+                <span className="absolute right-1.5 top-1.5"><Explain k="analytics.avg-duration" /></span>
+              </div>
+              <div className="relative">
+                <MetricTile label="PDF downloads" value={fmt(totalPdf)} note="this sprint window" tone="neutral" />
+                <span className="absolute right-1.5 top-1.5"><Explain k="analytics.pdf-downloads" /></span>
+              </div>
             </section>
 
             <Tabs tabs={TABS} active={activeTab} hrefFor={hrefFor} />
