@@ -120,6 +120,41 @@ export async function archiveDeal(dealId: string): Promise<void> {
 export async function createContact(properties: Record<string, string>): Promise<{ id: string }> {
   return hs<{ id: string }>(`/crm/v3/objects/contacts`, { method: "POST", body: { properties } });
 }
+
+/**
+ * Resolve a contact by exact email via the search index. Returns the HubSpot id or
+ * null. Used by the outbox upsert_contact path to create-or-patch a freshly captured
+ * lead (e.g. a GT Challenge gifted-quiz submission) that has no HubSpot id yet.
+ */
+export async function findContactIdByEmail(email: string): Promise<string | null> {
+  const res = await hs<HsSearchResult>(`/crm/v3/objects/contacts/search`, {
+    method: "POST",
+    body: {
+      filterGroups: [{ filters: [{ propertyName: "email", operator: "EQ", value: email }] }],
+      properties: ["email"],
+      limit: 1,
+    },
+  });
+  return res.results?.[0]?.id ?? null;
+}
+
+/**
+ * Create-or-update a contact keyed by email (the natural key for a new lead).
+ * Idempotent at the HubSpot layer: a re-dispatched outbox row finds the same contact
+ * and patches it rather than creating a duplicate.
+ */
+export async function upsertContactByEmail(
+  email: string,
+  properties: Record<string, string>,
+): Promise<{ id: string; created: boolean }> {
+  const existing = await findContactIdByEmail(email);
+  if (existing) {
+    await hs(`/crm/v3/objects/contacts/${existing}`, { method: "PATCH", body: { properties } });
+    return { id: existing, created: false };
+  }
+  const made = await createContact({ email, ...properties });
+  return { id: made.id, created: true };
+}
 export async function archiveContact(contactId: string): Promise<void> {
   await hs(`/crm/v3/objects/contacts/${contactId}`, { method: "DELETE" });
 }

@@ -4,6 +4,7 @@ import { moduleBySlug } from "@/lib/modules";
 import { buildModuleSurface, type SurfaceMetric, type SurfaceRow } from "@/lib/phase2";
 import { generate } from "@/lib/seed/generate";
 import { getSession } from "@/lib/auth";
+import { summarizeQuizSubmissionsFromDb } from "@/lib/gt-challenge/store-db";
 
 const EXTRA_SLUGS = ["gt-challenge"];
 
@@ -55,7 +56,13 @@ export default async function ModulePage({
   const session = await getSession();
   const role = session?.role ?? query.role;
   const dataset = generate({ seed: 424242, families: 1200 });
-  const surface = buildModuleSurface(slug, dataset, role);
+  // GT Challenge reads LIVE capture counts from the DB (real public-quiz submissions
+  // persisted via the backbone); null on no-DB/error → the surface falls back to seed.
+  const liveChallenge =
+    slug === "gt-challenge" && process.env.APP_RW_DATABASE_URL
+      ? await summarizeQuizSubmissionsFromDb()
+      : null;
+  const surface = buildModuleSurface(slug, dataset, role, liveChallenge);
   const moduleDef = moduleBySlug(slug);
 
   return (

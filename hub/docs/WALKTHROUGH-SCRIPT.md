@@ -51,9 +51,10 @@ and run the named test on camera (`npx vitest run tests/payments.test.ts`, etc.)
 "Dev auth mode is on" banner visible).
 
 **Say:**
-> "I'm Johnny. This is a 48-hour take-home. I went deep on a sync backbone plus three modules —
-> CRM Ops, Budget, and the leadership Decision Queue — and one end-to-end campaign, and I
-> deliberately stubbed the rest. I'll prove the four things you asked to watch, show that data is
+> "I'm Johnny. This is a 48-hour take-home. I went deep on a sync backbone and the modules that
+> prove its hardest rules — CRM Ops for data trust, Budget for single-source reconciliation, and
+> the role-gated Decision Queue where every cross-module rule lands — plus one end-to-end campaign,
+> and I deliberately stubbed the rest. I'll prove the four things you asked to watch, show that data is
 > connected front to back with the program gates holding, and I'll name every stand-in as I go.
 >
 > One thing up front so it's not a gotcha: this public link runs dev-auth — pick any role, no
@@ -111,6 +112,13 @@ redirects to `/forbidden`. Then open `/api/decisions` directly → **403 JSON** 
 
 **Proves:** Signal 3 — role denied DQ; program isolation / no cross-program leak (security); the
 "hard gates" the grader cares about, shown as *rejection*, not just a pretty wall.
+
+> ⚠️ **Do NOT click Approve/Reject on a queue card on camera.** The cards render from in-memory
+> seed, but the decide API writes to a DB table seeded with *different ids* — a live ruling 404s/500s
+> and the card won't change. Show the queue + gate + Open-Data recommendation; demo the actual
+> ruling + audit trail via `npx vitest run tests/decisions.test.ts`. (Frame the Decision Queue as the
+> role-gated integration sink, not a "deep engine" — the queue itself is a sorted list + status
+> update; its strength is the 3-layer gate, the variance auto-flag, the Open-Data flip, and the audit.)
 
 ---
 
@@ -237,8 +245,9 @@ vs $63 blended**. Then show the degrade-to-fixture path (cache → live → stal
 > consent gate, idempotent replay, and UTM honesty are all real — with the database migration
 > specced as the named next step. Meta, GA4, and summer.gt.school are seeded behind the same
 > interfaces, and labeled. The live link runs dev-auth; the CSP ships report-only first. Where I
-> went further: an append-only decision audit trail — who, when, what, in the same transaction as
-> the ruling; the role-aware, cited Ask-the-Hub agent; and rate-limited public capture. `npm run
+> went further: an append-only audit trail — who, when, what — written in the same transaction as
+> the ruling and enforced by a least-privilege grant; the role-aware, cited Ask-the-Hub agent; and
+> rate-limited public capture. `npm run
 > verify` is the pure gate — 423 tests, nothing faked green. With another week: the GT Challenge DB
 > adapter, browser end-to-end for the demo path and Home drag, and the live integration suite.
 > Thanks for watching."

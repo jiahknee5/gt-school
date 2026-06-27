@@ -95,7 +95,8 @@ export interface SaveGiftedQuizCaptureResult extends GiftedQuizCaptureRecord {
 
 export interface GiftedQuizCaptureStore {
   saveCapture(capture: NewGiftedQuizCapture): Promise<SaveGiftedQuizCaptureResult>;
-  snapshot(): GiftedQuizCaptureRecord[];
+  // Sync for the in-memory contract store; async for the DB-backed store.
+  snapshot(): GiftedQuizCaptureRecord[] | Promise<GiftedQuizCaptureRecord[]>;
   clear?(): void;
 }
 

@@ -696,6 +696,11 @@ export function buildModuleSurface(
   slug: string,
   data: SeedDataset,
   role: Role | string | null | undefined = "leader",
+  liveChallenge?: {
+    submissions: number;
+    leads: number;
+    qualified: number;
+  } | null,
 ): ModuleSurface {
   const viewer = demoUserByRole(role);
   const banner = buildConfidenceBanner(data.field_state);
@@ -902,8 +907,27 @@ export function buildModuleSurface(
       summary: "Gifted-style quiz lead magnet that connects spend, consent, scoring, routing, and CPQL.",
       metrics: [
         { label: "Spend", value: usd(challenge.spend), note: "Meta campaign spend", tone: "neutral" },
-        { label: "Qualified", value: String(challenge.qualifiedLeads), note: `${challenge.platformLeads} platform leads`, tone: "good" },
-        { label: "CPQL", value: challenge.costPerQualifiedLead ? usd(challenge.costPerQualifiedLead) : "n/a", note: "Shown with UTM caveat", tone: "watch" },
+        {
+          label: "Qualified",
+          value: String(liveChallenge ? liveChallenge.qualified : challenge.qualifiedLeads),
+          note: liveChallenge
+            ? `${liveChallenge.submissions} live submission${liveChallenge.submissions === 1 ? "" : "s"} · ${liveChallenge.leads} lead${liveChallenge.leads === 1 ? "" : "s"}`
+            : `${challenge.platformLeads} platform leads`,
+          tone: "good",
+        },
+        {
+          label: "CPQL",
+          value: (() => {
+            const cpql = liveChallenge
+              ? liveChallenge.qualified
+                ? challenge.spend / liveChallenge.qualified
+                : null
+              : challenge.costPerQualifiedLead;
+            return cpql ? usd(cpql) : "n/a";
+          })(),
+          note: liveChallenge ? "Live: spend ÷ qualified submissions" : "Shown with UTM caveat",
+          tone: "watch",
+        },
       ],
       sections: [
         {

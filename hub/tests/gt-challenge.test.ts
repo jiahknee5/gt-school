@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { afterAll, beforeEach, describe, expect, it } from "vitest";
 import { CHALLENGE_BUCKETS, gradeGiftedQuizAnswers } from "@/lib/gt-challenge/assess";
 import {
   captureGiftedQuizSubmission,
@@ -7,8 +7,37 @@ import {
   summarizeGiftedQuizCaptures,
   type GiftedQuizCaptureRequest,
 } from "@/lib/gt-challenge/capture";
+import { closeDb, withProgram, withoutProgram } from "@/lib/db";
 
 const route = await import("@/app/api/gifted-quiz/route");
+
+// When a DB is configured the route persists for real (DbGiftedQuizCaptureStore);
+// without one it uses the in-memory contract. The route-contract test below adapts.
+const HAS_DB = Boolean(process.env.APP_RW_DATABASE_URL);
+const RUN = `rt${Date.now()}`;
+
+async function cleanupGtcByPrefix(prefix: string): Promise<void> {
+  if (!HAS_DB) return;
+  const fallId = (
+    await withoutProgram((sql) => sql<{ id: string }[]>`select id from programs where key='fall_enrollment' limit 1`)
+  )[0]?.id;
+  const famIds = await withoutProgram(async (sql) => {
+    const subs = await sql<{ id: string }[]>`select id from quiz_submissions where idempotency_key like ${prefix + "%"}`;
+    if (subs.length) {
+      const ids = subs.map((s) => s.id);
+      await sql`delete from sync_outbox where aggregate_id in ${sql(ids)}`;
+      await sql`delete from quiz_submissions where id in ${sql(ids)}`;
+    }
+    const fams = await sql<{ id: string }[]>`select id from families where email like ${prefix + "%"}`;
+    return fams.map((f) => f.id);
+  });
+  if (famIds.length && fallId) {
+    await withProgram(fallId, (sql) => sql`delete from program_membership where family_id in ${sql(famIds)}`);
+  }
+  if (famIds.length) {
+    await withoutProgram((sql) => sql`delete from families where id in ${sql(famIds)}`);
+  }
+}
 
 const strongAnswers = {
   patternReasoning: 5,
@@ -144,11 +173,16 @@ describe("POST /api/gifted-quiz route contract", () => {
     route.__resetGiftedQuizCaptureStoreForTests();
   });
 
+  afterAll(async () => {
+    await cleanupGtcByPrefix(RUN);
+    if (HAS_DB) await closeDb();
+  });
+
   it("rejects non-consented submissions before persistence", async () => {
     const res = await route.POST(request({
-      idempotency_key: "route-no-consent",
+      idempotency_key: `${RUN}-no-consent`,
       parent_consent: false,
-      parent_email: "parent@example.com",
+      parent_email: `${RUN}-parent@example.com`,
       child_grade: "2",
       answers: strongAnswers,
     }));
@@ -159,10 +193,11 @@ describe("POST /api/gifted-quiz route contract", () => {
   });
 
   it("returns one public submission/lead for duplicate idempotency keys", async () => {
+    const email = `${RUN}-parent@example.com`;
     const body = {
-      idempotency_key: "route-dup-1",
+      idempotency_key: `${RUN}-dup-1`,
       parent_consent: true,
-      parent_email: "route-parent@example.com",
+      parent_email: email,
       child_first_name: "Ava",
       child_grade: "2",
       answers: strongAnswers,
@@ -178,8 +213,11 @@ describe("POST /api/gifted-quiz route contract", () => {
 
     expect(first.status).toBe(200);
     expect(second.status).toBe(200);
-    expect(firstBody.persistence).toBe("memory-contract");
-    expect(firstBody.dbGap).toContain("transactional DB adapter");
+    // The persistence model is now real when a DB is configured; the in-memory
+    // contract (with its dbGap) only stands in when there is no DB.
+    expect(firstBody.persistence).toBe(HAS_DB ? "db" : "memory-contract");
+    if (!HAS_DB) expect(firstBody.dbGap).toContain("transactional DB adapter");
+    else expect(firstBody.dbGap).toBeUndefined();
     expect(firstBody.capture.duplicate).toBe(false);
     expect(secondBody.capture.duplicate).toBe(true);
     expect(secondBody.capture.submissionId).toBe(firstBody.capture.submissionId);
@@ -189,7 +227,7 @@ describe("POST /api/gifted-quiz route contract", () => {
       medium: "paid_social",
       campaign: "gifted_quiz_2026",
     });
-    expect(JSON.stringify(secondBody)).not.toContain("route-parent@example.com");
+    expect(JSON.stringify(secondBody)).not.toContain(email);
   });
 });
 

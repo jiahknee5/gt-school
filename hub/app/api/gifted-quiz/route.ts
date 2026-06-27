@@ -5,12 +5,20 @@ import {
   GiftedQuizCaptureError,
   InMemoryGiftedQuizCaptureStore,
   toPublicGiftedQuizCaptureResponse,
+  type GiftedQuizCaptureStore,
 } from "@/lib/gt-challenge/capture";
+import { DbGiftedQuizCaptureStore } from "@/lib/gt-challenge/store-db";
 import { clientKeyFromRequest, giftedQuizCaptureLimiter } from "@/lib/ratelimit";
 
 export const dynamic = "force-dynamic";
 
-const captureStore = new InMemoryGiftedQuizCaptureStore();
+// When a DB is configured, capture persists for real (quiz_submissions + families
+// + program_membership + a sync_outbox upsert_contact intent that the outbox worker
+// dispatches to live HubSpot). Without a DB we fall back to the in-memory contract.
+const DB_CONFIGURED = Boolean(process.env.APP_RW_DATABASE_URL);
+const captureStore: GiftedQuizCaptureStore = DB_CONFIGURED
+  ? new DbGiftedQuizCaptureStore()
+  : new InMemoryGiftedQuizCaptureStore();
 
 export async function POST(request: Request): Promise<NextResponse> {
   // This endpoint is PUBLIC (no session). Throttle per client BEFORE doing any work
@@ -37,8 +45,13 @@ export async function POST(request: Request): Promise<NextResponse> {
 
     return NextResponse.json({
       capture: toPublicGiftedQuizCaptureResponse(result),
-      persistence: "memory-contract",
-      dbGap: "Replace the in-memory store with a transactional DB adapter over campaigns, quiz_submissions, families, sync_outbox, and processed_events.",
+      persistence: DB_CONFIGURED ? "db" : "memory-contract",
+      ...(DB_CONFIGURED
+        ? {}
+        : {
+            dbGap:
+              "Replace the in-memory store with a transactional DB adapter over campaigns, quiz_submissions, families, sync_outbox, and processed_events.",
+          }),
     });
   } catch (err) {
     if (err instanceof SyntaxError) {
@@ -53,7 +66,7 @@ export async function POST(request: Request): Promise<NextResponse> {
 }
 
 export function __resetGiftedQuizCaptureStoreForTests(): void {
-  captureStore.clear();
+  captureStore.clear?.();
   giftedQuizCaptureLimiter.reset();
 }
 

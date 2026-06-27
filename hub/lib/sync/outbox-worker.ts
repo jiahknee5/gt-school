@@ -2,6 +2,7 @@ import { withoutProgram, type ScopedSql } from "../db";
 import {
   hubspotConnector,
   patchDeal,
+  upsertContactByEmail,
   type HsError,
 } from "../connectors/hubspot";
 import type { SourceConnector } from "../connectors/SourceConnector";
@@ -67,17 +68,29 @@ function makeDispatcher(connector: SourceConnector): Dispatcher {
       return;
     }
     if (row.op === "upsert_contact" || row.op === "patch_contact") {
-      const p = row.payload as { externalId?: string; hubspot_contact_id?: string } & Record<string, unknown>;
+      const p = row.payload as {
+        externalId?: string;
+        hubspot_contact_id?: string;
+        email?: string | null;
+      } & Record<string, unknown>;
       const externalId = p.externalId ?? p.hubspot_contact_id;
-      if (!externalId) {
-        // No HubSpot id to PATCH against — non-retryable. (The demo's seeded
-        // upsert_contact rows have only an email; a real path would resolve/create
-        // the contact first. We surface this rather than silently create junk.)
-        throw new Error("contact op payload has no HubSpot id (externalId/hubspot_contact_id)");
+      const { externalId: _a, hubspot_contact_id: _b, email, ...rest } = p;
+      // HubSpot properties are all strings; drop nulls/undefined.
+      const fields: Record<string, string> = {};
+      for (const [k, v] of Object.entries(rest)) {
+        if (v != null) fields[k] = String(v);
       }
-      const { externalId: _a, hubspot_contact_id: _b, ...fields } = p;
-      await connector.pushUpdate({ externalId, fields });
-      return;
+      if (externalId) {
+        await connector.pushUpdate({ externalId, fields });
+        return;
+      }
+      // No HubSpot id yet (a freshly captured lead, e.g. a GT Challenge gifted-quiz
+      // submission): create-or-patch by email so the lead lands in HubSpot exactly once.
+      if (typeof email === "string" && email) {
+        await upsertContactByEmail(email, fields);
+        return;
+      }
+      throw new Error("contact op payload has neither a HubSpot id nor an email to upsert");
     }
     throw new Error(`unknown outbox op: ${row.op}`);
   };
