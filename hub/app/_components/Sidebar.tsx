@@ -5,9 +5,11 @@ import { usePathname, useSearchParams } from "next/navigation";
 import type { ReactNode } from "react";
 import { MODULES, MODULE_NAV_GROUPS, moduleBySlug, moduleHref } from "@/lib/modules";
 import { modulesForNavScope, type NavScope } from "@/lib/nav";
+import type { ProgramScope } from "@/lib/program-scope";
 import type { FunctionalRole, Role } from "@/lib/phase2";
 import { BrandLogo } from "./BrandLogo";
 import { NavScopeControl } from "./NavScopeControl";
+import { ProgramScopeControl } from "./ProgramScopeControl";
 
 export type SidebarViewer = {
   id: string;
@@ -245,10 +247,14 @@ export function Sidebar({
   viewer,
   devMode,
   navScope = "my",
+  programScope = "fall_enrollment",
+  programScopes = [],
 }: {
   viewer: SidebarViewer | null;
   devMode: boolean;
   navScope?: NavScope;
+  programScope?: ProgramScope;
+  programScopes?: ProgramScope[];
 }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -272,6 +278,9 @@ export function Sidebar({
       </Link>
 
       <nav className="flex-1 overflow-y-auto px-2.5 py-3">
+        {viewer && programScopes.length ? (
+          <ProgramScopeControl initialScope={programScope} scopes={programScopes} />
+        ) : null}
         {viewer ? <NavScopeControl initialScope={navScope} /> : null}
 
         {MODULE_NAV_GROUPS.map((group) => {

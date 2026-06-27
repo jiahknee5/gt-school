@@ -7,6 +7,12 @@ import { TopBar } from "./_components/TopBar";
 import { TourProvider } from "./_components/GuidedTour";
 import { DEV_MODE, getSession } from "@/lib/auth";
 import { getNavScopeForUser } from "@/lib/nav-preference";
+import { getProgramScopeForUser } from "@/lib/program-preference";
+import {
+  programScopesForRole,
+  resolveViewerProgramScope,
+  type ProgramScope,
+} from "@/lib/program-scope";
 
 // gt.school body face is Inter Tight (Webflow --font-family--body). Kept under the
 // existing --font-inter variable so globals.css / every component stays untouched.
@@ -45,6 +51,10 @@ export default async function RootLayout({
 }>) {
   const session = await getSession();
   const navScope = session ? await getNavScopeForUser(session.id) : "my";
+  const programScope: ProgramScope = session
+    ? resolveViewerProgramScope(session.role, await getProgramScopeForUser(session.id))
+    : "fall_enrollment";
+  const programScopes = session ? programScopesForRole(session.role) : [];
   const viewer = session
     ? {
         id: session.id,
@@ -64,7 +74,13 @@ export default async function RootLayout({
         <TourProvider>
           <div className="flex min-h-screen bg-canvas">
             <Suspense fallback={null}>
-              <Sidebar viewer={viewer} devMode={DEV_MODE} navScope={navScope} />
+              <Sidebar
+                viewer={viewer}
+                devMode={DEV_MODE}
+                navScope={navScope}
+                programScope={programScope}
+                programScopes={programScopes}
+              />
             </Suspense>
             <div className="min-w-0 flex-1">
               <Suspense fallback={null}>
