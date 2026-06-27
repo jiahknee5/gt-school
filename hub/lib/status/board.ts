@@ -104,11 +104,32 @@ export type DrawerSection = {
   bullets?: StatusBullet[];
 };
 
+export type AnswerSection = {
+  /** One of the rubric section keys: where | on_track | why | do. */
+  key: string;
+  label: string;
+  bullets: StatusBullet[];
+};
+
 export type StatusAnswer = {
   headline: string;
   bullets: StatusBullet[];
+  /** Rubric-structured Answer (Where / On track / Why / Do). Filled by generation. */
+  sections?: AnswerSection[];
   rag: RagStatus;
   meta: { paceLabel: string; asOf: string; daysLeft: number; weekOf: string };
+};
+
+/** Provenance of the verdict shown on the board (which generation run produced it). */
+export type StatusSnapshotMeta = {
+  source: "llm" | "deterministic";
+  model: string;
+  generatedAt: string;
+  weekStart: string;
+  /** true when served from a stored snapshot (a past run), false when generated on view. */
+  recalled: boolean;
+  /** true when the selected week is the current reporting week. */
+  isCurrent: boolean;
 };
 
 export type StatusNorthStar = {
@@ -147,6 +168,8 @@ export type StatusBoard = {
   rail: StatusRailCard[];
   openDecisionCount: number;
   distinction: { status: string; home: string; dashboard: string };
+  /** Set once a generated/recalled snapshot is overlaid onto the numeric board. */
+  snapshotMeta?: StatusSnapshotMeta;
 };
 
 // ---------------------------------------------------------------------------
@@ -646,6 +669,7 @@ export function buildStatusBoard(
         rankedBars: engagementTiers(families),
         budgetSlice: { spend: stageSpend("foundations", budget.rows), note: "~$/contact est.", derived: true },
         derived: true,
+        derivedNote: "Engagement tiers derived from lead_score bands; $/contact is estimated.",
       },
       decisions: {
         owner: "Nurture",
@@ -697,6 +721,7 @@ export function buildStatusBoard(
         },
         budgetSlice: { spend: stageSpend("foundations", budget.rows), note: "~$/engaged lead est.", derived: true },
         derived: true,
+        derivedNote: "SLA trend is illustrative (no weekly SLA history in seed); $/engaged lead estimated.",
       },
       decisions: {
         owner: "Nurture",
@@ -739,6 +764,7 @@ export function buildStatusBoard(
         funnelSteps: funnelStepsFromCounts(counts),
         budgetSlice: { spend: fmtMoney(budget.totals.actual * 0.14), note: "~$/deposit est.", derived: true },
         derived: true,
+        derivedNote: "$/deposit estimated from total actual spend × a 14% conversion-stage share.",
       },
       decisions: campDec
         ? {
@@ -819,6 +845,7 @@ export function buildStatusBoard(
         ],
         budgetSlice: { spend: stageSpend("grassroots", budget.rows), note: "~$/referral est.", derived: true },
         derived: true,
+        derivedNote: "Ambassador influence and $/referral estimated from seed referral attribution.",
       },
       decisions: {
         owner: "Grassroots",

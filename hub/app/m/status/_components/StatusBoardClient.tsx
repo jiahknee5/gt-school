@@ -8,7 +8,13 @@ import { StatusRail } from "./StatusRail";
 import { StatusDrawer } from "./StatusDrawer";
 import { AskTheHubStrip } from "./AskTheHubStrip";
 
-export function StatusBoardClient({ board }: { board: StatusBoard }) {
+export function StatusBoardClient({
+  board,
+  selectedWeek,
+}: {
+  board: StatusBoard;
+  selectedWeek?: string;
+}) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [drawerTitle, setDrawerTitle] = useState("Details");
   const [drawerSections, setDrawerSections] = useState<DrawerSection[]>([]);
@@ -22,9 +28,16 @@ export function StatusBoardClient({ board }: { board: StatusBoard }) {
   const openHeroDrawer = useCallback(() => {
     const conv = board.stages.find((s) => s.key === "conversion");
     const ns = board.northStar;
+    // The rubric-structured Answer: Where / On track / Why / Do (C-suite read order).
+    const answerSections: DrawerSection[] = (board.answer.sections ?? []).map((s) => ({
+      heading: s.label,
+      bullets: s.bullets,
+    }));
     const sections: DrawerSection[] = [
       { heading: "The verdict", lines: [board.answer.headline] },
-      { heading: "Why — full answer", bullets: board.answer.bullets },
+      ...(answerSections.length
+        ? answerSections
+        : [{ heading: "Why — full answer", bullets: board.answer.bullets }]),
       {
         heading: "North star · deposits",
         kv: [
@@ -55,7 +68,7 @@ export function StatusBoardClient({ board }: { board: StatusBoard }) {
   return (
     <>
       <div className="mx-auto flex max-w-[1440px] flex-col gap-2.5 px-4 py-3 sm:px-6 lg:px-8">
-        <StatusHero board={board} onDrillHero={openHeroDrawer} askSlot={<AskTheHubStrip />} />
+        <StatusHero board={board} onDrillHero={openHeroDrawer} askSlot={<AskTheHubStrip week={selectedWeek} />} />
         <StatusMatrix board={board} onOpenStage={openDrawer} />
         <StatusRail board={board} />
       </div>

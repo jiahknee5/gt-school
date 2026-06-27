@@ -4,8 +4,11 @@ import { getSession } from "@/lib/auth";
 import { getProgramScopeForUser } from "@/lib/program-preference";
 import { resolveViewerProgramScope, type ProgramScope } from "@/lib/program-scope";
 import { buildStatusBoard } from "@/lib/status/board";
+import { loadOrGenerateSnapshot } from "@/lib/status/store";
+import { applySnapshotToBoard } from "@/lib/status/generate";
 import { defaultReportingWeek, weekMondays } from "@/lib/metrics/registry";
 import { StatusBoardClient } from "./_components/StatusBoardClient";
+import { StatusWeekBar } from "./_components/StatusWeekBar";
 
 export const dynamic = "force-dynamic";
 
@@ -21,7 +24,9 @@ export default async function StatusPage({
   const query = searchParams ? await searchParams : {};
   const session = await getSession();
   const weeks = weekMondays();
-  const selectedWeek = query.week && weeks.includes(query.week) ? query.week : defaultReportingWeek();
+  const currentWeek = defaultReportingWeek();
+  const selectedWeek = query.week && weeks.includes(query.week) ? query.week : currentWeek;
+  const isCurrent = selectedWeek === currentWeek;
 
   const programScope: ProgramScope = session
     ? resolveViewerProgramScope(session.role, await getProgramScopeForUser(session.id))
@@ -29,6 +34,11 @@ export default async function StatusPage({
 
   const ds = generate({ seed: 424242, families: 1200 });
   const board = buildStatusBoard(ds, programScope, selectedWeek);
+
+  // Pre-loaded verdict: serve the stored snapshot for this week if one exists (recall),
+  // else generate it on view (deterministic with no key). Overlay it onto the numbers.
+  const { snapshot, recalled } = await loadOrGenerateSnapshot(board, programScope);
+  applySnapshotToBoard(board, snapshot, { recalled, isCurrent });
 
   return (
     <main className="min-h-[100dvh] bg-canvas">
@@ -52,7 +62,16 @@ export default async function StatusPage({
         </div>
       </section>
 
-      <StatusBoardClient board={board} />
+      <div className="mx-auto max-w-[1440px] px-4 pt-4 sm:px-6 lg:px-8">
+        <StatusWeekBar
+          weeks={weeks}
+          selectedWeek={selectedWeek}
+          currentWeek={currentWeek}
+          meta={board.snapshotMeta}
+        />
+      </div>
+
+      <StatusBoardClient board={board} selectedWeek={selectedWeek} />
     </main>
   );
 }

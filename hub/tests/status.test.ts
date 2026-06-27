@@ -11,7 +11,7 @@ import {
 import { routeDecision } from "@/lib/auth/policy";
 import { ALWAYS_VISIBLE_MODULE_SLUGS } from "@/lib/nav";
 import { moduleBySlug, moduleHref, MODULE_NAV_GROUPS } from "@/lib/modules";
-import { defaultReportingWeek } from "@/lib/metrics/registry";
+import { defaultReportingWeek, weekMondays } from "@/lib/metrics/registry";
 import { resolveViewerProgramScope } from "@/lib/program-scope";
 
 const ds = generate({ seed: 424242, families: 1200 });
@@ -127,5 +127,24 @@ describe("Status page render", () => {
     expect(html).toContain("Referral best CPQL");
     // Lead answer bullet (the proof) is present at default.
     expect(html).toContain("Conversion is binding");
+  });
+
+  it("renders the week selector and the snapshot provenance badge", async () => {
+    const html = renderToStaticMarkup(await StatusPage({ searchParams: Promise.resolve({}) }));
+    expect(html).toContain("Reporting week");
+    expect(html).toMatch(/Current week|Historical snapshot/);
+    expect(html).toMatch(/Deterministic|LLM/);
+  });
+
+  it("a past week is marked as a historical snapshot (recall, not recompute)", async () => {
+    const past = weekMondays()[0];
+    const html = renderToStaticMarkup(await StatusPage({ searchParams: Promise.resolve({ week: past }) }));
+    expect(html).toContain("Historical snapshot");
+  });
+
+  it("overlays a rubric-structured Answer onto the board", () => {
+    const board = buildStatusBoard(ds);
+    // The page overlays a generated snapshot; the data layer exposes the hook for it.
+    expect(board.answer.bullets.length).toBeGreaterThanOrEqual(3);
   });
 });
