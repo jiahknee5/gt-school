@@ -18,6 +18,15 @@ function deltaLabel(row: ScorecardRow): string {
   return row.deltaPct !== null ? `${base} (${sign}${row.deltaPct}%)` : base;
 }
 
+// Plain-language pace label keyed off the same status the pill uses, so "ahead / on pace /
+// behind" never contradicts the colored pill. `ahead` is split out when we're past 100%.
+function paceLabel(row: ScorecardRow): string {
+  if (row.pctToTarget === null) return "no target";
+  if (row.status === "on_track") return row.pctToTarget > 100 ? "ahead" : "on pace";
+  if (row.status === "watch") return "slightly behind";
+  return "behind";
+}
+
 export function Scorecard({ scorecard, compact = false }: { scorecard: Scorecard; compact?: boolean }) {
   const { rows, biggestMover, redFlags, weekOf } = scorecard;
   return (
@@ -60,8 +69,8 @@ export function Scorecard({ scorecard, compact = false }: { scorecard: Scorecard
                 <th className="py-1 pr-2.5 font-semibold">Last wk</th>
                 <th className="py-1 pr-2.5 font-semibold">Delta</th>
                 <th className="py-1 pr-2.5 font-semibold">4-wk</th>
-                <th className="py-1 pr-2.5 font-semibold">Target</th>
-                <th className="py-1 pr-2.5 font-semibold">Status</th>
+                <th className="py-1 pr-2.5 font-semibold">Goal / target</th>
+                <th className="py-1 pr-2.5 font-semibold">Pace to goal</th>
                 <th className="py-1 font-semibold">Source</th>
               </tr>
             </thead>
@@ -83,11 +92,24 @@ export function Scorecard({ scorecard, compact = false }: { scorecard: Scorecard
                   <td className="py-2.5 pr-3">
                     <Sparkline values={row.sparkline} tone={statusTone(row.status)} />
                   </td>
-                  <td className="mono num py-2.5 pr-3 text-muted">
-                    {row.target !== null ? fmtValue(row.target, row.unit) : "n/a"}
+                  <td className="mono num py-2.5 pr-3">
+                    {row.target !== null ? (
+                      <div className="flex flex-col gap-0.5">
+                        <span className="font-semibold text-ink">{fmtValue(row.target, row.unit)}</span>
+                        {row.pctToTarget !== null && (
+                          <span className="text-[10px] text-muted">{row.pctToTarget}% to goal</span>
+                        )}
+                      </div>
+                    ) : (
+                      <span className="text-muted">no goal set</span>
+                    )}
                   </td>
                   <td className="py-2.5 pr-3">
-                    <Pill tone={statusTone(row.status)}>{row.status.replace("_", " ")}</Pill>
+                    {row.target !== null ? (
+                      <Pill tone={statusTone(row.status)}>{paceLabel(row)}</Pill>
+                    ) : (
+                      <Pill tone="neutral">no target</Pill>
+                    )}
                   </td>
                   <td className="py-2.5 text-[11px] text-muted">
                     {row.source}
@@ -98,6 +120,11 @@ export function Scorecard({ scorecard, compact = false }: { scorecard: Scorecard
             </tbody>
           </table>
           </div>
+          <p className="mt-2.5 text-[11px] text-muted">
+            Pace to goal compares this week against the per-week Fall-2026 target (the same goal a
+            Leader edits in Goal pacing). On pace / ahead = at or above target; slightly behind =
+            within 10%; behind = below 90%. Summer Camp runs a separate P&L and is not folded in here.
+          </p>
         </Card>
       </div>
     </div>

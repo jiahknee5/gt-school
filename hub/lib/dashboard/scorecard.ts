@@ -39,6 +39,9 @@ export interface ScorecardRow {
   deltaPct: number | null;
   sparkline: number[];
   target: number | null;
+  /** Direction-aware pace toward the per-week target, as a percentage. >=100 = meeting/ahead;
+   *  null when no target is set. Single source for both the status pill and the "% to goal" cell. */
+  pctToTarget: number | null;
   status: ScorecardStatus;
   confidence: Confidence;
   instrumented: boolean;
@@ -53,12 +56,28 @@ export interface Scorecard {
   redFlags: ScorecardRow[];
 }
 
+/**
+ * Direction-aware pace toward the per-week target, as a percentage (>=100 = meeting/ahead).
+ * higher_better → thisWeek/target; lower_better → target/thisWeek. Null when there is no
+ * target to pace against. The single computation behind both the "% to goal" cell and the
+ * status pill, so the two can never contradict each other.
+ */
+export function paceToTarget(
+  thisWeek: number,
+  target: number | null,
+  direction: KpiDefinition["direction"],
+): number | null {
+  if (target === null || target === 0) return null;
+  const ratio = thisWeek / target;
+  const score = direction === "higher_better" ? ratio : 1 / Math.max(ratio, 0.0001);
+  return Math.round(score * 100);
+}
+
 function statusFor(row: { thisWeek: number; target: number | null; direction: KpiDefinition["direction"] }): ScorecardStatus {
-  if (row.target === null || row.target === 0) return "on_track";
-  const ratio = row.thisWeek / row.target;
-  const score = row.direction === "higher_better" ? ratio : 1 / Math.max(ratio, 0.0001);
-  if (score >= 1) return "on_track";
-  if (score >= 0.9) return "watch";
+  const pace = paceToTarget(row.thisWeek, row.target, row.direction);
+  if (pace === null) return "on_track";
+  if (pace >= 100) return "on_track";
+  if (pace >= 90) return "watch";
   return "at_risk";
 }
 
@@ -82,6 +101,7 @@ export function buildScorecard(
     const sparkline = series.slice(Math.max(0, idx - 3), idx + 1);
     const goal = goalFor(def.key, goals);
     const target = goal ? goal.targetValue : null;
+    const pctToTarget = paceToTarget(thisWeek, target, def.direction);
     const connector = freshnessFor(def.source, fresh);
     const status = statusFor({ thisWeek, target, direction: def.direction });
     return {
@@ -96,6 +116,7 @@ export function buildScorecard(
       deltaPct,
       sparkline,
       target,
+      pctToTarget,
       status,
       confidence: def.instrumented ? "measured" : "low",
       instrumented: def.instrumented,

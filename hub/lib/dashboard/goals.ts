@@ -26,7 +26,13 @@ export interface KpiGoalAudit {
 
 export const FALL_CUTOFF = "2026-08-17";
 
-/** Seeded Fall-2026 targets (PLAN: "targets are already defined"). Per-WEEK run-rate goals. */
+/**
+ * Seeded Fall-2026 targets (PLAN: "targets are already defined"). Per-WEEK run-rate goals —
+ * the scorecard paces this-week against these, and Goal pacing counts them down to the Aug-17
+ * cutoff. These are FALL-enrollment targets only; Summer Camp is a separate P&L and is never
+ * merged into these (or into the $365K Fall budget). New per-metric targets are added HERE,
+ * never hardcoded in a component, so every surface reads one source of truth.
+ */
 export const DEFAULT_GOALS: KpiGoal[] = [
   { kpiKey: "applicants", period: "fall_2026", targetValue: 90, cutoffDate: FALL_CUTOFF },
   { kpiKey: "deposits", period: "fall_2026", targetValue: 55, cutoffDate: FALL_CUTOFF },

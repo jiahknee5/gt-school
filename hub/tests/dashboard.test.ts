@@ -14,8 +14,9 @@ import {
   weekMondays,
   weekIndexOf,
 } from "@/lib/metrics/registry";
-import { buildScorecard } from "@/lib/dashboard/scorecard";
+import { buildScorecard, paceToTarget } from "@/lib/dashboard/scorecard";
 import { buildPacing } from "@/lib/dashboard/pacing";
+import { goalFor } from "@/lib/dashboard/goals";
 import {
   GoalAuthError,
   applyGoalEdit,
@@ -183,6 +184,37 @@ describe("Dashboard · weekly series sanity", () => {
   });
 });
 
+describe("Dashboard · goal/target + pace-to-goal on the scorecard", () => {
+  it("paceToTarget is direction-aware and null when there is no target", () => {
+    expect(paceToTarget(90, 90, "higher_better")).toBe(100); // exactly on target
+    expect(paceToTarget(45, 90, "higher_better")).toBe(50); // half-way
+    expect(paceToTarget(99, 90, "higher_better")).toBe(110); // ahead
+    // lower_better: under the target reads as ahead (>100%)
+    expect(paceToTarget(50, 100, "lower_better")).toBe(200);
+    expect(paceToTarget(200, 100, "lower_better")).toBe(50);
+    expect(paceToTarget(10, null, "higher_better")).toBeNull();
+    expect(paceToTarget(10, 0, "higher_better")).toBeNull();
+  });
+
+  it("every scorecard row carries the goal from the single goals source + a matching pace", () => {
+    const sc = buildScorecard(ds, LATEST);
+    for (const row of sc.rows) {
+      const goal = goalFor(row.key);
+      // target is sourced from DEFAULT_GOALS (no parallel/hardcoded targets)
+      expect(row.target).toBe(goal ? goal.targetValue : null);
+      // pace and status are computed from the same source, so they can't contradict
+      if (row.target === null) {
+        expect(row.pctToTarget).toBeNull();
+      } else {
+        expect(row.pctToTarget).toBe(paceToTarget(row.thisWeek, row.target, KPI_DEFINITIONS.find((d) => d.key === row.key)!.direction));
+        if (row.pctToTarget! >= 100) expect(row.status).toBe("on_track");
+        else if (row.pctToTarget! >= 90) expect(row.status).toBe("watch");
+        else expect(row.status).toBe("at_risk");
+      }
+    }
+  });
+});
+
 // ───────────────── rendered page + goal route (auth + db mocked) ─────────────────
 const authMock = vi.hoisted(() => {
   class AuthError extends Error {
@@ -231,6 +263,19 @@ describe("Dashboard · rendered sub-views", () => {
     expect(html).toContain("Identical for every role");
   });
 
+  it("6a scorecard shows each row's goal/target plus a pace-to-goal signal", async () => {
+    const html = await render("scorecard", "leader");
+    // The goal/target column header + pace column are present.
+    expect(html).toContain("Goal / target");
+    expect(html).toContain("Pace to goal");
+    // The explicit "% to goal" pace number is rendered for instrumented targets.
+    expect(html).toContain("% to goal");
+    // Plain-language pace status (matches the existing RAG pills).
+    expect(html).toMatch(/on pace|ahead|behind/);
+    // Fall vs Summer Camp scope is called out so targets aren't conflated (HTML-escaped &).
+    expect(html).toContain("separate P&amp;L");
+  });
+
   it("reads as the Weekly Standup board and hosts the reporting-week + countdown (HD-6/8)", async () => {
     const html = await render("scorecard", "leader");
     // Standup framing + the contrast cross-link back to Home (HD-6).
@@ -238,6 +283,7 @@ describe("Dashboard · rendered sub-views", () => {
     expect(html).toContain("Home (your cockpit)");
     // The reporting-week control's home is this board, with the Aug-17 countdown to pacing (HD-8/HD-7).
     expect(html).toContain("Reporting week");
+    expect(html).toContain("Operational modules keep their own source dates");
     expect(html).toContain("to Fall enrollment (Aug 17)");
     // The Monday run-of-show is a launcher, not a tab (HD-10).
     expect(html).toContain("Run the meeting");
