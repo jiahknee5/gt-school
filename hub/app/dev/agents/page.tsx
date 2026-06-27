@@ -5,6 +5,7 @@ import { statusGenCallSite } from "@/lib/ai/observability";
 import { listRecentTraces } from "@/lib/ai/trace-store";
 import { generate } from "@/lib/seed/generate";
 import { AgentGraphConsole } from "./AgentGraphConsole";
+import { AgentGraphDiagram } from "./AgentGraphDiagram";
 
 export const dynamic = "force-dynamic";
 
@@ -40,7 +41,21 @@ export default async function DevAgentsPage() {
 
       <DevTabs />
 
-      <AgentGraphConsole />
+      {first && (
+        <section className="mt-4 rounded-card border border-hairline bg-side/40 p-4 shadow-sm">
+          <div className="mb-3 flex flex-wrap items-baseline justify-between gap-2">
+            <h2 className="font-serif text-[15px] font-bold tracking-[-0.01em] text-ink">Agent graph — run pipeline</h2>
+            <p className="mono text-[10px] text-label">
+              {first.answer.trace.graph.nodes.length} nodes ·{" "}
+              {first.answer.trace.graph.edges.length} edges · case <span className="text-slate">{first.case.id}</span>
+            </p>
+          </div>
+          <AgentGraphDiagram nodes={first.answer.trace.graph.nodes} edges={first.answer.trace.graph.edges} />
+          <p className="mono mt-3 text-center text-[9px] text-label">
+            ● green = passed · red = failed · amber = warned — hover a node for its input → output. Run your own above.
+          </p>
+        </section>
+      )}
 
       <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-5">
         {[

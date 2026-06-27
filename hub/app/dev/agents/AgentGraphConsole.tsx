@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import type { AskHubAnswer } from "@/lib/ai/agents";
+import { AgentGraphDiagram } from "./AgentGraphDiagram";
 
 const DEFAULT_QUESTION = "Did Open Data change the Austin and Dallas field bet?";
 
@@ -75,6 +76,11 @@ export function AgentGraphConsole() {
                 <p className="mt-0.5 truncate text-[11px] font-semibold text-ink">{value}</p>
               </div>
             ))}
+          </div>
+
+          <div className="rounded-card border border-hairline bg-side/40 p-3">
+            <p className="mono mb-2 text-[9px] font-semibold uppercase tracking-[0.1em] text-label">Pipeline diagram</p>
+            <AgentGraphDiagram nodes={answer.trace.graph.nodes} edges={answer.trace.graph.edges} />
           </div>
 
           <div className="overflow-x-auto rounded-card border border-hairline">
