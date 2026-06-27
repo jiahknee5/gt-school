@@ -151,10 +151,6 @@ export function generateDeterministic(board: StatusBoard): StatusSnapshotContent
       text: "Demand is healthy — applicants are not the constraint.",
       tone: "neutral" as const,
     };
-  const verdictBullet: StatusBullet = {
-    text: board.answer.headline,
-    tone: board.answer.rag === "red" ? "bad" : board.answer.rag === "amber" ? "neutral" : "good",
-  };
   const paceBullet: StatusBullet = {
     text: `Closing ${ns.weeklyActual}/wk against the ${ns.weeklyRequired}/wk needed${
       ns.projection < ns.target ? ` — projecting ${ns.projection} of ${ns.target} on the current run rate` : ""
@@ -179,14 +175,33 @@ export function generateDeterministic(board: StatusBoard): StatusSnapshotContent
       tone: "neutral" as const,
     };
 
+  // "What's working" — the strengths to protect: healthy demand + any GREEN funnel stage's
+  // headline + a pace-positive note when we're ahead. Honestly the shortest beat early-sprint
+  // (when most stages are red), but never empty — demand stands in.
+  const greenStrengths = board.stages
+    .filter((s) => s.rag === "green")
+    .map((s) => s.narrative.bullets?.[0])
+    .filter((b): b is StatusBullet => Boolean(b && b.text));
+  const workingBullets: StatusBullet[] = [{ ...demandBullet, tone: "good" }];
+  for (const b of greenStrengths.slice(0, 2)) workingBullets.push({ ...b, tone: "good" });
+  if (ns.gap >= 0) {
+    workingBullets.push({
+      text: `Ahead of linear pace — ${ns.current}/${ns.target} deposits, +${ns.gap} vs the marker.`,
+      emphasis: [`+${ns.gap}`],
+      tone: "good",
+    });
+  }
+
+  // The Answer is a natural exec talk-through: where we stand → what's working →
+  // what needs attention → what to do.
   const answerSections: AnswerSection[] = [
-    section("where", [depositsBullet, demandBullet]),
-    section("on_track", [verdictBullet, paceBullet]),
-    section("why", [bindingBullet, slaBullet]),
+    section("where", [depositsBullet, paceBullet]),
+    section("working", workingBullets.slice(0, 3)),
+    section("attention", [bindingBullet, slaBullet]),
     section("do", [actionBullet, decisionsBullet]),
   ];
 
-  // Lead bullets for the calm default hero: the proof, then the action.
+  // Lead bullets for the calm default hero: where we stand, then the action.
   const answerBullets: StatusBullet[] = [bindingBullet, actionBullet, demandBullet, slaBullet, decisionsBullet];
 
   const stages: GeneratedStageNarrative[] = board.stages.map((s) => {

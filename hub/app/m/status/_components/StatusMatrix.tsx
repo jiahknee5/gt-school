@@ -53,30 +53,6 @@ function StageDecisionFlag({ stage }: { stage: StatusStage }) {
   );
 }
 
-// The stage's fixed exec metric (the one reviewed every week), shown as a compact chip:
-// label, this-week value, and the week-over-week delta cue. Full set lives in the drawer.
-function StageExecMetric({ stage }: { stage: StatusStage }) {
-  const metric = stage.metrics?.find((m) => m.surface === "exec");
-  if (!metric) return null;
-  const delta = metric.delta;
-  const deltaTone =
-    delta == null ? "text-muted" : delta > 0 ? "text-green" : delta < 0 ? "text-red" : "text-muted";
-  return (
-    <p
-      className="mono inline-flex w-fit items-center gap-1 rounded-full border border-hairline bg-canvas px-1.5 py-0.5 text-[9px] text-slate"
-      title={`${metric.label} — the metric reviewed for this stage every week`}
-    >
-      <span className="font-semibold text-ink">{metric.value}</span>
-      <span className="text-muted">{metric.label}</span>
-      {delta != null && (
-        <span className={`font-semibold ${deltaTone}`}>
-          {delta > 0 ? `▲${Math.abs(delta)}` : delta < 0 ? `▼${Math.abs(delta)}` : "flat"}
-        </span>
-      )}
-    </p>
-  );
-}
-
 export function StatusMatrix({
   board,
   onOpenStage,
@@ -104,7 +80,7 @@ export function StatusMatrix({
         className="grid gap-x-1.5 gap-y-0 overflow-x-auto"
         style={{
           gridTemplateColumns: "minmax(160px,180px) minmax(0,1fr) minmax(0,1.25fr)",
-          gridTemplateRows: `auto repeat(${board.stages.length}, minmax(60px, auto))`,
+          gridTemplateRows: `auto repeat(${board.stages.length}, minmax(48px, auto))`,
         }}
       >
         <div className="border-b border-hairline pb-2">
@@ -128,32 +104,33 @@ export function StatusMatrix({
           return (
             <Fragment key={stage.key}>
               <div
-                className={`group relative flex flex-col gap-1 border-l-[3px] p-2.5 ${labelBorder} ${
+                className={`group relative flex flex-col gap-0.5 border-l-[3px] p-2 ${labelBorder} ${
                   stage.binding ? "bg-red-soft/30" : rowBg
                 }`}
               >
                 <button
                   type="button"
                   onClick={() => onOpenStage(stage.name, stage)}
-                  className="flex flex-col items-start gap-1 text-left transition-shadow hover:ring-1 hover:ring-inset hover:ring-slate focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold"
+                  className="flex flex-col items-start gap-0.5 text-left transition-shadow hover:ring-1 hover:ring-inset hover:ring-slate focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold"
                 >
                   <span className="mono text-[9px] font-semibold uppercase tracking-wide text-label">
                     Stage {String(stage.num).padStart(2, "0")}
                     {stage.binding && <span className="ml-1 text-red">· binding</span>}
                   </span>
-                  <h3 className="font-serif text-[13px] font-bold leading-tight text-ink">{stage.name}</h3>
-                  <RagToken status={stage.rag} />
+                  <div className="flex items-center gap-1.5">
+                    <h3 className="font-serif text-[13px] font-bold leading-tight text-ink">{stage.name}</h3>
+                    <RagToken status={stage.rag} compact />
+                  </div>
                 </button>
                 {stage.owner && (
                   <p
-                    className="mono text-[9px] leading-tight text-muted"
-                    title={`Accountable owner for ${stage.name}`}
+                    className="mono truncate text-[9px] leading-tight text-muted"
+                    title={`Accountable owner for ${stage.name}${stage.ownerRole ? ` (${stage.ownerRole})` : ""}`}
                   >
                     <span className="font-semibold text-slate">{stage.owner}</span>
                     {stage.ownerRole ? ` · ${stage.ownerRole}` : ""}
                   </p>
                 )}
-                <StageExecMetric stage={stage} />
                 <StageDecisionFlag stage={stage} />
                 <span className="mono absolute right-2 top-2 text-[11px] text-label opacity-30 group-hover:opacity-100">
                   ⊕
@@ -165,7 +142,7 @@ export function StatusMatrix({
                   type="button"
                   key={`${stage.key}-${col.key}`}
                   onClick={() => onOpenStage(`${stage.name} · ${col.title}`, stage)}
-                  className={`group relative min-w-0 p-2.5 text-left transition-shadow hover:ring-1 hover:ring-inset hover:ring-slate focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold ${rowBg} ${
+                  className={`group relative min-w-0 p-2 text-left transition-shadow hover:ring-1 hover:ring-inset hover:ring-slate focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold ${rowBg} ${
                     col.key === "position" ? posTint(stage) : ""
                   }`}
                 >

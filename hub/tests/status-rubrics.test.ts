@@ -87,7 +87,7 @@ describe("Status per-cell rubric conformance", () => {
 
 describe("Overall-status (The Answer) rubric", () => {
   it("requires the four C-suite sections in order", () => {
-    expect(ANSWER_RUBRIC.sectionsRequired).toEqual(["where", "on_track", "why", "do"]);
+    expect(ANSWER_RUBRIC.sectionsRequired).toEqual(["where", "working", "attention", "do"]);
   });
 
   it("deterministic generation produces a conformant Answer", () => {
@@ -99,7 +99,7 @@ describe("Overall-status (The Answer) rubric", () => {
       sections: content.answerSections.map((s) => ({ key: s.key as AnswerSectionKey, bullets: s.bullets })),
     });
     expect(res.failures).toEqual([]);
-    expect(content.answerSections.map((s) => s.key)).toEqual(["where", "on_track", "why", "do"]);
+    expect(content.answerSections.map((s) => s.key)).toEqual(["where", "working", "attention", "do"]);
   });
 
   it("flags an Answer missing a section", () => {

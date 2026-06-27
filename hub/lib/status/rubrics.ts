@@ -155,35 +155,35 @@ export interface AnswerRubric {
   qualityBar: string;
 }
 
-export type AnswerSectionKey = "where" | "on_track" | "why" | "do";
+export type AnswerSectionKey = "where" | "working" | "attention" | "do";
 
 export const ANSWER_SECTION_LABELS: Record<AnswerSectionKey, string> = {
-  where: "Where we are",
-  on_track: "On track?",
-  why: "Why / why not",
-  do: "What to do about it",
+  where: "Where we stand",
+  working: "What's working",
+  attention: "What needs attention",
+  do: "What to do",
 };
 
 export const ANSWER_RUBRIC: AnswerRubric = {
   id: "answer",
   question: "Are we on track for Fall enrollment — and what should leadership do this week?",
-  sectionsRequired: ["where", "on_track", "why", "do"],
+  sectionsRequired: ["where", "working", "attention", "do"],
   citesData: [
     "deposits / target + gap to pace (the north star)",
     "weekly run rate vs required",
-    "demand (applicants) as the non-constraint",
-    "speed-to-lead SLA",
+    "the strengths to protect (healthy demand, high-converting channels, the green stages)",
+    "the binding constraint + speed-to-lead SLA",
     "open decisions + budget at stake",
   ],
   structure: [
     "a one-line headline verdict (the pyramid-principle answer)",
-    "Where we are — the position in one organized bullet",
-    "On track? — yes/no with the magnitude vs pace",
-    "Why / why not — the binding constraint named",
+    "Where we stand — the position vs pace in one organized bullet",
+    "What's working — the strengths to protect / double down on (the greens)",
+    "What needs attention — the binding constraint named, honestly",
     "What to do — the lever + the clock (Aug 17), as an action",
   ],
   qualityBar:
-    "Board-appropriate: organized bullets (not prose), honest about the miss, leads with the answer, names ONE binding reason, ends on an action with a deadline.",
+    "A natural exec talk-through in organized bullets: leads with where we stand, names what's working before what's broken, calls ONE binding reason, and ends on an action with a deadline.",
 };
 
 export function cellRubricFor(column: SpineColumn, stage?: FunnelStageKey): CellRubric {

@@ -33,7 +33,7 @@ describe("Status generation pipeline", () => {
     expect(snap.source).toBe("deterministic");
     expect(snap.model).toBe("deterministic-rubric-v1");
     expect(snap.inputsHash).toMatch(/^[0-9a-f]{8}$/);
-    expect(snap.content.answerSections.map((s) => s.key)).toEqual(["where", "on_track", "why", "do"]);
+    expect(snap.content.answerSections.map((s) => s.key)).toEqual(["where", "working", "attention", "do"]);
   });
 
   it("uses a pluggable LLM provider when one is supplied", async () => {

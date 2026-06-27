@@ -84,10 +84,18 @@ export function StatusCellContent({
     );
   }
 
-  // NARRATIVE — the single top bullet (the headline). Rest → drawer.
+  // NARRATIVE — the single top bullet (the headline), framed by the talk-through lens:
+  // a calm stage is "Working" (a strength to protect); a watch/at-risk stage "Needs
+  // attention". The tag mirrors the row RAG so the per-stage story reads the same way
+  // as the top Answer (where we stand → what's working → what needs attention).
   const top = cell.bullets?.[0];
+  const lens =
+    attention === "calm"
+      ? { label: "Working", cls: "text-green" }
+      : { label: "Needs attention", cls: attention === "high" ? "text-red" : "text-amber" };
   return (
     <p className="line-clamp-2 font-serif text-[11px] leading-snug text-muted">
+      <span className={`mono mr-1 text-[8px] font-bold uppercase tracking-wide ${lens.cls}`}>{lens.label}</span>
       {top?.text ?? cell.subline ?? "—"}
     </p>
   );
