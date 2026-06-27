@@ -36,8 +36,12 @@ export default async function StatusPage({
   const board = buildStatusBoard(ds, programScope, selectedWeek);
 
   // Pre-loaded verdict: serve the stored snapshot for this week if one exists (recall),
-  // else generate it on view (deterministic with no key). Overlay it onto the numbers.
-  const { snapshot, recalled } = await loadOrGenerateSnapshot(board, programScope);
+  // else generate it on view. On-view generation is FORCED DETERMINISTIC (provider: null)
+  // so a page load never blocks on a live Anthropic call (~16s) — the LLM-enhanced verdict
+  // is produced out-of-band by the weekly cron (/api/cron/status-refresh) and recalled here.
+  const { snapshot, recalled } = await loadOrGenerateSnapshot(board, programScope, {
+    generate: { provider: null },
+  });
   applySnapshotToBoard(board, snapshot, { recalled, isCurrent });
 
   return (
