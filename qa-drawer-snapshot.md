@@ -1,0 +1,572 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - complementary [ref=e3]:
+      - link "GT School Marketing Hub home" [ref=e4] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e6]: Marketing Hub
+      - navigation [ref=e7]:
+        - generic [ref=e8]:
+          - paragraph [ref=e9]: Program
+          - group "Active program" [ref=e10]:
+            - button "Fall" [pressed] [ref=e11]
+            - button "Camp" [ref=e12]
+            - button "All" [ref=e13]
+        - generic [ref=e14]:
+          - paragraph [ref=e15]: View
+          - group "Sidebar module view" [ref=e16]:
+            - button "My" [pressed] [ref=e17]
+            - button "All" [ref=e18]
+        - generic [ref=e19]:
+          - paragraph [ref=e20]: Start
+          - list [ref=e21]:
+            - listitem [ref=e22]:
+              - link "Workflows" [ref=e23] [cursor=pointer]:
+                - /url: /help
+                - img [ref=e25]
+                - generic [ref=e27]: Workflows
+        - generic [ref=e28]:
+          - 'generic "Command: Overview, scorecard, and leadership calls. Groups follow the grader workflow from command to channels, pipeline, and operations." [ref=e29]':
+            - paragraph [ref=e30]: Command
+            - paragraph [ref=e31]: Overview, scorecard, and leadership calls.
+          - list [ref=e32]:
+            - listitem [ref=e33]:
+              - link "Home" [ref=e34] [cursor=pointer]:
+                - /url: /
+                - img [ref=e36]
+                - generic [ref=e39]: Home
+            - listitem [ref=e40]:
+              - link "Status" [ref=e41] [cursor=pointer]:
+                - /url: /m/status
+                - img [ref=e43]
+                - generic [ref=e44]: Status
+            - listitem [ref=e45]:
+              - link "Dashboard" [ref=e46] [cursor=pointer]:
+                - /url: /m/dashboard
+                - img [ref=e48]
+                - generic [ref=e53]: Dashboard
+        - generic [ref=e54]:
+          - 'generic "Channels: Acquisition engines that reach families. Groups follow the grader workflow from command to channels, pipeline, and operations." [ref=e55]':
+            - paragraph [ref=e56]: Channels
+            - paragraph [ref=e57]: Acquisition engines that reach families.
+          - list [ref=e58]:
+            - listitem [ref=e59]:
+              - link "GT Challenge" [ref=e60] [cursor=pointer]:
+                - /url: /m/gt-challenge
+                - img [ref=e62]
+                - generic [ref=e66]: GT Challenge
+        - generic [ref=e67]:
+          - 'generic "Pipeline: Follow-up, data quality, and admissions feedback. Groups follow the grader workflow from command to channels, pipeline, and operations." [ref=e68]':
+            - paragraph [ref=e69]: Pipeline
+            - paragraph [ref=e70]: Follow-up, data quality, and admissions feedback.
+          - list [ref=e71]:
+            - listitem [ref=e72]:
+              - link "Nurture" [ref=e73] [cursor=pointer]:
+                - /url: /m/nurture
+                - img [ref=e75]
+                - generic [ref=e77]: Nurture
+            - listitem [ref=e78]:
+              - link "CRM Ops" [ref=e79] [cursor=pointer]:
+                - /url: /m/crm-ops
+                - img [ref=e81]
+                - generic [ref=e86]: CRM Ops
+        - generic [ref=e87]:
+          - 'generic "Operations: Budget, web analytics, and shared assets. Groups follow the grader workflow from command to channels, pipeline, and operations." [ref=e88]':
+            - paragraph [ref=e89]: Operations
+            - paragraph [ref=e90]: Budget, web analytics, and shared assets.
+          - list [ref=e91]:
+            - listitem [ref=e92]:
+              - link "Analytics" [ref=e93] [cursor=pointer]:
+                - /url: /m/analytics
+                - img [ref=e95]
+                - generic [ref=e97]: Analytics
+            - listitem [ref=e98]:
+              - link "Library" [ref=e99] [cursor=pointer]:
+                - /url: /m/library
+                - img [ref=e101]
+                - generic [ref=e103]: Library
+        - generic [ref=e104]:
+          - paragraph [ref=e105]: My Work
+          - list [ref=e106]:
+            - listitem [ref=e107]:
+              - link "My submissions" [ref=e108] [cursor=pointer]:
+                - /url: /m/submissions
+                - img [ref=e110]
+                - generic [ref=e114]: My submissions
+        - paragraph [ref=e115]: Developer
+        - list [ref=e116]:
+          - listitem [ref=e117]:
+            - link "Data overview" [ref=e118] [cursor=pointer]:
+              - /url: /dev
+              - img [ref=e120]
+              - generic [ref=e123]: Data overview
+          - listitem [ref=e124]:
+            - link "Data model" [ref=e125] [cursor=pointer]:
+              - /url: /dev/data-model
+              - img [ref=e127]
+              - generic [ref=e131]: Data model
+          - listitem [ref=e132]:
+            - link "Data dictionary" [ref=e133] [cursor=pointer]:
+              - /url: /dev/dictionary
+              - img [ref=e135]
+              - generic [ref=e138]: Data dictionary
+          - listitem [ref=e139]:
+            - link "Integrations" [ref=e140] [cursor=pointer]:
+              - /url: /dev/integrations
+              - img [ref=e142]
+              - generic [ref=e146]: Integrations
+          - listitem [ref=e147]:
+            - link "Agent graph" [ref=e148] [cursor=pointer]:
+              - /url: /dev/agents
+              - img [ref=e150]
+              - generic [ref=e156]: Agent graph
+          - listitem [ref=e157]:
+            - link "Open Data" [ref=e158] [cursor=pointer]:
+              - /url: /opendata
+              - img [ref=e160]
+              - generic [ref=e163]: Open Data
+        - paragraph [ref=e164]: Help
+        - list [ref=e165]:
+          - listitem [ref=e166]:
+            - link "Roles & access" [ref=e167] [cursor=pointer]:
+              - /url: /help/roles
+              - img [ref=e169]
+              - generic [ref=e174]: Roles & access
+      - generic [ref=e176]:
+        - generic [ref=e177]: JC
+        - generic [ref=e178]:
+          - paragraph [ref=e179]: Johnny Chung
+          - paragraph [ref=e180]: Marketing Lead
+        - link "Sign out" [ref=e181] [cursor=pointer]:
+          - /url: /api/auth/logout
+    - generic [ref=e182]:
+      - banner [ref=e183]:
+        - generic [ref=e184]:
+          - link "GT School Marketing Hub home" [ref=e185] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e188]: Marketing Hub
+          - generic [ref=e189]:
+            - link "Johnny Chung Marketing Lead · admin" [ref=e190] [cursor=pointer]:
+              - /url: /profile
+              - paragraph [ref=e191]: Johnny Chung
+              - paragraph [ref=e192]: Marketing Lead · admin
+            - button "Dark" [ref=e193]
+      - main [ref=e194]:
+        - generic [ref=e196]:
+          - link "← Home (your cockpit)" [ref=e197] [cursor=pointer]:
+            - /url: /
+          - paragraph [ref=e198]: Command · Status / Exec Verdict Board
+          - heading "Executive verdict — funnel × spine" [level=1] [ref=e199]
+          - paragraph [ref=e200]:
+            - text: Exec verdict board — funnel×spine matrix with one-glance Answer and drill-down.
+            - link "Home" [ref=e201] [cursor=pointer]:
+              - /url: /
+            - text: is your personal cockpit — composable widgets and role-aware next actions.
+            - link "Dashboard" [ref=e202] [cursor=pointer]:
+              - /url: /m/dashboard
+            - text: "is weekly standup scorecard — canonical kpis everyone references in the meeting. Program lens: Fall enrollment · week of 2026-06-22."
+        - generic [ref=e205]:
+          - generic [ref=e206]:
+            - generic [ref=e207]: Reporting week
+            - link "06-01" [ref=e208] [cursor=pointer]:
+              - /url: /m/status?week=2026-06-01
+            - link "06-08" [ref=e209] [cursor=pointer]:
+              - /url: /m/status?week=2026-06-08
+            - link "06-15" [ref=e210] [cursor=pointer]:
+              - /url: /m/status?week=2026-06-15
+            - link "06-22" [ref=e211] [cursor=pointer]:
+              - /url: /m/status
+          - generic [ref=e212]:
+            - generic "Current reporting week" [ref=e213]: ● Current week
+            - generic "Deterministic rubric-templated verdict (no LLM key), generated on view." [ref=e214]: ▦ Deterministic · on view · 2026-06-27
+        - generic [ref=e215]:
+          - generic [ref=e216]:
+            - 'button "The Answer · Fall enrollment Behind linear pace — conversion is the lever before Aug 17. Conversion is binding: 56/180 deposits, -13 vs pace — closing 11/wk vs 6/wk needed. Do this before Aug 17: fix the offer→deposit step and assign the 67-late speed-to-lead owner (53%). At risk 11/wk vs 5.5 needed · as of 2026-06-22 · 51 days to Aug 17 ⊕ full answer" [active] [ref=e217] [cursor=pointer]':
+              - generic [ref=e218]:
+                - generic [ref=e219]: The Answer
+                - generic [ref=e220]: · Fall enrollment
+              - heading "Behind linear pace — conversion is the lever before Aug 17." [level=1] [ref=e222]
+              - list [ref=e223]:
+                - listitem [ref=e224]:
+                  - generic [ref=e226]: "Conversion is binding: 56/180 deposits, -13 vs pace — closing 11/wk vs 6/wk needed."
+                - listitem [ref=e227]:
+                  - generic [ref=e229]: "Do this before Aug 17: fix the offer→deposit step and assign the 67-late speed-to-lead owner (53%)."
+              - generic [ref=e230]:
+                - generic [ref=e231]:
+                  - generic [ref=e232]: ▲
+                  - generic [ref=e233]: At risk
+                - generic [ref=e234]:
+                  - text: 11/wk vs 5.5 needed · as of 2026-06-22 ·
+                  - generic [ref=e235]: 51 days
+                  - text: to Aug 17
+                - generic [ref=e236]: ⊕ full answer
+            - generic [ref=e237]:
+              - generic [ref=e238]: Ask the Hub
+              - generic [ref=e239]: Answers inline · grounded in this week's verdict
+              - generic [ref=e240]:
+                - generic [ref=e241]: Ask the Hub
+                - textbox "Ask the Hub" [ref=e242]:
+                  - /placeholder: Ask about deposits, channels, decisions…
+                - button "Ask the Hub" [ref=e243]: ▶
+              - generic [ref=e244]:
+                - button "Why are we behind on Fall deposits?" [ref=e245]
+                - button "Which channel has the worst CPQL?" [ref=e246]
+                - button "What decision is blocking conversion?" [ref=e247]
+            - button "North star · deposits -13 56/ 180 · 31% Pace 69 Goal 180 pace 69 goal 180 -13 to pace Pace marker uses linear-v1 projection (see Dashboard Goal pacing)." [ref=e248] [cursor=pointer]:
+              - generic [ref=e249]:
+                - generic [ref=e250]: North star · deposits
+                - generic [ref=e251]: "-13"
+              - paragraph [ref=e252]:
+                - text: "56"
+                - generic [ref=e253]: / 180 · 31%
+              - generic [ref=e254]:
+                - generic [ref=e255]:
+                  - generic "Pace 69" [ref=e257]
+                  - generic "Goal 180" [ref=e258]
+                - generic [ref=e259]:
+                  - generic [ref=e260]: pace 69
+                  - generic [ref=e261]: goal 180
+                - paragraph [ref=e262]: "-13 to pace"
+              - paragraph [ref=e263]: Pace marker uses linear-v1 projection (see Dashboard Goal pacing).
+          - region "Funnel by executive spine" [ref=e264]:
+            - generic [ref=e265]:
+              - paragraph [ref=e266]: Funnel × spine · Fall enrollment
+              - generic [ref=e267]:
+                - generic [ref=e268]:
+                  - generic [ref=e270]: ▲
+                  - text: needs attention
+                - generic [ref=e271]:
+                  - generic [ref=e272]: ⊕
+                  - text: Click any cell to drill into the detail
+            - generic [ref=e273]:
+              - generic [ref=e274]:
+                - paragraph [ref=e275]: Funnel ↓
+                - paragraph [ref=e276]: Spine →
+              - generic [ref=e277]:
+                - generic [ref=e278]:
+                  - generic [ref=e279]: ①
+                  - heading "Position" [level=2] [ref=e280]
+                - paragraph [ref=e281]: Where we stand
+              - generic [ref=e282]:
+                - generic [ref=e283]:
+                  - generic [ref=e284]: ②
+                  - heading "Narrative" [level=2] [ref=e285]
+                - paragraph [ref=e286]: The headline
+              - generic [ref=e287]:
+                - button "Stage 01 Awareness" [ref=e288]:
+                  - generic [ref=e289]: Stage 01
+                  - generic [ref=e290]:
+                    - heading "Awareness" [level=3] [ref=e291]
+                    - generic [ref=e293]: ▲
+                - paragraph [ref=e294]: Content Owner · Content & Brand
+                - link "Awareness — a decision needs leadership; open the Decision Queue" [ref=e295] [cursor=pointer]:
+                  - /url: /m/decisions
+                  - generic [ref=e296]: ◷
+                  - text: Decide · needs you
+                - generic [ref=e297]: ⊕
+              - button "2.1% GA4 conv · top channel Week over week −0.5 pts Versus goal 2.1%/6% ⊕" [ref=e298]:
+                - generic [ref=e299]:
+                  - generic [ref=e300]:
+                    - generic [ref=e301]: 2.1%
+                    - generic [ref=e302]: GA4 conv · top channel
+                  - generic [ref=e303]:
+                    - generic "Week over week −0.5 pts" [ref=e304]:
+                      - generic [ref=e305]: ▼
+                      - generic [ref=e306]: −0.5 pts
+                      - generic [ref=e307]: wk
+                    - generic [ref=e308]: ·
+                    - generic "Versus goal 2.1%/6%" [ref=e309]:
+                      - generic [ref=e313]: 2.1%/6%
+                - generic [ref=e314]: ⊕
+              - button "Needs attentionX / Twitter is the demand engine — 28% applicant→deposit vs 24% on paid social. ⊕" [ref=e315]:
+                - paragraph [ref=e316]: Needs attentionX / Twitter is the demand engine — 28% applicant→deposit vs 24% on paid social.
+                - generic [ref=e317]: ⊕
+              - generic [ref=e318]:
+                - button "Stage 02 Acquisition" [ref=e319]:
+                  - generic [ref=e320]: Stage 02
+                  - generic [ref=e321]:
+                    - heading "Acquisition" [level=3] [ref=e322]
+                    - generic [ref=e324]: ▲
+                - paragraph [ref=e325]: Grassroots Lead · Field & Grassroots
+                - link "Acquisition — a decision needs leadership; open the Decision Queue" [ref=e326] [cursor=pointer]:
+                  - /url: /m/decisions
+                  - generic [ref=e327]: ▲
+                  - text: Decide · urgent
+                - generic [ref=e328]: ⊕
+              - button "56 applicants/wk Week over week −18 Versus goal 56/90 ⊕" [ref=e329]:
+                - generic [ref=e330]:
+                  - generic [ref=e331]:
+                    - generic [ref=e332]: "56"
+                    - generic [ref=e333]: applicants/wk
+                  - generic [ref=e334]:
+                    - generic "Week over week −18" [ref=e335]:
+                      - generic [ref=e336]: ▼
+                      - generic [ref=e337]: −18
+                      - generic [ref=e338]: wk
+                    - generic [ref=e339]: ·
+                    - generic "Versus goal 56/90" [ref=e340]:
+                      - generic [ref=e344]: 56/90
+                - generic [ref=e345]: ⊕
+              - button "Needs attentionDemand at 284 applicants (56/wk) — below weekly target. ⊕" [ref=e346]:
+                - paragraph [ref=e347]: Needs attentionDemand at 284 applicants (56/wk) — below weekly target.
+                - generic [ref=e348]: ⊕
+              - generic [ref=e349]:
+                - button "Stage 03 Activation" [ref=e350]:
+                  - generic [ref=e351]: Stage 03
+                  - generic [ref=e352]:
+                    - heading "Activation" [level=3] [ref=e353]
+                    - generic [ref=e355]: ◑
+                - paragraph [ref=e356]: Nurture Owner · Lifecycle Marketing
+                - generic [ref=e357]: ⊕
+              - button "52% hot+warm → deposit Derived from lead-score bands · no weekly series or target ⊕" [ref=e358]:
+                - generic [ref=e359]:
+                  - generic [ref=e360]:
+                    - generic [ref=e361]: 52%
+                    - generic [ref=e362]: hot+warm → deposit
+                  - generic [ref=e364]: Derived from lead-score bands · no weekly series or target
+                - generic [ref=e365]: ⊕
+              - button "Needs attentionHot leads convert at 53% vs cold at 12% — re-engaging cold is cheaper than new top-of-funnel. ⊕" [ref=e366]:
+                - paragraph [ref=e367]: Needs attentionHot leads convert at 53% vs cold at 12% — re-engaging cold is cheaper than new top-of-funnel.
+                - generic [ref=e368]: ⊕
+              - generic [ref=e369]:
+                - button "Stage 04 Nurture" [ref=e370]:
+                  - generic [ref=e371]: Stage 04
+                  - generic [ref=e372]:
+                    - heading "Nurture" [level=3] [ref=e373]
+                    - generic [ref=e375]: ▲
+                - paragraph [ref=e376]: CRM Ops Lead · Marketing Operations
+                - generic [ref=e377]: ⊕
+              - button "52.8% 24h SLA Deterministic stand-in · no weekly SLA series or target ⊕" [ref=e378]:
+                - generic [ref=e379]:
+                  - generic [ref=e380]:
+                    - generic [ref=e381]: 52.8%
+                    - generic [ref=e382]: 24h SLA
+                  - generic [ref=e384]: Deterministic stand-in · no weekly SLA series or target
+                - generic [ref=e385]: ⊕
+              - button "Needs attentionSpeed-to-lead at 52.8% (67 late) — assign an owner before it costs deposits. ⊕" [ref=e386]:
+                - paragraph [ref=e387]: Needs attentionSpeed-to-lead at 52.8% (67 late) — assign an owner before it costs deposits.
+                - generic [ref=e388]: ⊕
+              - generic [ref=e389]:
+                - button "Stage 05· binding Conversion" [ref=e390]:
+                  - generic [ref=e391]: Stage 05· binding
+                  - generic [ref=e392]:
+                    - heading "Conversion" [level=3] [ref=e393]
+                    - generic [ref=e395]: ▲
+                - paragraph [ref=e396]: Admissions Lead · Admissions
+                - link "Conversion — a decision needs leadership; open the Decision Queue" [ref=e397] [cursor=pointer]:
+                  - /url: /m/decisions
+                  - generic [ref=e398]: ◷
+                  - text: Decide · needs you
+                - generic [ref=e399]: ⊕
+              - button "56 / 180 deposits Week over week −5 Versus goal 31% to goal ⊕" [ref=e400]:
+                - generic [ref=e401]:
+                  - generic [ref=e402]:
+                    - generic [ref=e403]: "56"
+                    - generic [ref=e404]: / 180 deposits
+                  - generic [ref=e405]:
+                    - generic "Week over week −5" [ref=e406]:
+                      - generic [ref=e407]: ▼
+                      - generic [ref=e408]: −5
+                      - generic [ref=e409]: wk
+                    - generic [ref=e410]: ·
+                    - generic "Versus goal 31% to goal" [ref=e411]:
+                      - generic [ref=e415]: 31% to goal
+                - generic [ref=e416]: ⊕
+              - 'button "Needs attentionConversion, not demand, is binding: 56/180 deposits, -13 to pace at 11/wk vs 6 needed. ⊕" [ref=e417]':
+                - paragraph [ref=e418]: "Needs attentionConversion, not demand, is binding: 56/180 deposits, -13 to pace at 11/wk vs 6 needed."
+                - generic [ref=e419]: ⊕
+              - generic [ref=e420]:
+                - button "Stage 06 Advocacy" [ref=e421]:
+                  - generic [ref=e422]: Stage 06
+                  - generic [ref=e423]:
+                    - heading "Advocacy" [level=3] [ref=e424]
+                    - generic [ref=e426]: ▲
+                - paragraph [ref=e427]: Grassroots Lead · Field & Grassroots
+                - generic [ref=e428]: ⊕
+              - button "1 amb-influenced deps/wk Week over week −2 Versus goal 1/12 ⊕" [ref=e429]:
+                - generic [ref=e430]:
+                  - generic [ref=e431]:
+                    - generic [ref=e432]: "1"
+                    - generic [ref=e433]: amb-influenced deps/wk
+                  - generic [ref=e434]:
+                    - generic "Week over week −2" [ref=e435]:
+                      - generic [ref=e436]: ▼
+                      - generic [ref=e437]: −2
+                      - generic [ref=e438]: wk
+                    - generic [ref=e439]: ·
+                    - generic "Versus goal 1/12" [ref=e440]:
+                      - generic [ref=e444]: 1/12
+                - generic [ref=e445]: ⊕
+              - 'button "Needs attentionAdvocacy is the flywheel: referrals convert at 21% — fund ambassador tooling to scale. ⊕" [ref=e446]':
+                - paragraph [ref=e447]: "Needs attentionAdvocacy is the flywheel: referrals convert at 21% — fund ambassador tooling to scale."
+                - generic [ref=e448]: ⊕
+          - region "Cross-cutting rail" [ref=e449]:
+            - 'link "Decide Decision Queue 3 awaiting Guerrilla workstream is 12% over plan — · Approve $18K guerrilla bet: gifted-famil" [ref=e450] [cursor=pointer]':
+              - /url: /m/decisions
+              - generic [ref=e451]: Decide
+              - generic [ref=e452]: Decision Queue
+              - generic [ref=e453]: 3 awaiting
+              - generic [ref=e454]: "Guerrilla workstream is 12% over plan — · Approve $18K guerrilla bet: gifted-famil"
+            - link "Govern · Fall $365K Budget · 69% burned $252K spent · $113K left ⚑ Guerrilla +12% over plan" [ref=e455] [cursor=pointer]:
+              - /url: /m/budget
+              - generic [ref=e456]: Govern · Fall $365K
+              - generic [ref=e457]: Budget · 69% burned
+              - generic [ref=e458]: $252K spent · $113K left
+              - generic [ref=e459]: ⚑ Guerrilla +12% over plan
+            - link "Measure CRM Ops 92.8% sync parity · 2 sites ⚑ UTM broken" [ref=e460] [cursor=pointer]:
+              - /url: /m/crm-ops
+              - generic [ref=e461]: Measure
+              - generic [ref=e462]: CRM Ops
+              - generic [ref=e463]: 92.8%
+              - generic [ref=e464]: sync parity · 2 sites
+              - generic [ref=e465]: ⚑ UTM broken
+            - link "Camp P&L Summer Camp $371K / $180K 206% of target · separate P&L" [ref=e466] [cursor=pointer]:
+              - /url: /m/summer-camp
+              - generic [ref=e467]: Camp P&L
+              - generic [ref=e468]: Summer Camp
+              - generic [ref=e469]: $371K / $180K
+              - generic [ref=e470]: 206% of target · separate P&L
+            - link "Reference Dashboard · Library 6 KPIs Monday story · plans" [ref=e471] [cursor=pointer]:
+              - /url: /m/dashboard
+              - generic [ref=e472]: Reference
+              - generic [ref=e473]: Dashboard · Library
+              - generic [ref=e474]: 6 KPIs
+              - generic [ref=e475]: Monday story · plans
+        - dialog "The Answer · North Star" [ref=e492]:
+          - generic [ref=e477]:
+            - heading "The Answer · North Star" [level=2] [ref=e493]
+            - button "Close details" [ref=e494]: ✕
+          - generic [ref=e480]:
+            - generic [ref=e495]:
+              - heading "The verdict" [level=3] [ref=e496]
+              - paragraph [ref=e497]: Behind linear pace — conversion is the lever before Aug 17.
+            - generic [ref=e498]:
+              - heading "Where we stand" [level=3] [ref=e499]
+              - list [ref=e500]:
+                - listitem [ref=e501]: 56/180 deposits — 31% of the Fall goal, -13 versus linear pace.
+                - listitem [ref=e502]: Closing 11/wk against the 5.5/wk needed — projecting 123 of 180 on the current run rate.
+            - generic [ref=e503]:
+              - heading "What's working" [level=3] [ref=e504]
+              - list [ref=e505]:
+                - listitem [ref=e506]: "Demand is healthy: 284 applicants in pipeline (56/wk vs 90 target) — not the constraint."
+            - generic [ref=e507]:
+              - heading "What needs attention" [level=3] [ref=e508]
+              - list [ref=e509]:
+                - listitem [ref=e510]: "Conversion is binding: 56/180 deposits, -13 vs pace — closing 11/wk vs 6/wk needed."
+                - listitem [ref=e511]: "Do this before Aug 17: fix the offer→deposit step and assign the 67-late speed-to-lead owner (53%)."
+            - generic [ref=e512]:
+              - heading "What to do" [level=3] [ref=e513]
+              - list [ref=e514]:
+                - listitem [ref=e515]: "Do this before Aug 17: fix the offer→deposit step and assign the 67-late speed-to-lead owner (53%)."
+                - listitem [ref=e516]: 3 decisions await leadership (2 urgent · $31,000 at stake).
+            - generic [ref=e517]:
+              - heading "North star · deposits" [level=3] [ref=e518]
+              - generic [ref=e519]:
+                - generic [ref=e520]:
+                  - term [ref=e521]: Current
+                  - definition [ref=e522]: "56"
+                - generic [ref=e523]:
+                  - term [ref=e524]: Target
+                  - definition [ref=e525]: "180"
+                - generic [ref=e526]:
+                  - term [ref=e527]: Pace marker
+                  - definition [ref=e528]: "69"
+                - generic [ref=e529]:
+                  - term [ref=e530]: Gap to pace
+                  - definition [ref=e531]: "-13"
+                - generic [ref=e532]:
+                  - term [ref=e533]: Weekly now
+                  - definition [ref=e534]: 11/wk
+                - generic [ref=e535]:
+                  - term [ref=e536]: Weekly needed
+                  - definition [ref=e537]: 5.5/wk
+                - generic [ref=e538]:
+                  - term [ref=e539]: Projection
+                  - definition [ref=e540]: "123"
+            - generic [ref=e541]:
+              - heading "Where we stand" [level=3] [ref=e542]
+              - paragraph [ref=e543]: Need 6/wk, running 11/wk
+              - generic [ref=e544]:
+                - generic [ref=e545]:
+                  - term [ref=e546]: Now
+                  - definition [ref=e547]: 56 / 180 deposits
+                - generic [ref=e548]:
+                  - term [ref=e549]: Vs last week
+                  - definition [ref=e550]: −5 (down)
+                - generic [ref=e551]:
+                  - term [ref=e552]: Vs goal
+                  - definition [ref=e553]: 31% to goal · 31% to target
+            - generic [ref=e554]:
+              - heading "What's driving it" [level=3] [ref=e555]
+              - paragraph [ref=e556]: Stage spend $35K · ~$/deposit est.
+              - paragraph [ref=e557]: $/deposit estimated from total actual spend × a 14% conversion-stage share.
+              - generic [ref=e558]:
+                - generic [ref=e559]:
+                  - generic [ref=e560]:
+                    - generic [ref=e561]: Applicants
+                    - generic [ref=e563]: "284"
+                  - paragraph [ref=e564]: ▼ 79% drop
+                - generic [ref=e565]:
+                  - generic [ref=e566]:
+                    - generic [ref=e567]: Shadow
+                    - generic [ref=e569]: "60"
+                  - paragraph [ref=e570]: ▼ 7% drop
+                - generic [ref=e572]:
+                  - generic [ref=e573]: Deposits
+                  - generic [ref=e575]: "56"
+            - generic [ref=e576]:
+              - heading "What we're doing" [level=3] [ref=e577]
+              - generic [ref=e578]:
+                - paragraph [ref=e579]: Add a 4th summer session at Austin (capacity sold > 90%)?
+                - link "Open in Decision Queue →" [ref=e580] [cursor=pointer]:
+                  - /url: /m/decisions
+            - generic [ref=e581]:
+              - heading "The headline" [level=3] [ref=e582]
+              - list [ref=e583]:
+                - listitem [ref=e584]: "Conversion, not demand, is binding: 56/180 deposits, -13 to pace at 11/wk vs 6 needed."
+                - listitem [ref=e585]: Fix offer→deposit step or Fall lands below goal on linear projection.
+            - generic [ref=e586]:
+              - heading "Weekly metric contract" [level=3] [ref=e587]
+              - generic [ref=e589]:
+                - term [ref=e590]: ★ Deposits / wk
+                - definition [ref=e591]: 11 · was 16 (Δ -5)
+              - generic [ref=e593]:
+                - term [ref=e594]: Deposits / wk
+                - definition [ref=e595]:
+                  - generic [ref=e596]:
+                    - link "▸ Nurture" [ref=e597] [cursor=pointer]:
+                      - /url: /m/nurture
+                    - generic [ref=e598]: ·
+                    - link "⛁ Supabase" [ref=e599] [cursor=pointer]:
+                      - /url: /dev/integrations#supabase_app_form
+            - generic [ref=e600]:
+              - heading "Pace to Aug 17" [level=3] [ref=e601]
+              - generic [ref=e602]:
+                - generic [ref=e603]:
+                  - term [ref=e604]: Current
+                  - definition [ref=e605]: 11/wk
+                - generic [ref=e606]:
+                  - term [ref=e607]: Needed
+                  - definition [ref=e608]: 6/wk
+                - generic [ref=e609]:
+                  - term [ref=e610]: Projected
+                  - definition [ref=e611]: "123"
+            - generic [ref=e612]:
+              - heading "Generated reasoning" [level=3] [ref=e613]
+              - paragraph [ref=e614]: "Owner: Admissions Lead (Admissions)."
+              - paragraph [ref=e615]: "Position: 56 / 180 deposits (-13 pace)."
+              - paragraph [ref=e616]: "Headline metric — Deposits / wk: 11 (Δ -5 WoW)."
+              - paragraph [ref=e617]: "Driver: 284 applicants → 56 deposits · offer step leaks."
+              - paragraph [ref=e618]: $/deposit estimated from total actual spend × a 14% conversion-stage share.
+              - paragraph [ref=e619]: "Decision: Add a 4th summer session at Austin (capacity sold > 90%)?"
+  - generic [ref=e485] [cursor=pointer]:
+    - button "Open Next.js Dev Tools" [ref=e486]:
+      - img [ref=e487]
+    - generic [ref=e620]:
+      - button "Open issues overlay" [ref=e621]:
+        - generic [ref=e622]:
+          - generic [ref=e623]: "0"
+          - generic [ref=e624]: "1"
+        - generic [ref=e625]: Issue
+      - button "Collapse issues badge" [ref=e626]:
+        - img [ref=e627]
+  - alert [ref=e490]

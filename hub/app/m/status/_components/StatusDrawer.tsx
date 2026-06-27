@@ -58,8 +58,8 @@ export function StatusDrawer({
           </button>
         </div>
         <div className="min-h-0 flex-1 overflow-y-auto px-4 py-3 text-[11px] leading-relaxed">
-          {sections.map((sec) => (
-            <div key={sec.heading} className="mb-4">
+          {sections.map((sec, i) => (
+            <div key={`${i}-${sec.heading}`} className="mb-4">
               <h3 className="mono mb-1.5 border-b border-hairline pb-1 text-[9px] font-bold uppercase tracking-wide text-slate">
                 {sec.heading}
               </h3>

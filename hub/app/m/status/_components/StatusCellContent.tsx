@@ -89,13 +89,22 @@ export function StatusCellContent({
   // attention". The tag mirrors the row RAG so the per-stage story reads the same way
   // as the top Answer (where we stand → what's working → what needs attention).
   const top = cell.bullets?.[0];
+  // Severity-keyed chip so the lens differentiates (green stage = a strength to protect;
+  // amber = watch; red = needs attention) and reads as a distinct badge, not glued to the
+  // prose. It reinforces — does not merely repeat — the row RAG token.
   const lens =
     attention === "calm"
-      ? { label: "Working", cls: "text-green" }
-      : { label: "Needs attention", cls: attention === "high" ? "text-red" : "text-amber" };
+      ? { label: "Working", cls: "bg-green-soft text-green" }
+      : attention === "high"
+        ? { label: "Needs attention", cls: "bg-red-soft text-red" }
+        : { label: "Watch", cls: "bg-amber-soft text-amber" };
   return (
     <p className="line-clamp-2 font-serif text-[11px] leading-snug text-muted">
-      <span className={`mono mr-1 text-[8px] font-bold uppercase tracking-wide ${lens.cls}`}>{lens.label}</span>
+      <span
+        className={`mono mr-1.5 inline-block rounded-[4px] px-1 py-px text-[8px] font-bold uppercase tracking-wide ${lens.cls}`}
+      >
+        {lens.label}
+      </span>
       {top?.text ?? cell.subline ?? "—"}
     </p>
   );

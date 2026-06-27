@@ -573,7 +573,7 @@ function buildStageDrawer(s: StatusStage): DrawerSection[] {
   if (pos.subline) posLines.push(pos.subline);
   if (pos.derivedNote) posLines.push(pos.derivedNote);
   out.push({
-    heading: "Where we stand",
+    heading: "Where this stage stands",
     kv: posKv.length ? posKv : undefined,
     lines: posLines.length ? posLines : posKv.length ? undefined : ["No reading."],
   });

@@ -62,7 +62,7 @@ describe("Status board data layer", () => {
     for (const stage of board.stages) {
       const headings = stage.drawerSections.map((s) => s.heading);
       expect(headings, `${stage.name} drawer`).toEqual(
-        expect.arrayContaining(["Where we stand", "What's driving it", "What we're doing"]),
+        expect.arrayContaining(["Where this stage stands", "What's driving it", "What we're doing"]),
       );
       // Stages with charts must still expose them in the drawer.
       const hasChart = stage.drawerSections.some(
