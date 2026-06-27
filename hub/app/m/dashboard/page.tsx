@@ -119,23 +119,21 @@ export default async function DashboardPage({
   return (
     <main className="min-h-[100dvh] bg-canvas">
       <section className="border-b border-hairline bg-[linear-gradient(135deg,var(--paper)_0%,var(--paper)_62%,var(--fill)_100%)]">
-        <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
-          <div>
+        <div className="mx-auto max-w-[1280px] px-4 py-3 sm:px-6 lg:px-8">
+          <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
             <Link href="/" className="mono text-[10px] font-semibold text-gold hover:underline">
               &larr; Home (your cockpit)
             </Link>
-            <p className="mono mt-2 text-[10px] font-semibold text-label">Module 6 &middot; Dashboard / KPI Tracking</p>
-            <h1 className="mt-1 font-serif text-[20px] font-bold leading-tight tracking-[-0.02em] text-ink">
+            <span className="mono text-[10px] font-semibold text-label">Module 6 &middot; Dashboard / KPI Tracking</span>
+            <h1 className="basis-full font-serif text-[18px] font-bold leading-tight tracking-[-0.02em] text-ink">
               Weekly Standup &mdash; our shared board
             </h1>
-            <p className="mt-1.5 max-w-[760px] text-[12px] leading-snug text-muted">
-              The single canonical scorecard the whole team meets on &mdash; identical for everyone and
-              versioned by week. A read-only aggregator: every number resolves through ONE KPI definition, so
-              the Home widget, this board, and the owning module show the same value. Uninstrumented inputs are
-              flagged low-confidence; stale connectors show a badge; goals are Leader-editable only.{" "}
-              <Link href="/" className="font-semibold text-gold hover:underline">
-                Want your own view? &rarr; Home.
-              </Link>
+            <p
+              className="basis-full max-w-[820px] text-[11px] leading-snug text-muted"
+              title="A read-only aggregator: every number resolves through ONE KPI definition, so the Home widget, this board, and the owning module show the same value. Uninstrumented inputs are flagged low-confidence; stale connectors show a badge; goals are Leader-editable only."
+            >
+              The single canonical scorecard the whole team meets on — identical for everyone, versioned by week.{" "}
+              <Link href="/" className="font-semibold text-gold hover:underline">Want your own view? &rarr; Home</Link>
             </p>
           </div>
         </div>

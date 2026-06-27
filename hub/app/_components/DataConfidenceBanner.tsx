@@ -62,30 +62,32 @@ export function DataConfidenceBanner({
     ? `A field dropped unexpectedly below ${state.thresholdPct}%: ${fieldText}. Overall ${state.overallPct}%.`
     : `Known-unreliable fields are below ${state.thresholdPct}% (expected): ${fieldText}. Overall ${state.overallPct}%.`;
 
-  const tone = alarm
-    ? "border-red-soft bg-red-soft"
-    : "border-gold bg-amber-soft";
-  const headColor = alarm ? "text-red" : "text-ink";
+  const tone = alarm ? "border-red-soft bg-red-soft" : "border-gold bg-amber-soft";
+  const headColor = alarm ? "text-red" : "text-amber";
+  // Dense one-line summary; the full per-field breakdown folds into the hover title so the
+  // honest-data signal stays loud but takes a single row, not a card (Q1 density).
+  const summary = `${state.below.length} field${state.below.length === 1 ? "" : "s"} ${
+    alarm ? "dropped below" : "below"
+  } ${state.thresholdPct}%${alarm ? " unexpectedly" : " (expected)"} · overall ${state.overallPct}%`;
 
   return (
     <section
       role={alarm ? "alert" : "status"}
-      className={`rounded-card border ${tone} p-3`}
+      title={cleanCopy(message)}
+      className={`flex items-center gap-2 rounded-card border ${tone} px-2.5 py-1.5`}
     >
-      <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-        <div>
-          <p className={`text-[12px] font-semibold ${headColor}`}>
-            {alarm ? "Data confidence alarm" : "Data confidence warning"}
-          </p>
-          <p className="mt-1 text-[11px] leading-snug text-slate">{cleanCopy(message)}</p>
-        </div>
-        <Link
-          href={href}
-          className="inline-flex h-8 shrink-0 items-center justify-center rounded-card bg-ink-cta px-3 text-[11px] font-semibold text-on-cta transition-transform active:translate-y-px"
-        >
-          Open CRM Ops
-        </Link>
-      </div>
+      <span aria-hidden="true" className={`text-[12px] ${headColor}`}>⚠</span>
+      <p className="min-w-0 flex-1 truncate text-[11px] leading-snug text-slate">
+        <span className={`font-semibold ${headColor}`}>{alarm ? "Data confidence alarm" : "Data confidence warning"}</span>
+        {" — "}
+        {summary}
+      </p>
+      <Link
+        href={href}
+        className="mono shrink-0 text-[10px] font-semibold text-gold hover:underline"
+      >
+        Open CRM Ops →
+      </Link>
     </section>
   );
 }

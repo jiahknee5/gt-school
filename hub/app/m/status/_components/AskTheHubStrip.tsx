@@ -3,10 +3,11 @@
 import Link from "next/link";
 import { FormEvent, useCallback, useState } from "react";
 
+// Short chip labels keep the row compact; the full question is what's sent to the model.
 const CHIPS = [
-  "Why are we behind on Fall deposits?",
-  "Which channel has the worst CPQL?",
-  "What decision is blocking conversion?",
+  { label: "Behind on deposits?", q: "Why are we behind on Fall deposits?" },
+  { label: "Worst CPQL?", q: "Which channel has the worst CPQL?" },
+  { label: "Blocking decision?", q: "What decision is blocking conversion?" },
 ];
 
 interface AskCitation {
@@ -65,11 +66,13 @@ export function AskTheHubStrip({ week }: { week?: string }) {
 
   return (
     <div className="flex min-w-0 flex-col gap-1.5 border-l border-hairline pl-5">
-      <span className="font-serif text-[13px] font-bold text-ink">Ask the Hub</span>
-      <span className="mono text-[9px] uppercase tracking-wide text-muted">
-        Answers inline · grounded in this week&apos;s verdict
+      <span
+        className="font-serif text-[13px] font-bold text-ink"
+        title="Answers inline · grounded in this week's verdict"
+      >
+        Ask the Hub
       </span>
-      <form onSubmit={onSubmit} className="mt-1 flex gap-1.5">
+      <form onSubmit={onSubmit} className="flex gap-1.5">
         <label htmlFor="status-ask" className="sr-only">
           Ask the Hub
         </label>
@@ -92,15 +95,16 @@ export function AskTheHubStrip({ week }: { week?: string }) {
       <div className="flex flex-wrap gap-1">
         {CHIPS.map((chip) => (
           <button
-            key={chip}
+            key={chip.label}
             type="button"
+            title={chip.q}
             onClick={() => {
-              setQuery(chip);
-              void ask(chip);
+              setQuery(chip.q);
+              void ask(chip.q);
             }}
             className="rounded-full border border-border bg-surface px-2 py-0.5 text-left text-[10px] font-medium text-slate hover:border-slate hover:bg-hover"
           >
-            {chip}
+            {chip.label}
           </button>
         ))}
       </div>

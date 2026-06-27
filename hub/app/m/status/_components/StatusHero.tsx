@@ -15,7 +15,7 @@ export function StatusHero({
   const { answer, northStar } = board;
 
   return (
-    <section className="grid gap-4 rounded-card border border-border bg-surface p-3.5 shadow-lg lg:grid-cols-[1.15fr_1fr_320px] lg:items-center lg:p-4">
+    <section className="grid gap-3 rounded-card border border-border bg-surface p-3 shadow-lg lg:grid-cols-[1.15fr_1fr_300px] lg:items-center">
       <button
         type="button"
         onClick={onDrillHero}
@@ -26,7 +26,7 @@ export function StatusHero({
           <span className="text-muted">· {board.programLabel}</span>
           <span className="h-px flex-1 bg-hairline" />
         </div>
-        <h1 className="mt-1 font-serif text-[20px] font-bold leading-tight tracking-[-0.015em] text-ink">
+        <h1 className="mt-1 font-serif text-[17px] font-bold leading-tight tracking-[-0.015em] text-ink">
           {answer.headline}
         </h1>
         <ul className="mt-2 space-y-1">
@@ -64,9 +64,9 @@ export function StatusHero({
             {northStar.gap >= 0 ? `+${northStar.gap}` : northStar.gap}
           </span>
         </div>
-        <p className="mono num mt-1 text-[clamp(28px,4vw,40px)] font-bold leading-none text-ink">
+        <p className="mono num mt-0.5 text-[clamp(24px,3.2vw,32px)] font-bold leading-none text-ink">
           {northStar.current}
-          <small className="ml-1 text-[13px] font-normal text-muted">
+          <small className="ml-1 text-[12px] font-normal text-muted">
             / {northStar.target} · {northStar.pctOfTarget}%
           </small>
         </p>
