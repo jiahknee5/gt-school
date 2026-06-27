@@ -6,6 +6,14 @@ import {
   modulesForNavScope,
   parseNavScope,
 } from "@/lib/nav";
+import {
+  buildNavScopeCookieValue,
+  decodeNavScopeStore,
+  encodeNavScopeStore,
+  navScopeFromStore,
+  readNavScopeCookieFromHeader,
+  storeWithNavScope,
+} from "@/lib/nav-preference";
 import type { DemoUser } from "@/lib/phase2";
 import { DEMO_USERS } from "@/lib/phase2";
 
@@ -58,5 +66,38 @@ describe("nav scope filtering", () => {
     const admissions = MODULES.find((m) => m.slug === "admissions")!;
     const fieldOwner = DEMO_USERS.find((u) => u.id === "field-events-operator")!;
     expect(moduleMatchesViewer(admissions, viewer(fieldOwner))).toBe(true);
+  });
+});
+
+describe("nav scope cookie store (demo fallback, no DB)", () => {
+  it("round-trips per-user scope through encode/decode", () => {
+    const store = storeWithNavScope({}, "grassroots-operator", "all");
+    const decoded = decodeNavScopeStore(encodeNavScopeStore(store));
+    expect(navScopeFromStore(decoded, "grassroots-operator")).toBe("all");
+    expect(navScopeFromStore(decoded, "other-user")).toBe("my");
+  });
+
+  it("keeps independent scopes for multiple users in one cookie", () => {
+    let store = storeWithNavScope({}, "user-a", "all");
+    store = storeWithNavScope(store, "user-b", "agenda");
+    const encoded = encodeNavScopeStore(store);
+    const header = `gt_nav_scope=${encodeURIComponent(encoded)}`;
+    const parsed = readNavScopeCookieFromHeader(header);
+    expect(navScopeFromStore(parsed, "user-a")).toBe("all");
+    expect(navScopeFromStore(parsed, "user-b")).toBe("agenda");
+  });
+
+  it("buildNavScopeCookieValue appends without clobbering other users", () => {
+    const existing = buildNavScopeCookieValue("", "user-a", "all");
+    const header = `gt_nav_scope=${encodeURIComponent(existing)}`;
+    const next = buildNavScopeCookieValue(header, "user-b", "agenda");
+    const store = decodeNavScopeStore(next);
+    expect(navScopeFromStore(store, "user-a")).toBe("all");
+    expect(navScopeFromStore(store, "user-b")).toBe("agenda");
+  });
+
+  it("ignores malformed cookie values and defaults to my", () => {
+    expect(navScopeFromStore(decodeNavScopeStore("not-valid-base64!!!"), "anyone")).toBe("my");
+    expect(navScopeFromStore(readNavScopeCookieFromHeader(""), "anyone")).toBe("my");
   });
 });

@@ -59,6 +59,7 @@ export const SUITES: Suite[] = [
       { file: "tests/crm-ops.test.ts", kind: "pure", needs: [], what: "CRM Ops parity, attribution, scoring, detector, queue RBAC, and rendered module surface." },
       { file: "tests/budget.test.ts", kind: "pure", needs: [], what: "Budget ledger reconciliation, variance auto-flags, RBAC, route write guard, and rendered sub-views." },
       { file: "tests/home-layout.test.ts", kind: "pure", needs: [], what: "Home saved layout normalization, per-session GET/PUT persistence, and spoofed user-id denial." },
+      { file: "tests/nav-scope-route.test.ts", kind: "pure", needs: [], what: "Nav scope PUT route sets per-user cookie when no DB; validation and auth guards." },
       { file: "tests/rbac.test.ts", kind: "pure", needs: [], what: "Signed demo sessions, route policy, middleware denial, token integrity/expiry." },
       { file: "tests/profiles.test.ts", kind: "pure", needs: [], what: "Permission-tier profile updates, audit rows, and self-escalation guardrails." },
       { file: "tests/ratelimit.test.ts", kind: "pure", needs: [], what: "Fixed-window throttling, client-key parsing, and public capture rate limiting." },
@@ -77,6 +78,7 @@ export const SUITES: Suite[] = [
       { file: "tests/payment-propagation-surface.test.ts", kind: "pure", needs: [], what: "Visible E1 payment watcher signals: processed status, replay no-op, isolation, and contamination warning." },
       { file: "tests/gt-challenge.test.ts", kind: "pure", needs: [], what: "GT Challenge consent, dedupe, grading, UTM capture, and route idempotency." },
       { file: "tests/phase2.test.ts", kind: "pure", needs: [], what: "Phase 2 roles, widgets, budget, confidence banner, GT Challenge helpers, and requirement audit." },
+      { file: "tests/nav.test.ts", kind: "pure", needs: [], what: "Nav scope filtering (my/all/agenda), per-user cookie codec, and functional-role module matching." },
     ],
   },
   {

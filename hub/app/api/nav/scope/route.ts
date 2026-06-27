@@ -1,8 +1,16 @@
 // Per-user sidebar nav scope (soft filter). Session user is the only row key.
+//
+// Persistence: nav_preference row when a DB is configured; otherwise a per-user
+// cookie store (same demo round-trip pattern as raise-a-decision).
 
 import { NextResponse } from "next/server";
 import { AuthError, requireSession } from "@/lib/auth";
-import { getNavScopeForUser, setNavScopeForUser } from "@/lib/nav-preference";
+import {
+  buildNavScopeCookieValue,
+  getNavScopeForUser,
+  navScopeCookieAttributes,
+  setNavScopeForUser,
+} from "@/lib/nav-preference";
 import { parseNavScope, type NavScope } from "@/lib/nav";
 
 export const dynamic = "force-dynamic";
@@ -42,8 +50,16 @@ export async function PUT(req: Request) {
         { status: 400 },
       );
     }
-    const navScope = await setNavScopeForUser(session.id, scope);
-    return NextResponse.json({ ok: true, navScope });
+    const { scope: navScope, cookieFallback } = await setNavScopeForUser(session.id, scope);
+    const res = NextResponse.json({ ok: true, navScope });
+    if (cookieFallback) {
+      res.cookies.set(
+        navScopeCookieAttributes(
+          buildNavScopeCookieValue(req.headers.get("cookie") ?? "", session.id, navScope),
+        ),
+      );
+    }
+    return res;
   } catch (err) {
     if (err instanceof AuthError) {
       return NextResponse.json({ error: err.message }, { status: err.status });
