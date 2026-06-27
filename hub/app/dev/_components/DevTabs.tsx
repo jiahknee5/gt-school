@@ -11,6 +11,7 @@ const TABS = [
   { href: "/dev/payments", label: "Payments" },
   { href: "/dev/profiles", label: "Profiles" },
   { href: "/dev/agents", label: "Agent graph" },
+  { href: "/dev/rubrics", label: "Rubrics & provenance" },
   { href: "/dev/tests", label: "Test theater" },
 ];
 

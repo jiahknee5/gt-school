@@ -35,6 +35,18 @@ All 14 PRD hard gates PASS at the logic level (184+ tests against *live* Supabas
 ### P2 — navigation / discoverability
 3. **Default sidebar hides 6 modules from the Admin.** With the default `My` / `Fall` scope, the Admin (full-access Marketing Lead) sees only 8 of 14 modules in the nav — Grassroots, Content, Summer Camp, Field & Events, Admissions, and Budget are absent (reachable only by direct URL), and the `VIEW: All` toggle is **disabled on Home**. PRD §2 calls for a sidebar "module list." Either (a) make the `All` toggle work on Home so full access is one click, or (b) if the role-scoped default is intentional (`ROLE-SCOPING-ADVISORY.md`), have Johnny/the cohesion panel ratify it and add a visible "show all modules" affordance. Files: `app/_components/Sidebar.tsx`, `lib/nav.ts`, `app/api/nav/scope/route.ts`.
 
+## GT Challenge end-to-end: does the data pass through to the Hub? (answer to the direct question)
+
+**No — not today. The capture+scoring half is real; the persistence→Hub half is a documented stub.** Verified by submitting a real qualifying quiz against the running app:
+
+- **What works (real + tested):** `POST /api/gifted-quiz` (public) validated consent + contact, graded the answers deterministically (`rawScore 90 → strong_fit → qualified → routed → fall_enrollment`), captured UTM, and deduped on idempotency key. `gt-challenge.test.ts` (6) covers all of it.
+- **What does NOT pass through:** the route persists to an **in-memory `Map`** (`InMemoryGiftedQuizCaptureStore`) and returns `"persistence": "memory-contract"` + a `dbGap` naming the missing adapter (`campaigns, quiz_submissions, families, sync_outbox, processed_events`). The test suite *asserts* this (`gt-challenge.test.ts:181-182`). So: **no DB write, no real HubSpot lead, no outbox enqueue.**
+- **The Hub shows seed, not live captures.** `/m/gt-challenge` (Spend $8,208 · **Qualified 12** · CPQL $684), the Dashboard/Home KPI row, and CRM Ops all read from seed `generate()`. The submission I sent **did not appear and did not move Qualified off 12** (`shows-my-submission=false`). `summarizeGiftedQuizCaptures` / the capture store are referenced **only** in the API route, never in a render path.
+- **Honest, not faked:** the page labels itself "Worked example", says "capture persistence remains tracked separately", and surfaces "UTM attribution is known broken… not treated as truth." This is a **deliberate, documented scope cut** (the Brief calls the GT Challenge "optional"), consistent with the spec's "be honest about what's broken" rule — *not* a green-washed fake.
+- **Contrast:** the **payment** pipeline IS wired end-to-end to the real DB (RLS isolation + idempotent outbox + HubSpot, proven against live Stripe/Supabase). The GT Challenge capture is the one "worked example" loop that stops at an in-memory contract.
+
+**Fix to make it actually flow (P1 if you want it live):** implement the `GiftedQuizCaptureStore` against the DB (the `dbGap` lists the exact tables) → enqueue to `sync_outbox` so the lead reaches HubSpot via the existing Phase-1 backbone → have the `/m/gt-challenge` surface + Dashboard KPI read submission counts from the store (via `summarizeGiftedQuizCaptures`) instead of seed. Screenshots of the current loop: `docs/audits/qa-shots/gtc-{1-guide,2-budget,3-quiz,4-report}.png`.
+
 ## Are we sure the UI is condensed? (answer to the direct question)
 
 **Yes — the UI is genuinely condensed, and the old inconsistency is resolved.** Measured from the rendered pages and the header components:

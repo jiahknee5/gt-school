@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 import type { DrawerSection } from "@/lib/status/board";
 import { MetricCite } from "@/app/_components/MetricCite";
+import { DerivationGraphView, KIND_BADGE } from "@/app/_components/DerivationGraphView";
 import { RankedMiniBar } from "./dataviz/RankedMiniBar";
 import { FunnelMini } from "./dataviz/FunnelMini";
 import { Sparkline } from "./dataviz/Sparkline";
@@ -96,6 +97,27 @@ export function StatusDrawer({
                   ))}
                 </dl>
               )}
+              {sec.derivations?.map((g) => (
+                <details key={g.key} className="mt-2 rounded-card border border-hairline bg-canvas">
+                  <summary className="flex cursor-pointer list-none items-center gap-1.5 px-2.5 py-1.5">
+                    <span className="mono text-[10px] text-label">▸</span>
+                    <span className={`mono rounded-[4px] px-1.5 py-0.5 text-[8px] font-semibold uppercase ${KIND_BADGE[g.kind].cls}`}>
+                      {KIND_BADGE[g.kind].label}
+                    </span>
+                    <span className="text-[11px] font-semibold text-ink">{g.label}</span>
+                    <span className={`mono ml-auto text-[9px] font-bold ${g.eval.pass ? "text-green" : "text-red"}`}>
+                      eval {g.eval.pass ? "✓" : "✗"}
+                    </span>
+                  </summary>
+                  <div className="space-y-2 border-t border-hairline px-2.5 py-2">
+                    <p className="text-[10px] leading-snug text-amber"><b>Honesty:</b> {g.rubric.honesty}</p>
+                    <DerivationGraphView graph={g} />
+                    <Link href={`/dev/rubrics`} className="mono block text-[9px] font-semibold text-gold hover:underline">
+                      Full rubric + run log → /dev/rubrics
+                    </Link>
+                  </div>
+                </details>
+              ))}
               {sec.rankedBars && <RankedMiniBar rows={sec.rankedBars} />}
               {sec.funnelSteps && <FunnelMini steps={sec.funnelSteps} />}
               {sec.sparkline && <Sparkline data={sec.sparkline} />}

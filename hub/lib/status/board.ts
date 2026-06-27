@@ -22,6 +22,7 @@ import {
   weekMondays,
 } from "@/lib/metrics/registry";
 import { rowSpecFor, type StageMetricSpec } from "./rowspec";
+import { buildDerivations, type DerivationGraph } from "./derivation";
 import { summarizeBudget, ensureBudgetVarianceDecision } from "@/lib/phase2";
 import type { Decision, Family, SeedDataset } from "@/lib/seed/types";
 import type { ProgramScope } from "@/lib/program-scope";
@@ -150,6 +151,8 @@ export type DrawerSection = {
   bullets?: StatusBullet[];
   /** Dual citations (WS4): each metric's owning module + data source, rendered as links. */
   cites?: { label: string; source: string; homeModule: string }[];
+  /** Provenance graphs (source→transform→output) for the section's metrics, with rubric + eval. */
+  derivations?: DerivationGraph[];
 };
 
 export type AnswerSection = {
@@ -377,7 +380,10 @@ function resolveStageMetrics(
 }
 
 /** The drawer view of the fixed contract: every metric with its WoW reading + dual cite. */
-function metricsDrawerSection(metrics: StageMetric[]): DrawerSection {
+function metricsDrawerSection(
+  metrics: StageMetric[],
+  derivationsByKey: Map<string, DerivationGraph>,
+): DrawerSection {
   return {
     heading: "Weekly metric contract",
     kv: metrics.map((m) => {
@@ -393,10 +399,13 @@ function metricsDrawerSection(metrics: StageMetric[]): DrawerSection {
     }),
     // Each metric traces to its owning module AND its data source (WS4 dual citations).
     cites: metrics.map((m) => ({ label: m.label, source: m.source, homeModule: m.homeModule })),
+    // The provenance graph + rubric + eval per metric (WS: derivation harness). Cell text and
+    // the cited derivation share one definition, so a claim can never diverge from its source.
+    derivations: metrics.map((m) => derivationsByKey.get(m.key)).filter((g): g is DerivationGraph => Boolean(g)),
   };
 }
 
-function funnelCounts(families: Family[]) {
+export function funnelCounts(families: Family[]) {
   const c = (stage: string) => families.filter((f) => f.funnel_stage === stage).length;
   const applicants = families.filter((f) => APPLICANT_PLUS.has(f.funnel_stage ?? "")).length;
   return {
@@ -1125,12 +1134,17 @@ export function buildStatusBoard(
     }
   }
 
+  // Provenance harness: one derivation graph (source→transform→output + rubric + self-eval)
+  // per surfaced metric, computed once and attached to the drawer so every claim shows where
+  // it came from and whether it is measured / derived / a stand-in.
+  const derivationsByKey = new Map(buildDerivations(ds, week).map((g) => [g.key, g]));
+
   // Calm default, dense drawer: derive the rich drill-down from each stage's
   // four spine cells, then append the weekly metric contract + any extra sections.
   for (const stage of stages) {
     stage.drawerSections = [
       ...buildStageDrawer(stage),
-      ...(stage.metrics?.length ? [metricsDrawerSection(stage.metrics)] : []),
+      ...(stage.metrics?.length ? [metricsDrawerSection(stage.metrics, derivationsByKey)] : []),
       ...stage.drawerSections,
     ];
   }
@@ -1207,7 +1221,7 @@ export function buildStatusBoard(
   };
 }
 
-function distHotWarmRate(families: Family[]) {
+export function distHotWarmRate(families: Family[]) {
   const tier = (n: number | null) => (n == null ? "none" : n >= 70 ? "hot" : n >= 40 ? "warm" : "cold");
   const acc = { hot: { n: 0, dep: 0 }, warm: { n: 0, dep: 0 }, cold: { n: 0, dep: 0 } };
   for (const f of families.filter((x) => APPLICANT_PLUS.has(x.funnel_stage ?? ""))) {
@@ -1223,7 +1237,7 @@ function distHotWarmRate(families: Family[]) {
   return { hotRate, coldRate, rate };
 }
 
-function referralDepositRate(families: Family[]): number {
+export function referralDepositRate(families: Family[]): number {
   const refs = families.filter((f) => f.utm_source === "referral" || f.source === "referral");
   const apps = refs.filter((f) => APPLICANT_PLUS.has(f.funnel_stage ?? "")).length;
   const dep = refs.filter((f) => f.funnel_stage === "deposit").length;
