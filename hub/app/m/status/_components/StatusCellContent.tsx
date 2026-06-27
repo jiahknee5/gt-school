@@ -1,98 +1,77 @@
 "use client";
 
-import Link from "next/link";
-import type { StatusCell, StatusBullet } from "@/lib/status/board";
-import { RankedMiniBar } from "./dataviz/RankedMiniBar";
-import { FunnelMini } from "./dataviz/FunnelMini";
-import { Sparkline } from "./dataviz/Sparkline";
+import type { StatusCell } from "@/lib/status/board";
 
-function ExecBullets({ bullets }: { bullets: StatusBullet[] }) {
-  return (
-    <ul className="space-y-1">
-      {bullets.map((b, i) => (
-        <li key={i} className="flex gap-1.5 font-serif text-[12px] leading-snug text-ink">
-          <span className="mt-2 h-1 w-1 shrink-0 rounded-full bg-slate" aria-hidden="true" />
-          <span>{b.text}</span>
-        </li>
-      ))}
-    </ul>
-  );
-}
+type Attention = "high" | "watch" | "calm";
 
-export function StatusCellContent({ cell, column }: { cell: StatusCell; column: "position" | "drivers" | "decisions" | "narrative" }) {
-  if (cell.thin) {
-    return (
-      <div className="space-y-1">
-        {cell.owner && (
-          <p className="mono text-[10px] font-semibold uppercase tracking-wide text-label">
-            {cell.owner}
-          </p>
-        )}
-        <p className="text-[11px] italic text-muted">{cell.subline ?? cell.thinReason ?? "Thin signal — drill for context."}</p>
+/**
+ * Default matrix cell — shows the ONE most decision-relevant thing per column.
+ * Everything dense (charts, economics, full narrative, the decision card) lives
+ * in the drawer. Calm cells recede; only attention cells carry visual weight.
+ */
+export function StatusCellContent({
+  cell,
+  column,
+  attention,
+}: {
+  cell: StatusCell;
+  column: "position" | "drivers" | "decisions" | "narrative";
+  attention: Attention;
+}) {
+  // POSITION — the single headline number (the RAG lives in the row header).
+  if (column === "position") {
+    const numCls =
+      attention === "high"
+        ? "text-[22px] text-ink"
+        : attention === "watch"
+          ? "text-[20px] text-ink"
+          : "text-[17px] text-slate";
+    return cell.stat ? (
+      <div className="flex items-baseline gap-1.5">
+        <span className={`mono num font-bold leading-none ${numCls}`}>{cell.stat.value}</span>
+        {cell.stat.unit && <span className="text-[10px] text-muted">{cell.stat.unit}</span>}
       </div>
+    ) : (
+      <p className="text-[12px] text-muted">{cell.subline ?? "—"}</p>
     );
   }
 
-  return (
-    <div className="space-y-1.5">
-      {cell.owner && (
-        <p className="mono text-[10px] font-semibold uppercase tracking-wide text-label">
-          <span className="text-slate">{cell.owner}</span>
-        </p>
-      )}
-      {cell.stat && (
-        <div className="flex flex-wrap items-baseline gap-1.5">
-          <span className="mono num text-[22px] font-bold leading-none text-ink">{cell.stat.value}</span>
-          {cell.stat.unit && <span className="text-[10px] text-muted">{cell.stat.unit}</span>}
-          {cell.stat.delta && (
-            <span
-              className={`mono rounded-full px-1.5 py-px text-[10px] font-bold ${
-                cell.stat.deltaTone === "down"
-                  ? "bg-red-soft text-red"
-                  : cell.stat.deltaTone === "up"
-                    ? "bg-green-soft text-green"
-                    : "bg-fill text-muted"
-              }`}
-            >
-              {cell.stat.delta}
-            </span>
-          )}
-        </div>
-      )}
-      {cell.subline && <p className="text-[11px] leading-snug text-ink">{cell.subline}</p>}
-      {cell.rankedBars && cell.rankedBars.length > 0 && <RankedMiniBar rows={cell.rankedBars} />}
-      {cell.funnelSteps && cell.funnelSteps.length > 0 && <FunnelMini steps={cell.funnelSteps} />}
-      {cell.sparkline && <Sparkline data={cell.sparkline} />}
-      {cell.decision && (
-        <div className="space-y-1.5">
-          <p className="text-[12px] font-semibold leading-snug text-ink">{cell.decision.question}</p>
-          {cell.decision.source && (
-            <p className="mono text-[9px] text-muted">
-              {cell.decision.source}
-              {cell.decision.urgent && <span className="ml-1 font-bold text-red">URGENT</span>}
-            </p>
-          )}
-          <Link
-            href={cell.decision.href}
-            onClick={(e) => e.stopPropagation()}
-            className="inline-flex h-7 items-center rounded-card bg-ink-cta px-2.5 text-[11px] font-semibold text-on-cta"
+  // DRIVERS — one quiet line (the glance). Charts + economics → drawer.
+  if (column === "drivers") {
+    return (
+      <p className="line-clamp-2 text-[11px] leading-snug text-muted">
+        {cell.subline ?? cell.owner ?? "—"}
+      </p>
+    );
+  }
+
+  // DECISIONS — attention flag only. A real open decision stands out; else recede.
+  if (column === "decisions") {
+    if (cell.decision) {
+      return (
+        <div className="space-y-0.5">
+          <span
+            className={`mono inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wide ${
+              cell.decision.urgent ? "text-red" : "text-slate"
+            }`}
           >
-            Open queue
-          </Link>
+            <span aria-hidden="true">◆</span>
+            {cell.decision.urgent ? "Decide · urgent" : "Decide"}
+          </span>
+          <p className="line-clamp-2 text-[11px] font-semibold leading-snug text-ink">
+            {cell.decision.question}
+          </p>
         </div>
-      )}
-      {cell.bullets && column === "narrative" && <ExecBullets bullets={cell.bullets} />}
-      {cell.budgetSlice && (
-        <p className="mono border-t border-hairline pt-1.5 text-[9px] text-muted">
-          Stage spend <b className="text-ink">{cell.budgetSlice.spend}</b>
-          {cell.budgetSlice.note && (
-            <span className={cell.budgetSlice.derived ? " italic" : ""}> · {cell.budgetSlice.note}</span>
-          )}
-        </p>
-      )}
-      {(cell.derived || cell.derivedNote) && column === "drivers" && (
-        <p className="mono text-[9px] italic text-muted">{cell.derivedNote ?? "Derived / estimated"}</p>
-      )}
-    </div>
+      );
+    }
+    return <p className="text-[11px] text-muted/70">—</p>;
+  }
+
+  // NARRATIVE — the single top bullet (the headline). Rest → drawer.
+  const top = cell.bullets?.[0];
+  return (
+    <p className="line-clamp-2 font-serif text-[11px] leading-snug text-muted">
+      {top?.text ?? cell.subline ?? "—"}
+    </p>
   );
 }

@@ -15,7 +15,7 @@ export function StatusHero({
   const { answer, northStar } = board;
 
   return (
-    <section className="grid gap-6 rounded-card border border-border bg-surface p-4 shadow-lg lg:grid-cols-[1.15fr_1fr_320px] lg:items-center lg:p-5">
+    <section className="grid gap-4 rounded-card border border-border bg-surface p-3.5 shadow-lg lg:grid-cols-[1.15fr_1fr_320px] lg:items-center lg:p-4">
       <button
         type="button"
         onClick={onDrillHero}
@@ -30,10 +30,10 @@ export function StatusHero({
           {answer.headline}
         </h1>
         <ul className="mt-2 space-y-1">
-          {answer.bullets.map((b, i) => (
-            <li key={i} className="flex gap-2 text-[11px] leading-snug text-muted">
+          {answer.bullets.slice(0, 2).map((b, i) => (
+            <li key={i} className="flex gap-2 text-[12px] leading-snug text-muted">
               <span className="mt-1.5 h-1 w-1 shrink-0 rounded-full bg-slate" aria-hidden="true" />
-              <span className={b.tone === "bad" ? "text-ink" : undefined}>{b.text}</span>
+              <span className={b.tone === "bad" ? "font-medium text-ink" : undefined}>{b.text}</span>
             </li>
           ))}
         </ul>
@@ -43,6 +43,9 @@ export function StatusHero({
             <b className="text-slate">{answer.meta.paceLabel}</b> · as of {answer.meta.asOf} ·{" "}
             <b className="text-slate">{answer.meta.daysLeft} days</b> to Aug 17
           </span>
+          {answer.bullets.length > 2 && (
+            <span className="mono text-[9px] font-semibold text-gold">⊕ full answer</span>
+          )}
         </div>
       </button>
 

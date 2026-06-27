@@ -326,6 +326,57 @@ function narrativeBullets(items: StatusBullet[]): StatusCell {
   return { owner: "", bullets: items };
 }
 
+/**
+ * Build the rich drill-down for a stage from its four spine cells.
+ * The default matrix shows only ONE thing per cell; everything else
+ * (charts, economics, full narrative, the decision) lives here so the
+ * drawer stays dense while the board stays calm. Nothing is lost.
+ */
+function buildStageDrawer(s: StatusStage): DrawerSection[] {
+  const out: DrawerSection[] = [];
+
+  const pos = s.position;
+  const posLines: string[] = [];
+  if (pos.stat) {
+    posLines.push(
+      `${pos.stat.value}${pos.stat.unit ? ` ${pos.stat.unit}` : ""}${pos.stat.delta ? ` · ${pos.stat.delta}` : ""}`,
+    );
+  }
+  if (pos.subline) posLines.push(pos.subline);
+  if (pos.derivedNote) posLines.push(pos.derivedNote);
+  out.push({ heading: "Where we stand", lines: posLines.length ? posLines : ["No reading."] });
+
+  const dr = s.drivers;
+  const drLines: string[] = [];
+  if (dr.budgetSlice) {
+    drLines.push(`Stage spend ${dr.budgetSlice.spend}${dr.budgetSlice.note ? ` · ${dr.budgetSlice.note}` : ""}`);
+  }
+  if (dr.derivedNote) drLines.push(dr.derivedNote);
+  out.push({
+    heading: "What's driving it",
+    lines: drLines.length ? drLines : undefined,
+    rankedBars: dr.rankedBars,
+    funnelSteps: dr.funnelSteps,
+    sparkline: dr.sparkline,
+  });
+
+  const de = s.decisions;
+  if (de.decision) {
+    out.push({ heading: "What we're doing", decision: de.decision });
+  } else {
+    out.push({
+      heading: "What we're doing",
+      lines: [de.subline ?? de.thinReason ?? "No open decision — operational."],
+    });
+  }
+
+  if (s.narrative.bullets?.length) {
+    out.push({ heading: "The headline", bullets: s.narrative.bullets });
+  }
+
+  return out;
+}
+
 // ---------------------------------------------------------------------------
 // Build board
 // ---------------------------------------------------------------------------
@@ -372,16 +423,23 @@ export function buildStatusBoard(
         ? "All programs"
         : "Fall enrollment";
 
-  // The Answer — executive bullets from real pacing + scorecard
+  // The Answer — executive bullets from real pacing + scorecard.
+  // First two are the LEAD bullets shown at default (the proof + the action);
+  // the rest are supporting context revealed in the Answer drawer.
   const answerBullets: StatusBullet[] = [
     {
-      text: `Demand: ${fmt(counts.applicantsPlus)} applicants in pipeline (${fmt(appRow.thisWeek)}/wk this week vs ${fmt(appRow.target ?? 90)} target).`,
-      emphasis: [fmt(counts.applicantsPlus), `${fmt(appRow.thisWeek)}/wk`],
-    },
-    {
-      text: `Conversion binding: ${fmt(cumulativeDeposits)}/${depositTarget} deposits — ${gap >= 0 ? "+" : ""}${gap} vs linear pace, closing ${fmt(weeklyActual)}/wk vs ${fmt(weeklyRequired)}/wk needed.`,
+      text: `Conversion is binding: ${fmt(cumulativeDeposits)}/${depositTarget} deposits, ${gap >= 0 ? "+" : ""}${gap} vs pace — closing ${fmt(weeklyActual)}/wk vs ${fmt(weeklyRequired)}/wk needed.`,
       emphasis: [`${fmt(cumulativeDeposits)}/${depositTarget}`, `${gap >= 0 ? "+" : ""}${gap}`],
       tone: gap < 0 ? "bad" : "neutral",
+    },
+    {
+      text: `Do this before Aug 17: fix the offer→deposit step${sla.slaPct < 80 ? ` and assign the ${sla.lateList.length}-late speed-to-lead owner (${fmtPct(sla.slaPct, 0)})` : ""}.`,
+      emphasis: sla.slaPct < 80 ? [fmtPct(sla.slaPct, 0)] : [],
+      tone: "neutral",
+    },
+    {
+      text: `Demand is healthy: ${fmt(counts.applicantsPlus)} applicants in pipeline (${fmt(appRow.thisWeek)}/wk vs ${fmt(appRow.target ?? 90)} target) — not the constraint.`,
+      emphasis: [fmt(counts.applicantsPlus), `${fmt(appRow.thisWeek)}/wk`],
     },
     {
       text: `Speed-to-lead at ${fmtPct(sla.slaPct)} (${sla.lateList.length} late) — each late follow-up leaks a paid lead.`,
@@ -466,6 +524,9 @@ export function buildStatusBoard(
       },
       drivers: {
         owner: "conv by channel · Content",
+        subline: topChannel
+          ? `${topChannel.label} leads${channels.find((c) => c.tag === "trap") ? " · paid social lags" : ""}`
+          : "Channel mix from seed attribution",
         rankedBars: channels,
         budgetSlice: { spend: stageSpend("thought_leadership", budget.rows), note: "~CPM est.", derived: true },
         derived: true,
@@ -502,11 +563,7 @@ export function buildStatusBoard(
             ]
           : [{ text: "Insufficient channel signal — fix UTM parity before optimizing mix.", tone: "bad" }],
       },
-      drawerSections: [
-        { heading: "Position", lines: [`GA4 top-channel: ${fmtPct(convRow.thisWeek, 1)}`, convRow.instrumented ? "Measured" : "Low confidence — UTM broken on 169 contacts"] },
-        { heading: "Drivers · conversion by channel", rankedBars: channels },
-        { heading: "Budget", lines: [`Stage spend ${stageSpend("thought_leadership", budget.rows)} (est.)`] },
-      ],
+      drawerSections: [],
     },
     {
       key: "acquisition",
@@ -530,6 +587,7 @@ export function buildStatusBoard(
       },
       drivers: {
         owner: "CPQL by channel · Grassroots",
+        subline: "Referral best CPQL · Facebook 3× trap",
         rankedBars: cpqlByChannel(budget.rows.find((r) => r.key === "grassroots")?.planned ?? 210000, families),
         budgetSlice: { spend: stageSpend("grassroots", budget.rows), note: "CPQL derived", derived: true },
         derived: true,
@@ -561,11 +619,7 @@ export function buildStatusBoard(
           },
         ],
       },
-      drawerSections: [
-        { heading: "Position", kv: [{ label: "Applicants (pipeline)", value: fmt(counts.applicantsPlus) }, { label: "This week", value: fmt(appRow.thisWeek) }] },
-        { heading: "Drivers · CPQL (est.)", rankedBars: cpqlByChannel(210000, families) },
-        { heading: "Decisions", decision: guerrillaDec ? { question: guerrillaDec.question, href: "/m/decisions", urgent: true } : undefined },
-      ],
+      drawerSections: [],
     },
     {
       key: "activation",
@@ -588,6 +642,7 @@ export function buildStatusBoard(
       },
       drivers: {
         owner: "engagement tier · Nurture",
+        subline: `Hot ${fmtPct(distHotWarmRate(families).hotRate, 0)} vs cold ${fmtPct(distHotWarmRate(families).coldRate, 0)}`,
         rankedBars: engagementTiers(families),
         budgetSlice: { spend: stageSpend("foundations", budget.rows), note: "~$/contact est.", derived: true },
         derived: true,
@@ -607,7 +662,7 @@ export function buildStatusBoard(
           },
         ],
       },
-      drawerSections: [{ heading: "Engagement tiers (derived)", rankedBars: engagementTiers(families) }],
+      drawerSections: [],
     },
     {
       key: "nurture",
@@ -633,6 +688,7 @@ export function buildStatusBoard(
       },
       drivers: {
         owner: "SLA trend · CRM Ops",
+        subline: `SLA trending down 72% → ${fmtPct(sla.slaPct, 0)}`,
         sparkline: {
           values: [72, 68, 62, sla.slaPct],
           startLabel: "72%",
@@ -657,10 +713,7 @@ export function buildStatusBoard(
           },
         ],
       },
-      drawerSections: [
-        { heading: "SLA", kv: [{ label: "24h SLA", value: fmtPct(sla.slaPct, 1) }, { label: "Late", value: String(sla.lateList.length), tone: "bad" }] },
-        { heading: "Sync parity", kv: [{ label: "Overall", value: fmtPct(parity.overallPct, 1) }] },
-      ],
+      drawerSections: [],
     },
     {
       key: "conversion",
@@ -682,6 +735,7 @@ export function buildStatusBoard(
       },
       drivers: {
         owner: "Fall funnel · Admissions",
+        subline: `${fmt(counts.applicantsPlus)} applicants → ${fmt(counts.deposit)} deposits · offer step leaks`,
         funnelSteps: funnelStepsFromCounts(counts),
         budgetSlice: { spend: fmtMoney(budget.totals.actual * 0.14), note: "~$/deposit est.", derived: true },
         derived: true,
@@ -727,7 +781,6 @@ export function buildStatusBoard(
             { label: "Projected", value: fmt(projection), tone: projection < depositTarget ? "bad" : "good" },
           ],
         },
-        { heading: "Fall funnel", funnelSteps: funnelStepsFromCounts(counts) },
       ],
     },
     {
@@ -749,6 +802,7 @@ export function buildStatusBoard(
       },
       drivers: {
         owner: "ambassadors · Grassroots",
+        subline: `${ds.community_ambassadors?.length ?? 0}/25 ambassadors · ${fmt(ambRow.thisWeek)} influenced deps`,
         rankedBars: [
           {
             label: "Community",
@@ -784,12 +838,15 @@ export function buildStatusBoard(
           },
         ],
       },
-      drawerSections: [
-        { heading: "Referral conversion", lines: [`${fmtPct(referralDepositRate(families), 0)} applicant→deposit`] },
-        { heading: "Ambassadors", kv: [{ label: "Community roster", value: String(ds.community_ambassadors?.length ?? 0) }] },
-      ],
+      drawerSections: [],
     },
   ];
+
+  // Calm default, dense drawer: derive the rich drill-down from each stage's
+  // four spine cells, then append any stage-specific extra sections.
+  for (const stage of stages) {
+    stage.drawerSections = [...buildStageDrawer(stage), ...stage.drawerSections];
+  }
 
   // Cross-cutting rail
   const { resolved: campResolved } = reconcileCamp(ds.summer_site_registrations, ds.registration_form_entries);

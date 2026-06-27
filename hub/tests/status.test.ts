@@ -42,6 +42,37 @@ describe("Status board data layer", () => {
       expect(stage.narrative.bullets?.length).toBeGreaterThan(0);
     }
   });
+
+  it("each Drivers cell carries a one-line glance for the calm default", () => {
+    const board = buildStatusBoard(ds);
+    for (const stage of board.stages) {
+      expect(stage.drivers.subline, `${stage.name} drivers glance`).toBeTruthy();
+    }
+  });
+
+  it("Answer leads with the binding proof, not demand", () => {
+    const board = buildStatusBoard(ds);
+    expect(board.answer.bullets.length).toBeGreaterThanOrEqual(4);
+    expect(board.answer.bullets[0].text.toLowerCase()).toContain("binding");
+    expect(board.answer.bullets[0].text).toMatch(/deposits/);
+  });
+
+  it("every cell's dense detail survives in the drawer (nothing lost)", () => {
+    const board = buildStatusBoard(ds);
+    for (const stage of board.stages) {
+      const headings = stage.drawerSections.map((s) => s.heading);
+      expect(headings, `${stage.name} drawer`).toEqual(
+        expect.arrayContaining(["Where we stand", "What's driving it", "What we're doing"]),
+      );
+      // Stages with charts must still expose them in the drawer.
+      const hasChart = stage.drawerSections.some(
+        (s) => s.rankedBars?.length || s.funnelSteps?.length || s.sparkline,
+      );
+      if (stage.drivers.rankedBars || stage.drivers.funnelSteps || stage.drivers.sparkline) {
+        expect(hasChart, `${stage.name} chart preserved`).toBe(true);
+      }
+    }
+  });
 });
 
 describe("Status route + nav registry", () => {
@@ -84,5 +115,17 @@ describe("Status page render", () => {
     expect(html).toContain("Narrative");
     expect(html).toContain("Dashboard");
     expect(html).toContain("personal cockpit");
+  });
+
+  it("default matrix is calm — charts/ranked bars live in the drawer, not at top level", async () => {
+    const html = renderToStaticMarkup(await StatusPage({ searchParams: Promise.resolve({}) }));
+    // RankedMiniBar tags + Sparkline label only render inside drilled detail now.
+    expect(html).not.toContain("ENGINE");
+    expect(html).not.toContain("TRAP");
+    expect(html).not.toContain("est. trend");
+    // The one-line glance (driver summary) is what shows at default instead.
+    expect(html).toContain("Referral best CPQL");
+    // Lead answer bullet (the proof) is present at default.
+    expect(html).toContain("Conversion is binding");
   });
 });

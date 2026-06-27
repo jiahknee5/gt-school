@@ -21,15 +21,40 @@ export function StatusBoardClient({ board }: { board: StatusBoard }) {
 
   const openHeroDrawer = useCallback(() => {
     const conv = board.stages.find((s) => s.key === "conversion");
-    if (!conv) return;
-    setDrawerTitle("North Star · Deposits");
-    setDrawerSections(conv.drawerSections);
+    const ns = board.northStar;
+    const sections: DrawerSection[] = [
+      { heading: "The verdict", lines: [board.answer.headline] },
+      { heading: "Why — full answer", bullets: board.answer.bullets },
+      {
+        heading: "North star · deposits",
+        kv: [
+          { label: "Current", value: String(ns.current) },
+          { label: "Target", value: String(ns.target) },
+          { label: "Pace marker", value: String(ns.pace) },
+          {
+            label: "Gap to pace",
+            value: `${ns.gap >= 0 ? "+" : ""}${ns.gap}`,
+            tone: ns.gap < 0 ? "bad" : "good",
+          },
+          { label: "Weekly now", value: `${ns.weeklyActual}/wk` },
+          { label: "Weekly needed", value: `${ns.weeklyRequired}/wk` },
+          {
+            label: "Projection",
+            value: String(ns.projection),
+            tone: ns.projection < ns.target ? "bad" : "good",
+          },
+        ],
+      },
+      ...(conv ? conv.drawerSections : []),
+    ];
+    setDrawerTitle("The Answer · North Star");
+    setDrawerSections(sections);
     setDrawerOpen(true);
-  }, [board.stages]);
+  }, [board.answer, board.northStar, board.stages]);
 
   return (
     <>
-      <div className="mx-auto flex max-w-[1440px] flex-col gap-3 px-4 py-4 sm:px-6 lg:px-8">
+      <div className="mx-auto flex max-w-[1440px] flex-col gap-2.5 px-4 py-3 sm:px-6 lg:px-8">
         <StatusHero board={board} onDrillHero={openHeroDrawer} askSlot={<AskTheHubStrip />} />
         <StatusMatrix board={board} onOpenStage={openDrawer} />
         <StatusRail board={board} />
