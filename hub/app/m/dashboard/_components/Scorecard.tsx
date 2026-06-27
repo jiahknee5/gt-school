@@ -27,8 +27,69 @@ function paceLabel(row: ScorecardRow): string {
   return "behind";
 }
 
+// One scorecard row, rendered identically whether grouped or flat (format unchanged).
+function ScorecardRowTr({ row }: { row: ScorecardRow }) {
+  return (
+    <tr className="border-b border-hairline align-middle">
+      <td className="py-2.5 pr-3">
+        <div className="flex flex-wrap items-center gap-1.5">
+          <span className="font-semibold text-ink">{row.label}</span>
+          {!row.instrumented && <Pill tone="watch">low-confidence</Pill>}
+          {row.stale && <Pill tone="risk">stale</Pill>}
+        </div>
+      </td>
+      <td className="mono num py-2.5 pr-3 font-semibold text-ink">{fmtValue(row.thisWeek, row.unit)}</td>
+      <td className="mono num py-2.5 pr-3 text-muted">{fmtValue(row.lastWeek, row.unit)}</td>
+      <td className="py-2.5 pr-3">
+        <Pill tone={deltaTone(row)}>{deltaLabel(row)}</Pill>
+      </td>
+      <td className="py-2.5 pr-3">
+        <Sparkline values={row.sparkline} tone={statusTone(row.status)} />
+      </td>
+      <td className="mono num py-2.5 pr-3">
+        {row.target !== null ? (
+          <div className="flex flex-col gap-0.5">
+            <span className="font-semibold text-ink">{fmtValue(row.target, row.unit)}</span>
+            {row.pctToTarget !== null && (
+              <span className="text-[10px] text-muted">{row.pctToTarget}% to goal</span>
+            )}
+          </div>
+        ) : (
+          <span className="text-muted">no goal set</span>
+        )}
+      </td>
+      <td className="py-2.5 pr-3">
+        {row.target !== null ? (
+          <Pill tone={statusTone(row.status)}>{paceLabel(row)}</Pill>
+        ) : (
+          <Pill tone="neutral">no target</Pill>
+        )}
+      </td>
+      <td className="py-2.5 text-[11px] text-muted">
+        {row.source}
+        {row.freshness ? `, ${humanizeAge(row.freshness.ageMinutes)}` : ""}
+      </td>
+    </tr>
+  );
+}
+
+// Subtle funnel-stage header spanning the table — labels the group without
+// disturbing the row format. Cross-cutting trails the funnel stages.
+function GroupHeaderTr({ name, blurb }: { name: string; blurb: string }) {
+  return (
+    <tr className="bg-fill/50">
+      <td colSpan={8} className="border-b border-hairline px-0 pb-1 pt-3">
+        <div className="flex flex-wrap items-baseline gap-x-2 gap-y-0.5">
+          <span className="mono text-[10px] font-semibold uppercase tracking-[0.08em] text-label">{name}</span>
+          <span className="text-[10px] text-muted">{blurb}</span>
+        </div>
+      </td>
+    </tr>
+  );
+}
+
 export function Scorecard({ scorecard, compact = false }: { scorecard: Scorecard; compact?: boolean }) {
-  const { rows, biggestMover, redFlags, weekOf } = scorecard;
+  const { rows, groups, biggestMover, redFlags, weekOf } = scorecard;
   return (
     <div className="space-y-4">
       {!compact && (
@@ -59,7 +120,10 @@ export function Scorecard({ scorecard, compact = false }: { scorecard: Scorecard
       )}
 
       <div data-tour={compact ? undefined : "tour-dashboard-scorecard"}>
-        <Card title="Weekly scorecard" note={`Versioned snapshot. Week of ${weekOf}. Identical for every role.`}>
+        <Card
+          title="Weekly scorecard"
+          note={`Versioned snapshot. Week of ${weekOf}. Ordered by funnel stage. Identical for every role.`}
+        >
           <div className="overflow-x-auto">
           <table className="w-full min-w-[680px] border-collapse text-[11px]">
             <thead>
@@ -74,56 +138,34 @@ export function Scorecard({ scorecard, compact = false }: { scorecard: Scorecard
                 <th className="py-1 font-semibold">Source</th>
               </tr>
             </thead>
-            <tbody>
-              {rows.map((row) => (
-                <tr key={row.key} className="border-b border-hairline align-middle">
-                  <td className="py-2.5 pr-3">
-                    <div className="flex flex-wrap items-center gap-1.5">
-                      <span className="font-semibold text-ink">{row.label}</span>
-                      {!row.instrumented && <Pill tone="watch">low-confidence</Pill>}
-                      {row.stale && <Pill tone="risk">stale</Pill>}
-                    </div>
-                  </td>
-                  <td className="mono num py-2.5 pr-3 font-semibold text-ink">{fmtValue(row.thisWeek, row.unit)}</td>
-                  <td className="mono num py-2.5 pr-3 text-muted">{fmtValue(row.lastWeek, row.unit)}</td>
-                  <td className="py-2.5 pr-3">
-                    <Pill tone={deltaTone(row)}>{deltaLabel(row)}</Pill>
-                  </td>
-                  <td className="py-2.5 pr-3">
-                    <Sparkline values={row.sparkline} tone={statusTone(row.status)} />
-                  </td>
-                  <td className="mono num py-2.5 pr-3">
-                    {row.target !== null ? (
-                      <div className="flex flex-col gap-0.5">
-                        <span className="font-semibold text-ink">{fmtValue(row.target, row.unit)}</span>
-                        {row.pctToTarget !== null && (
-                          <span className="text-[10px] text-muted">{row.pctToTarget}% to goal</span>
-                        )}
-                      </div>
-                    ) : (
-                      <span className="text-muted">no goal set</span>
-                    )}
-                  </td>
-                  <td className="py-2.5 pr-3">
-                    {row.target !== null ? (
-                      <Pill tone={statusTone(row.status)}>{paceLabel(row)}</Pill>
-                    ) : (
-                      <Pill tone="neutral">no target</Pill>
-                    )}
-                  </td>
-                  <td className="py-2.5 text-[11px] text-muted">
-                    {row.source}
-                    {row.freshness ? `, ${humanizeAge(row.freshness.ageMinutes)}` : ""}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
+            {compact ? (
+              // Home widget: flat rows (no group chrome) to keep the small surface calm.
+              <tbody>
+                {rows.map((row) => (
+                  <ScorecardRowTr key={row.key} row={row} />
+                ))}
+              </tbody>
+            ) : (
+              // Dashboard: one tbody per funnel stage, each led by a subtle stage header,
+              // so the funnel structure reads top-to-bottom while rows keep their format.
+              groups.map((group) => (
+                <tbody key={group.key}>
+                  <GroupHeaderTr name={group.name} blurb={group.blurb} />
+                  {group.rows.map((row) => (
+                    <ScorecardRowTr key={row.key} row={row} />
+                  ))}
+                </tbody>
+              ))
+            )}
           </table>
           </div>
           <p className="mt-2.5 text-[11px] text-muted">
-            Pace to goal compares this week against the per-week Fall-2026 target (the same goal a
-            Leader edits in Goal pacing). On pace / ahead = at or above target; slightly behind =
-            within 10%; behind = below 90%. Summer Camp runs a separate P&L and is not folded in here.
+            Rows follow the marketing funnel (Awareness &rarr; Acquisition &rarr; Activation &rarr;
+            Nurture &rarr; Conversion &rarr; Advocacy), the same stage order as the Status board;
+            cross-cutting metrics trail. Pace to goal compares this week against the per-week
+            Fall-2026 target (the same goal a Leader edits in Goal pacing). On pace / ahead = at or
+            above target; slightly behind = within 10%; behind = below 90%. Summer Camp runs a
+            separate P&L and is not folded in here.
           </p>
         </Card>
       </div>

@@ -17,6 +17,8 @@ import {
 import { buildScorecard, paceToTarget } from "@/lib/dashboard/scorecard";
 import { buildPacing } from "@/lib/dashboard/pacing";
 import { goalFor } from "@/lib/dashboard/goals";
+import { buildStatusBoard } from "@/lib/status/board";
+import { FUNNEL_STAGES, SCORECARD_GROUPS, stageForKpi } from "@/lib/funnel/stages";
 import {
   GoalAuthError,
   applyGoalEdit,
@@ -215,6 +217,78 @@ describe("Dashboard · goal/target + pace-to-goal on the scorecard", () => {
   });
 });
 
+describe("Dashboard · scorecard ordered by the marketing funnel", () => {
+  it("rows follow the funnel stage order (cross-cutting last)", () => {
+    const sc = buildScorecard(ds, LATEST);
+    // Awareness → Acquisition → Conversion → Advocacy → Cross-cutting (Activation +
+    // Nurture have no v1 KPI, so their groups are omitted but ordering is preserved).
+    expect(sc.rows.map((r) => r.key)).toEqual([
+      "conversion_top_channel", // Awareness
+      "applicants", // Acquisition
+      "event_to_consult", // Acquisition
+      "deposits", // Conversion
+      "ambassador_influenced", // Advocacy
+      "parity_pct", // Cross-cutting (trailing)
+    ]);
+  });
+
+  it("each row carries its funnel stage from the single mapping", () => {
+    const sc = buildScorecard(ds, LATEST);
+    for (const row of sc.rows) {
+      expect(row.stage).toBe(stageForKpi(row.key));
+    }
+    expect(sc.rows.find((r) => r.key === "parity_pct")!.stage).toBe("cross_cutting");
+    expect(sc.rows.find((r) => r.key === "deposits")!.stage).toBe("conversion");
+  });
+
+  it("groups partition the rows in funnel order, no empty groups, cross-cutting trailing", () => {
+    const sc = buildScorecard(ds, LATEST);
+    expect(sc.groups.map((g) => g.key)).toEqual([
+      "awareness",
+      "acquisition",
+      "conversion",
+      "advocacy",
+      "cross_cutting",
+    ]);
+    // cross-cutting is always last
+    expect(sc.groups[sc.groups.length - 1].key).toBe("cross_cutting");
+    // no empty group is emitted
+    for (const g of sc.groups) expect(g.rows.length).toBeGreaterThan(0);
+    // groups reconstruct the flat rows exactly (same set, same order)
+    expect(sc.groups.flatMap((g) => g.rows.map((r) => r.key))).toEqual(sc.rows.map((r) => r.key));
+    // sync parity is filed cross-cutting, not jammed into a funnel stage
+    expect(sc.groups.find((g) => g.key === "cross_cutting")!.rows.map((r) => r.key)).toEqual([
+      "parity_pct",
+    ]);
+  });
+
+  it("reorder is goal/pace-preserving: every row keeps its target + pace", () => {
+    const sc = buildScorecard(ds, LATEST);
+    for (const row of sc.rows) {
+      const goal = goalFor(row.key);
+      expect(row.target).toBe(goal ? goal.targetValue : null);
+      expect(row.pctToTarget).toBe(
+        paceToTarget(row.thisWeek, row.target, KPI_DEFINITIONS.find((d) => d.key === row.key)!.direction),
+      );
+    }
+  });
+
+  it("shares ONE funnel-stage order with the Status board (no drift)", () => {
+    // The scorecard order is derived from lib/funnel/stages, whose stage keys + order
+    // are tied (compile-time guard) to the Status board's FunnelStageKey. Prove the two
+    // agree at runtime: the canonical funnel order equals the board's stage sequence.
+    const board = buildStatusBoard(ds, "fall_enrollment", LATEST);
+    expect(FUNNEL_STAGES.map((s) => s.key)).toEqual(board.stages.map((s) => s.key));
+    // every funnel stage a scorecard group uses is a real funnel stage in that order
+    const funnelGroupKeys = buildScorecard(ds, LATEST)
+      .groups.map((g) => g.key)
+      .filter((k) => k !== "cross_cutting");
+    const orderIndex = SCORECARD_GROUPS.map((g) => g.key);
+    const positions = funnelGroupKeys.map((k) => orderIndex.indexOf(k));
+    expect(positions).toEqual([...positions].sort((a, b) => a - b));
+  });
+});
+
 // ───────────────── rendered page + goal route (auth + db mocked) ─────────────────
 const authMock = vi.hoisted(() => {
   class AuthError extends Error {
@@ -261,6 +335,22 @@ describe("Dashboard · rendered sub-views", () => {
     expect(html).toContain("Applicants (new / wk)");
     expect(html).toContain("low-confidence");
     expect(html).toContain("Identical for every role");
+  });
+
+  it("6a scorecard groups rows under funnel-stage headers in funnel order", async () => {
+    const html = await render("scorecard", "leader");
+    // The funnel-stage group headers render (Activation + Nurture omitted — no v1 KPI).
+    for (const name of ["Awareness", "Acquisition", "Conversion", "Advocacy", "Cross-cutting"]) {
+      expect(html).toContain(name);
+    }
+    // Headers appear in funnel order, with the cross-cutting bucket trailing.
+    const idx = (s: string) => html.indexOf(s);
+    expect(idx("Awareness")).toBeLessThan(idx("Acquisition"));
+    expect(idx("Acquisition")).toBeLessThan(idx("Conversion"));
+    expect(idx("Conversion")).toBeLessThan(idx("Advocacy"));
+    expect(idx("Advocacy")).toBeLessThan(idx("Cross-cutting"));
+    // The funnel-ordering rationale is stated for the reader.
+    expect(html).toContain("Rows follow the marketing funnel");
   });
 
   it("6a scorecard shows each row's goal/target plus a pace-to-goal signal", async () => {
