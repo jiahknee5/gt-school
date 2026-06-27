@@ -176,7 +176,11 @@ export default function DevIntegrationsPage() {
             {accounts.map((account) => {
               const run = runsById.get(account.integration_id);
               return (
-                <tr key={account.integration_id} className="border-b border-hairline last:border-0 align-top">
+                <tr
+                  key={account.integration_id}
+                  id={account.integration_id}
+                  className="scroll-mt-24 border-b border-hairline last:border-0 align-top target:bg-amber-soft"
+                >
                   <td className="px-2 py-1.5">
                     <p className="text-[11px] font-semibold text-ink">{account.display_name}</p>
                     <p className="mono text-[9px] text-label">{account.system}</p>

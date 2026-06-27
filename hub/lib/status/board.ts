@@ -148,6 +148,8 @@ export type DrawerSection = {
   sparkline?: StatusCell["sparkline"];
   decision?: StatusCell["decision"];
   bullets?: StatusBullet[];
+  /** Dual citations (WS4): each metric's owning module + data source, rendered as links. */
+  cites?: { label: string; source: string; homeModule: string }[];
 };
 
 export type AnswerSection = {
@@ -374,7 +376,7 @@ function resolveStageMetrics(
   });
 }
 
-/** The drawer view of the fixed contract: every metric with its WoW reading. */
+/** The drawer view of the fixed contract: every metric with its WoW reading + dual cite. */
 function metricsDrawerSection(metrics: StageMetric[]): DrawerSection {
   return {
     heading: "Weekly metric contract",
@@ -389,6 +391,8 @@ function metricsDrawerSection(metrics: StageMetric[]): DrawerSection {
         tone: m.delta == null ? "neutral" : m.delta > 0 ? "good" : m.delta < 0 ? "bad" : "neutral",
       } as { label: string; value: string; tone?: "good" | "bad" | "neutral" };
     }),
+    // Each metric traces to its owning module AND its data source (WS4 dual citations).
+    cites: metrics.map((m) => ({ label: m.label, source: m.source, homeModule: m.homeModule })),
   };
 }
 

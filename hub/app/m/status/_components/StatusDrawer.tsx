@@ -3,6 +3,7 @@
 import { useEffect } from "react";
 import Link from "next/link";
 import type { DrawerSection } from "@/lib/status/board";
+import { MetricCite } from "@/app/_components/MetricCite";
 import { RankedMiniBar } from "./dataviz/RankedMiniBar";
 import { FunnelMini } from "./dataviz/FunnelMini";
 import { Sparkline } from "./dataviz/Sparkline";
@@ -78,6 +79,18 @@ export function StatusDrawer({
                         }`}
                       >
                         {row.value}
+                      </dd>
+                    </div>
+                  ))}
+                </dl>
+              )}
+              {sec.cites && (
+                <dl className="mt-1.5 space-y-1">
+                  {sec.cites.map((cite) => (
+                    <div key={cite.label} className="flex items-center justify-between gap-2 border-t border-hairline pt-1">
+                      <dt className="truncate text-[10px] text-muted">{cite.label}</dt>
+                      <dd>
+                        <MetricCite source={cite.source} homeModule={cite.homeModule} />
                       </dd>
                     </div>
                   ))}

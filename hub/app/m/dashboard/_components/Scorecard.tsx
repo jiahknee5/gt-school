@@ -4,6 +4,7 @@
 
 import type { Scorecard, ScorecardRow } from "@/lib/dashboard/scorecard";
 import { humanizeAge } from "@/lib/dashboard/freshness";
+import { MetricCite } from "@/app/_components/MetricCite";
 import { Card, Pill, Sparkline, fmtValue, statusTone, type Tone } from "./primitives";
 
 function deltaTone(row: ScorecardRow): Tone {
@@ -66,8 +67,11 @@ function ScorecardRowTr({ row }: { row: ScorecardRow }) {
         )}
       </td>
       <td className="py-2.5 text-[11px] text-muted">
-        {row.source}
-        {row.freshness ? `, ${humanizeAge(row.freshness.ageMinutes)}` : ""}
+        <MetricCite
+          source={row.source}
+          homeModule={row.homeModule}
+          trailing={row.freshness ? humanizeAge(row.freshness.ageMinutes) : undefined}
+        />
       </td>
     </tr>
   );
