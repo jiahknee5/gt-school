@@ -21,6 +21,8 @@ import { summarizeLeadScores } from "@/lib/crm-ops/scoring";
 import { runDetect } from "@/lib/crm-ops/detect";
 import { buildQueue, canViewCrmOps } from "@/lib/crm-ops/queue";
 import { DataConfidenceBanner } from "@/app/_components/DataConfidenceBanner";
+import { PageObjective } from "@/app/_components/PageObjective";
+import { Explain } from "@/app/_components/InfoTip";
 import { ParityScore } from "./_components/ParityScore";
 import { FieldParityTable } from "./_components/FieldParityTable";
 import { ReliabilityFlags } from "./_components/ReliabilityFlags";
@@ -87,6 +89,9 @@ export default async function CrmOpsPage({
       </section>
 
       <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
+        <div className="mb-3">
+          <PageObjective slug="crm-ops" />
+        </div>
         {!allowed ? (
           <AccessDenied role={role} />
         ) : (
@@ -230,26 +235,35 @@ function OverviewView({
       <ParityScore parity={parity} thresholdPct={thresholdPct} />
 
       <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
-        <MetricTile
-          label="UTM health"
-          value={`${attribution.health.healthPct}%`}
-          note={`${attribution.health.broken} broken of ${attribution.health.total}. Attribution is a pinned red flag until rebuilt.`}
-          tone="risk"
-        />
-        <MetricTile
-          label="Open issues"
-          value={String(openIssues)}
-          note={`Auto-detected + manual. ${Object.entries(detectByCategory)
-            .map(([c, n]) => `${c}:${n}`)
-            .join(", ")}`}
-          tone={openIssues ? "watch" : "good"}
-        />
-        <MetricTile
-          label="Lead scoring"
-          value={`${scoring.scored}/${scoring.scored + scoring.unscored}`}
-          note={`Scored families (read-only). ${scoring.unscored} missing a score.`}
-          tone="neutral"
-        />
+        <div className="relative">
+          <MetricTile
+            label="UTM health"
+            value={`${attribution.health.healthPct}%`}
+            note={`${attribution.health.broken} broken of ${attribution.health.total}. Attribution is a pinned red flag until rebuilt.`}
+            tone="risk"
+          />
+          <span className="absolute right-1.5 top-1.5"><Explain k="crm-ops.utm-broken" /></span>
+        </div>
+        <div className="relative">
+          <MetricTile
+            label="Open issues"
+            value={String(openIssues)}
+            note={`Auto-detected + manual. ${Object.entries(detectByCategory)
+              .map(([c, n]) => `${c}:${n}`)
+              .join(", ")}`}
+            tone={openIssues ? "watch" : "good"}
+          />
+          <span className="absolute right-1.5 top-1.5"><Explain k="crm-ops.open-issues" /></span>
+        </div>
+        <div className="relative">
+          <MetricTile
+            label="Lead scoring"
+            value={`${scoring.scored}/${scoring.scored + scoring.unscored}`}
+            note={`Scored families (read-only). ${scoring.unscored} missing a score.`}
+            tone="neutral"
+          />
+          <span className="absolute right-1.5 top-1.5"><Explain k="crm-ops.lead-scoring" /></span>
+        </div>
       </div>
 
       {worst && worst.pct < thresholdPct && (

@@ -16,6 +16,8 @@ import { getSession } from "@/lib/auth";
 import { parityThreshold } from "@/lib/parity";
 import { seedBannerState } from "@/lib/crm-ops/parity-view";
 import { DataConfidenceBanner } from "@/app/_components/DataConfidenceBanner";
+import { PageObjective } from "@/app/_components/PageObjective";
+import { Explain } from "@/app/_components/InfoTip";
 import { buildScorecard } from "@/lib/dashboard/scorecard";
 import { buildPacing } from "@/lib/dashboard/pacing";
 import { canEditGoal } from "@/lib/dashboard/goals";
@@ -101,38 +103,51 @@ export default async function DashboardPage({
       <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
         <div className="grid gap-4 2xl:grid-cols-[minmax(0,1fr)_300px]">
           <div className="min-w-0 space-y-3">
+            <PageObjective slug="dashboard" />
             {/* Inbound contract: a parity drop shows the data-confidence banner here too. */}
             <DataConfidenceBanner state={banner} />
 
             <section className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
-              <MetricTile
-                label="Measured KPIs"
-                value={`${measured} / ${scorecard.rows.length}`}
-                note="Instrumented vs total (rest are low-confidence)"
-                tone="neutral"
-              />
-              <MetricTile
-                label="Biggest mover"
-                value={
-                  scorecard.biggestMover
-                    ? fmtValue(scorecard.biggestMover.thisWeek, scorecard.biggestMover.unit)
-                    : "—"
-                }
-                note={scorecard.biggestMover ? scorecard.biggestMover.label : "No instrumented mover"}
-                tone={scorecard.biggestMover ? statusTone(scorecard.biggestMover.status) : "neutral"}
-              />
-              <MetricTile
-                label="At risk"
-                value={String(atRisk)}
-                note="KPIs below 90% of required run-rate"
-                tone={atRisk ? "risk" : "good"}
-              />
-              <MetricTile
-                label="Stale connectors"
-                value={String(stale)}
-                note="Source last-sync exceeded its SLA"
-                tone={stale ? "watch" : "good"}
-              />
+              <div className="relative">
+                <MetricTile
+                  label="Measured KPIs"
+                  value={`${measured} / ${scorecard.rows.length}`}
+                  note="Instrumented vs total (rest are low-confidence)"
+                  tone="neutral"
+                />
+                <span className="absolute right-1.5 top-1.5"><Explain k="dashboard.measured" /></span>
+              </div>
+              <div className="relative">
+                <MetricTile
+                  label="Biggest mover"
+                  value={
+                    scorecard.biggestMover
+                      ? fmtValue(scorecard.biggestMover.thisWeek, scorecard.biggestMover.unit)
+                      : "—"
+                  }
+                  note={scorecard.biggestMover ? scorecard.biggestMover.label : "No instrumented mover"}
+                  tone={scorecard.biggestMover ? statusTone(scorecard.biggestMover.status) : "neutral"}
+                />
+                <span className="absolute right-1.5 top-1.5"><Explain k="dashboard.biggest-mover" /></span>
+              </div>
+              <div className="relative">
+                <MetricTile
+                  label="At risk"
+                  value={String(atRisk)}
+                  note="KPIs below 90% of required run-rate"
+                  tone={atRisk ? "risk" : "good"}
+                />
+                <span className="absolute right-1.5 top-1.5"><Explain k="dashboard.at-risk" /></span>
+              </div>
+              <div className="relative">
+                <MetricTile
+                  label="Stale connectors"
+                  value={String(stale)}
+                  note="Source last-sync exceeded its SLA"
+                  tone={stale ? "watch" : "good"}
+                />
+                <span className="absolute right-1.5 top-1.5"><Explain k="dashboard.stale" /></span>
+              </div>
             </section>
 
             <nav className="flex flex-wrap gap-1 rounded-card border border-hairline bg-surface p-1">
@@ -154,7 +169,7 @@ export default async function DashboardPage({
             </nav>
 
             <div className="flex flex-wrap items-center gap-2">
-              <span className="mono text-[10px] font-semibold text-label">Snapshot history:</span>
+              <span className="mono text-[10px] font-semibold text-label">Snapshot history: <Explain k="shared.reporting-week" /></span>
               {weeks.map((w) => (
                 <Link
                   key={w}

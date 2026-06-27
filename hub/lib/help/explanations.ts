@@ -166,7 +166,23 @@ export const EXPLANATIONS = {
     text: "Share of the plan already spent or committed. A pacing signal — high burn early in the year is a watch flag.",
   },
 
-  // Dashboard
+  // Dashboard — the four headline meta-KPIs on the scorecard surface
+  "dashboard.measured": {
+    label: "Measured KPIs",
+    text: "How many scorecard rows are backed by a live instrumented source versus shown low-confidence. The honesty gauge for the whole board.",
+  },
+  "dashboard.biggest-mover": {
+    label: "Biggest mover",
+    text: "The KPI that changed most versus last week — where the meeting conversation should start.",
+  },
+  "dashboard.at-risk": {
+    label: "At risk",
+    text: "KPIs tracking below 90% of the run-rate needed to hit goal. These are the red flags to act on this week.",
+  },
+  "dashboard.stale": {
+    label: "Stale connectors",
+    text: "Sources whose last sync exceeded its freshness SLA, so their numbers may be out of date until the connector catches up.",
+  },
   "dashboard.applicants": {
     label: "Applicants",
     text: "New applications this week versus last, read from app_form (the authoritative funnel source).",
@@ -197,19 +213,35 @@ export const EXPLANATIONS = {
     label: "Field reliability",
     text: "Which HubSpot fields are trustworthy. Income, TEFA, and source are known-unreliable by design — app_form is authoritative for those.",
   },
+  "crm-ops.open-issues": {
+    label: "Open issues",
+    text: "Data-quality issues currently open, auto-detected plus manual. The auto-detector is idempotent, so re-running never double-files the same issue.",
+  },
+  "crm-ops.lead-scoring": {
+    label: "Lead scoring",
+    text: "Share of families that carry a HubSpot lead score. Read-only here — the Hub never writes scores back to HubSpot.",
+  },
 
   // Summer camp
-  "summer-camp.revenue": {
-    label: "Revenue vs target",
-    text: "Booked camp revenue against the season target. Camp runs its own P&L and does not roll into the $365K marketing budget.",
+  "summer-camp.capacity-sold": {
+    label: "Capacity sold",
+    text: "Paid seats divided by total seats across all four campuses. The revenue ceiling and the staffing signal in one number.",
   },
-  "summer-camp.capacity": {
-    label: "Capacity",
-    text: "Seats filled versus seats available. Drives both the revenue ceiling and the staffing plan.",
+  "summer-camp.cash-revenue": {
+    label: "Cash revenue",
+    text: "Money actually collected via Stripe for camp, against the season target. Cash truth — booked/expected is shown separately.",
+  },
+  "summer-camp.reconciled-dupes": {
+    label: "Reconciled dupes",
+    text: "Families that appeared in both summer.gt.school and the registration form and were merged into one golden record, so nobody is counted twice.",
+  },
+  "summer-camp.waitlist": {
+    label: "Waitlist",
+    text: "Families at status waitlisted — demand beyond current capacity that can justify adding a session.",
   },
   "summer-camp.roster": {
     label: "Roster (PII-gated)",
-    text: "Camper records with personal data. Visible only to roles cleared for PII — others see counts, not names.",
+    text: "Camper records with personal data. Visible only to roles cleared for minors' PII — others see counts, not names.",
   },
 
   // Library

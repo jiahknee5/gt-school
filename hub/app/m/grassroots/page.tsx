@@ -11,6 +11,8 @@ import { getSession } from "@/lib/auth";
 import { parityThreshold } from "@/lib/parity";
 import { seedBannerState } from "@/lib/crm-ops/parity-view";
 import { DataConfidenceBanner } from "@/app/_components/DataConfidenceBanner";
+import { PageObjective } from "@/app/_components/PageObjective";
+import { Explain } from "@/app/_components/InfoTip";
 import { Bar, Card, MetricTile, ModuleHeader, Pill, Tabs } from "@/app/_components/modkit";
 import { reconcileAmbassadors, ALL_STAGES } from "@/lib/grassroots/reconcile";
 import {
@@ -78,13 +80,26 @@ export default async function GrassrootsPage({
       <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
         <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
           <div className="space-y-3">
+            <PageObjective slug="grassroots" />
             <DataConfidenceBanner state={banner} />
 
             <section className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
-              <MetricTile label="Active ambassadors" value={String(active)} note="stage Active or Champion (counted once)" tone="good" />
-              <MetricTile label="Warm intros" value={String(intros)} note="de-duplicated activity log" tone="neutral" />
-              <MetricTile label="P2P calls" value={String(calls)} note="de-duplicated activity log" tone="neutral" />
-              <MetricTile label="Influenced enroll." value={String(influenced.length)} note="traced to app_form referral" tone="good" />
+              <div className="relative">
+                <MetricTile label="Active ambassadors" value={String(active)} note="stage Active or Champion (counted once)" tone="good" />
+                <span className="absolute right-1.5 top-1.5"><Explain k="grassroots.active-ambassadors" /></span>
+              </div>
+              <div className="relative">
+                <MetricTile label="Warm intros" value={String(intros)} note="de-duplicated activity log" tone="neutral" />
+                <span className="absolute right-1.5 top-1.5"><Explain k="grassroots.warm-intros" /></span>
+              </div>
+              <div className="relative">
+                <MetricTile label="P2P calls" value={String(calls)} note="de-duplicated activity log" tone="neutral" />
+                <span className="absolute right-1.5 top-1.5"><Explain k="grassroots.p2p-calls" /></span>
+              </div>
+              <div className="relative">
+                <MetricTile label="Influenced enroll." value={String(influenced.length)} note="traced to app_form referral" tone="good" />
+                <span className="absolute right-1.5 top-1.5"><Explain k="grassroots.influenced-enroll" /></span>
+              </div>
             </section>
 
             <Tabs tabs={TABS} active={activeTab} hrefFor={hrefFor} />
@@ -123,7 +138,7 @@ export default async function GrassrootsPage({
                       <tr className="border-b border-hairline text-left text-[10px] uppercase tracking-wide text-label">
                         <th className="py-1 pr-2.5 font-semibold">Name</th>
                         <th className="py-1 pr-2.5 font-semibold">Stage</th>
-                        <th className="py-1 pr-2.5 font-semibold">Source winner</th>
+                        <th className="py-1 pr-2.5 font-semibold">Source winner <Explain k="grassroots.source-winner" /></th>
                         <th className="py-1 font-semibold">Confidence</th>
                       </tr>
                     </thead>
@@ -216,7 +231,7 @@ export default async function GrassrootsPage({
 
           <aside className="space-y-3">
             <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
-              <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Source of truth</h2>
+              <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Source of truth <Explain k="shared.source-of-truth" /></h2>
               <ul className="mt-2 space-y-1.5 text-[11px] leading-snug text-muted">
                 <li>Ambassadors = community.gt.school + HubSpot, reconciled by survivorship (no double-count).</li>
                 <li>Influenced enrollments read app_form referral attribution — measured.</li>

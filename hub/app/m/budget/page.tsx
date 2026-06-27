@@ -16,6 +16,8 @@ import { generate } from "@/lib/seed/generate";
 import { demoUserByRole } from "@/lib/phase2";
 import { getSession } from "@/lib/auth";
 import { reconcileBudget } from "@/lib/budget/reconcile";
+import { PageObjective } from "@/app/_components/PageObjective";
+import { Explain } from "@/app/_components/InfoTip";
 import { buildBurnSeries, actualAllocation } from "@/lib/metrics/budget";
 import { BudgetTable } from "./_components/BudgetTable";
 import { BurnChart } from "./_components/BurnChart";
@@ -92,31 +94,44 @@ export default async function BudgetPage({
       <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
         <div className="grid gap-4 2xl:grid-cols-[minmax(0,1fr)_300px]">
           <div className="min-w-0 space-y-3">
+            <PageObjective slug="budget" />
             <section className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
-              <MetricTile
-                label="Recommended total"
-                value={recon.reconciles ? "$365,000" : usd(recon.totals.recommended)}
-                note={recon.reconciles ? "Reconciles to the PRD total" : recon.reconcileError ?? ""}
-                tone={recon.reconciles ? "good" : "risk"}
-              />
-              <MetricTile
-                label="Actual"
-                value={usd(recon.totals.actual)}
-                note={`${usd(recon.totals.remaining)} remaining vs planned`}
-                tone="neutral"
-              />
-              <MetricTile
-                label="Committed"
-                value={usd(recon.totals.committed)}
-                note={`${usd(recon.totals.available)} available to commit`}
-                tone="watch"
-              />
-              <MetricTile
-                label="Variance flags"
-                value={String(flaggedCount)}
-                note="Rows >10% over plan (and >= $2,500)"
-                tone={flaggedCount ? "risk" : "good"}
-              />
+              <div className="relative">
+                <MetricTile
+                  label="Recommended total"
+                  value={recon.reconciles ? "$365,000" : usd(recon.totals.recommended)}
+                  note={recon.reconciles ? "Reconciles to the PRD total" : recon.reconcileError ?? ""}
+                  tone={recon.reconciles ? "good" : "risk"}
+                />
+                <span className="absolute right-1.5 top-1.5"><Explain k="budget.plan-total" /></span>
+              </div>
+              <div className="relative">
+                <MetricTile
+                  label="Actual"
+                  value={usd(recon.totals.actual)}
+                  note={`${usd(recon.totals.remaining)} remaining vs planned`}
+                  tone="neutral"
+                />
+                <span className="absolute right-1.5 top-1.5"><Explain k="budget.actual" /></span>
+              </div>
+              <div className="relative">
+                <MetricTile
+                  label="Committed"
+                  value={usd(recon.totals.committed)}
+                  note={`${usd(recon.totals.available)} available to commit`}
+                  tone="watch"
+                />
+                <span className="absolute right-1.5 top-1.5"><Explain k="budget.committed" /></span>
+              </div>
+              <div className="relative">
+                <MetricTile
+                  label="Variance flags"
+                  value={String(flaggedCount)}
+                  note="Rows >10% over plan (and >= $2,500)"
+                  tone={flaggedCount ? "risk" : "good"}
+                />
+                <span className="absolute right-1.5 top-1.5"><Explain k="budget.variance" /></span>
+              </div>
             </section>
 
             <nav className="flex flex-wrap gap-1 rounded-card border border-hairline bg-surface p-1">
@@ -156,7 +171,7 @@ export default async function BudgetPage({
 
           <aside className="space-y-3">
             <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
-              <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Source of truth</h2>
+              <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Source of truth <Explain k="shared.source-of-truth" /></h2>
               <ul className="mt-2 space-y-1.5 text-[11px] leading-snug text-muted">
                 <li>The Hub is the budget system of record. There is no Google Sheet.</li>
                 <li>committed/actual are DERIVED from the append-only budget_entry ledger.</li>

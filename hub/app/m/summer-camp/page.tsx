@@ -9,6 +9,8 @@ import { generate } from "@/lib/seed/generate";
 import { demoUserByRole } from "@/lib/phase2";
 import { getSession } from "@/lib/auth";
 import { Card, MetricTile, ModuleHeader, Pill, Bar, Tabs } from "@/app/_components/modkit";
+import { PageObjective } from "@/app/_components/PageObjective";
+import { Explain } from "@/app/_components/InfoTip";
 import { reconcileFromDataset } from "@/lib/camp/reconcile";
 import { capacityByCampus, campFunnel, campRevenue, topChannels, budgetUnchangedByCamp } from "@/lib/camp/metrics";
 import { canViewRoster, canSetTarget, maskName } from "@/lib/camp/rbac";
@@ -74,6 +76,7 @@ export default async function SummerCampPage({
       <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
         <div className="grid gap-4 lg:grid-cols-[1fr_300px]">
           <div className="space-y-3">
+            <PageObjective slug="summer-camp" />
             <section role="note" className="rounded-card border border-hairline bg-fill p-2.5 text-[11px] leading-snug text-slate">
               <span className="font-semibold text-ink">Camp source note:</span> Summer Camp reads summer.gt.school,
               the registration form, and Stripe camp payments. It is a separate P&amp;L and does not mount the shared
@@ -86,10 +89,22 @@ export default async function SummerCampPage({
             )}
 
             <section className="grid gap-2 sm:grid-cols-2 xl:grid-cols-4">
-              <MetricTile label="Capacity sold" value={pct(aggCapacity ? aggPaid / aggCapacity : 0)} note={`${aggPaid}/${aggCapacity} seats (sum of campuses)`} tone="neutral" />
-              <MetricTile label="Cash revenue" value={usd(revenue.cashRevenue)} note={`${pct(revenue.pctToTarget)} of ${usd(revenue.target)} target`} tone={revenue.pctToTarget >= 0.5 ? "good" : "watch"} />
-              <MetricTile label="Reconciled dupes" value={fmt(mergedCount)} note="site + form merged to one" tone="good" />
-              <MetricTile label="Waitlist" value={fmt(campuses.reduce((a, c) => a + c.waitlist, 0))} note="status = waitlisted" tone="watch" />
+              <div className="relative">
+                <MetricTile label="Capacity sold" value={pct(aggCapacity ? aggPaid / aggCapacity : 0)} note={`${aggPaid}/${aggCapacity} seats (sum of campuses)`} tone="neutral" />
+                <span className="absolute right-1.5 top-1.5"><Explain k="summer-camp.capacity-sold" /></span>
+              </div>
+              <div className="relative">
+                <MetricTile label="Cash revenue" value={usd(revenue.cashRevenue)} note={`${pct(revenue.pctToTarget)} of ${usd(revenue.target)} target`} tone={revenue.pctToTarget >= 0.5 ? "good" : "watch"} />
+                <span className="absolute right-1.5 top-1.5"><Explain k="summer-camp.cash-revenue" /></span>
+              </div>
+              <div className="relative">
+                <MetricTile label="Reconciled dupes" value={fmt(mergedCount)} note="site + form merged to one" tone="good" />
+                <span className="absolute right-1.5 top-1.5"><Explain k="summer-camp.reconciled-dupes" /></span>
+              </div>
+              <div className="relative">
+                <MetricTile label="Waitlist" value={fmt(campuses.reduce((a, c) => a + c.waitlist, 0))} note="status = waitlisted" tone="watch" />
+                <span className="absolute right-1.5 top-1.5"><Explain k="summer-camp.waitlist" /></span>
+              </div>
             </section>
 
             <Tabs tabs={TABS} active={activeTab} hrefFor={hrefFor} />
@@ -184,7 +199,7 @@ export default async function SummerCampPage({
                   ))}
                 </div>
                 <div className="mt-3 rounded-card border border-hairline bg-surface p-3">
-                  <p className="text-[12px] font-semibold text-ink">Roster + attendance (minors&rsquo; PII)</p>
+                  <p className="text-[12px] font-semibold text-ink">Roster + attendance (minors&rsquo; PII) <Explain k="summer-camp.roster" /></p>
                   {rosterAllowed ? (
                     <div className="mt-2 space-y-1">
                       {resolved.slice(0, 6).map((r) => (
