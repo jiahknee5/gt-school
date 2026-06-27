@@ -22,6 +22,7 @@ import { buildScorecard } from "@/lib/dashboard/scorecard";
 import { buildPacing } from "@/lib/dashboard/pacing";
 import { canEditGoal } from "@/lib/dashboard/goals";
 import { defaultReportingWeek, weekMondays } from "@/lib/metrics/registry";
+import { guideBySlug } from "@/lib/help/guides";
 import { fmtValue, MetricTile, statusTone } from "./_components/primitives";
 import { Scorecard } from "./_components/Scorecard";
 import { Trends } from "./_components/Trends";
@@ -35,11 +36,13 @@ export const metadata = {
   title: "Dashboard / KPI Tracking | GT Marketing Hub",
 };
 
+// Tab order follows the Monday-meeting read order: scan the scorecard, then check
+// pacing to the Aug-17 goal, then operational health, then context, then reference.
 const TABS = [
   { key: "scorecard", label: "Scorecard" },
-  { key: "trends", label: "Trends" },
-  { key: "sla", label: "SLA & ops health" },
   { key: "pacing", label: "Goal pacing" },
+  { key: "sla", label: "SLA & ops health" },
+  { key: "trends", label: "Trends" },
   { key: "mirror", label: "HubSpot mirror" },
 ] as const;
 
@@ -51,6 +54,13 @@ function tabHref(tab: TabKey, week: string): string {
   if (week) params.set("week", week);
   const qs = params.toString();
   return qs ? `/m/dashboard?${qs}` : "/m/dashboard";
+}
+
+// The Aug-17 Fall-enrollment cutoff is the pacing deadline; its authoritative home is
+// Goal pacing (6d). This countdown is rendered here and on that tab, never as a fork.
+function daysToCutoff(): number {
+  const cutoff = new Date("2026-08-17T00:00:00-05:00").getTime();
+  return Math.max(0, Math.ceil((cutoff - Date.now()) / 86_400_000));
 }
 
 export default async function DashboardPage({
@@ -77,6 +87,8 @@ export default async function DashboardPage({
   const measured = scorecard.rows.filter((r) => r.instrumented).length;
   const atRisk = scorecard.redFlags.length;
   const stale = scorecard.rows.filter((r) => r.stale).length;
+  const days = daysToCutoff();
+  const meetingGuide = guideBySlug("weekly-meeting");
 
   return (
     <main className="min-h-[100dvh] bg-canvas">
@@ -84,17 +96,20 @@ export default async function DashboardPage({
         <div className="mx-auto max-w-[1280px] px-4 py-5 sm:px-6 lg:px-8">
           <div>
             <Link href="/" className="mono text-[10px] font-semibold text-gold hover:underline">
-              Home
+              &larr; Home (your cockpit)
             </Link>
-            <p className="mono mt-2 text-[10px] font-semibold text-label">Module 6</p>
+            <p className="mono mt-2 text-[10px] font-semibold text-label">Module 6 &middot; Dashboard / KPI Tracking</p>
             <h1 className="mt-1 font-serif text-[20px] font-bold leading-tight tracking-[-0.02em] text-ink">
-              Dashboard / KPI Tracking
+              Weekly Standup &mdash; our shared board
             </h1>
             <p className="mt-1.5 max-w-[760px] text-[12px] leading-snug text-muted">
-              The shared weekly scorecard for the Monday meeting. A read-only aggregator: every number
-              resolves through ONE KPI definition, so the Home widget, this board, and the owning module
-              show the same value. Uninstrumented inputs are flagged low-confidence; stale connectors show
-              a badge; goals are Leader-editable only.
+              The single canonical scorecard the whole team meets on &mdash; identical for everyone and
+              versioned by week. A read-only aggregator: every number resolves through ONE KPI definition, so
+              the Home widget, this board, and the owning module show the same value. Uninstrumented inputs are
+              flagged low-confidence; stale connectors show a badge; goals are Leader-editable only.{" "}
+              <Link href="/" className="font-semibold text-gold hover:underline">
+                Want your own view? &rarr; Home.
+              </Link>
             </p>
           </div>
         </div>
@@ -150,6 +165,48 @@ export default async function DashboardPage({
               </div>
             </section>
 
+            {/* Reporting context — the week selector's authoritative home is this board (it
+                versions the scorecard), and the Aug-17 countdown links to its pacing home. */}
+            <section
+              data-tour="tour-week-selector"
+              className="rounded-card border border-hairline bg-surface p-2.5 shadow-sm"
+            >
+              <div className="flex flex-wrap items-center justify-between gap-x-3 gap-y-2">
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <span className="mono inline-flex items-center gap-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-label">
+                    Reporting week <Explain k="shared.reporting-week" />
+                  </span>
+                  {weeks.map((w) => (
+                    <Link
+                      key={w}
+                      href={tabHref(activeTab, w)}
+                      aria-current={w === selectedWeek ? "page" : undefined}
+                      className={`mono rounded-card border px-1.5 py-0.5 text-[10px] font-semibold transition-colors ${
+                        w === selectedWeek
+                          ? "border-gold bg-amber-soft text-ink"
+                          : "border-hairline bg-surface text-muted hover:text-ink"
+                      }`}
+                    >
+                      {w}
+                    </Link>
+                  ))}
+                </div>
+                <Link
+                  href={tabHref("pacing", selectedWeek)}
+                  className={`mono shrink-0 rounded-card px-2 py-1 text-[11px] font-semibold transition-colors ${
+                    days < 14
+                      ? "bg-amber-soft text-amber hover:opacity-80"
+                      : "bg-fill text-slate hover:text-ink"
+                  }`}
+                  title={`Fall 2026 enrollment deadline is August 17. ${days} ${
+                    days === 1 ? "day" : "days"
+                  } left. Opens Goal pacing.`}
+                >
+                  {days} {days === 1 ? "day" : "days"} to Fall enrollment (Aug 17) &rarr; pacing
+                </Link>
+              </div>
+            </section>
+
             <nav className="flex flex-wrap gap-1 rounded-card border border-hairline bg-surface p-1">
               {TABS.map((t) => {
                 const active = t.key === activeTab;
@@ -168,24 +225,6 @@ export default async function DashboardPage({
               })}
             </nav>
 
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="mono text-[10px] font-semibold text-label">Snapshot history: <Explain k="shared.reporting-week" /></span>
-              {weeks.map((w) => (
-                <Link
-                  key={w}
-                  href={tabHref(activeTab, w)}
-                  aria-current={w === selectedWeek ? "page" : undefined}
-                  className={`mono rounded-card border px-1.5 py-0.5 text-[10px] font-semibold transition-colors ${
-                    w === selectedWeek
-                      ? "border-gold bg-amber-soft text-ink"
-                      : "border-hairline bg-surface text-muted hover:text-ink"
-                  }`}
-                >
-                  {w}
-                </Link>
-              ))}
-            </div>
-
             {activeTab === "scorecard" && <Scorecard scorecard={scorecard} />}
             {activeTab === "trends" && <Trends ds={ds} window={8} />}
             {activeTab === "sla" && <SlaOpsHealth ds={ds} />}
@@ -194,6 +233,40 @@ export default async function DashboardPage({
           </div>
 
           <aside className="space-y-3">
+            {meetingGuide && (
+              <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
+                <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Run the meeting</h2>
+                <p className="mt-1 text-[11px] leading-snug text-muted">
+                  The Monday standup is a journey, not one screen. Follow the agenda across the Hub &mdash;
+                  this board is the shared scan in the middle.
+                </p>
+                <ol className="mt-2.5 space-y-1.5">
+                  {meetingGuide.steps.map((step, index) => (
+                    <li key={step.where}>
+                      <Link
+                        href={step.href ?? "/m/dashboard"}
+                        className="flex items-start gap-2 rounded-card border border-hairline bg-canvas px-2.5 py-1.5 transition-colors hover:border-border hover:bg-hover"
+                      >
+                        <span className="mono mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-card bg-fill text-[10px] font-semibold text-slate">
+                          {index + 1}
+                        </span>
+                        <span className="min-w-0">
+                          <span className="block text-[12px] font-semibold leading-snug text-ink">{step.do}</span>
+                          <span className="mono block truncate text-[10px] text-muted">{step.where}</span>
+                        </span>
+                      </Link>
+                    </li>
+                  ))}
+                </ol>
+                <Link
+                  href="/help/weekly-meeting"
+                  className="mono mt-2.5 inline-block text-[10px] font-semibold text-gold hover:underline"
+                >
+                  Full agenda &amp; run-of-show &rarr;
+                </Link>
+              </section>
+            )}
+
             <section className="rounded-card border border-hairline bg-surface p-3 shadow-sm">
               <h2 className="font-serif text-[13px] font-bold tracking-[-0.01em] text-ink">Single source of truth</h2>
               <ul className="mt-2 space-y-1.5 text-[11px] leading-snug text-muted">

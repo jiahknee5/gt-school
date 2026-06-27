@@ -231,6 +231,18 @@ describe("Dashboard · rendered sub-views", () => {
     expect(html).toContain("Identical for every role");
   });
 
+  it("reads as the Weekly Standup board and hosts the reporting-week + countdown (HD-6/8)", async () => {
+    const html = await render("scorecard", "leader");
+    // Standup framing + the contrast cross-link back to Home (HD-6).
+    expect(html).toContain("Weekly Standup");
+    expect(html).toContain("Home (your cockpit)");
+    // The reporting-week control's home is this board, with the Aug-17 countdown to pacing (HD-8/HD-7).
+    expect(html).toContain("Reporting week");
+    expect(html).toContain("to Fall enrollment (Aug 17)");
+    // The Monday run-of-show is a launcher, not a tab (HD-10).
+    expect(html).toContain("Run the meeting");
+  });
+
   it("renders trends, sla, pacing, and the display-only mirror", async () => {
     expect(await render("trends", "leader")).toContain("Trends");
     const sla = await render("sla", "leader");
@@ -239,6 +251,7 @@ describe("Dashboard · rendered sub-views", () => {
     expect(sla).toContain("stale");
     const pacing = await render("pacing", "leader");
     expect(pacing).toContain("Goal pacing");
+    expect(pacing).toContain("Fall 2026 enrollment deadline");
     expect(pacing).toContain("linear-v1");
     expect(pacing).toContain("Leader: goals editable");
     expect(pacing).toContain('action="/api/dashboard/goals"');

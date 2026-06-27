@@ -29,14 +29,26 @@ async function renderHome(week?: string): Promise<string> {
 }
 
 describe("Phase 2 rendered route surfaces", () => {
-  it("Home renders the PRD top-level signals and links to the deep module slice", async () => {
+  it("Home reads as the personal composable cockpit, not build-meta", async () => {
     const html = renderToStaticMarkup(await HomePage());
 
-    expect(html).toContain("One trustworthy operating room for GT marketing.");
+    // Contrast header (HD-2) + cross-link to the shared board.
+    expect(html).toContain("your composable cockpit");
+    expect(html).toContain("Dashboard / Weekly Standup");
+    // Role-aware "Start here" launchpad (HD-9).
+    expect(html).toContain("Start here");
+    // Kept surfaces: confidence banner, composable widgets, leader decision preview.
     expect(html).toContain("Data confidence needs review");
     expect(html).toContain("Home widgets");
     expect(html).toContain("Decision preview");
-    expect(html).toContain("GT Challenge CPQL");
+
+    // Build-meta + the fixed KPI strip + nav duplicates are gone (HD-1, HD-3, HD-4).
+    expect(html).not.toContain("Phase 2 product spine");
+    expect(html).not.toContain("One trustworthy operating room for GT marketing.");
+    expect(html).not.toContain("Phase 2 audit");
+    expect(html).not.toContain("GT Challenge CPQL");
+    expect(html).not.toContain("All PRD modules");
+    expect(html).not.toContain("Module surfaces");
   });
 
   it("Home widgets consume the selected reporting week for KPI-backed values", async () => {

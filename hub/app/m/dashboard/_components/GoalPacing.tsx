@@ -13,7 +13,15 @@ function unitFor(key: string): KpiUnit {
   return kpiDefinition(key)?.unit ?? "count";
 }
 
+// Goal pacing is the authoritative home of the Aug-17 Fall-enrollment countdown — it is the
+// pacing deadline every "land at X by Aug 17" projection counts down to.
+function daysToCutoff(): number {
+  const cutoff = new Date("2026-08-17T00:00:00-05:00").getTime();
+  return Math.max(0, Math.ceil((cutoff - Date.now()) / 86_400_000));
+}
+
 export function GoalPacing({ rows, canEdit }: { rows: PacingRow[]; canEdit: boolean }) {
+  const days = daysToCutoff();
   return (
     <Card
       title="Goal pacing"
@@ -24,6 +32,25 @@ export function GoalPacing({ rows, canEdit }: { rows: PacingRow[]; canEdit: bool
         </Pill>
       }
     >
+      <div
+        className={`mb-3 flex flex-wrap items-center justify-between gap-2 rounded-card border px-3 py-2 ${
+          days < 14 ? "border-gold bg-amber-soft" : "border-hairline bg-canvas"
+        }`}
+      >
+        <div>
+          <p className="text-[12px] font-semibold text-ink">Fall 2026 enrollment deadline</p>
+          <p className="mt-0.5 text-[11px] leading-snug text-muted">
+            Every projection below counts down to August 17 — the deposit cutoff.
+          </p>
+        </div>
+        <span
+          className={`mono num shrink-0 rounded-card px-2.5 py-1 text-[13px] font-bold ${
+            days < 14 ? "bg-amber text-on-cta" : "bg-fill text-ink"
+          }`}
+        >
+          {days} {days === 1 ? "day" : "days"} left
+        </span>
+      </div>
       <div className="overflow-x-auto">
         <table className="w-full min-w-[640px] border-collapse text-[11px]">
           <thead>
