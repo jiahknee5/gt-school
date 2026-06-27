@@ -31,29 +31,33 @@ export const PAGE_OBJECTIVES: Record<string, PageObjectiveContent> = {
     objective: "Open one personal command center that shows this week's marketing health and your next action.",
     matters: "Leadership runs the Monday meeting and every owner starts their day here, so the topline must be legible in seconds.",
   },
+  status: {
+    objective: "Read the executive verdict: funnel×spine matrix with one-glance Answer, drill-down, and cross-cutting rail.",
+    matters: "Leadership needs a binding narrative before the Monday standup — where we stand, what's driving it, and what to decide.",
+  },
   grassroots: {
     objective: "Run the ambassador and referral engine, reconciling community + HubSpot into one trustworthy roster.",
-    matters: "Word-of-mouth is the cheapest enrollment channel — influenced enrollments must be measured, not asserted.",
+    matters: "Word-of-mouth is the cheapest enrollment channel, so influenced enrollments must be measured, not asserted.",
   },
   content: {
     objective: "Manage the editorial pipeline, calendar, and brand voice from brief to published performance.",
     matters: "Content answers family objections at scale; a clear pipeline keeps the team shipping the right pieces.",
   },
   "summer-camp": {
-    objective: "Run the summer-camp P&L on reconciled dual sources — capacity, roster, and revenue against target.",
+    objective: "Run the summer-camp P&L on reconciled dual sources: capacity, roster, and revenue against target.",
     matters: "Camp is a paid funnel into enrollment; its margin and capacity have to reconcile to one set of numbers.",
   },
   nurture: {
-    objective: "Move every family through the lifecycle — segments, sequences, SMS, and the 24-hour follow-up SLA.",
+    objective: "Move every family through the lifecycle: segments, sequences, SMS, and the 24-hour follow-up SLA.",
     matters: "Speed-to-lead and disciplined nurture are what convert applicants to deposits; misses must be visible and owned.",
   },
   dashboard: {
-    objective: "Read the one shared weekly scorecard the whole team meets on — applicants, deposits, conversion, SLA.",
+    objective: "Read the one shared weekly scorecard the whole team meets on: applicants, deposits, conversion, SLA.",
     matters: "Everyone arguing from the same numbers is the point of the Monday meeting; this board is that single source.",
   },
   "crm-ops": {
     objective: "Own data-infrastructure health: sync parity, attribution integrity, and the data-confidence signal.",
-    matters: "Every other module trusts these numbers — when parity drops, the whole Hub flags it from here.",
+    matters: "Every other module trusts these numbers. When parity drops, the whole Hub flags it from here.",
   },
   events: {
     objective: "Track GT-run field events and propose priority events, with ambassador events shown read-only.",
@@ -68,7 +72,7 @@ export const PAGE_OBJECTIVES: Record<string, PageObjectiveContent> = {
     matters: "No off-book spend and one reconciled total is how marketing keeps the board's trust.",
   },
   decisions: {
-    objective: "Run the async governance loop — anyone submits a decision, leadership (only) approves, rejects, or asks for info.",
+    objective: "Run the async governance loop: anyone submits a decision; leadership approves, rejects, or asks for info.",
     matters: "Fast, auditable rulings keep the team unblocked between meetings without losing the paper trail.",
   },
   library: {
@@ -76,7 +80,7 @@ export const PAGE_OBJECTIVES: Record<string, PageObjectiveContent> = {
     matters: "Reusing approved assets keeps the brand consistent and stops the team rebuilding work that exists.",
   },
   analytics: {
-    objective: "Read GA4 across both GT sites — top pages, downloads, traffic sources, and conversion paths.",
+    objective: "Read GA4 across both GT sites: top pages, downloads, traffic sources, and conversion paths.",
     matters: "Digital demand is the front of the funnel; knowing what drives sessions tells the team where to invest.",
   },
   submissions: {
@@ -84,7 +88,7 @@ export const PAGE_OBJECTIVES: Record<string, PageObjectiveContent> = {
     matters: "Submitters need to track their own asks to closure without seeing the full leadership queue.",
   },
   "gt-challenge": {
-    objective: "Run the GT Challenge lead magnet end to end — capture, assess, and report cost-per-qualified-lead.",
+    objective: "Run the GT Challenge lead magnet end to end: capture, assess, and report cost-per-qualified-lead.",
     matters: "The quiz is a measurable acquisition channel; CPQL lets it be judged beside every other spend.",
   },
 };
@@ -115,13 +119,13 @@ export const EXPLANATIONS = {
   },
   "shared.reporting-week": {
     label: "Reporting week",
-    text: "The Monday-anchored week every number on this page is calculated for. Change it to compare this week against last.",
+    text: "Sets the week used for Dashboard reporting snapshots and Home widgets opened with a week link. Operational modules keep their own source dates and are not changed by this selector.",
   },
 
   // Grassroots
   "grassroots.active-ambassadors": {
     label: "Active ambassadors",
-    text: "Parents at stage Active or Champion, counted once after the community + HubSpot records are merged — never double-counted across feeds.",
+    text: "Parents at stage Active or Champion, counted once after the community + HubSpot records are merged. Never double-counted across feeds.",
   },
   "grassroots.warm-intros": {
     label: "Warm intros",
@@ -129,11 +133,11 @@ export const EXPLANATIONS = {
   },
   "grassroots.p2p-calls": {
     label: "P2P calls",
-    text: "Parent-to-parent calls logged by ambassadors, de-duplicated from the activity log — a proxy for hands-on referral effort.",
+    text: "Parent-to-parent calls logged by ambassadors and de-duplicated from the activity log. A proxy for hands-on referral effort.",
   },
   "grassroots.influenced-enroll": {
     label: "Influenced enrollments",
-    text: "Enrollments traced to a referral on app_form attribution — measured from the form, not asserted by a checkbox. Influenced is not the same as incremental (no holdout yet).",
+    text: "Enrollments traced to a referral on app_form attribution. Measured from the form, not asserted by a checkbox. Influenced is not the same as incremental (no holdout yet).",
   },
   "grassroots.source-winner": {
     label: "Source winner",
@@ -147,7 +151,7 @@ export const EXPLANATIONS = {
   // Budget
   "budget.plan-total": {
     label: "$365K plan",
-    text: "The full marketing budget every workstream reconciles into. The grand total must always equal $365,000 — no off-book spend.",
+    text: "The full marketing budget every workstream reconciles into. The grand total must always equal $365,000. No off-book spend.",
   },
   "budget.committed": {
     label: "Committed",
@@ -163,7 +167,7 @@ export const EXPLANATIONS = {
   },
   "budget.burn": {
     label: "Burn",
-    text: "Share of the plan already spent or committed. A pacing signal — high burn early in the year is a watch flag.",
+    text: "Share of the plan already spent or committed. High burn early in the year is a watch flag.",
   },
 
   // Dashboard — the four headline meta-KPIs on the scorecard surface
@@ -173,7 +177,7 @@ export const EXPLANATIONS = {
   },
   "dashboard.biggest-mover": {
     label: "Biggest mover",
-    text: "The KPI that changed most versus last week — where the meeting conversation should start.",
+    text: "The KPI that changed most versus last week. The meeting conversation should start here.",
   },
   "dashboard.at-risk": {
     label: "At risk",
@@ -189,7 +193,7 @@ export const EXPLANATIONS = {
   },
   "dashboard.deposits": {
     label: "Deposits",
-    text: "Families who paid the enrollment deposit this week — the closest leading indicator of revenue.",
+    text: "Families who paid the enrollment deposit this week. The closest leading indicator of revenue.",
   },
   "dashboard.conversion": {
     label: "Conversion",
@@ -211,7 +215,7 @@ export const EXPLANATIONS = {
   },
   "crm-ops.reliability": {
     label: "Field reliability",
-    text: "Which HubSpot fields are trustworthy. Income, TEFA, and source are known-unreliable by design — app_form is authoritative for those.",
+    text: "Which HubSpot fields are trustworthy. Income, TEFA, and source are known-unreliable by design; app_form is authoritative for those.",
   },
   "crm-ops.open-issues": {
     label: "Open issues",
@@ -219,7 +223,7 @@ export const EXPLANATIONS = {
   },
   "crm-ops.lead-scoring": {
     label: "Lead scoring",
-    text: "Share of families that carry a HubSpot lead score. Read-only here — the Hub never writes scores back to HubSpot.",
+    text: "Share of families that carry a HubSpot lead score. Read-only here; the Hub never writes scores back to HubSpot.",
   },
 
   // Summer camp
@@ -229,7 +233,7 @@ export const EXPLANATIONS = {
   },
   "summer-camp.cash-revenue": {
     label: "Cash revenue",
-    text: "Money actually collected via Stripe for camp, against the season target. Cash truth — booked/expected is shown separately.",
+    text: "Money actually collected via Stripe for camp, against the season target. Cash truth; booked/expected is shown separately.",
   },
   "summer-camp.reconciled-dupes": {
     label: "Reconciled dupes",
@@ -237,17 +241,17 @@ export const EXPLANATIONS = {
   },
   "summer-camp.waitlist": {
     label: "Waitlist",
-    text: "Families at status waitlisted — demand beyond current capacity that can justify adding a session.",
+    text: "Families at status waitlisted. Demand beyond current capacity can justify adding a session.",
   },
   "summer-camp.roster": {
     label: "Roster (PII-gated)",
-    text: "Camper records with personal data. Visible only to roles cleared for minors' PII — others see counts, not names.",
+    text: "Camper records with personal data. Visible only to roles cleared for minors' PII; others see counts, not names.",
   },
 
   // Content
   "content.in-flight": {
     label: "In flight",
-    text: "Pieces not yet published — everything still moving through concept, production, review, or scheduled.",
+    text: "Pieces not yet published. Everything still moving through concept, production, review, or scheduled.",
   },
   "content.published": {
     label: "Published",
@@ -255,7 +259,7 @@ export const EXPLANATIONS = {
   },
   "content.x-conversion": {
     label: "X conversion share",
-    text: "Share of attributed conversions credited to X (Twitter), measured from a real app_form x UTM join — not a fixed assumption, so it moves with the data.",
+    text: "Share of attributed conversions credited to X (Twitter), measured from a real app_form x UTM join. It is not a fixed assumption, so it moves with the data.",
   },
   "content.sync-conflicts": {
     label: "Sync conflicts",
@@ -283,7 +287,7 @@ export const EXPLANATIONS = {
   // Analytics
   "analytics.sessions": {
     label: "Total sessions",
-    text: "GA4 sessions across both GT sites, where aggregate equals the sum of the two properties — no cross-property double-count. The top-of-funnel demand signal.",
+    text: "GA4 sessions across both GT sites, where aggregate equals the sum of the two properties. No cross-property double-count. The top-of-funnel demand signal.",
   },
   "analytics.bounce": {
     label: "Bounce",
@@ -295,11 +299,11 @@ export const EXPLANATIONS = {
   },
   "analytics.pdf-downloads": {
     label: "PDF downloads",
-    text: "Resource downloads this window. A mid-funnel intent signal — a family pulling a curriculum PDF is leaning in.",
+    text: "Resource downloads this window. A mid-funnel intent signal because a family pulling a curriculum PDF is leaning in.",
   },
   "analytics.conversion-paths": {
     label: "Conversion paths",
-    text: "The sequence of sources and pages a converting visitor touched — shows which channels assist, not just which closed.",
+    text: "The sequence of sources and pages a converting visitor touched. Shows which channels assist, not just which closed.",
   },
 
   // Field Marketing & Events
@@ -309,7 +313,7 @@ export const EXPLANATIONS = {
   },
   "events.completed": {
     label: "Completed this month",
-    text: "GT-organized events finished this month — the basis for attendance and consult follow-through.",
+    text: "GT-organized events finished this month. The basis for attendance and consult follow-through.",
   },
   "events.attendance": {
     label: "Attendance rate",
@@ -317,7 +321,7 @@ export const EXPLANATIONS = {
   },
   "events.consult": {
     label: "Event to consult",
-    text: "Estimated share of attendees who booked a consult. Uninstrumented in v1 and always badged manual — never presented as tracked.",
+    text: "Estimated share of attendees who booked a consult. Uninstrumented in v1 and always badged manual; never presented as tracked.",
   },
 
   // Decisions
@@ -327,7 +331,7 @@ export const EXPLANATIONS = {
   },
   "decisions.urgent-open": {
     label: "Urgent open",
-    text: "Open decisions marked urgent — these are due first and should lead the meeting's governance segment.",
+    text: "Open decisions marked urgent. These are due first and should lead the meeting's governance segment.",
   },
   "decisions.awaiting-info": {
     label: "Awaiting info",
@@ -335,7 +339,7 @@ export const EXPLANATIONS = {
   },
   "decisions.budget-at-stake": {
     label: "Budget at stake",
-    text: "Total dollars requested across all active asks — the financial exposure currently waiting on a ruling.",
+    text: "Total dollars requested across all active asks. The financial exposure currently waiting on a ruling.",
   },
 } as const satisfies Record<string, Explanation>;
 
