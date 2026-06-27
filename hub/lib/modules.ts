@@ -3,12 +3,14 @@
 // grid (hub/app/page.tsx), and module routing (hub/app/m/[slug]/page.tsx).
 
 export type Tint = "violet" | "amber" | "green" | "blue";
+export type ModuleGroup = "command" | "channels" | "pipeline" | "operations";
 
 export type ModuleDef = {
   n: number;
   slug: string;
   name: string; // full name — page titles + Home grid
   short: string; // sidebar label
+  group: ModuleGroup; // top-level IA neighborhood; no route/permission meaning
   owner: string; // free-text owner label (Home grid / page chrome display)
   /**
    * Canonical functional-role owner(s) for this module (PRD §2 module list). The
@@ -29,62 +31,55 @@ export type ModuleDef = {
 };
 
 export type ModuleNavGroup = {
-  key: string;
+  key: ModuleGroup;
   label: string;
   description: string;
   slugs: string[];
 };
 
 export const MODULES: ModuleDef[] = [
-  { n: 1, slug: "home", name: "Home / Command Center", short: "Home", owner: "All (personal)", owners: ["All"], tint: "blue", agendaSlot: 1 },
-  { n: 2, slug: "grassroots", name: "Grassroots Engine", short: "Grassroots", owner: "Grassroots Owner", owners: ["Grassroots Owner"], tint: "green", agendaSlot: 3 },
-  { n: 3, slug: "content", name: "Content & Thought Leadership", short: "Content", owner: "Content Owner", owners: ["Content Owner"], tint: "violet", agendaSlot: 4 },
-  { n: 4, slug: "summer-camp", name: "Summer Camp", short: "Summer Camp", owner: "Content Owner", owners: ["Content Owner"], tint: "amber" },
-  { n: 5, slug: "nurture", name: "Nurture & Lifecycle", short: "Nurture", owner: "Marketing Lead", owners: ["Marketing Lead"], tint: "blue", agendaSlot: 5 },
-  { n: 6, slug: "dashboard", name: "Dashboard / KPI Tracking", short: "Dashboard", owner: "Marketing Lead", owners: ["Marketing Lead"], tint: "green", agendaSlot: 2 },
-  { n: 7, slug: "crm-ops", name: "CRM / Marketing Operations", short: "CRM Ops", owner: "Marketing Lead", owners: ["Marketing Lead"], tint: "violet", agendaSlot: 5 },
-  { n: 8, slug: "events", name: "Field Marketing & Events", short: "Field & Events", owner: "Field & Events Owner", owners: ["Field & Events Owner"], tint: "amber" },
-  { n: 9, slug: "admissions", name: "Admissions & Voice of Customer", short: "Admissions", owner: "Field & Events / Admissions Owner", owners: ["Field & Events Owner", "Admissions Owner"], tint: "blue", agendaSlot: 6 },
-  { n: 10, slug: "budget", name: "Budget Tracker", short: "Budget", owner: "Budget Owner", owners: ["Budget Owner"], tint: "green" },
-  { n: 11, slug: "decisions", name: "Decision Queue", short: "Decision Queue", owner: "Leadership only", owners: ["Leadership"], tint: "violet", leaderOnly: true, agendaSlot: 8 },
-  { n: 12, slug: "library", name: "Resource Library", short: "Library", owner: "All", owners: ["All"], tint: "amber" },
-  { n: 13, slug: "analytics", name: "Website & Digital Analytics", short: "Analytics", owner: "Marketing Lead", owners: ["Marketing Lead"], tint: "blue", agendaSlot: 7 },
+  { n: 1, slug: "home", name: "Home / Command Center", short: "Home", group: "command", owner: "All (personal)", owners: ["All"], tint: "blue", agendaSlot: 1 },
+  { n: 14, slug: "status", name: "Status / Exec Verdict Board", short: "Status", group: "command", owner: "Leadership", owners: ["Leadership"], tint: "blue" },
+  { n: 2, slug: "grassroots", name: "Grassroots Engine", short: "Grassroots", group: "channels", owner: "Grassroots Owner", owners: ["Grassroots Owner"], tint: "green", agendaSlot: 3 },
+  { n: 3, slug: "content", name: "Content & Thought Leadership", short: "Content", group: "channels", owner: "Content Owner", owners: ["Content Owner"], tint: "violet", agendaSlot: 4 },
+  { n: 4, slug: "summer-camp", name: "Summer Camp", short: "Summer Camp", group: "channels", owner: "Content Owner", owners: ["Content Owner"], tint: "amber" },
+  { n: 5, slug: "nurture", name: "Nurture & Lifecycle", short: "Nurture", group: "pipeline", owner: "Marketing Lead", owners: ["Marketing Lead"], tint: "blue", agendaSlot: 5 },
+  { n: 6, slug: "dashboard", name: "Dashboard / KPI Tracking", short: "Dashboard", group: "command", owner: "Marketing Lead", owners: ["Marketing Lead"], tint: "green", agendaSlot: 2 },
+  { n: 7, slug: "crm-ops", name: "CRM / Marketing Operations", short: "CRM Ops", group: "pipeline", owner: "Marketing Lead", owners: ["Marketing Lead"], tint: "violet", agendaSlot: 5 },
+  { n: 8, slug: "events", name: "Field Marketing & Events", short: "Field & Events", group: "channels", owner: "Field & Events Owner", owners: ["Field & Events Owner"], tint: "amber" },
+  { n: 9, slug: "admissions", name: "Admissions & Voice of Customer", short: "Admissions", group: "pipeline", owner: "Field & Events / Admissions Owner", owners: ["Field & Events Owner", "Admissions Owner"], tint: "blue", agendaSlot: 6 },
+  { n: 10, slug: "budget", name: "Budget Tracker", short: "Budget", group: "operations", owner: "Budget Owner", owners: ["Budget Owner"], tint: "green" },
+  { n: 11, slug: "decisions", name: "Decision Queue", short: "Decision Queue", group: "command", owner: "Leadership only", owners: ["Leadership"], tint: "violet", leaderOnly: true, agendaSlot: 8 },
+  { n: 12, slug: "library", name: "Resource Library", short: "Library", group: "operations", owner: "All", owners: ["All"], tint: "amber" },
+  { n: 13, slug: "analytics", name: "Website & Digital Analytics", short: "Analytics", group: "operations", owner: "Marketing Lead", owners: ["Marketing Lead"], tint: "blue", agendaSlot: 7 },
 ];
 
-// Agenda-aware sidebar IA. Sections read top-to-bottom roughly in the order the
-// §5 weekly meeting flows: command center (exec recap + scorecard) → the growth
-// channels each owner reports → the pipeline/conversion modules → governance
-// (budget + the Leadership-only Decision Queue) → shared resources.
+// Sidebar IA follows the repo IA audit: Command (see/decide), Channels (reach
+// families), Pipeline (move families forward), Operations (money/analytics/assets).
 export const MODULE_NAV_GROUPS: ModuleNavGroup[] = [
   {
-    key: "command-center",
-    label: "Command Center",
-    description: "Exec recap and the shared Monday scorecard.",
-    slugs: ["home", "dashboard"],
+    key: "command",
+    label: "Command",
+    description: "Overview, scorecard, and leadership calls.",
+    slugs: ["home", "status", "dashboard", "decisions"],
   },
   {
-    key: "growth-channels",
-    label: "Growth Channels",
-    description: "Demand creation across grassroots, content, programs, and field.",
+    key: "channels",
+    label: "Channels",
+    description: "Acquisition engines that reach families.",
     slugs: ["grassroots", "content", "summer-camp", "events"],
   },
   {
-    key: "pipeline-conversion",
-    label: "Pipeline & Conversion",
-    description: "Lifecycle, ops, admissions feedback, and digital demand.",
-    slugs: ["nurture", "crm-ops", "admissions", "analytics"],
+    key: "pipeline",
+    label: "Pipeline",
+    description: "Follow-up, data quality, and admissions feedback.",
+    slugs: ["nurture", "crm-ops", "admissions"],
   },
   {
-    key: "governance",
-    label: "Governance",
-    description: "Money and the Leadership-only decision loop.",
-    slugs: ["budget", "decisions"],
-  },
-  {
-    key: "resources",
-    label: "Resources",
-    description: "Reusable assets and reference material.",
-    slugs: ["library"],
+    key: "operations",
+    label: "Operations",
+    description: "Budget, web analytics, and shared assets.",
+    slugs: ["budget", "analytics", "library"],
   },
 ];
 
@@ -103,6 +98,19 @@ export function moduleHref(slug: string): string {
 
 export function moduleBySlug(slug: string): ModuleDef | undefined {
   return MODULES.find((m) => m.slug === slug);
+}
+
+export function modulesByNavGroup(
+  modules: ModuleDef[],
+): { group: ModuleNavGroup; modules: ModuleDef[] }[] {
+  const visible = new Set(modules.map((m) => m.slug));
+  return MODULE_NAV_GROUPS.map((group) => ({
+    group,
+    modules: group.slugs
+      .filter((slug) => visible.has(slug))
+      .map((slug) => moduleBySlug(slug))
+      .filter((m): m is ModuleDef => Boolean(m)),
+  }));
 }
 
 /**

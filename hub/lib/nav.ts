@@ -15,7 +15,7 @@ export const NAV_SCOPE_LABELS: Record<NavScope, string> = {
 };
 
 /** Modules always shown in "My modules" scope regardless of ownership. */
-export const ALWAYS_VISIBLE_MODULE_SLUGS = new Set(["home", "dashboard", "library"]);
+export const ALWAYS_VISIBLE_MODULE_SLUGS = new Set(["home", "status", "dashboard", "decisions", "library"]);
 
 export type NavViewer = {
   role: Role;
