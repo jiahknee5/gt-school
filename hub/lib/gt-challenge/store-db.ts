@@ -151,22 +151,25 @@ export class DbGiftedQuizCaptureStore implements GiftedQuizCaptureStore {
         familyId = inserted[0].id;
       }
 
-      // 3) insert the scored submission.
-      await tx`
+      // 3) insert the scored submission. id is a real uuid (DB-generated) — the
+      //    in-memory store's hashId is not a uuid, so we let the column default it
+      //    and thread the generated id through the outbox + the returned record.
+      const insertedSub = await tx<{ id: string }[]>`
         insert into quiz_submissions (
-          id, idempotency_key, campaign_key, family_id, match_key,
+          idempotency_key, campaign_key, family_id, match_key,
           child_first_name, child_grade, parent_email, parent_phone,
           answers, raw_score, bucket, qualified, rationale, answer_hash,
           utm_source, utm_medium, utm_campaign, status, routed_program_key,
           submitted_at, scored_at
         ) values (
-          ${sub.id}, ${sub.idempotencyKey}, ${sub.campaignKey}, ${familyId}, ${mk},
+          ${sub.idempotencyKey}, ${sub.campaignKey}, ${familyId}, ${mk},
           ${sub.childFirstName}, ${sub.childGrade}, ${sub.parentEmail}, ${sub.parentPhone},
           ${tx.json(sub.answers as unknown as postgres.JSONValue)}, ${sub.rawScore}, ${sub.bucket}, ${sub.qualified},
           ${sub.rationale}, ${sub.answerHash},
           ${utm.source}, ${utm.medium}, ${utm.campaign}, ${sub.status}, ${sub.routedProgramKey},
           ${sub.submittedAt}, ${sub.scoredAt}
-        )`;
+        ) returning id`;
+      const submissionId = insertedSub[0].id;
 
       // 4) qualified → route into Fall Enrollment (RLS-scoped; the tx is scoped to fall).
       if (sub.qualified) {
@@ -179,30 +182,28 @@ export class DbGiftedQuizCaptureStore implements GiftedQuizCaptureStore {
       }
 
       // 5) enqueue the app→HubSpot intent (existing outbox backbone dispatches it).
+      //    Only STANDARD HubSpot contact properties go on the wire — HubSpot 400s on
+      //    unknown properties. The GT-specific signal (bucket/score/UTM) stays in
+      //    quiz_submissions, which is the app-authoritative SSOT for it; hs_lead_status
+      //    is the standard property that carries the qualified verdict into the CRM.
       await tx`
         insert into sync_outbox (aggregate_type, aggregate_id, target_system, op, payload, dedupe_key)
         values (
-          'quiz_submission', ${sub.id}, 'hubspot', 'upsert_contact',
+          'quiz_submission', ${submissionId}, 'hubspot', 'upsert_contact',
           ${tx.json({
             email: sub.parentEmail,
             phone: sub.parentPhone,
-            gt_challenge_bucket: sub.bucket,
-            gt_challenge_score: String(sub.rawScore),
-            gt_challenge_qualified: String(sub.qualified),
             hs_lead_status: sub.qualified ? "NEW" : "UNQUALIFIED",
-            utm_source: utm.source,
-            utm_medium: utm.medium,
-            utm_campaign: utm.campaign,
           } as unknown as postgres.JSONValue)},
-          ${`gtc:${sub.id}`}
+          ${`gtc:${submissionId}`}
         )
         on conflict (dedupe_key) do nothing`;
 
       const now = sub.scoredAt;
       return {
         created: true,
-        submission: { ...sub, leadId: familyId } as PersistedGiftedQuizSubmission,
-        lead: leadFor(capture, familyId, sub.id, now),
+        submission: { ...sub, id: submissionId, leadId: familyId } as PersistedGiftedQuizSubmission,
+        lead: leadFor(capture, familyId, submissionId, now),
       };
     });
   }
@@ -255,7 +256,11 @@ export async function summarizeQuizSubmissionsFromDb(
     );
     const r = rows[0];
     if (!r) return null;
-    return { submissions: Number(r.submissions), leads: Number(r.leads), qualified: Number(r.qualified) };
+    const submissions = Number(r.submissions);
+    // No live submissions yet → fall back to the seed campaign view (null) rather than
+    // showing an empty 0/CPQL n/a. The surface switches to live as soon as one lands.
+    if (submissions === 0) return null;
+    return { submissions, leads: Number(r.leads), qualified: Number(r.qualified) };
   } catch {
     return null;
   }
