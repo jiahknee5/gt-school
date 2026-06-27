@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GT Marketing Hub — Deck Presentation Script</title>
+<style>
+  :root{
+    --canvas:#faf8f4;--paper:#fff;--fill:#f3eee4;--ink:#1b1714;--muted:#6b6259;--label:#8a8175;
+    --gold:#a8741f;--gold-soft:#f4ead3;--hairline:#e9e2d6;--border:#ded5c6;--slate:#5b6470;
+    --fs:16px;--mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+    --sans:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--sans);font-size:var(--fs);line-height:1.5}
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px 120px}
+  header.top{position:sticky;top:0;z-index:50;background:rgba(250,248,244,.93);backdrop-filter:blur(8px);border-bottom:1px solid var(--hairline)}
+  .top-inner{max-width:900px;margin:0 auto;padding:10px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+  .top h1{font-size:15px;margin:0;font-weight:700;letter-spacing:-.01em}
+  .top .sub{font-family:var(--mono);font-size:10px;color:var(--label);text-transform:uppercase;letter-spacing:.06em}
+  .spacer{flex:1}.controls{display:flex;gap:6px}
+  button.ctl{font-family:var(--mono);font-size:11px;border:1px solid var(--border);background:var(--paper);color:var(--ink);border-radius:7px;padding:5px 9px;cursor:pointer}
+  button.ctl:hover{border-color:var(--gold);color:var(--gold)}
+  button.ctl.on{background:var(--gold);border-color:var(--gold);color:#fff}
+  .hero{padding:28px 0 6px}
+  .hero h2{font-size:26px;margin:0 0 6px;letter-spacing:-.02em;line-height:1.12}
+  .hero .meta{font-family:var(--mono);font-size:11px;color:var(--muted)}
+  .hero .meta a{color:var(--gold);text-decoration:none}
+  .callout{background:var(--paper);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:10px;padding:14px 17px;margin:16px 0}
+  .callout h3{margin:0 0 7px;font-size:14px}.callout p{margin:0 0 9px;font-size:14px}.callout p:last-child{margin:0}
+  .seg{background:var(--paper);border:1px solid var(--border);border-radius:12px;padding:17px 20px;margin:15px 0;box-shadow:0 1px 2px rgba(40,30,15,.04)}
+  .seg-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+  .seg-num{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--gold);background:var(--gold-soft);border-radius:6px;padding:2px 7px}
+  .seg-time{font-family:var(--mono);font-size:11px;color:var(--muted)}
+  .seg-title{font-size:17px;font-weight:700;letter-spacing:-.01em;flex-basis:100%;margin:3px 0 0}
+  .seg-done{margin-left:auto;display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;color:var(--label);cursor:pointer}
+  .seg-done input{width:15px;height:15px;accent-color:var(--gold)}
+  .blk{margin:11px 0 0}
+  .blk-label{font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--label);margin-bottom:5px}
+  .cue p{margin:0;font-size:13.5px;color:var(--muted)}
+  .cue code{font-family:var(--mono);font-size:.85em;background:var(--fill);border:1px solid var(--hairline);border-radius:4px;padding:1px 5px}
+  .say{border-left:3px solid var(--gold);background:linear-gradient(90deg,var(--gold-soft)0%,rgba(244,234,211,.25)100%);border-radius:0 8px 8px 0;padding:13px 16px}
+  .say p{margin:0;font-size:18px;line-height:1.58}
+  h3.sec{margin:34px 0 4px;font-size:13px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--gold);border-bottom:1px solid var(--hairline);padding-bottom:6px}
+  body.tele{background:#0e0d0c;color:#f4efe6}
+  body.tele header.top,body.tele .hero,body.tele .callout,body.tele h3.sec,body.tele .cue,body.tele .seg-done,body.tele .seg-num,body.tele .blk-label{display:none}
+  body.tele .seg{background:transparent;border:none;box-shadow:none;border-bottom:1px solid #232120;border-radius:0;padding:20px 0}
+  body.tele .seg-time{color:#8c8576}
+  body.tele .seg-title{color:#cdbf9a;font-size:15px}
+  body.tele .say{border-left:4px solid var(--gold);background:none;border-radius:0;padding:8px 0 8px 18px}
+  body.tele .say p{font-size:29px;line-height:1.45;color:#f7f2e8}
+  body.tele button.ctl{background:#1b1917;border-color:#3a352e;color:#cdbf9a}
+  @media print{header.top,.controls,.seg-done{display:none}.seg,.callout{break-inside:avoid;box-shadow:none}body{font-size:12px}.say p{font-size:14px}}
+</style>
+</head>
+<body>
+<header class="top"><div class="top-inner">
+  <div><h1>GT Marketing Hub — Deck Presentation Script</h1><div class="sub">Marketing-leader voice · ≈9:20 · pairs with DECK.html</div></div>
+  <div class="spacer"></div>
+  <div class="controls">
+    <button class="ctl" id="font-dn">A−</button><button class="ctl" id="font-up">A+</button>
+    <button class="ctl" id="tele">▶ Teleprompter</button><button class="ctl" id="reset">↺ Reset</button>
+  </div>
+</div></header>
+
+<div class="wrap">
+  <div class="hero">
+    <h2>Deck Presentation Script</h2>
+    <div class="meta">Spoken over <a href="DECK.html">DECK.html</a> (the high-level framing before the live demo). Voice: a head of marketing who is also the engineer. Advance a slide where each segment opens.</div>
+  </div>
+
+  <div class="callout">
+    <h3>How to use</h3>
+    <p>This is the talk track for the <b>11-slide deck</b>, ~9:20 — the framing half of the video. Follow it with the live demo (<code>WALKTHROUGH-SCRIPT.html</code>). <b>Say</b> = verbatim; <b>Cue</b> = which slide is up / what to point at. Press <b>Teleprompter</b> to show only the spoken lines, large.</p>
+    <p>Voice note: lead with the marketing outcome, then the engineering that makes it trustworthy. Confident about the business, precise about the tech. No hype words.</p>
+  </div>
+
+  <h3 class="sec">The script</h3>
+
+  <div class="seg">
+    <div class="seg-head"><span class="seg-num">S1</span><span class="seg-time">0:00–0:30 · Cover</span>
+      <label class="seg-done"><input type="checkbox"> done</label>
+      <div class="seg-title">Cover — what this is</div></div>
+    <div class="blk cue"><div class="blk-label">Cue</div><p>Slide 1 up. Don't read the stat row — let it sit.</p></div>
+    <div class="blk say"><div class="blk-label">Say</div><p>“I'm Johnny. I built the GT Marketing Hub the way a head of marketing would actually need to run it — the funnel, channel economics, a $365,000 budget, a leadership decision queue — on a data backbone that keeps every one of those numbers honest. The spec was written by GT's own marketing lead; I built to it, and I made the engineering calls inside it. Let me show you how I read it, what I prioritized, and how I proved it works.”</p></div>
+  </div>
+
+  <div class="seg">
+    <div class="seg-head"><span class="seg-num">S2</span><span class="seg-time">0:30–0:50 · Agenda</span>
+      <label class="seg-done"><input type="checkbox"> done</label>
+      <div class="seg-title">Agenda — time is the argument</div></div>
+    <div class="blk cue"><div class="blk-label">Cue</div><p>Slide 2. Run a finger down the time column.</p></div>
+    <div class="blk say"><div class="blk-label">Say</div><p>“Nine minutes, and I've front-loaded them on the two things that decide whether this is real: a backbone you can trust, and the one screen the whole team runs on. Notice the time column — where I spend the minutes is my argument about what mattered. The three modules I built deep get real time; the ten I stubbed get a single sentence. Trying to half-build all thirteen in two days is the red flag the brief warns about.”</p></div>
+  </div>
+
+  <div class="seg">
+    <div class="seg-head"><span class="seg-num">S3</span><span class="seg-time">0:50–1:30 · The lens</span>
+      <label class="seg-done"><input type="checkbox"> done</label>
+      <div class="seg-title">The lens — the real problem</div></div>
+    <div class="blk cue"><div class="blk-label">Cue</div><p>Slide 3. Point at the goal-chain on the right as you say “trace back.”</p></div>
+    <div class="blk say"><div class="blk-label">Say</div><p>“Coming in fresh, the real risk wasn't a missing feature. GT markets across many channels and runs two programs at once — Fall enrollment and Summer Camp — that share families but have to keep separate P&amp;Ls. And the spec itself says the CRM fields are unreliable and the UTM attribution is broken. So a marketing leader's hardest problem is that you can't trust your own numbers enough to act on them. That's why I built the backbone first — I wanted to earn the right to put a number on a dashboard before I made the dashboard pretty. Everything I built traces back to one goal: grow Fall enrollment by the August 17 cutoff.”</p></div>
+  </div>
+
+  <div class="seg">
+    <div class="seg-head"><span class="seg-num">S4</span><span class="seg-time">1:30–2:30 · Anchor</span>
+      <label class="seg-done"><input type="checkbox"> done</label>
+      <div class="seg-title">What you get &amp; the slice I chose</div></div>
+    <div class="blk cue"><div class="blk-label">Cue</div><p>Slide 4 (the anchor). Point top layer → backbone → sources, top to bottom.</p></div>
+    <div class="blk say"><div class="blk-label">Say</div><p>“Here's the system on one page, read the way a marketer would. At the top, what leadership sees: a six-stage funnel, channel-level cost-per-acquisition, a budget that reconciles to $365K, and a leadership-only decision queue. Underneath — and this is the part most take-homes skip — every one of those sits on a real backbone: program isolation, idempotent payments, two-way sync with a data-confidence signal. I went deep on three modules and one campaign — CRM Ops, Budget, the Decision Queue, and the GT Challenge — because each tests a different hard rule. CRM Ops surfaces the backbone, Budget proves a number means one thing everywhere, the Decision Queue is the role-gated place every cross-module rule lands. The other ten I built as honest, labeled stubs.”</p></div>
+  </div>
+
+  <div class="seg">
+    <div class="seg-head"><span class="seg-num">S5</span><span class="seg-time">2:30–4:00 · Backbone</span>
+      <label class="seg-done"><input type="checkbox"> done</label>
+      <div class="seg-title">Why the numbers are real</div></div>
+    <div class="blk cue"><div class="blk-label">Cue</div><p>Slide 5. Trace the payment flow, then the three cards.</p></div>
+    <div class="blk say"><div class="blk-label">Say</div><p>“Why can you trust these numbers? Three reasons. First, the programs are isolated at the database, not by application code — Summer Camp's P&amp;L physically can't bleed into Fall's, and a family enrolled in both is counted correctly in each. A query in the wrong scope returns zero rows; a cross-program write is rejected outright. Second, payments are idempotent: Stripe can retry a webhook and the deposit still counts once, so your pipeline and your revenue are real, not inflated. Third, when Supabase — which owns funnel and income — disagrees with HubSpot, the number wears a data-confidence warning instead of quietly lying to you. And every figure traces to exactly one source, so a number means the same thing on every screen. Phase 2 spends this backbone; it doesn't re-solve it.”</p></div>
+  </div>
+
+  <div class="seg">
+    <div class="seg-head"><span class="seg-num">S6</span><span class="seg-time">4:00–4:40 · Data</span>
+      <label class="seg-done"><input type="checkbox"> done</label>
+      <div class="seg-title">The data behind the dashboards</div></div>
+    <div class="blk cue"><div class="blk-label">Cue</div><p>Slide 6. Point at the channel figures, then the real/stood-in table.</p></div>
+    <div class="blk say"><div class="blk-label">Say</div><p>“The dashboards aren't lorem-ipsum. They sit on twelve hundred families modeled to GT's real funnel — and the channel mix encodes what a marketer would recognize: X converts around 45%, Facebook is a volume trap at 8%, and a lead who's already clicked converts at 53% versus 11% cold. There are fifteen deliberate edge cases — duplicate payments, a family in two programs, conflicting records, missing UTM — so the isolation and the reconciliation are provable against data I built to break them. And what's real — HubSpot, Stripe, Supabase, Open Data — versus what's stood-in — Meta, GA4, summer.gt — is labeled, row by row. The brief scores how I think about data, not just how I wire it.”</p></div>
+  </div>
+
+  <div class="seg">
+    <div class="seg-head"><span class="seg-num">S7</span><span class="seg-time">4:40–5:10 · Signals</span>
+      <label class="seg-done"><input type="checkbox"> done</label>
+      <div class="seg-title">Four proofs an operator demands</div></div>
+    <div class="blk cue"><div class="blk-label">Cue</div><p>Slide 7. Tap each row of the table.</p></div>
+    <div class="blk say"><div class="blk-label">Say</div><p>“Before a marketer trusts a dashboard, four things have to be true — and you asked to watch all four. A deposit lands in the right program without contaminating the other. The budget always sums to $365K. Only leadership can act on the decision queue. And a number warns you when its sources disagree. Each has exactly one place to see it. Two of them — the payment propagation and the parity toggle — I record on a seeded local database, because the live demo runs with no database attached, and I'd rather say that than fake the movement.”</p></div>
+  </div>
+
+  <div class="seg">
+    <div class="seg-head"><span class="seg-num">S8</span><span class="seg-time">5:10–7:00 · Demo</span>
+      <label class="seg-done"><input type="checkbox"> done</label>
+      <div class="seg-title">A campaign, end to end</div></div>
+    <div class="blk cue"><div class="blk-label">Cue</div><p>Slide 8. Walk the flow; this is the handoff into the live demo if recording.</p></div>
+    <div class="blk say"><div class="blk-label">Say</div><p>“Let me show one campaign end to end, because it exercises every theme at once. The GT Challenge is a gifted-style quiz GT runs on social. A parent sees the post, their child takes it, we capture a consented lead and return a fit result — never a pass-fail on a child — and the program routes strong fits into admissions. To marketing, it reads as a channel: $8,208 of spend, twelve qualified leads, a cost-per-qualified-lead of $684 — measured, not assumed — sitting beside every other channel, and that spend rolls into the same $365K budget. Open Data sharpens the call: in lower-rated Austin and Dallas districts the qualified-lead cost is about $41 versus $63 blended, which flips a pilot decision to approve. That's capture, assessment, reconciliation, and reporting — on the same backbone, nothing double-counted.”</p></div>
+  </div>
+
+  <div class="seg">
+    <div class="seg-head"><span class="seg-num">S9</span><span class="seg-time">7:00–8:20 · Status</span>
+      <label class="seg-done"><input type="checkbox"> done</label>
+      <div class="seg-title">Status — the Monday-morning answer</div></div>
+    <div class="blk cue"><div class="blk-label">Cue</div><p>Slide 9. Left = the answer; right = the reliability chain (point down it).</p></div>
+    <div class="blk say"><div class="blk-label">Say</div><p>“And this is where it all comes together — the screen I'd open Monday morning. The question a marketing leader actually asks is, are we on track for Fall, and what do we do this week? Status answers it in one line: the verdict, the binding constraint — right now that's conversion, not demand — the speed-to-lead risk, where 67 late follow-ups are leaking paid leads, and the days left to the August 17 cutoff. From there I drill into any owner or any funnel stage, and I can ask the Hub a question in plain language. The part I care about most: it shows its work. Every claim is generated against a fixed rubric, filled from the real numbers, run through an agent graph, eval-checked, logged with its source, and cited back to the tab and the system it came from — and where a number is a stand-in, it says stand-in. That's how a team trusts an answer, and how you trust the AI behind it.”</p></div>
+  </div>
+
+  <div class="seg">
+    <div class="seg-head"><span class="seg-num">S10</span><span class="seg-time">8:20–8:50 · Gaps</span>
+      <label class="seg-done"><input type="checkbox"> done</label>
+      <div class="seg-title">What I left for week two</div></div>
+    <div class="blk cue"><div class="blk-label">Cue</div><p>Slide 10. Don't dwell; honesty is the point.</p></div>
+    <div class="blk say"><div class="blk-label">Say</div><p>“What's honestly not done: the GT Challenge persistence is an in-memory contract with the database adapter specced; the composable home saves layouts but the drag interaction isn't wired; the live-integration tests need real credentials; and the decision-queue act-loop has a seed-versus-database id mismatch I'd reconcile first. All tracked — none faked green.”</p></div>
+  </div>
+
+  <div class="seg">
+    <div class="seg-head"><span class="seg-num">S11</span><span class="seg-time">8:50–9:20 · Close</span>
+      <label class="seg-done"><input type="checkbox"> done</label>
+      <div class="seg-title">Close — the takeaway + the ask</div></div>
+    <div class="blk cue"><div class="blk-label">Cue</div><p>Slide 11. End on judgment, then the one-line verify.</p></div>
+    <div class="blk say"><div class="blk-label">Say</div><p>“The result is a marketing system where every number traces to one trustworthy source — and tells you when it can't. The backbone is proven, not asserted; one number means one thing everywhere; and real-versus-stood-in is labeled throughout. You can verify it in one line — npm run verify, 423 tests — and the whole thing is live with the three roles. I'm happy to go as deep as you'd like on any layer: the isolation proof, the budget reconciliation, or the Status reliability chain. Thank you.”</p></div>
+  </div>
+
+  <h3 class="sec">Marketing-first voice — quick reminders</h3>
+  <div class="callout">
+    <p><b>Lead with the outcome, back it with the mechanism.</b> “Clean per-program revenue” → <em>because</em> RLS isolation. Not the reverse.</p>
+    <p><b>Numbers are marketing numbers:</b> CAC, CPQL, funnel stage, speed-to-lead, budget variance, days-to-cutoff. The engineering is why you can trust them.</p>
+    <p><b>Cut hedges and hype.</b> No “AI-powered,” “seamless,” “robust.” Say the specific thing: “$684, measured” / “rejected by the database” / “says stand-in.”</p>
+    <p><b>Handoff:</b> end Slide 8 (or 9) by switching to the live app for the demo — this deck is the framing; the walkthrough script carries the clicks.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  var KEY="gt-deck-script-v1";
+  var boxes=[].slice.call(document.querySelectorAll('input[type=checkbox]'));
+  boxes.forEach(function(b,i){b.dataset.idx=i});
+  try{(JSON.parse(localStorage.getItem(KEY)||"[]")).forEach(function(i){if(boxes[i])boxes[i].checked=true})}catch(e){}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(boxes.filter(function(b){return b.checked}).map(function(b){return +b.dataset.idx})))}catch(e){}}
+  boxes.forEach(function(b){b.addEventListener('change',save)});
+  document.getElementById('reset').addEventListener('click',function(){boxes.forEach(function(b){b.checked=false});save()});
+  document.getElementById('tele').addEventListener('click',function(){document.body.classList.toggle('tele');this.classList.toggle('on')});
+  var fs=16;function setFs(v){fs=Math.max(13,Math.min(24,v));document.documentElement.style.setProperty('--fs',fs+'px')}
+  document.getElementById('font-up').addEventListener('click',function(){setFs(fs+1)});
+  document.getElementById('font-dn').addEventListener('click',function(){setFs(fs-1)});
+})();
+</script>
+</body>
+</html>

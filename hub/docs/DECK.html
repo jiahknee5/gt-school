@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GT Marketing Hub — Technical Project Deck</title>
+<style>
+  :root{
+    --canvas:#faf8f4;--paper:#fff;--fill:#f3eee4;--ink:#1b1714;--muted:#6b6259;--label:#8a8175;
+    --gold:#a8741f;--gold-soft:#f4ead3;--hairline:#e9e2d6;--border:#ded5c6;--slate:#5b6470;
+    --green:#1f7a4d;--green-bg:#e4f3ea;--amber:#9a6212;--amber-bg:#fbeeda;--red:#b23b3b;--red-bg:#f7e6e6;
+    --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+    --sans:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;height:100%;background:#2a2723;font-family:var(--sans);color:var(--ink)}
+  .deck{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+  .slide{position:absolute;width:min(1120px,95vw);height:min(675px,90vh);background:var(--canvas);
+    border-radius:14px;box-shadow:0 18px 60px rgba(0,0,0,.45);padding:36px 48px 42px;display:none;flex-direction:column;overflow:hidden}
+  .slide.active{display:flex;animation:fade .22s ease}
+  @keyframes fade{from{opacity:.35}to{opacity:1}}
+  .kicker{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+  .kicker .num{background:var(--gold-soft);border-radius:5px;padding:2px 7px;color:var(--gold)}
+  .kicker .sec{color:var(--label)}
+  h1.title{font-size:22px;line-height:1.2;letter-spacing:-.018em;margin:0 0 14px;font-weight:700;max-width:52ch}
+  .slide.cover h1.title{font-size:35px;max-width:26ch}
+  .body{flex:1;min-height:0;overflow:auto}
+  .foot{display:flex;justify-content:space-between;align-items:flex-end;gap:16px;border-top:1px solid var(--hairline);padding-top:8px;margin-top:11px;font-family:var(--mono);font-size:9px;color:var(--label)}
+  .foot .src{max-width:80%}
+  p{margin:0 0 9px;font-size:14px;line-height:1.46}
+  .lead{font-size:14.5px;color:var(--muted)}
+  b{color:var(--ink)} em{color:var(--slate);font-style:italic}
+  code{font-family:var(--mono);font-size:.82em;background:var(--fill);border:1px solid var(--hairline);border-radius:4px;padding:1px 5px}
+  /* business-first band */
+  .biz{display:flex;gap:11px;align-items:baseline;background:var(--gold-soft);border-radius:8px;padding:9px 13px;margin-bottom:12px}
+  .biz .tag{font-family:var(--mono);font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--gold);white-space:nowrap;padding-top:2px}
+  .biz p{margin:0;font-size:14px;color:#5a4a28;line-height:1.45}
+  .howlab{font-family:var(--mono);font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--label);margin:0 0 7px}
+  ul.r3{list-style:none;padding:0;margin:3px 0 0;display:grid;gap:8px}
+  ul.r3 li{position:relative;padding-left:18px;font-size:13.5px;line-height:1.42}
+  ul.r3 li::before{content:"";position:absolute;left:0;top:6px;width:7px;height:7px;border-radius:2px;background:var(--gold)}
+  ul.r3 li b{color:var(--ink)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .three{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .card{background:var(--paper);border:1px solid var(--border);border-radius:9px;padding:11px 13px}
+  .card h4{margin:0 0 5px;font-size:12px;letter-spacing:.01em}
+  .card p{font-size:12px;margin:0;color:var(--muted);line-height:1.4}
+  .card .tag{font-family:var(--mono);font-size:8.5px;color:var(--gold);text-transform:uppercase;letter-spacing:.05em;display:block;margin-top:6px}
+  .chip{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);font-size:9px;font-weight:600;border-radius:999px;padding:2px 8px;border:1px solid transparent}
+  .chip.g{background:var(--green-bg);color:var(--green);border-color:#c7e6d3}
+  .chip.a{background:var(--amber-bg);color:var(--amber);border-color:#f0d8b4}
+  .chip.r{background:var(--red-bg);color:var(--red);border-color:#e9c9c9}
+  table{width:100%;border-collapse:collapse;font-size:12.5px;background:var(--paper);border:1px solid var(--border);border-radius:9px;overflow:hidden}
+  th,td{text-align:left;padding:6px 10px;border-bottom:1px solid var(--hairline);vertical-align:top}
+  th{background:var(--fill);font-size:9px;text-transform:uppercase;letter-spacing:.04em;color:var(--label)}
+  tr:last-child td{border-bottom:none}
+  td.t{font-family:var(--mono);font-size:10px}
+  .appendix table{font-size:11.5px} .appendix td,.appendix th{padding:5px 9px}
+  /* diagrams */
+  .flow{display:flex;align-items:stretch;gap:0;flex-wrap:wrap}
+  .node{flex:1;min-width:84px;background:var(--paper);border:1px solid var(--border);border-radius:8px;padding:8px 7px;text-align:center;font-size:10.5px;line-height:1.2}
+  .node b{display:block;font-size:11px} .node small{font-family:var(--mono);font-size:8px;color:var(--label);display:block;margin-top:3px}
+  .node.hot{border-color:var(--gold);background:var(--gold-soft)}
+  .arrow{display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--gold);padding:0 3px}
+  .arrow b{font-size:15px;font-weight:700;line-height:1}
+  .arrow small{font-family:var(--mono);font-size:7px;color:var(--label);margin-top:2px;max-width:60px;text-align:center;line-height:1.1}
+  .boundary{border:1.5px dashed var(--gold);border-radius:9px;padding:9px 8px 8px;position:relative;background:rgba(244,234,211,.4);display:flex;gap:6px;align-items:stretch}
+  .boundary .blab{position:absolute;top:-7px;left:11px;background:var(--canvas);padding:0 6px;font-family:var(--mono);font-size:7.5px;color:var(--gold);text-transform:uppercase;letter-spacing:.06em}
+  .bnote{font-family:var(--mono);font-size:9px;color:var(--slate);line-height:1.5;margin-top:9px;background:var(--paper);border:1px solid var(--hairline);border-radius:7px;padding:8px 11px}
+  .bnote b{color:var(--ink)}
+  .layer{background:var(--paper);border:1px solid var(--border);border-radius:9px;padding:8px 12px;margin-bottom:6px}
+  .layer .lab{font-family:var(--mono);font-size:8px;text-transform:uppercase;letter-spacing:.08em;color:var(--label);margin-bottom:5px}
+  .layer .row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .pill{background:var(--fill);border:1px solid var(--hairline);border-radius:6px;padding:3px 9px;font-size:10.5px}
+  .pill.hot{background:var(--gold-soft);border-color:var(--gold);color:var(--gold);font-weight:600}
+  .pill small{font-family:var(--mono);font-size:8px;color:var(--label);display:block}
+  .down{text-align:center;color:var(--gold);font-size:11px;margin:0}
+  .down small{font-family:var(--mono);font-size:8px;color:var(--label)}
+  .statline{display:flex;gap:24px;flex-wrap:wrap;margin:6px 0 14px}
+  .stat .n{font-size:25px;font-weight:800;letter-spacing:-.01em;line-height:1}
+  .stat .l{font-family:var(--mono);font-size:9px;color:var(--label);text-transform:uppercase;letter-spacing:.05em;margin-top:3px}
+  blockquote{margin:0;padding:9px 15px;border-left:3px solid var(--gold);background:var(--gold-soft);border-radius:0 8px 8px 0;font-size:13px;font-style:italic;color:#5a4a28}
+  ol.clicks{margin:0;padding-left:20px;display:grid;gap:5px}
+  ol.clicks li{font-size:11.5px;line-height:1.4}
+  ol.clicks li b{color:var(--ink)}
+  .notes{display:none;position:fixed;left:0;right:0;bottom:0;background:#16140f;color:#e8e0d0;font-size:13px;line-height:1.5;padding:11px 18px;border-top:2px solid var(--gold);z-index:30}
+  .notes b{color:var(--gold)} body.shownotes .notes{display:block}
+  .hud{position:fixed;bottom:13px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;z-index:40}
+  .dots{display:flex;gap:5px} .dot{width:8px;height:8px;border-radius:50%;background:#5a564e;cursor:pointer;border:none;padding:0}
+  .dot.on{background:var(--gold);transform:scale(1.25)} .dot.ap{border:1px solid #5a564e;background:transparent}
+  .count{font-family:var(--mono);font-size:11px;color:#cdbf9a;min-width:64px;text-align:center}
+  .nbtn{background:#1b1917;border:1px solid #3a352e;color:#cdbf9a;border-radius:7px;font-family:var(--mono);font-size:12px;padding:5px 10px;cursor:pointer}
+  .nbtn:hover{border-color:var(--gold);color:var(--gold)}
+  .hint{position:fixed;top:12px;right:16px;font-family:var(--mono);font-size:10px;color:#8c8576;z-index:40}
+  @media print{body{background:#fff}.deck{position:static;display:block}
+    .slide{position:static;display:flex!important;width:100%;height:auto;min-height:92vh;box-shadow:none;border:1px solid #ddd;margin:0 0 14px;border-radius:0;page-break-after:always}
+    .hud,.hint,.notes{display:none!important}}
+</style>
+</head>
+<body>
+<div class="hint">← → navigate · N notes · F fullscreen · P print</div>
+<div class="deck" id="deck">
+
+  <!-- COVER -->
+  <section class="slide cover active">
+    <div class="kicker"><span class="num">01</span><span class="sec">Technical Project · GT School / SuperBuilders</span></div>
+    <h1 class="title">GT Marketing Hub: one system to run every marketing function toward Fall enrollment — on numbers the team can trust</h1>
+    <div class="body">
+      <p class="lead">Built the way GT's marketing lead would run it — funnel, channel economics, a $365K budget, a leadership decision queue — and the engineering that keeps every one of those numbers honest.</p>
+      <div class="statline">
+        <div class="stat"><div class="n">6-stage</div><div class="l">funnel, one definition</div></div>
+        <div class="stat"><div class="n">2</div><div class="l">programs, never contaminated</div></div>
+        <div class="stat"><div class="n">$365K</div><div class="l">budget, reconciled</div></div>
+        <div class="stat"><div class="n">423</div><div class="l">tests, 0 faked green</div></div>
+      </div>
+      <blockquote>“Every GT marketing function has its own module with task tracking, measurable outcomes, and dashboards. Leadership can monitor all functions, provide input, and customize their view.” — the spec author (GT's marketing lead)</blockquote>
+    </div>
+    <div class="foot"><span class="src">Johnny Chung · accompanies the live walkthrough · audience: the reviewer</span><span>1 / 12</span></div>
+  </section>
+
+  <!-- AGENDA -->
+  <section class="slide">
+    <div class="kicker"><span class="num">02</span><span class="sec">Agenda</span></div>
+    <h1 class="title">Nine minutes, front-loaded on the two things that decide it: a backbone you can trust, and the one screen the team runs on</h1>
+    <div class="body">
+      <table>
+        <thead><tr><th style="width:28px">#</th><th>Section</th><th style="width:50px">Time</th><th>Why this much</th></tr></thead>
+        <tbody>
+          <tr><td class="t">1</td><td><b>The lens</b> — what marketing can't currently trust</td><td class="t">0:40</td><td>it set every priority that follows</td></tr>
+          <tr><td class="t">2</td><td><b>What you get &amp; the slice I chose</b></td><td class="t">1:00</td><td>which 3 of 13 modules — and why — is scored</td></tr>
+          <tr><td class="t">↳</td><td><b>The calls I made on purpose</b> (judgment)</td><td class="t">0:50</td><td>where the spec left a choice, I made it</td></tr>
+          <tr><td class="t">3</td><td><b>Why the numbers are real</b> (backbone)</td><td class="t">1:30</td><td>the foundation; everything stands on it</td></tr>
+          <tr><td class="t">4</td><td><b>The data behind the dashboards</b></td><td class="t">0:40</td><td>the data is itself a scored deliverable</td></tr>
+          <tr><td class="t">5</td><td><b>Four proofs an operator demands</b></td><td class="t">0:30</td><td>the "show us it works" checklist</td></tr>
+          <tr><td class="t">6</td><td><b>A campaign, end to end</b> — live demo</td><td class="t">2:30</td><td>spend → qualified → CPQL, reconciled</td></tr>
+          <tr><td class="t">7</td><td><b>Status — the Monday-morning answer</b></td><td class="t">1:20</td><td>where it converges, and why you trust it</td></tr>
+          <tr><td class="t">8</td><td><b>Gaps &amp; close</b></td><td class="t">0:30</td><td>honest scope</td></tr>
+        </tbody>
+      </table>
+      <p class="lead" style="margin-top:10px"><b>Where I spend the minutes is the argument about what mattered.</b> Appendix carries the logical architecture and a click-by-click of the demo.</p>
+    </div>
+    <div class="foot"><span class="src">Read the titles top-to-bottom and the story lands without a body slide.</span><span>2 / 12</span></div>
+  </section>
+
+  <!-- LENS -->
+  <section class="slide">
+    <div class="kicker"><span class="num">03</span><span class="sec">The lens · the marketing leader's real problem</span></div>
+    <h1 class="title">The risk wasn't a missing feature — it was that marketing couldn't trust its own numbers across two programs and many channels</h1>
+    <div class="body">
+      <div class="two">
+        <div><ul class="r3">
+          <li><b>Situation</b> — GT markets across many channels and runs <b>two programs at once</b>: Fall enrollment and Summer Camp, sharing families but keeping separate P&amp;Ls.</li>
+          <li><b>Complication</b> — the spec itself flags fields as <b>unreliable</b> and <b>UTM as broken</b>. You can't act on a CAC you don't believe or a deposit count that might be double-billed.</li>
+          <li><b>Resolution</b> — so I earned the right to put a number on a dashboard <b>before</b> building the dashboard. Backbone first; product second.</li>
+        </ul></div>
+        <div>
+          <div class="layer"><div class="lab">every decision points back at this chain</div>
+            <div class="pill hot" style="display:block;text-align:center">grow Fall enrollment · deadline Aug 17</div>
+            <div class="down">▲</div>
+            <div class="pill" style="display:block;text-align:center">a product leadership runs on</div>
+            <div class="down">▲</div>
+            <div class="pill" style="display:block;text-align:center">a number that means one thing everywhere</div>
+            <div class="down">▲</div>
+            <div class="pill" style="display:block;text-align:center">trustworthy, isolated, reconciled data</div>
+          </div>
+          <p class="lead">If a thing I built didn't strengthen that chain, I stubbed it — and labeled it.</p>
+        </div>
+      </div>
+    </div>
+    <div class="foot"><span class="src">Source: GT brief (Phase 1/2 framing; known-broken fields &amp; UTM); GT_Marketing_Hub_Spec.md (source-of-truth rules).</span><span>3 / 12</span></div>
+  </section>
+
+  <!-- ANCHOR -->
+  <section class="slide">
+    <div class="kicker"><span class="num">04</span><span class="sec">What you get &amp; the slice I chose · system on one page</span></div>
+    <h1 class="title">A marketing leader gets a funnel, channel CAC, a budget that reconciles, and a leadership queue — on a backbone that keeps them honest</h1>
+    <div class="body">
+      <div class="biz"><span class="tag">for marketing</span><p>Everything leadership touches sits on top; everything that makes it <b>trustworthy</b> sits underneath. Every later slide zooms into one layer here.</p></div>
+      <div class="layer"><div class="lab">marketing surfaces — what leadership sees</div><div class="row">
+        <span class="pill">6-stage funnel</span><span class="pill">channel CAC / CPQL</span><span class="pill hot">$365K budget</span><span class="pill hot">leadership Decision Queue</span><span class="pill">campaign engine</span><span class="pill hot">exec Status</span></div></div>
+      <div class="down">▲ <small>reads, never re-computes</small></div>
+      <div class="layer" style="border-color:var(--gold)"><div class="lab" style="color:var(--gold)">backbone — why those numbers are real</div><div class="row">
+        <span class="pill hot">program isolation</span><span class="pill hot">idempotent payments</span><span class="pill hot">bidirectional sync + parity</span><span class="pill hot">dual-source reconcile</span></div></div>
+      <div class="down">▲ <small>typed connectors · match-key identity</small></div>
+      <div class="layer"><div class="lab">sources</div><div class="row">
+        <span class="pill">HubSpot</span><span class="pill">Stripe</span><span class="pill">Supabase (app_form = SoT)</span><span class="pill">Open Data</span><span class="pill" style="color:var(--amber)">Meta / GA4 / summer.gt — seeded, labeled</span></div></div>
+      <p class="lead" style="margin-top:9px"><b>Deep on 3 modules + 1 campaign; the other 10 are honest stubs.</b> CRM Ops surfaces the backbone · Budget proves one-number-everywhere · Decision Queue is the role-gated sink · GT Challenge runs end to end.</p>
+    </div>
+    <div class="foot"><span class="src">Source: hub/docs/SUBMISSION.md §2.3; PRD module menu. Detailed logical architecture in Appendix A.</span><span>4 / 12</span></div>
+  </section>
+
+  <!-- DECISIONS -->
+  <section class="slide">
+    <div class="kicker"><span class="num">05</span><span class="sec">Judgment · calls I made on purpose</span></div>
+    <h1 class="title">Where the spec left a choice, I made it deliberately — AI that can't degrade trust, one definition per number, security that fails closed</h1>
+    <div class="body">
+      <table>
+        <thead><tr><th style="width:31%">Decision I made on purpose</th><th>Why</th><th>What I rejected</th></tr></thead>
+        <tbody>
+          <tr><td><b>AI grader behind a swappable interface</b> — record-replay + rules floor</td><td>assessment needs the model's quality, the demo needs determinism, capture can't block on a flaky API</td><td>a raw LLM in the request path; a pure rules grader</td></tr>
+          <tr><td><b>The verdict's LLM rewrite is eval-gated</b></td><td>the model can sharpen the language but never degrade the number — the deterministic draft is the floor, the rewrite passes only if it still conforms</td><td>letting the model write the exec verdict directly</td></tr>
+          <tr><td><b>One definition per number; CPQL measured</b></td><td>"a number means the same thing everywhere" is the spec's hardest rule; a faked headline is the easiest tell</td><td>hard-coding an impressive CPQL constant</td></tr>
+          <tr><td><b>Security fails closed</b> — role from the verified user, unset scope → 0 rows, least-privilege DB role</td><td>a leak should be impossible by construction, not policed after the fact</td><td>trusting a role claim from the request; service-role key on program paths</td></tr>
+          <tr><td><b>No "not gifted" bucket</b> — lowest result is "explore"</td><td>it's a fit screen for a child, not a verdict — never gate a kid out</td><td>a pass/fail grader</td></tr>
+        </tbody>
+      </table>
+      <p class="lead" style="margin-top:9px"><b>The rule under all five: honesty over polish.</b> Stand-ins labeled, gaps tracked, the decision audit append-only by DB grant — never faked green.</p>
+    </div>
+    <div class="foot"><span class="src">Source: lib/gt-challenge/assess.ts; lib/status/generate.ts (eval gate); lib/metrics/registry.ts; middleware.ts + lib/auth; supabase 0014_decision_audit.sql.</span><span>5 / 12</span></div>
+  </section>
+
+  <!-- BACKBONE -->
+  <section class="slide">
+    <div class="kicker"><span class="num">06</span><span class="sec">Why the numbers are real · Phase 1</span></div>
+    <h1 class="title">Programs can't contaminate each other, deposits can't double-count, and the Hub flags itself when its sources disagree</h1>
+    <div class="body">
+      <div class="biz"><span class="tag">for marketing</span><p>Clean per-program economics, a pipeline that isn't inflated, and a number that warns you when it's unsure.</p></div>
+      <p class="howlab">how it works — a deposit, end to end</p>
+      <div class="flow" style="margin-bottom:9px">
+        <div class="node"><b>Stripe</b><small>deposit paid</small></div>
+        <div class="arrow"><b>→</b><small>signed webhook</small></div>
+        <div class="node"><b>Webhook route</b><small>fast ACK</small></div>
+        <div class="arrow"><b>→</b><small>processed_events</small></div>
+        <div class="boundary" style="flex:1.4"><span class="blab">trust boundary · RLS + FORCE</span>
+          <div class="node hot" style="flex:1"><b>withProgram(GUC)</b><small>program A store</small></div>
+          <div class="node" style="flex:1;opacity:.6"><b>program B store</b><small>unreachable from A</small></div>
+        </div>
+        <div class="arrow"><b>→</b><small>field-directional</small></div>
+        <div class="node"><b>HubSpot</b><small>deal closedwon</small></div>
+      </div>
+      <div class="bnote"><b>Isolation:</b> <code>app_rw</code> is NOSUPERUSER / NOBYPASSRLS · unset program scope → <b>0 rows</b> · cross-program write → RLS <code>WITH CHECK</code> reject · <code>service_role</code> never on these paths.<br><b>Idempotency:</b> a re-delivered event records once (balances monotonic). &nbsp; <b>Parity:</b> Supabase↔HubSpot disagreement raises the data-confidence banner. &nbsp; <b>One source:</b> funnel/income = app_form, engagement = HubSpot, budget = Hub.</div>
+    </div>
+    <div class="foot"><span class="src">Source: supabase/migrations/0001_backbone.sql; lib/db.ts (withProgram), payments.ts, parity.ts, reconcile.ts; tests/payments.test.ts, parity.test.ts.</span><span>6 / 12</span></div>
+  </section>
+
+  <!-- DATA -->
+  <section class="slide">
+    <div class="kicker"><span class="num">07</span><span class="sec">The data behind the dashboards</span></div>
+    <h1 class="title">The dashboards sit on 1,200 families modeled to GT's real funnel — channel behavior a marketer recognizes, every stand-in labeled</h1>
+    <div class="body">
+      <div class="biz"><span class="tag">for marketing</span><p>The numbers behave like the real funnel — so the reconciliation, pacing, and CAC math are actually exercised, not happy-path.</p></div>
+      <div class="two">
+        <div><ul class="r3">
+          <li><b>Modeled, not lorem-ipsum</b> — <b>X converts ~45%</b>, <b>Facebook is a volume trap at ~8%</b>, a clicked lead converts <b>53% vs 11% cold</b>; 1,200 families across stages and time.</li>
+          <li><b>15 deliberate edge cases</b> — duplicate payment, a family in two programs, conflicting CRM-vs-app, missing UTM — so isolation &amp; reconcile are provable against data built to break them.</li>
+          <li><b>Reproducible</b> — deterministic seed; <code>npm run reset</code> to a known clean state.</li>
+        </ul></div>
+        <div>
+          <table>
+            <thead><tr><th>Source</th><th>Fidelity</th></tr></thead>
+            <tbody>
+              <tr><td>HubSpot · Stripe · Supabase</td><td><span class="chip g">real</span></td></tr>
+              <tr><td>Open Data (Texas)</td><td><span class="chip g">real query</span></td></tr>
+              <tr><td>Meta · GA4 · summer.gt · X</td><td><span class="chip a">stood-in</span></td></tr>
+            </tbody>
+          </table>
+          <p class="lead" style="margin-top:9px">Every stood-in row carries a <code>_standIn</code> tag and <code>_source</code>; the registry — owners, join keys, gaps — is at <code>/dev/integrations</code>.</p>
+        </div>
+      </div>
+    </div>
+    <div class="foot"><span class="src">“We want to see how you think about data, not just how you wire it.” — the brief. Source: lib/seed/* (generate, invariants, dictionaries).</span><span>7 / 12</span></div>
+  </section>
+
+  <!-- SIGNALS -->
+  <section class="slide">
+    <div class="kicker"><span class="num">08</span><span class="sec">Four proofs an operator demands</span></div>
+    <h1 class="title">Before a marketer trusts a dashboard, four things must be true — each has exactly one place to watch it</h1>
+    <div class="body">
+      <table>
+        <thead><tr><th>What an operator demands</th><th>Where to watch</th><th>On the live URL</th></tr></thead>
+        <tbody>
+          <tr><td>A deposit lands in the right program, contaminating neither</td><td class="t">/dev/payments + test</td><td><span class="chip a">seed live · real on local/test</span></td></tr>
+          <tr><td>The budget always sums to the total</td><td class="t">/m/budget</td><td><span class="chip g">$365K live</span></td></tr>
+          <tr><td>Only leadership can act on decisions</td><td class="t">Operator → /forbidden · /api/decisions 403</td><td><span class="chip g">live</span></td></tr>
+          <tr><td>A number warns you when its sources disagree</td><td class="t">/m/nurture</td><td><span class="chip g">banner live</span> <span class="chip a">toggle = test</span></td></tr>
+          <tr><td>+ external data changes a real decision</td><td class="t">/m/decisions</td><td><span class="chip g">$41 vs $63 live</span></td></tr>
+        </tbody>
+      </table>
+      <p class="lead" style="margin-top:10px">The two cause→effect proofs (propagation, parity toggle) I record on a <b>seeded local DB</b> — the live demo runs with no DB attached, and I say so rather than imply movement that isn't there.</p>
+    </div>
+    <div class="foot"><span class="src">Source: GT brief “Show us it works”; hub/docs/SUBMISSION.md §4; live smoke 2026-06-27. Click-by-click in Appendix B.</span><span>8 / 12</span></div>
+  </section>
+
+  <!-- DEMO -->
+  <section class="slide">
+    <div class="kicker"><span class="num">09</span><span class="sec">A campaign, end to end · live demo</span></div>
+    <h1 class="title">The GT Challenge turns $8,208 of spend into 12 qualified leads at a measured $684 CPQL — captured, scored, reconciled end to end</h1>
+    <div class="body">
+      <div class="biz"><span class="tag">for marketing</span><p>A new channel that pays for itself — and proves the whole system is connected in one motion.</p></div>
+      <p class="howlab">how it works — capture → assess → reconcile → report</p>
+      <div class="flow" style="margin-bottom:10px">
+        <div class="node"><b>Quiz</b><small>public · consent-gated</small></div>
+        <div class="arrow"><b>→</b><small>matchKey identity</small></div>
+        <div class="node"><b>Lead</b><small>UTM honest</small></div>
+        <div class="arrow"><b>→</b><small>AiGrader + rules floor</small></div>
+        <div class="node"><b>Score</b><small>fit screen · no "not gifted"</small></div>
+        <div class="arrow"><b>→</b><small>withProgram · RLS</small></div>
+        <div class="node hot"><b>Route</b><small>strong fits → admissions</small></div>
+        <div class="arrow"><b>→</b><small>spend ÷ qualified</small></div>
+        <div class="node"><b>Report</b><small>CPQL $684</small></div>
+      </div>
+      <div class="three">
+        <div class="card"><h4>A channel marketing reads</h4><p>Beside every other channel: <b>$8,208 · 12 qualified · $684 CPQL</b> — measured, not a constant.</p></div>
+        <div class="card"><h4>Reconciles to budget</h4><p>Spend rolls into its workstream; the Budget still sums to <b>$365K</b>.</p></div>
+        <div class="card"><h4>Sharpened by public data</h4><p>Open Data: lower-rated districts run <b>~$41 vs $63</b> — flips a pilot to approve.</p></div>
+      </div>
+    </div>
+    <div class="foot"><span class="src">Source: GT brief “A worked example”; live /m/gt-challenge + /m/decisions. Drive it with the click-by-click in Appendix B.</span><span>9 / 12</span></div>
+  </section>
+
+  <!-- STATUS -->
+  <section class="slide">
+    <div class="kicker"><span class="num">10</span><span class="sec">Status · the Monday-morning answer</span></div>
+    <h1 class="title">Status answers “are we on track for Fall, and what do we do this week?” in one screen — and shows its work, so the team trusts it</h1>
+    <div class="body">
+      <div class="two">
+        <div>
+          <div class="biz" style="margin-bottom:10px"><span class="tag">for marketing</span><p>The one screen leadership opens Monday — the answer, then the drill-down.</p></div>
+          <ul class="r3">
+            <li><b>The answer, in one line</b> — the verdict, the binding constraint (<em>now: conversion, not demand</em>), the speed-to-lead risk (<em>67 late, leaking paid leads</em>), days to Aug 17.</li>
+            <li><b>Drill on demand</b> — any owner, any of the six funnel stages; Ask-the-Hub for a plain-language question, role-aware, PII-refusing.</li>
+          </ul>
+        </div>
+        <div>
+          <p class="howlab">how you can trust it — every claim earns its place</p>
+          <div class="flow" style="flex-direction:column;gap:5px">
+            <div class="node" style="text-align:left"><b>Rubric</b><small>one fixed question per cell · build fails below the bar</small></div>
+            <div class="down">▼</div>
+            <div class="node" style="text-align:left"><b>Agent graph</b><small>deterministic draft → LLM rewrite, gated on passing</small></div>
+            <div class="down">▼</div>
+            <div class="node" style="text-align:left"><b>Evals + logs</b><small>node pass/fail · source · model · inputs-hash</small></div>
+            <div class="down">▼</div>
+            <div class="node hot" style="text-align:left"><b>Citations</b><small>every number → its tab + source · stand-ins say stand-in</small></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="foot"><span class="src">Source: hub/docs/audits/STATUS-RUBRICS.md; lib/status/*; /dev/agents (graph + evals); MetricCite citations.</span><span>10 / 12</span></div>
+  </section>
+
+  <!-- GAPS -->
+  <section class="slide">
+    <div class="kicker"><span class="num">11</span><span class="sec">Honest scope</span></div>
+    <h1 class="title">What I deliberately left for week two — tracked, not faked green</h1>
+    <div class="body">
+      <table>
+        <thead><tr><th>Gap</th><th>State today</th><th>Next</th></tr></thead>
+        <tbody>
+          <tr><td>GT Challenge persistence</td><td><span class="chip a">in-memory contract</span> — consent, replay, UTM real</td><td class="t">DB adapter (specced)</td></tr>
+          <tr><td>Composable Home</td><td><span class="chip a">saved layout works</span></td><td class="t">browser drag E2E</td></tr>
+          <tr><td>Live-integration tests</td><td><span class="chip a">need real credentials</span></td><td class="t">wire test:live</td></tr>
+          <tr><td>Decision Queue act-loop</td><td><span class="chip r">seed vs DB id mismatch</span></td><td class="t">reconcile ids</td></tr>
+          <tr><td>Demo auth / CSP</td><td><span class="chip a">dev-auth · CSP report-only</span></td><td class="t">real IdP · enforce CSP</td></tr>
+        </tbody>
+      </table>
+      <p class="lead" style="margin-top:10px"><b>With another week, in this order:</b> the Challenge DB adapter, then browser E2E for the demo path + Home drag, then the live-integration suite — they close the loops a reviewer would click.</p>
+    </div>
+    <div class="foot"><span class="src">Source: hub/docs/01-intake/PRD-CHECKLIST.md §H; SUBMISSION.md §6.</span><span>11 / 12</span></div>
+  </section>
+
+  <!-- CLOSE -->
+  <section class="slide">
+    <div class="kicker"><span class="num">12</span><span class="sec">Close</span></div>
+    <h1 class="title">A marketing system where every number traces to one trustworthy source — and tells you when it can't</h1>
+    <div class="body">
+      <div class="three" style="margin-bottom:13px">
+        <div class="card"><h4>Proven, not asserted</h4><p>Isolation, idempotency, and parity are demonstrated and tested — the foundation the numbers stand on.</p></div>
+        <div class="card"><h4>One number, one meaning</h4><p>$365K and every KPI compute in exactly one place, cited to their tab and source on screen.</p></div>
+        <div class="card"><h4>Honest by construction</h4><p>Real vs stand-in labeled everywhere; gaps tracked, not hidden.</p></div>
+      </div>
+      <div class="layer"><div class="lab">verify in one line</div>
+        <p style="margin:0"><code>npm run verify</code> → build + lint + test:ci · <b>423 tests, 0 todo</b> · write-up <code>docs/SUBMISSION.md</code> · live <code>gt-school-hub.vercel.app</code> (Admin / Leader / Operator)</p></div>
+      <p class="lead" style="margin-top:11px">Happy to go as deep as you'd like on any layer — the isolation proof, the budget reconciliation, or the Status reliability chain.</p>
+    </div>
+    <div class="foot"><span class="src">Glossary: CAC = cost per acquisition · CPQL = cost per qualified lead · RLS = row-level security · SoT = source of truth · GUC = per-txn session var.</span><span>12 / 12</span></div>
+  </section>
+
+  <!-- APPENDIX A — ARCHITECTURE -->
+  <section class="slide appendix">
+    <div class="kicker"><span class="num">A1</span><span class="sec">Appendix · logical architecture</span></div>
+    <h1 class="title">Logical architecture — deny-by-default at the edge, one computation layer, isolation enforced at the database</h1>
+    <div class="body">
+      <div class="layer"><div class="lab">client</div><div class="row"><span class="pill">Next.js App Router (RSC)</span><span class="pill">role-aware nav</span><span class="pill">MetricCite (tab + source on every number)</span></div></div>
+      <div class="down">▼ <small>signed session cookie (HMAC); role resolved server-side</small></div>
+      <div class="layer" style="border-color:var(--gold)"><div class="lab" style="color:var(--gold)">middleware — deny by default</div><div class="row"><span class="pill hot">verify session</span><span class="pill hot">route policy (leader-only DQ, admin-only /dev)</span><span class="pill hot">403 JSON / /forbidden</span></div></div>
+      <div class="down">▼</div>
+      <div class="layer"><div class="lab">computation — one definition per fact</div><div class="row"><span class="pill">metrics/registry (KPIs)</span><span class="pill">sync/reconcile + outbox</span><span class="pill">payments (idempotent)</span><span class="pill">parity</span><span class="pill">status (rubric→graph→eval)</span></div></div>
+      <div class="down">▼ <small>withProgram(GUC) on every program path · typed connectors</small></div>
+      <div class="layer"><div class="lab">data — isolation at the DB</div><div class="row"><span class="pill hot">Supabase: app_form = SoT</span><span class="pill hot">program schemas · RLS + FORCE</span><span class="pill">app_rw (NOSUPERUSER, NOBYPASSRLS)</span><span class="pill">ledgers: processed_events, sync_outbox, decision_event</span></div></div>
+      <div class="down">▼ <small>field-directional authority · match-key identity · echo-suppression</small></div>
+      <div class="layer"><div class="lab">external</div><div class="row"><span class="pill">HubSpot (webhooks)</span><span class="pill">Stripe (webhooks)</span><span class="pill">Open Data</span><span class="pill" style="color:var(--amber)">Meta / GA4 / summer.gt — stood-in</span></div></div>
+    </div>
+    <div class="foot"><span class="src">Read top-down = request path; bottom-up = data authority. Source: middleware.ts, lib/*, supabase/migrations/*.</span><span>Appendix A</span></div>
+  </section>
+
+  <!-- APPENDIX B — CLICK-BY-CLICK -->
+  <section class="slide appendix">
+    <div class="kicker"><span class="num">A2</span><span class="sec">Appendix · click-by-click demo</span></div>
+    <h1 class="title">Click-by-click — the live walkthrough, in order (L = live URL · D = local + seeded DB)</h1>
+    <div class="body">
+      <ol class="clicks">
+        <li><b>Sign in</b> <span class="chip g">L</span> — <code>gt-school-hub.vercel.app</code> → <code>/login</code> → pick <b>Leader</b> (dev-auth, no password).</li>
+        <li><b>Payment propagates</b> <span class="chip a">D</span> — run <code>stripe-service.mjs</code> + <code>stripe listen</code>; <code>node pay.mjs &lt;deal&gt;</code> → ledger → program store → HubSpot <code>closedwon</code>. Run twice → <b>no-op</b> (same id). Show <code>/dev/payments</code>.</li>
+        <li><b>No leak</b> <span class="chip a">D</span> — <code>psql</code> as <code>app_rw</code>: <code>SET app.current_program='fall_enrollment'</code> → only fall; unset → <b>0 rows</b>; cross-program <code>INSERT</code> → RLS <b>reject</b>.</li>
+        <li><b>Role gate</b> <span class="chip g">L</span> — Leader <code>/m/decisions</code> renders; Operator <code>/m/decisions</code> → <code>/forbidden</code>; open <code>/api/decisions</code> → <b>403 JSON</b> (Network tab).</li>
+        <li><b>Budget reconciles</b> <span class="chip g">L</span> — <code>/m/budget</code> → <b>$365,000</b> / 4 workstreams; variance flag <b>“Guerrilla 12% over plan.”</b></li>
+        <li><b>Confidence banner</b> <span class="chip g">L</span> — <code>/m/nurture</code> → banner “overall 92.76%.” (Edit→drop toggle is <span class="chip a">D</span> / tested.)</li>
+        <li><b>Citations</b> <span class="chip g">L · admin</span> — <code>/m/dashboard</code> Source column → click <b>⛁ Supabase</b> on Applicants → <code>/dev/integrations#supabase_app_form</code> highlights.</li>
+        <li><b>GT Challenge</b> <span class="chip g">L</span> — incognito <code>/gifted-quiz</code> → consent → submit → bucket; <code>/m/gt-challenge</code> KPI ($8,208 · 12 · $684); <code>/m/submissions</code> read-back is <span class="chip a">D</span>.</li>
+        <li><b>Open Data flips a decision</b> <span class="chip g">L</span> — <code>/m/decisions</code> $18K guerrilla → “pilot → approve” ($41 vs $63); failure path = degrade-to-fixture (<code>opendata.test.ts</code>).</li>
+        <li><b style="color:var(--red)">Do NOT click Approve/Reject</b> on a queue card — seed-rendered ids ≠ DB ids → 404/500. Demo the ruling + audit via <code>tests/decisions.test.ts</code>.</li>
+      </ol>
+    </div>
+    <div class="foot"><span class="src">Full narration: hub/docs/WALKTHROUGH-SCRIPT.html. Live numbers per smoke test 2026-06-27.</span><span>Appendix B</span></div>
+  </section>
+
+</div>
+
+<div class="notes" id="notes"></div>
+<div class="hud">
+  <button class="nbtn" id="prev">‹ Prev</button>
+  <div class="dots" id="dots"></div>
+  <div class="count" id="count">1 / 12</div>
+  <button class="nbtn" id="next">Next ›</button>
+</div>
+
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var dotsWrap=document.getElementById('dots'), count=document.getElementById('count'), notes=document.getElementById('notes');
+  var mainCount=slides.filter(function(s){return !s.classList.contains('appendix')}).length;
+  var i=0, ap=0;
+  slides.forEach(function(s,k){
+    var isAp=s.classList.contains('appendix');
+    var kn=s.querySelector('.kicker .num');
+    var f=s.querySelector('.foot'); var sp=f?f.querySelectorAll('span'):null;
+    if(isAp){ap++; if(kn)kn.textContent='A'+ap; if(sp)sp[sp.length-1].textContent='Appendix '+String.fromCharCode(64+ap);}
+    else { if(kn)kn.textContent=('0'+(k+1)).slice(-2); if(sp)sp[sp.length-1].textContent=(k+1)+' / '+mainCount; }
+  });
+  var SPK=[
+    "Cover (0:30). Marketing-leader voice: built the way GT's lead needs it, on data you can trust. Don't read stats.",
+    "Agenda (0:20). The slide is the argument: where I spend minutes = what mattered. Note the appendix carries architecture + clicks.",
+    "Lens (0:40). The real problem isn't features — untrusted numbers across 2 programs + broken UTM. Trust first.",
+    "Anchor (1:00). Read top-down as a marketer: surfaces on top, backbone underneath, sources below. Name the 3 deep picks.",
+    "Decisions (0:50). The judgment slide — speak to the trade-offs: AI gated, one definition, fail-closed, no-fail-bucket. Invite pushback.",
+    "Backbone (1:30). Business line first; then trace the deposit through the trust boundary. Isolation = the hero.",
+    "Data (0:40). Real channel behavior (X 45%, FB trap 8%, clicked 53% vs 11%). 15 edge cases. Real vs stand-in labeled.",
+    "Signals (0:30). The four demands = your checklist. Two proofs are local/test (no DB on live).",
+    "Demo (2:30). HAND OFF TO THE LIVE APP here — drive Appendix B click-by-click. $8,208 → 12 → $684, reconciled, Open Data flip.",
+    "Status (1:20). The Monday answer in one line; drill + Ask-the-Hub; then the reliability chain (rubric→graph→eval→citation).",
+    "Gaps (0:30). Naming gaps reads as senior. The DQ id mismatch is real — own it.",
+    "Close (0:20). Three takeaways, the one-line verify, open invite. End on judgment.",
+    "Appendix A — pull up only if a technical reviewer wants the request path / data-authority view.",
+    "Appendix B — your click guide for the live demo segment (slide 9)."
+  ];
+  slides.forEach(function(s,n){var d=document.createElement('button');d.className='dot'+(s.classList.contains('appendix')?' ap':'');d.onclick=function(){go(n)};dotsWrap.appendChild(d)});
+  var dots=[].slice.call(document.querySelectorAll('.dot'));
+  function go(n){i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach(function(s,k){s.classList.toggle('active',k===i)});
+    dots.forEach(function(d,k){d.classList.toggle('on',k===i)});
+    var isAp=slides[i].classList.contains('appendix');
+    count.textContent=isAp?('Appendix '+String.fromCharCode(64+ (i-mainCount+1))):((i+1)+' / '+mainCount);
+    notes.innerHTML='<b>Cue ·</b> '+SPK[i];}
+  document.getElementById('next').onclick=function(){go(i+1)};
+  document.getElementById('prev').onclick=function(){go(i-1)};
+  document.addEventListener('keydown',function(e){
+    if(e.key==='ArrowRight'||e.key===' '||e.key==='PageDown'){go(i+1);e.preventDefault();}
+    else if(e.key==='ArrowLeft'||e.key==='PageUp'){go(i-1);e.preventDefault();}
+    else if(e.key.toLowerCase()==='n'){document.body.classList.toggle('shownotes');}
+    else if(e.key.toLowerCase()==='f'){if(!document.fullscreenElement)document.documentElement.requestFullscreen();else document.exitFullscreen();}
+    else if(e.key.toLowerCase()==='p'){window.print();}
+    else if(e.key==='Home'){go(0);} else if(e.key==='End'){go(slides.length-1);}
+  });
+  go(0);
+})();
+</script>
+</body>
+</html>

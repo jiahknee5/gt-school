@@ -37,7 +37,21 @@ All 14 PRD hard gates PASS at the logic level (184+ tests against *live* Supabas
 
 ## GT Challenge end-to-end: does the data pass through to the Hub? (answer to the direct question)
 
-**No — not today. The capture+scoring half is real; the persistence→Hub half is a documented stub.** Verified by submitting a real qualifying quiz against the running app:
+> **UPDATE 2026-06-27 — NOW WIRED END-TO-END (was a stub).** Per Johnny's direction this
+> was implemented, not just flagged. A public quiz submission now persists to the DB,
+> originates a CRM lead, routes qualified fits into Fall Enrollment, lands as a real
+> HubSpot contact via the existing outbox backbone, and shows as a **live** count on
+> `/m/gt-challenge`. Proof: `tests/gt-challenge-db.test.ts` (capture→DB→outbox→membership,
+> idempotent, live KPI) + `tests/gt-challenge-hubspot.test.ts` (create→resolve→idempotent
+> →archive against live HubSpot) + `tests/gt-challenge.test.ts` (route now `persistence:"db"`);
+> full suite green (595 passed). Live screenshot: `qa-shots/gtc-5-live-report.png` (Qualified
+> read 3 from 3 submitted, CPQL computed live). Changes: migration `0020_gt_challenge.sql`
+> (+`quiz_submissions`, app_rw write on families); `lib/gt-challenge/store-db.ts`;
+> `app/api/gifted-quiz/route.ts`; `lib/connectors/hubspot.ts` + `lib/sync/outbox-worker.ts`
+> (`upsert_contact` create-by-email path); `lib/phase2.ts` + `app/m/[slug]/page.tsx` (live read).
+> The original finding below is retained for the record.
+
+**Originally (pre-fix): No — the capture+scoring half was real; the persistence→Hub half was a documented stub.** Verified by submitting a real qualifying quiz against the running app:
 
 - **What works (real + tested):** `POST /api/gifted-quiz` (public) validated consent + contact, graded the answers deterministically (`rawScore 90 → strong_fit → qualified → routed → fall_enrollment`), captured UTM, and deduped on idempotency key. `gt-challenge.test.ts` (6) covers all of it.
 - **What does NOT pass through:** the route persists to an **in-memory `Map`** (`InMemoryGiftedQuizCaptureStore`) and returns `"persistence": "memory-contract"` + a `dbGap` naming the missing adapter (`campaigns, quiz_submissions, families, sync_outbox, processed_events`). The test suite *asserts* this (`gt-challenge.test.ts:181-182`). So: **no DB write, no real HubSpot lead, no outbox enqueue.**
