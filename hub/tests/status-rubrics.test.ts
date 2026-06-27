@@ -38,6 +38,43 @@ describe("Status per-cell rubric conformance", () => {
     expect(allCellRubrics().length).toBeGreaterThanOrEqual(4);
   });
 
+  it("Position cells show where / vs-last-week / vs-goal on KPI-backed stages", () => {
+    const board = buildStatusBoard(ds);
+    // Stages anchored to a real scorecard KPI (target + weekly series) must carry
+    // BOTH a WoW chip and a vs-goal marker — the user's where/last-week/goal ask.
+    for (const key of ["awareness", "acquisition", "conversion", "advocacy"] as const) {
+      const stage = board.stages.find((s) => s.key === key)!;
+      expect(stage.position.stat?.value, `${key} headline`).toBeTruthy();
+      expect(stage.position.stat?.wow, `${key} WoW`).toBeTruthy();
+      expect(stage.position.stat?.goal, `${key} goal`).toBeTruthy();
+    }
+  });
+
+  it("Position cells omit the goal honestly when no target exists (no fabrication)", () => {
+    const board = buildStatusBoard(ds);
+    // Derived stand-ins (no weekly series / no target) must NOT invent a goal —
+    // they carry an honest basis note (or derivation caveat) instead.
+    for (const key of ["activation", "nurture"] as const) {
+      const stage = board.stages.find((s) => s.key === key)!;
+      expect(stage.position.stat?.goal, `${key} should have no fabricated goal`).toBeFalsy();
+      expect(
+        Boolean(stage.position.stat?.basisNote || stage.position.derivedNote),
+        `${key} honest basis note`,
+      ).toBe(true);
+    }
+  });
+
+  it("the Position rubric fails a cell that hides last-week and goal with no honest note", () => {
+    const broken = {
+      owner: "x",
+      stat: { value: "42", unit: "things" },
+    };
+    const res = checkCellConformance(broken, "position", "awareness", "green");
+    expect(res.pass).toBe(false);
+    expect(res.failures.join(" ")).toMatch(/vs-last-week/);
+    expect(res.failures.join(" ")).toMatch(/vs-goal/);
+  });
+
   it("the conversion narrative is held to naming the binding constraint", () => {
     const board = buildStatusBoard(ds);
     const conv = board.stages.find((s) => s.key === "conversion")!;

@@ -14,7 +14,7 @@ import { openDecisions, decisionStats } from "@/lib/decisions/queries";
 import { reconcileCamp } from "@/lib/camp/reconcile";
 import { campRevenue } from "@/lib/camp/metrics";
 import { buildSla, lateListByOwner } from "@/lib/nurture/sla";
-import { defaultReportingWeek, weekMondays } from "@/lib/metrics/registry";
+import { defaultReportingWeek, weekMondays, kpiDefinition } from "@/lib/metrics/registry";
 import { summarizeBudget, ensureBudgetVarianceDecision } from "@/lib/phase2";
 import type { Decision, Family, SeedDataset } from "@/lib/seed/types";
 import type { ProgramScope } from "@/lib/program-scope";
@@ -60,7 +60,20 @@ export type StatusCell = {
   headline?: string;
   subline?: string;
   rag?: RagStatus;
-  stat?: { value: string; unit?: string; delta?: string; deltaTone?: "up" | "down" | "flat" };
+  stat?: {
+    /** Where we are now — the headline value. */
+    value: string;
+    unit?: string;
+    /** Legacy single delta (kept for drawer reasoning back-compat). */
+    delta?: string;
+    deltaTone?: "up" | "down" | "flat";
+    /** Versus last week — WoW direction + signed delta (omitted when no weekly series). */
+    wow?: { delta: string; dir: "up" | "down" | "flat"; tone?: "good" | "bad" | "neutral" };
+    /** Versus the goal — now/target or % to target (omitted when no target is defined). */
+    goal?: { label: string; pct?: number | null; tone?: "good" | "bad" | "neutral" };
+    /** Honest reason WoW and/or goal are omitted (e.g. derived stand-in, no weekly series/target). */
+    basisNote?: string;
+  };
   rankedBars?: RankedBarRow[];
   funnelSteps?: FunnelStep[];
   sparkline?: { values: number[]; startLabel: string; endLabel: string; deltaLabel: string };
@@ -181,6 +194,41 @@ const fmt = (n: number) => Math.round(n).toLocaleString("en-US");
 const fmtPct = (n: number, d = 1) => `${Number(n.toFixed(d))}%`;
 const fmtMoney = (n: number) =>
   n >= 1000 ? `$${Math.round(n / 1000).toLocaleString("en-US")}K` : `$${Math.round(n)}`;
+
+// --- Position "vs last week" + "vs goal" encodings -------------------------
+// One source for the compact where/last-week/goal triplet every Position cell
+// shows. WoW reuses the scorecard row's prior-week value; goal reuses the same
+// target + direction-aware pace (pctToTarget) the Dashboard scorecard paces on —
+// never a fabricated target. Gold stays reserved for the north-star hero gap, so
+// these carry tone via ink/weight (+ red only when behind), not gold.
+
+type PosStat = NonNullable<StatusCell["stat"]>;
+const MINUS = "\u2212"; // proper minus sign for signed deltas
+
+/** Build the WoW chip from a scorecard row, or undefined when there is no real weekly series. */
+function wowChip(row: ScorecardRow, fmtDelta: (abs: number) => string): PosStat["wow"] | undefined {
+  if (row.thisWeek === 0 && row.lastWeek === 0) return undefined; // no series to compare
+  const higherBetter = kpiDefinition(row.key)?.direction !== "lower_better";
+  const d = row.delta;
+  const dir: "up" | "down" | "flat" = d > 0 ? "up" : d < 0 ? "down" : "flat";
+  const tone: "good" | "bad" | "neutral" = d === 0 ? "neutral" : d > 0 === higherBetter ? "good" : "bad";
+  const sign = d > 0 ? "+" : d < 0 ? MINUS : "\u00b1";
+  return { delta: `${sign}${fmtDelta(Math.abs(d))}`, dir, tone };
+}
+
+/** Build the vs-goal chip from a row's target + pace, or undefined when no target is defined. */
+function goalChip(
+  now: number,
+  target: number | null,
+  pct: number | null,
+  fmtVal: (n: number) => string,
+  labelOverride?: string,
+): PosStat["goal"] | undefined {
+  if (target === null) return undefined;
+  // Behind on pace is the decision-relevant signal — flag it red; otherwise stay calm (ink).
+  const tone: "good" | "bad" | "neutral" = pct !== null && pct < 90 ? "bad" : "neutral";
+  return { label: labelOverride ?? `${fmtVal(now)}/${fmtVal(target)}`, pct, tone };
+}
 
 function ragFromScorecard(status: ScorecardRow["status"]): RagStatus {
   if (status === "at_risk") return "red";
@@ -360,14 +408,30 @@ function buildStageDrawer(s: StatusStage): DrawerSection[] {
 
   const pos = s.position;
   const posLines: string[] = [];
+  const posKv: { label: string; value: string; tone?: "good" | "bad" | "neutral" }[] = [];
   if (pos.stat) {
-    posLines.push(
-      `${pos.stat.value}${pos.stat.unit ? ` ${pos.stat.unit}` : ""}${pos.stat.delta ? ` · ${pos.stat.delta}` : ""}`,
-    );
+    // The full where / vs-last-week / vs-goal reading the calm cell compresses.
+    posKv.push({ label: "Now", value: `${pos.stat.value}${pos.stat.unit ? ` ${pos.stat.unit}` : ""}` });
+    if (pos.stat.wow) {
+      posKv.push({ label: "Vs last week", value: `${pos.stat.wow.delta} (${pos.stat.wow.dir})`, tone: pos.stat.wow.tone });
+    }
+    if (pos.stat.goal) {
+      posKv.push({
+        label: "Vs goal",
+        value: pos.stat.goal.pct != null ? `${pos.stat.goal.label} · ${pos.stat.goal.pct}% to target` : pos.stat.goal.label,
+        tone: pos.stat.goal.tone,
+      });
+    }
+    if (pos.stat.delta && !pos.stat.wow) posLines.push(pos.stat.delta);
+    if (pos.stat.basisNote) posLines.push(pos.stat.basisNote);
   }
   if (pos.subline) posLines.push(pos.subline);
   if (pos.derivedNote) posLines.push(pos.derivedNote);
-  out.push({ heading: "Where we stand", lines: posLines.length ? posLines : ["No reading."] });
+  out.push({
+    heading: "Where we stand",
+    kv: posKv.length ? posKv : undefined,
+    lines: posLines.length ? posLines : posKv.length ? undefined : ["No reading."],
+  });
 
   const dr = s.drivers;
   const drLines: string[] = [];
@@ -537,9 +601,16 @@ export function buildStatusBoard(
         ownerModule: "content",
         stat: {
           value: fmtPct(convRow.thisWeek, 1),
-          unit: "GA4 conv (top channel)",
+          unit: "GA4 conv · top channel",
           delta: convRow.delta !== 0 ? `${convRow.delta > 0 ? "+" : ""}${convRow.delta.toFixed(1)} pts` : "flat",
           deltaTone: convRow.delta > 0 ? "up" : convRow.delta < 0 ? "down" : "flat",
+          wow: wowChip(convRow, (n) => `${Number(n.toFixed(1))} pts`),
+          goal: goalChip(
+            convRow.thisWeek,
+            convRow.target,
+            convRow.pctToTarget,
+            (n) => fmtPct(n, n < 10 ? 1 : 0),
+          ),
         },
         subline: topChannel ? `${topChannel.label} leads applicant→deposit at ${topChannel.displayValue}` : "Channel mix from seed attribution",
         derived: !convRow.instrumented,
@@ -601,12 +672,14 @@ export function buildStatusBoard(
         owner: "Grassroots",
         ownerModule: "grassroots",
         stat: {
-          value: fmt(counts.applicantsPlus),
-          unit: "applicants",
+          value: fmt(appRow.thisWeek),
+          unit: "applicants/wk",
           delta: `${fmt(appRow.thisWeek)}/wk`,
           deltaTone: appRow.delta >= 0 ? "up" : "down",
+          wow: wowChip(appRow, (n) => fmt(n)),
+          goal: goalChip(appRow.thisWeek, appRow.target, appRow.pctToTarget, (n) => fmt(n)),
         },
-        subline: `Weekly applicants ${fmt(appRow.thisWeek)} vs ${fmt(appRow.target ?? 90)} target (${appRow.pctToTarget ?? 0}% to goal)`,
+        subline: `${fmt(counts.applicantsPlus)} in pipeline · weekly run-rate vs ${fmt(appRow.target ?? 90)} target`,
       },
       drivers: {
         owner: "CPQL by channel · Grassroots",
@@ -658,6 +731,7 @@ export function buildStatusBoard(
           unit: "hot+warm → deposit",
           delta: "+est.",
           deltaTone: "up",
+          basisNote: "Derived from lead-score bands · no weekly series or target",
         },
         subline: `Cold bucket commits at ${fmtPct(distHotWarmRate(families).coldRate, 0)}`,
         derived: true,
@@ -705,8 +779,11 @@ export function buildStatusBoard(
           unit: "24h SLA",
           delta: `${sla.lateList.length} late`,
           deltaTone: "down",
+          basisNote: "Deterministic stand-in · no weekly SLA series or target",
         },
-        subline: slaOwners[0] ? `Worst owner: ${slaOwners[0].owner} (${slaOwners[0].count})` : undefined,
+        subline: slaOwners[0]
+          ? `${sla.lateList.length} late · worst ${slaOwners[0].owner} (${slaOwners[0].count})`
+          : `${sla.lateList.length} late follow-ups`,
         derived: true,
         derivedNote: "SLA is a deterministic stand-in from seed (not live HubSpot).",
       },
@@ -755,6 +832,16 @@ export function buildStatusBoard(
           unit: `/ ${depositTarget} deposits`,
           delta: `${gap >= 0 ? "+" : ""}${gap} pace`,
           deltaTone: gap >= 0 ? "up" : "down",
+          // WoW = deposits closed this week vs last (the weekly scorecard row).
+          wow: wowChip(depRow, (n) => fmt(n)),
+          // Goal = cumulative deposits against the 180 north-star target (ink, not gold).
+          goal: goalChip(
+            cumulativeDeposits,
+            depositTarget,
+            Math.round((100 * cumulativeDeposits) / depositTarget),
+            (n) => fmt(n),
+            `${Math.round((100 * cumulativeDeposits) / depositTarget)}% to goal`,
+          ),
         },
         subline: `Need ${fmt(weeklyRequired)}/wk, running ${fmt(weeklyActual)}/wk`,
       },
@@ -819,12 +906,14 @@ export function buildStatusBoard(
         owner: "Grassroots",
         ownerModule: "grassroots",
         stat: {
-          value: fmtPct(referralDepositRate(families), 0),
-          unit: "referral → deposit",
+          value: fmt(ambRow.thisWeek),
+          unit: "amb-influenced deps/wk",
+          wow: wowChip(ambRow, (n) => fmt(n)),
+          goal: goalChip(ambRow.thisWeek, ambRow.target, ambRow.pctToTarget, (n) => fmt(n)),
         },
-        subline: "Highest-ROI loop — restocks Awareness",
+        subline: `Referrals convert at ${fmtPct(referralDepositRate(families), 0)} — highest-ROI loop, restocks Awareness`,
         derived: true,
-        derivedNote: "Referral rate from seed families with utm_source=referral.",
+        derivedNote: "Ambassador-influenced deposits from HubSpot seed; referral rate from seed utm_source=referral.",
       },
       drivers: {
         owner: "ambassadors · Grassroots",

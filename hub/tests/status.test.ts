@@ -142,6 +142,28 @@ describe("Status page render", () => {
     expect(html).not.toContain("What needs you");
   });
 
+  it("Position cells render where + vs-last-week + vs-goal at default (calm triplet)", async () => {
+    const html = renderToStaticMarkup(await StatusPage({ searchParams: Promise.resolve({}) }));
+    // The compact WoW chip and vs-goal marker are labeled for screen readers, so
+    // both the "versus last week" and "versus goal" encodings are present by default.
+    expect(html).toContain("Week over week");
+    expect(html).toContain("Versus goal");
+    // The binding conversion cell shows progress to the 180 deposit goal.
+    expect(html).toContain("% to goal");
+    // ...and keeps its cumulative deposits/180 headline.
+    expect(html).toContain("/ 180 deposits");
+  });
+
+  it("Position keeps where/last-week/goal real — WoW from the board, goal from goals.ts", () => {
+    const board = buildStatusBoard(ds);
+    const acq = board.stages.find((s) => s.key === "acquisition")!;
+    // Goal pace reuses the scorecard's pctToTarget (goals.ts target), not a new number.
+    expect(acq.position.stat?.goal?.pct).toBeTypeOf("number");
+    // Conversion's goal marker is the cumulative % of the 180 north-star target.
+    const conv = board.stages.find((s) => s.key === "conversion")!;
+    expect(conv.position.stat?.goal?.label).toMatch(/% to goal/);
+  });
+
   it("Option C+: Decisions surface as a per-row flag linking to the Decision Queue", async () => {
     const html = renderToStaticMarkup(await StatusPage({ searchParams: Promise.resolve({}) }));
     // The compact per-row flag is rendered for stages with a real open decision.

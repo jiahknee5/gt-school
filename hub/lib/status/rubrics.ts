@@ -54,12 +54,23 @@ export const COLUMN_RUBRICS: Record<SpineColumn, CellRubric> = {
   position: {
     id: "position",
     column: "position",
-    question: "Where do we stand on this stage right now?",
-    citesData: ["the stage's headline KPI (real value)", "a RAG status", "a delta or vs-target reference"],
-    structure: ["one headline number + unit", "RAG token", "one supporting subline (vs target / worst owner / trend)"],
-    defaultShows: "The single headline number + RAG token.",
-    drilldownShows: "Full reading: value, delta, derivation note, and confidence caveat.",
-    qualityBar: "L4+ — number carries direction + against-what; derived/low-confidence values are labeled honestly.",
+    question: "Where do we stand on this stage — now, versus last week, and versus the goal?",
+    citesData: [
+      "the stage's headline KPI (real value — where we are now)",
+      "the prior-week value (the WoW delta)",
+      "the goal/target + direction-aware pace (pctToTarget) where one exists",
+      "a RAG status",
+    ],
+    structure: [
+      "one headline number + unit (where we are now)",
+      "RAG token",
+      "vs last week — WoW direction + signed delta (when a weekly series exists)",
+      "vs goal — now/target or % to target (when a target exists; omitted honestly when none)",
+    ],
+    defaultShows: "Headline value + a compact WoW chip + a compact vs-goal marker — the smallest where/last-week/goal unit.",
+    drilldownShows: "Full reading: now, WoW (+ deltaPct), pace-to-target, derivation note, and confidence caveat.",
+    qualityBar:
+      "L4+ — answers where/last-week/goal at a glance; stages with no weekly series or no target say so honestly (never a fabricated target).",
   },
   drivers: {
     id: "drivers",
@@ -103,11 +114,11 @@ export const STAGE_CELL_RUBRICS: CellRubric[] = [
     column: "position",
     stage: "conversion",
     question: "Are we converting fast enough to hit the Fall deposit goal?",
-    citesData: ["cumulative deposits / target", "gap to linear pace", "weekly run rate vs required run rate"],
-    structure: ["deposits / target headline", "RAG (binding-aware)", "pace chip (need X/wk, running Y/wk)"],
-    defaultShows: "Deposits / 180 + pace chip + RAG.",
+    citesData: ["cumulative deposits / target", "deposits closed this week vs last (WoW)", "% to the 180 goal", "gap to linear pace", "weekly run rate vs required run rate"],
+    structure: ["deposits / target headline", "RAG (binding-aware)", "WoW deposits delta (this wk vs last)", "vs-goal marker (% of 180, ink — gold stays on the hero gap)"],
+    defaultShows: "Deposits / 180 + WoW + % to goal + RAG.",
     drilldownShows: "Pace-to-Aug-17 table: current, needed, projected — plus the offer→deposit leak.",
-    qualityBar: "L5 — must state deposits/target, gap-to-pace, and the run-rate gap (the binding-constraint proof).",
+    qualityBar: "L5 — must state deposits/target, the WoW move, % to goal, and the run-rate gap (the binding-constraint proof).",
   },
   {
     id: "narrative.conversion",
@@ -125,11 +136,11 @@ export const STAGE_CELL_RUBRICS: CellRubric[] = [
     column: "position",
     stage: "nurture",
     question: "Is speed-to-lead protecting the paid leads we already bought?",
-    citesData: ["24h SLA %", "count of late follow-ups", "worst owner"],
-    structure: ["SLA % headline", "RAG (red < 70, amber < 85)", "late count + worst owner subline"],
-    defaultShows: "SLA % + late count + RAG.",
+    citesData: ["24h SLA %", "count of late follow-ups", "worst owner", "that there is no live weekly SLA series or target"],
+    structure: ["SLA % headline", "RAG (red < 70, amber < 85)", "late count + worst owner subline", "honest 'no weekly series / target' basis note (WoW + goal omitted, not fabricated)"],
+    defaultShows: "SLA % + late count + worst owner + RAG (WoW/goal omitted honestly).",
     drilldownShows: "SLA trend sparkline (labeled est.), worst-owner list, and the assign-owner action.",
-    qualityBar: "L4+ — SLA must be labeled a deterministic stand-in (not live HubSpot).",
+    qualityBar: "L4+ — SLA labeled a deterministic stand-in (not live HubSpot); WoW/goal omitted honestly rather than invented.",
   },
 ];
 
@@ -216,11 +227,21 @@ export function checkCellConformance(
   const failures: string[] = [];
 
   if (column === "position") {
-    const hasNumber = Boolean(cell.stat?.value && NUM_RE.test(cell.stat.value));
-    if (!hasNumber) failures.push("Position must carry a real headline number.");
+    const stat = cell.stat;
+    const hasNumber = Boolean(stat?.value && NUM_RE.test(stat.value));
+    if (!hasNumber) failures.push("Position must carry a real headline number (where we are now).");
     if (!rag) failures.push("Position must carry a RAG status.");
-    if (!cell.stat?.unit && !cell.subline) failures.push("Position needs a unit or supporting subline (against-what).");
+    if (!stat?.unit && !cell.subline) failures.push("Position needs a unit or supporting subline (against-what).");
     if (cell.derived && !cell.derivedNote) failures.push("Derived Position value must carry a derivation note.");
+    // where / vs-last-week / vs-goal — each must be SHOWN or honestly explained
+    // (a basis note or derivation caveat). Never a fabricated WoW or target.
+    const honest = Boolean(stat?.basisNote || cell.derivedNote);
+    if (!stat?.wow && !honest) {
+      failures.push("Position must show vs-last-week (WoW) or honestly note why there is no weekly series.");
+    }
+    if (!stat?.goal && !honest) {
+      failures.push("Position must show vs-goal (now/target or % to target) or honestly note why there is no target.");
+    }
   }
 
   if (column === "drivers") {
