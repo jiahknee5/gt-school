@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import type { ReactNode } from "react";
-import { MODULES, MODULE_NAV_GROUPS, moduleBySlug, moduleHref } from "@/lib/modules";
+import { MODULES, modulesByNavGroup, moduleHref } from "@/lib/modules";
 import { modulesForNavScope, type NavScope } from "@/lib/nav";
 import type { ProgramScope } from "@/lib/program-scope";
 import type { FunctionalRole, Role } from "@/lib/phase2";
@@ -67,6 +67,15 @@ const ICONS: Record<string, ReactNode> = {
       <rect width="7" height="5" x="14" y="3" rx="1" />
       <rect width="7" height="9" x="14" y="12" rx="1" />
       <rect width="7" height="5" x="3" y="16" rx="1" />
+    </>
+  ),
+  status: (
+    <>
+      <path d="M4 19V5" />
+      <path d="M4 19h16" />
+      <path d="M8 17V9" />
+      <path d="M12 17V6" />
+      <path d="M16 17v-4" />
     </>
   ),
   "crm-ops": (
@@ -200,8 +209,15 @@ const CAMPAIGN_LINKS: { href: string; label: string; slug: string }[] = [
   { href: "/m/gt-challenge", label: "GT Challenge", slug: "gt-challenge" },
 ];
 
+const REFERENCE_HELP_PATHS = new Set([
+  "/help/ai-agents",
+  "/help/roadmap",
+  "/help/roles",
+  "/help/test-suite",
+]);
+
 function reportingHref(href: string, week: string | null): string {
-  if (!week || !/^\d{4}-\d{2}-\d{2}$/.test(week) || (href !== "/" && href !== "/m/dashboard")) {
+  if (!week || !/^\d{4}-\d{2}-\d{2}$/.test(week) || !["/", "/m/dashboard", "/m/status"].includes(href)) {
     return href;
   }
   return `${href}?week=${encodeURIComponent(week)}`;
@@ -265,6 +281,9 @@ export function Sidebar({
   const visibleModules = viewer
     ? modulesForNavScope(rbacModules, viewer, navScope)
     : rbacModules;
+  const workflowActive =
+    pathname === "/help" ||
+    (pathname.startsWith("/help/") && !REFERENCE_HELP_PATHS.has(pathname));
 
   return (
     <aside className="sticky top-0 hidden h-[100dvh] w-[248px] shrink-0 flex-col border-r border-hairline bg-side lg:flex">
@@ -272,6 +291,7 @@ export function Sidebar({
         href={reportingHref("/", reportingWeek)}
         aria-label="GT School Marketing Hub home"
         className="flex min-h-[66px] shrink-0 flex-col items-start justify-center gap-1 border-b border-hairline px-[18px]"
+        title="GT School Marketing Hub: 13 PRD modules, role-filtered navigation, and Home as the personal command center."
       >
         <BrandLogo priority />
         <span className="mono block text-[10px] font-normal text-label">Marketing Hub</span>
@@ -283,18 +303,50 @@ export function Sidebar({
         ) : null}
         {viewer ? <NavScopeControl initialScope={navScope} /> : null}
 
-        {MODULE_NAV_GROUPS.map((group) => {
-          const groupModules = group.slugs
-            .map(moduleBySlug)
-            .filter((module): module is (typeof MODULES)[number] =>
-              Boolean(module && visibleModules.some((visible) => visible.slug === module.slug)),
-            );
-          const campaignLinks = group.key === "growth-channels" ? CAMPAIGN_LINKS : [];
+        <section className="pb-3">
+          <p className="mono px-2.5 pb-1.5 text-[10px] font-semibold uppercase tracking-[0.08em] text-label">
+            Start
+          </p>
+          <ul className="flex flex-col gap-0.5">
+            <li>
+              <Link
+                href="/help"
+                aria-current={workflowActive ? "page" : undefined}
+                title="Workflows: role-aware guides for the common cross-module jobs."
+                className={`group flex items-center gap-2.5 rounded-card px-2.5 py-[7px] text-[13px] font-medium transition-colors ${
+                  workflowActive
+                    ? "bg-ink-cta text-on-cta shadow-sm"
+                    : "text-slate hover:bg-hover hover:text-ink"
+                }`}
+              >
+                <span
+                  className={`grid h-[18px] w-[18px] shrink-0 place-items-center ${
+                    workflowActive ? "text-gold" : "text-label group-hover:text-muted"
+                  }`}
+                >
+                  <LinkIcon>
+                    <path d="M4 5h16" />
+                    <path d="M4 12h10" />
+                    <path d="M4 19h16" />
+                    <path d="m16 11 2 2 4-5" />
+                  </LinkIcon>
+                </span>
+                <span className="truncate">Workflows</span>
+              </Link>
+            </li>
+          </ul>
+        </section>
+
+        {modulesByNavGroup(visibleModules).map(({ group, modules: groupModules }) => {
+          const campaignLinks = group.key === "channels" ? CAMPAIGN_LINKS : [];
           if (!groupModules.length && !campaignLinks.length) return null;
 
           return (
             <section key={group.key} className="pb-3">
-              <div className="px-2.5 pb-1.5">
+              <div
+                className="px-2.5 pb-1.5"
+                title={`${group.label}: ${group.description} Groups follow the grader workflow from command to channels, pipeline, and operations.`}
+              >
                 <p className="mono text-[10px] font-semibold uppercase tracking-[0.08em] text-label">
                   {group.label}
                 </p>
@@ -433,34 +485,6 @@ export function Sidebar({
           Help
         </p>
         <ul className="flex flex-col gap-0.5">
-          <li>
-            <Link
-              href="/help"
-              aria-current={
-                pathname === "/help" || pathname.startsWith("/help/") ? "page" : undefined
-              }
-              className={`group flex items-center gap-2.5 rounded-card px-2.5 py-[7px] text-[13px] font-medium transition-colors ${
-                pathname === "/help" || pathname.startsWith("/help/")
-                  ? "bg-ink-cta text-on-cta shadow-sm"
-                  : "text-slate hover:bg-hover hover:text-ink"
-              }`}
-            >
-              <span
-                className={`grid h-[18px] w-[18px] shrink-0 place-items-center ${
-                  pathname === "/help" || pathname.startsWith("/help/")
-                    ? "text-gold"
-                    : "text-label group-hover:text-muted"
-                }`}
-              >
-                <LinkIcon>
-                  <circle cx="12" cy="12" r="10" />
-                  <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-                  <path d="M12 17h.01" />
-                </LinkIcon>
-              </span>
-              <span className="truncate">User guides</span>
-            </Link>
-          </li>
           <li>
             <Link
               href="/help/roles"
