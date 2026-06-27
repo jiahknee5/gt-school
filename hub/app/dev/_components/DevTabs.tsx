@@ -14,6 +14,7 @@ const TABS = [
   { href: "/dev/agents", label: "Agent graph" },
   { href: "/dev/rubrics", label: "Rubrics & provenance" },
   { href: "/dev/tests", label: "Test theater" },
+  { href: "/dev/test-suite", label: "Test suite" },
 ];
 
 export function DevTabs() {

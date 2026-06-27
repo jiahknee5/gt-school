@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { guidesByCategory, GUIDES } from "@/lib/help/guides";
-import { catalogCounts } from "@/lib/help/test-catalog";
 import { TourButton } from "@/app/_components/TourButton";
 
 export const metadata = {
@@ -25,7 +24,6 @@ function cleanCopy(value: string): string {
 
 export default function HelpIndex() {
   const groups = guidesByCategory();
-  const tests = catalogCounts();
 
   return (
     <div className="mx-auto max-w-[1180px] px-7 py-10">
@@ -94,18 +92,6 @@ export default function HelpIndex() {
           </span>
         </Link>
 
-        <Link
-          href="/help/test-suite"
-          className="group flex items-center justify-between gap-4 rounded-card border border-hairline bg-surface p-4 shadow-sm transition-colors hover:border-gold"
-        >
-          <div>
-            <p className="text-[14px] font-semibold text-ink group-hover:text-gold">Test suite -&gt;</p>
-            <p className="mt-0.5 text-[13px] text-muted">Every automated test, grouped by domain, with what each one proves.</p>
-          </div>
-          <span className="mono shrink-0 rounded-[6px] bg-fill px-2 py-1 text-[10px] font-semibold uppercase tracking-[0.06em] text-slate">
-            {tests.total} tests
-          </span>
-        </Link>
       </div>
 
       <div className="mt-8 grid grid-cols-2 gap-3.5 sm:grid-cols-4">

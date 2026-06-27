@@ -1,8 +1,9 @@
-// AUTO-DERIVED from the real test files (hub/tests/*.test.ts) on 2026-06-26.
-// Source of truth: each test's describe/it title. Pure files form the `npm run test:ci`
-// gate (423 tests); live files (37) need DB/HubSpot/Stripe keys and skip in CI.
-// Organized by the suite taxonomy in lib/dev/suites.ts. Do not hand-edit row text;
-// regenerate from the suite when tests change.
+// Derived from the real test files (hub/tests/*.test.ts). Source of truth: each test's
+// describe/it title. `pure` rows form the `npm run test:ci` gate (runs in CI, always green);
+// `live` rows need DB/HubSpot/Stripe keys and skip gracefully. Organized by the suite
+// taxonomy in lib/dev/suites.ts. The catalog counts below are catalog rows, not the live
+// runner total — the full suite currently runs ~599 tests across 61 files in ~12s.
+// When you add a test file, append its rows here under the right group + tag pure/live.
 
 export type TestKind = "pure" | "live";
 
@@ -500,6 +501,50 @@ export const TEST_GROUPS: TestGroup[] = [
       { test: "operator shelf excludes Brand Strategy; leader shelf includes it", area: "Library · rendered shelf", file: "library.test.ts", kind: "pure" },
       { test: "search filters the shelf; dead link renders an unreachable state", area: "Library · rendered shelf", file: "library.test.ts", kind: "pure" },
       { test: "no-match renders the empty state", area: "Library · rendered shelf", file: "library.test.ts", kind: "pure" },
+    ],
+  },
+  {
+    id: "provenance",
+    label: "Provenance, observability & program scope",
+    domain: "The honesty layer: the as-of clock (no future data), the per-row metric contract, dual citations, the data-sync contract, LLM observability + persisted traces, the derivation/provenance harness, and program-scope isolation.",
+    script: "npm run test:ci",
+    rows: [
+      { test: "availableWeeks stops at the current week", area: "as-of clock — no future weeks", file: "status-clock.test.ts", kind: "pure" },
+      { test: "availableWeeks never exposes a week beyond today", area: "as-of clock — no future weeks", file: "status-clock.test.ts", kind: "pure" },
+      { test: "kpiCumulative(deposits) equals the running sum through the selected week", area: "as-of-week cumulative", file: "status-clock.test.ts", kind: "pure" },
+      { test: "an early week is strictly less than the full-sprint deposit total", area: "as-of-week cumulative", file: "status-clock.test.ts", kind: "pure" },
+      { test: "deposits at an early week are less than at a later week", area: "North Star is as-of-week (monotonic)", file: "status-clock.test.ts", kind: "pure" },
+      { test: "the early-week North Star is not the whole-dataset deposit count", area: "North Star is as-of-week (monotonic)", file: "status-clock.test.ts", kind: "pure" },
+      { test: "every funnel stage has an owner + role and passes the contract", area: "Status per-row accountability contract", file: "status-rowspec.test.ts", kind: "pure" },
+      { test: "each stage exposes exactly one exec metric with a real this-week value", area: "Status per-row accountability contract", file: "status-rowspec.test.ts", kind: "pure" },
+      { test: "registry-backed metrics carry WoW (delta/trend); derived ones are honestly null", area: "Status per-row accountability contract", file: "status-rowspec.test.ts", kind: "pure" },
+      { test: "the metric contract is the same shape every week (consistent across weeks)", area: "Status per-row accountability contract", file: "status-rowspec.test.ts", kind: "pure" },
+      { test: "the fixed metric set is rendered into each stage drawer", area: "Status per-row accountability contract", file: "status-rowspec.test.ts", kind: "pure" },
+      { test: "every owner maps to a real team role so the exec sees the whole funnel", area: "Status per-row accountability contract", file: "status-rowspec.test.ts", kind: "pure" },
+      { test: "every KPI source maps to an integration_id that exists in the catalog", area: "dual citations (module + source)", file: "citations.test.ts", kind: "pure" },
+      { test: "every KPI homeModule resolves to a real module route", area: "dual citations (module + source)", file: "citations.test.ts", kind: "pure" },
+      { test: "sourceHref anchors to the integration's row on the Integrations surface", area: "dual citations (module + source)", file: "citations.test.ts", kind: "pure" },
+      { test: "instrumented KPIs resolve to a freshness entry", area: "freshness SLA per source", file: "data-sync.test.ts", kind: "pure" },
+      { test: "the seeded stale connector is detected (stale-but-green risk is provable)", area: "freshness SLA per source", file: "data-sync.test.ts", kind: "pure" },
+      { test: "parity is computed from field_state and trips the banner below threshold", area: "sync parity + source-of-truth", file: "data-sync.test.ts", kind: "pure" },
+      { test: "parityThreshold is a sane fraction (0..1)", area: "sync parity + source-of-truth", file: "data-sync.test.ts", kind: "pure" },
+      { test: "every governed field declares its source-of-truth (app_form | hubspot | none)", area: "sync parity + source-of-truth", file: "data-sync.test.ts", kind: "pure" },
+      { test: "availableWeeks never extends beyond the current week", area: "no surface reads past today", file: "data-sync.test.ts", kind: "pure" },
+      { test: "no family is dated after the dataset's own as-of clock", area: "no surface reads past today", file: "data-sync.test.ts", kind: "pure" },
+      { test: "status-gen produces input/node/expected/actual/pass rows that all pass", area: "unified LLM observability", file: "observability.test.ts", kind: "pure" },
+      { test: "persistTrace writes the sanitized trace and listRecentTraces reads it back", area: "durable run-trace persistence", file: "observability.test.ts", kind: "pure" },
+      { test: "produces a graph for every surfaced metric, each with nodes + a self-eval", area: "provenance/derivation harness", file: "derivation.test.ts", kind: "pure" },
+      { test: "every eval passes (rendered value == independently recomputed)", area: "provenance/derivation harness", file: "derivation.test.ts", kind: "pure" },
+      { test: "every honesty class is one of measured | derived | stand-in", area: "provenance/derivation harness", file: "derivation.test.ts", kind: "pure" },
+      { test: "stand-ins are labeled honestly and never imply a live measurement", area: "provenance/derivation harness", file: "derivation.test.ts", kind: "pure" },
+      { test: "the SLA cell names BOTH the first-contact and owner stand-ins (the flagged gap)", area: "provenance/derivation harness", file: "derivation.test.ts", kind: "pure" },
+      { test: "measured + derived metrics cite a real integration connector", area: "provenance/derivation harness", file: "derivation.test.ts", kind: "pure" },
+      { test: "DERIVATION_NOTE covers the derived/stand-in metrics for the board cells", area: "provenance/derivation harness", file: "derivation.test.ts", kind: "pure" },
+      { test: "fall workstreams reconcile to $365K, unchanged by camp activity", area: "program scope never merges Camp into the $365K", file: "program-view.test.ts", kind: "pure" },
+      { test: "camp P&L is measured ONLY from summer_camp Stripe cash, kept off the $365K total", area: "program scope never merges Camp into the $365K", file: "program-view.test.ts", kind: "pure" },
+      { test: "operator is locked to Fall (never camp, never all)", area: "resolveProgramView is RBAC-clamped", file: "program-view.test.ts", kind: "pure" },
+      { test: "leader + admin default to Fall and may span both programs", area: "resolveProgramView is RBAC-clamped", file: "program-view.test.ts", kind: "pure" },
+      { test: "the 'all' lens expands to BOTH programs, so both sections render separately", area: "resolveProgramView is RBAC-clamped", file: "program-view.test.ts", kind: "pure" },
     ],
   },
 ];
