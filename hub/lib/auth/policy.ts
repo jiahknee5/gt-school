@@ -32,7 +32,12 @@ export type RouteDecision = {
 // landing page and its consent-gated capture endpoint must bypass the auth gate.
 // Abuse is contained at the route by consent validation + rate limiting, not by
 // requiring a session (security findings S7-c).
-const PUBLIC_PREFIXES = ["/api/auth/", "/api/webhooks/"];
+//
+// Cron endpoints are the same shape as webhooks: a Vercel Cron invocation carries a
+// `Authorization: Bearer <CRON_SECRET>` header, NOT a session cookie, so it must
+// bypass the session gate. Auth is enforced AT the route — GET checks CRON_SECRET
+// (503 in prod when unset) and POST (manual "regenerate now") calls requireRole.
+const PUBLIC_PREFIXES = ["/api/auth/", "/api/webhooks/", "/api/cron/"];
 const PUBLIC_EXACT = new Set(["/login", "/forbidden", "/gifted-quiz", "/api/gifted-quiz"]);
 
 export function isPublicPath(pathname: string): boolean {

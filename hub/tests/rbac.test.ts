@@ -45,6 +45,13 @@ describe("route policy — deny by default", () => {
     expect(routeDecision(null, "/login").allowed).toBe(true);
   });
 
+  it("lets the cron prefix bypass the session gate (auth enforced at the route)", () => {
+    // Vercel Cron sends a Bearer secret, not a session cookie — like webhooks, the
+    // session gate must let it through so the route's own CRON_SECRET/requireRole runs.
+    expect(isPublicPath("/api/cron/status-refresh")).toBe(true);
+    expect(routeDecision(null, "/api/cron/status-refresh").allowed).toBe(true);
+  });
+
   it("exposes the GT Challenge public capture funnel without a session", () => {
     // A parent arriving from a paid-social ad has no Hub account — the public
     // landing + consent-gated capture endpoint must not be blocked by the auth gate.
