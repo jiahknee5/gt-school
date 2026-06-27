@@ -11,6 +11,7 @@
 // verdict (Ortiz): the lowest bucket is "Keep exploring", never "not gifted".
 
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 type Scale = 1 | 2 | 3 | 4 | 5;
@@ -61,6 +62,10 @@ type Result = {
   bucket: "strong_fit" | "promising" | "explore";
   rawScore: number;
   status: string;
+  // Identity + verdict that drive the deposit step. leadId is the family_id the deposit
+  // charges against; qualified gates whether the "secure your spot" CTA appears at all.
+  leadId: string;
+  qualified: boolean;
 };
 
 const BUCKET_COPY: Record<
@@ -252,6 +257,8 @@ export function GiftedQuiz() {
         bucket: (capture.bucket as Result["bucket"]) ?? "explore",
         rawScore: Number(capture.rawScore ?? 0),
         status: String(capture.status ?? "scored"),
+        leadId: String(capture.leadId ?? ""),
+        qualified: Boolean(capture.qualified),
       });
       setStatus("done");
     } catch {
@@ -494,6 +501,39 @@ function ResultScreen({
 }) {
   const copy = BUCKET_COPY[result.bucket];
   const name = childFirstName.trim() || "Your child";
+  const router = useRouter();
+
+  // Deposit step — only offered to a qualified lead with a real family_id. A real Stripe
+  // TEST charge flows through /api/demo/checkout → records a payment, flips the enrollment
+  // to paid, enqueues the HubSpot sync — then we send the parent to the live tracker that
+  // reads THAT record back from the DB. This is the watchable end-to-end slice.
+  const canDeposit = result.qualified && result.leadId !== "";
+  const [checkout, setCheckout] = useState<"idle" | "charging" | "error">("idle");
+  const [checkoutError, setCheckoutError] = useState<string | null>(null);
+
+  async function handleDeposit() {
+    setCheckout("charging");
+    setCheckoutError(null);
+    try {
+      const res = await fetch("/api/demo/checkout", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ familyId: result.leadId }),
+      });
+      const body = await res.json().catch(() => ({}));
+      if (!res.ok || !body?.ok) {
+        setCheckout("error");
+        setCheckoutError(
+          typeof body?.error === "string" ? body.error : "Deposit could not be processed.",
+        );
+        return;
+      }
+      router.push(`/track/${encodeURIComponent(String(body.trackKey ?? result.leadId))}`);
+    } catch {
+      setCheckout("error");
+      setCheckoutError("We couldn't reach the server. Check your connection and try again.");
+    }
+  }
 
   return (
     <div className="mt-6">
@@ -516,20 +556,50 @@ function ResultScreen({
       </span>
       <p className="mt-2 text-[12px] leading-snug text-muted">{copy.body}</p>
 
-      <div className="mt-4 rounded-card border border-hairline bg-surface p-3">
-        <p className="mono text-[10px] font-semibold uppercase tracking-[0.1em] text-label">
-          What happens next
-        </p>
-        <ul className="mt-2 space-y-1 text-[11px] leading-snug text-slate">
-          <li>Your responses were captured securely and deduplicated.</li>
-          <li>Our admissions team reviews fit indicators. No child is gated out.</li>
-          <li>We will reach out with relevant GT programs and events.</li>
-        </ul>
-      </div>
+      {canDeposit ? (
+        <div className="mt-4 rounded-card border border-green-soft bg-green-soft p-3">
+          <p className="text-[13px] font-semibold text-green">Secure {name}&apos;s Fall spot</p>
+          <p className="mt-1 text-[11px] leading-snug text-slate">
+            Qualified families can reserve a seat now with a refundable $500 deposit. Fall
+            enrollment closes Aug 17 and spots are limited.
+          </p>
+          {checkoutError && (
+            <p role="alert" className="mono mt-2 text-[11px] font-semibold text-red">
+              {checkoutError}
+            </p>
+          )}
+          <button
+            type="button"
+            onClick={handleDeposit}
+            disabled={checkout === "charging"}
+            className="mt-3 flex h-11 w-full items-center justify-center rounded-card bg-ink-cta text-[14px] font-semibold text-on-cta shadow-sm transition-colors hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-50"
+          >
+            {checkout === "charging" ? "Processing deposit..." : "Secure your spot — pay $500 deposit"}
+          </button>
+          <p className="mono mt-2 text-center text-[10px] text-label">
+            Stripe test mode · then watch your spot move through our system live.
+          </p>
+        </div>
+      ) : (
+        <div className="mt-4 rounded-card border border-hairline bg-surface p-3">
+          <p className="mono text-[10px] font-semibold uppercase tracking-[0.1em] text-label">
+            What happens next
+          </p>
+          <ul className="mt-2 space-y-1 text-[11px] leading-snug text-slate">
+            <li>Your responses were captured securely and deduplicated.</li>
+            <li>Our admissions team reviews fit indicators. No child is gated out.</li>
+            <li>We will reach out with relevant GT programs and events.</li>
+          </ul>
+        </div>
+      )}
 
       <a
         href="https://gt.school"
-        className="mt-4 flex h-11 w-full items-center justify-center rounded-card bg-ink-cta text-[14px] font-semibold text-on-cta shadow-sm hover:opacity-95"
+        className={`flex h-11 w-full items-center justify-center rounded-card text-[14px] font-semibold shadow-sm hover:opacity-95 ${
+          canDeposit
+            ? "mt-3 border border-border bg-surface text-ink"
+            : "mt-4 bg-ink-cta text-on-cta"
+        }`}
       >
         Explore GT Anywhere
       </a>
