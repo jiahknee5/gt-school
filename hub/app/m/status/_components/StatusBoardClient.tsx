@@ -28,7 +28,7 @@ export function StatusBoardClient({
   const openHeroDrawer = useCallback(() => {
     const conv = board.stages.find((s) => s.key === "conversion");
     const ns = board.northStar;
-    // The rubric-structured Answer: Where / On track / Why / Do (C-suite read order).
+    // Rubric-structured Answer: Where / On track / Why / Do — the C-suite read order.
     const answerSections: DrawerSection[] = (board.answer.sections ?? []).map((s) => ({
       heading: s.label,
       bullets: s.bullets,

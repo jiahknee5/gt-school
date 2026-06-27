@@ -6,8 +6,12 @@ type Attention = "high" | "watch" | "calm";
 
 /**
  * Default matrix cell — shows the ONE most decision-relevant thing per column.
- * Everything dense (charts, economics, full narrative, the decision card) lives
- * in the drawer. Calm cells recede; only attention cells carry visual weight.
+ *
+ * Option C+: the calm default board carries only two content columns —
+ * Position (where + on-track) and Narrative (the so-what). Drivers (the "why" /
+ * evidence) collapses fully into the drawer, and Decisions is surfaced as a
+ * per-row flag (see StatusMatrix), not a cell. So this renderer handles only
+ * the two visible columns; all dense detail lives in the drawer.
  */
 export function StatusCellContent({
   cell,
@@ -15,7 +19,7 @@ export function StatusCellContent({
   attention,
 }: {
   cell: StatusCell;
-  column: "position" | "drivers" | "decisions" | "narrative";
+  column: "position" | "narrative";
   attention: Attention;
 }) {
   // POSITION — the single headline number (the RAG lives in the row header).
@@ -34,37 +38,6 @@ export function StatusCellContent({
     ) : (
       <p className="text-[12px] text-muted">{cell.subline ?? "—"}</p>
     );
-  }
-
-  // DRIVERS — one quiet line (the glance). Charts + economics → drawer.
-  if (column === "drivers") {
-    return (
-      <p className="line-clamp-2 text-[11px] leading-snug text-muted">
-        {cell.subline ?? cell.owner ?? "—"}
-      </p>
-    );
-  }
-
-  // DECISIONS — attention flag only. A real open decision stands out; else recede.
-  if (column === "decisions") {
-    if (cell.decision) {
-      return (
-        <div className="space-y-0.5">
-          <span
-            className={`mono inline-flex items-center gap-1 text-[9px] font-bold uppercase tracking-wide ${
-              cell.decision.urgent ? "text-red" : "text-slate"
-            }`}
-          >
-            <span aria-hidden="true">◆</span>
-            {cell.decision.urgent ? "Decide · urgent" : "Decide"}
-          </span>
-          <p className="line-clamp-2 text-[11px] font-semibold leading-snug text-ink">
-            {cell.decision.question}
-          </p>
-        </div>
-      );
-    }
-    return <p className="text-[11px] text-muted/70">—</p>;
   }
 
   // NARRATIVE — the single top bullet (the headline). Rest → drawer.

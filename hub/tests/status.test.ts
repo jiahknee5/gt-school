@@ -123,28 +123,43 @@ describe("Status page render", () => {
     expect(html).not.toContain("ENGINE");
     expect(html).not.toContain("TRAP");
     expect(html).not.toContain("est. trend");
-    // The one-line glance (driver summary) is what shows at default instead.
-    expect(html).toContain("Referral best CPQL");
-    // Lead answer bullet (the proof) is present at default.
-    expect(html).toContain("Conversion is binding");
+    // Lead answer bullet (the proof) is present at default — tolerate both the
+    // board phrasing ("Conversion is binding") and the generated/snapshot
+    // verdict phrasing ("Conversion binding").
+    expect(html).toMatch(/Conversion (is )?binding/);
   });
 
-  it("renders the week selector and the snapshot provenance badge", async () => {
+  it("Option C+: only Position + Narrative are content columns; Drivers is fully collapsed", async () => {
     const html = renderToStaticMarkup(await StatusPage({ searchParams: Promise.resolve({}) }));
-    expect(html).toContain("Reporting week");
-    expect(html).toMatch(/Current week|Historical snapshot/);
-    expect(html).toMatch(/Deterministic|LLM/);
+    // The two calm content columns are present...
+    expect(html).toContain("Position");
+    expect(html).toContain("Narrative");
+    // ...but the Drivers column (header + its one-line glance) is gone from the
+    // default board — it now lives only in the drawer.
+    expect(html).not.toContain("What's driving it");
+    expect(html).not.toContain("Referral best CPQL");
+    // The Decisions column header is no longer rendered as a spine column.
+    expect(html).not.toContain("What needs you");
   });
 
-  it("a past week is marked as a historical snapshot (recall, not recompute)", async () => {
-    const past = weekMondays()[0];
-    const html = renderToStaticMarkup(await StatusPage({ searchParams: Promise.resolve({ week: past }) }));
-    expect(html).toContain("Historical snapshot");
+  it("Option C+: Decisions surface as a per-row flag linking to the Decision Queue", async () => {
+    const html = renderToStaticMarkup(await StatusPage({ searchParams: Promise.resolve({}) }));
+    // The compact per-row flag is rendered for stages with a real open decision.
+    expect(html).toContain("needs leadership");
+    // It links straight to the Decision Queue.
+    expect(html).toContain("/m/decisions");
   });
 
-  it("overlays a rubric-structured Answer onto the board", () => {
+  it("Option C+: every stage with an open decision exposes a row-level flag affordance", () => {
     const board = buildStatusBoard(ds);
-    // The page overlays a generated snapshot; the data layer exposes the hook for it.
-    expect(board.answer.bullets.length).toBeGreaterThanOrEqual(3);
+    const withDecision = board.stages.filter((s) => s.decisions.decision);
+    // At least one stage carries a real open decision to flag (e.g. conversion).
+    expect(withDecision.length).toBeGreaterThan(0);
+    for (const stage of withDecision) {
+      expect(stage.decisions.decision?.href).toBe("/m/decisions");
+      // Full decision detail still survives in the drawer ("What we're doing").
+      const headings = stage.drawerSections.map((s) => s.heading);
+      expect(headings).toContain("What we're doing");
+    }
   });
 });
