@@ -60,7 +60,7 @@ describe("Phase 2 rendered route surfaces", () => {
     expect(firstHtml).not.toBe(changedHtml);
   });
 
-  it("dev header role switcher exposes one target per permission role", () => {
+  it("dev role switcher exposes one target per permission role", () => {
     expect(DEMO_USERS.filter((user) => user.role === "leader").length).toBeGreaterThan(1);
     expect(DEMO_USERS.filter((user) => user.role === "operator").length).toBeGreaterThan(1);
     expect(devRoleSwitchUsers().map((user) => user.role)).toEqual([

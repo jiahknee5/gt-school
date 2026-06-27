@@ -6,7 +6,6 @@ import { useEffect, useId, useMemo, useState, type ChangeEvent } from "react";
 import { defaultReportingWeek, weekMondays } from "@/lib/metrics/registry";
 import { MODULES, moduleHref } from "@/lib/modules";
 import { modulesForNavScope, type NavScope } from "@/lib/nav";
-import { devRoleSwitchUsers } from "@/lib/auth/dev-role-switcher";
 import { type FunctionalRole, type Role } from "@/lib/phase2";
 import { BrandLogo } from "./BrandLogo";
 import { HomeWidgetPicker } from "./HomeWidgetPicker";
@@ -23,12 +22,6 @@ export type TopBarViewer = {
 function daysToCutoff() {
   const cutoff = new Date("2026-08-17T00:00:00-05:00").getTime();
   return Math.max(0, Math.ceil((cutoff - Date.now()) / 86_400_000));
-}
-
-// Dev role switcher: minting a real signed session via the login route (server-side),
-// not a spoofable ?role= query param.
-function switchRoleHref(pathname: string, role: string) {
-  return `/api/auth/login?role=${role}&next=${encodeURIComponent(pathname)}`;
 }
 
 function formatWeekLabel(week: string): string {
@@ -205,32 +198,22 @@ export function TopBar({
             />
           )}
 
-          {devMode && (
-            <div
-              className="hidden items-center rounded-card border border-hairline bg-canvas p-0.5 sm:flex"
-              title="Dev role switcher — starts a real server-enforced session"
-            >
-              {devRoleSwitchUsers().map((user) => (
-                <a
-                  key={user.id}
-                  href={switchRoleHref(pathname, user.role)}
-                  className={`rounded-[6px] px-2.5 py-1 text-[11px] font-semibold ${
-                    viewer?.role === user.role
-                      ? "bg-ink-cta text-on-cta"
-                      : "text-muted hover:text-ink"
-                  }`}
-                >
-                  {user.role}
-                </a>
-              ))}
-            </div>
-          )}
-
           {viewer ? (
-            <div className="hidden min-w-0 sm:block">
+            <Link
+              href="/profile"
+              title={
+                devMode
+                  ? "Your profile — view your role and switch role (dev)"
+                  : "Your profile"
+              }
+              className="hidden min-w-0 rounded-card px-1.5 py-1 transition-colors hover:bg-hover sm:block"
+            >
               <p className="truncate text-right text-[12px] font-semibold text-ink">{viewer.name}</p>
-              <p className="mono truncate text-right text-[10px] text-label">{viewer.title}</p>
-            </div>
+              <p className="mono truncate text-right text-[10px] text-label">
+                {viewer.title}
+                {devMode ? ` · ${viewer.role}` : ""}
+              </p>
+            </Link>
           ) : (
             <Link
               href="/login"
@@ -262,9 +245,14 @@ export function TopBar({
           weeks={weeks}
         />
         {viewer && (
-          <span className="mono shrink-0 text-[10px] text-label">
+          <Link
+            href="/profile"
+            title={devMode ? "Your profile — switch role (dev)" : "Your profile"}
+            className="mono shrink-0 rounded-card px-1.5 py-0.5 text-[10px] text-label hover:bg-hover"
+          >
             {viewer.name}
-          </span>
+            {devMode ? ` · ${viewer.role}` : ""}
+          </Link>
         )}
       </div>
 

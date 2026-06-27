@@ -1,4 +1,6 @@
 import Link from "next/link";
+import { DevRoleSwitch } from "@/app/_components/DevRoleSwitch";
+import { DEV_MODE, getSession } from "@/lib/auth";
 import { moduleBySlug, moduleHref } from "@/lib/modules";
 import {
   AGENDA,
@@ -8,6 +10,8 @@ import {
   navSections,
   roleOwnershipMatrix,
 } from "@/lib/help/roles";
+
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Roles & access - GT Marketing Hub",
@@ -38,9 +42,10 @@ function ModuleChips({ slugs }: { slugs: { slug: string; short: string }[] }) {
   );
 }
 
-export default function RolesPage() {
+export default async function RolesPage() {
   const matrix = roleOwnershipMatrix();
   const sections = navSections();
+  const session = await getSession();
 
   return (
     <div className="mx-auto max-w-[1080px] px-7 py-10">
@@ -193,6 +198,31 @@ export default function RolesPage() {
           ))}
         </div>
       </section>
+
+      {/* 3a. Dev role switch (relocated from the top header — PRD A5) */}
+      {DEV_MODE && (
+        <section className="mt-12">
+          <p className="mono text-[11px] font-semibold uppercase tracking-[0.12em] text-gold">
+            Test all three roles
+          </p>
+          <h2 className="mt-2 font-serif text-[22px] font-bold tracking-[-0.01em] text-ink">
+            Switch role (dev)
+          </h2>
+          <p className="mt-2 max-w-[720px] text-[13px] leading-relaxed text-muted">
+            Dev auth mode is on. Pick a tier to start a real, server-enforced session as a
+            seeded user &mdash; the same middleware and role checks apply unchanged. This is the
+            quickest way to verify what each permission tier can and cannot do. You can also
+            switch from{" "}
+            <Link href="/profile" className="font-semibold text-blue hover:underline">
+              your profile
+            </Link>
+            .
+          </p>
+          <div className="mt-4">
+            <DevRoleSwitch currentRole={session?.role ?? null} />
+          </div>
+        </section>
+      )}
 
       {/* 3b. Admin assignment + nav scope */}
       <section className="mt-12">

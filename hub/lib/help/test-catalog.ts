@@ -354,7 +354,7 @@ export const TEST_GROUPS: TestGroup[] = [
     rows: [
       { test: "Home renders the PRD top-level signals and links to the deep module slice", area: "Phase 2 rendered route surfaces", file: "module-routes.test.ts", kind: "pure" },
       { test: "Home widgets consume the selected reporting week for KPI-backed values", area: "Phase 2 rendered route surfaces", file: "module-routes.test.ts", kind: "pure" },
-      { test: "dev header role switcher exposes one target per permission role", area: "Phase 2 rendered route surfaces", file: "module-routes.test.ts", kind: "pure" },
+      { test: "dev role switcher exposes one target per permission role", area: "Phase 2 rendered route surfaces", file: "module-routes.test.ts", kind: "pure" },
       { test: "Budget route visibly reconciles workstreams to the $365K total and variance queue", area: "Phase 2 rendered route surfaces", file: "module-routes.test.ts", kind: "pure" },
       { test: "data-confidence banner renders on HubSpot-consuming module routes", area: "Phase 2 rendered route surfaces", file: "module-routes.test.ts", kind: "pure" },
       { test: "operator role lens shows a denied Decision Queue state without queue actions", area: "Phase 2 rendered route surfaces", file: "module-routes.test.ts", kind: "pure" },
