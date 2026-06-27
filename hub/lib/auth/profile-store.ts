@@ -53,8 +53,16 @@ function rowToProfile(row: ProfileRow): UserProfile {
 }
 
 export async function loadProfileById(id: string): Promise<UserProfile | undefined> {
+  // Seed-first for the fixed demo/role accounts. This is the per-request hot path —
+  // middleware runs it on EVERY navigation and the root layout's getSession runs it on
+  // every render. The demo's three roles are in-code seed profiles, so resolving them from
+  // the seed (an in-memory lookup) avoids a Postgres round-trip per navigation (the cause of
+  // slow tab-to-tab) AND a raw-TCP read in the Edge middleware (which the Edge runtime can't
+  // do → live 504s). The DB is still consulted below for any id NOT in the seed.
+  const seed = seedProfileById(id);
+  if (seed) return seed;
   if (!dbConfigured()) {
-    return seedProfileById(id);
+    return seed;
   }
   try {
     const row = await withoutProgram(async (sql) => {

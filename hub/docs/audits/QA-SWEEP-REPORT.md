@@ -1,38 +1,60 @@
-# QA Value Sweep — Report
+# QA Value Sweep — Report (full PRD hard-gate pass)
 
-**Target:** http://localhost:3000 · branch `reconcile-status` · focus on the recent shipped work (WS0 as-of clock, talk-through narrative, WS2 owner contract, vertical compression, WS4 citations, WS6 observability).
+**Target:** local `http://localhost:3000` @ `reconcile-status` (what's built) · live `gt-school-hub.vercel.app` (=`master`).
+**Date:** 2026-06-27. **Scope:** every PRD/Brief hard gate, the RBAC role matrix, and a value pass over the rendered surfaces. Ledger: `QA-SWEEP-LEDGER.md`.
+
+## Headline
+
+**The product is built correctly — but the live deployment is broken for every logged-in user.**
+
+All 14 PRD hard gates PASS at the logic level (184+ tests against *live* Supabase/HubSpot/Stripe) **and** in the running local app: program isolation by RLS, idempotent payment propagation, the $365K budget reconcile + >10% variance auto-flag, the Leader-only Decision Queue (Admin and Operator both denied), the composable 45-widget Home, Open-Data enrichment that changes a decision, and the honest data-confidence banner. Locally you can watch every one of the Brief's "show us it works" moments.
+
+**The one FAIL is the deployment gate, and it's a P0:** on the live URL, `/login` works but **every authenticated route returns `504 MIDDLEWARE_INVOCATION_TIMEOUT`**. A grader who logs in with the role credentials sees a 504 on every page — none of the green gates above are reachable in production.
 
 ## Verdict roll-up
-- **KEEP: 7** · **FIX: 3** · **MERGE: 0** · **CUT: 0**
 
-No surface fails V1/V3/V5 — nothing is dead weight or wrong-purpose. The recent changes all earn their place; the FIX items are **two self-inflicted regressions** from this session plus one minor audience nit.
+- **Hard gates:** 13 PASS · **1 FAIL (P0 — live deploy)**.
+- **Surfaces:** KEEP 10 · **FIX 3** (live-504, middleware perf, nav scoping) · MERGE 0 · CUT 0.
+- Nothing is dead weight or wrong-purpose — no surface fails V1/V3/V5. The product *content* earns its place; the failures are an infrastructure break and a navigation/discoverability nit.
 
 ## Prioritized fix backlog
 
-### P0 — correctness (ship-blocker)
-1. **React key collision in the Status Answer drawer.** The hero drawer concatenates the rubric Answer sections (now labelled **"Where we stand"**) with the conversion stage's `buildStageDrawer` output, which *also* emits a **"Where we stand"** heading → two children with the same React key. Console error; React may drop/duplicate a section.
-   - **Fix:** key drawer sections by index (or `${heading}-${i}`) in `StatusDrawer.tsx`; and/or disambiguate the stage-position heading (e.g. "This stage — where it stands") in `buildStageDrawer` (`lib/status/board.ts`). The key fix alone clears the error; the heading rename removes the visible duplicate.
+### P0 — production is down for authenticated users (ship-blocker)
+1. **Live 504 on all authed routes — Edge middleware does a raw-TCP Postgres read.**
+   `middleware.ts` runs on the Edge runtime (no `export const runtime = 'nodejs'`). On every request with a session cookie it calls `loadProfileById` → `withoutProgram(postgres())`, and `postgres` v3.4.7 opens a **raw TCP socket, which the Vercel Edge runtime does not support** → the invocation times out → 504. Public `/login` is fine (no DB read); unauthenticated requests are fine (no cookie → no read). Works locally only because `next dev` runs middleware in Node. Present on both `master` and `reconcile-status`.
+   - **Fix (pick one, in preference order):**
+     1. **Stop reading the DB in middleware** — carry the role as a signed claim in the session token (`lib/auth/token.ts`), so `routeDecision` needs no `loadProfileById`. Keeps Edge fast, fixes the perf issue below too. *(Recommended.)*
+     2. Opt middleware into the Node runtime (Next 16 supports Node middleware) so TCP works — but you still pay the per-request DB latency.
+     3. Swap the middleware profile lookup to an Edge-compatible HTTP driver (Supabase REST / `@vercel/postgres` / `@neondatabase/serverless` over HTTP).
+   - **Confirm:** check `APP_RW_DATABASE_URL` is set in the Vercel env (if it is, the DB path is taken — consistent with the 504).
+   - Files: `middleware.ts`, `lib/auth/profile-store.ts`, `lib/auth/token.ts`, `lib/db.ts`.
 
-### P1 — fit / hierarchy
-2. **Per-stage "Needs attention" lens tag is glued + uniform.** Renders as "**Needs attention**X / Twitter…" (no separation) and appears identically on **all six** rows (none are green at this as-of week), so it duplicates the row RAG token without differentiating.
-   - **Fix (`StatusCellContent.tsx`):** give the tag a clear chip style / leading space; show **"Working"** only for green stages and **suppress** the redundant "Needs attention" label where the RAG token already carries it (or keep it but make it a distinct, non-text-glued badge). Goal: the lens should *differentiate* strengths from problems, not repeat the RAG on every row.
+### P1 — performance / correctness
+2. **Per-request middleware DB read adds ~6s locally.** Same root cause: `proxy.ts: 6.0s` in the dev log when the Supabase connection degrades — every authenticated navigation pays it, and it's what tips Edge over the timeout. The P0 fix #1 (role-in-token) removes this read entirely. Files: `middleware.ts`, `lib/auth/profile-store.ts`.
 
-### P2 — audience polish
-3. **All-roles scorecard links to an admin-only surface.** The Dashboard Source column ⛁ link points at `/dev/integrations` (admin-only); a Leader/Operator clicking it hits the RBAC gate.
-   - **Fix:** in `MetricCite`, render the source as plain text (not a link) when the viewer isn't admin, or point non-admins at a role-safe provenance affordance. Low severity (the gate protects; it's a dead-end click, not a leak).
+### P2 — navigation / discoverability
+3. **Default sidebar hides 6 modules from the Admin.** With the default `My` / `Fall` scope, the Admin (full-access Marketing Lead) sees only 8 of 14 modules in the nav — Grassroots, Content, Summer Camp, Field & Events, Admissions, and Budget are absent (reachable only by direct URL), and the `VIEW: All` toggle is **disabled on Home**. PRD §2 calls for a sidebar "module list." Either (a) make the `All` toggle work on Home so full access is one click, or (b) if the role-scoped default is intentional (`ROLE-SCOPING-ADVISORY.md`), have Johnny/the cohesion panel ratify it and add a visible "show all modules" affordance. Files: `app/_components/Sidebar.tsx`, `lib/nav.ts`, `app/api/nav/scope/route.ts`.
+
+## Are we sure the UI is condensed? (answer to the direct question)
+
+**Yes — the UI is genuinely condensed, and the old inconsistency is resolved.** Measured from the rendered pages and the header components:
+
+- **Type scale is tight everywhere:** page H1 **20px** (shared `ModuleHeader`, `modkit.tsx:148`), with Dashboard + Status at **18px**; section H2 15px; metric values 18px (mono); body 12px; notes 11px; labels/badges 10px. (For reference, a non-condensed app runs H1 ~30px / body 16px.)
+- **It's now consistent.** The prior audit's finding **X1** ("half-applied density pass → two coexisting densities; ~9 modules at H1 ~30px") is **stale/fixed**: nothing renders at 30px anymore; 12 surfaces share the 20px header, only Dashboard + Status sit 2px denser at 18px (a deliberate, near-invisible delta).
+- **Density is earned, not empty.** Dashboard packs 61 table cells; scroll heights are reasonable (home 1299px, status 1123px) — dense with data, not padded whitespace.
+
+**Caveat on certainty:** the value sweep's V1–V10 rubric does **not** include visual density — that's `gt-hub-visual-qa-panel`'s Q1/Q8 territory. I added the check for this pass and verified it via computed styles + the header components, but I did **not** get a clean full-page rendered-density measurement on *every* module (the live URL 504'd and the dev server crashed twice). The 18-vs-20px Dashboard/Status delta and any per-module padding drift are the only things a dedicated visual pass should still confirm. If you want pixel-level density convergence enforced, run `/gt-hub-visual-qa-panel`.
 
 ## What's already earning its place (don't over-correct)
-- **WS0 as-of clock** — the headline fix lands: North Star reads **56/180** (week 3 cumulative), week selectors stop at today. Honest, not alarming.
-- **Talk-through narrative** — the 4-beat Answer (Where we stand → What's working → What needs attention → What to do) renders and reads naturally; "What's working" adds the missing strengths beat.
-- **WS2 owner contract** — accountable owner·role on every funnel row; the fixed metric contract + WoW lives in the drawer.
-- **Vertical compression** — rows are tighter and de-duplicated (redundant exec chip removed).
-- **WS4 dual citations** — every scorecard KPI + Status metric links to its owning module **and** its data source, and the source anchors resolve on `/dev/integrations`.
-- **WS6 observability** — Ask-the-Hub and Status-gen now render in one eval table; run traces persist durably (audit.persisted is real).
+- **The backbone is real and honest.** Isolation is RLS-enforced (cross-program write denied), payments are idempotent and survive out-of-order events, reconcile is stable, parity is computed (not faked) and the banner tells the truth ("needs review", income flagged).
+- **The hard product invariants hold.** $365K reconciles live (throws if it doesn't), variance auto-flags into the queue, the Leader-only gate denies both Admin and Operator with the exact spec reason, the 45-widget composable Home matches the spec's 9 categories, and Open Data actually enriches a decision.
+- **Honest about what's broken** (the spec's whole point): 169 UTM issues surfaced, unreliable fields flagged, SSOT reminder shown — no green-washing.
 
 ## Coverage statement
-- **Judged live (Admin):** `/m/status` (board + Answer drawer + stage drawer), `/m/dashboard` (scorecard + Source citations + week selector), confirmation of WS4/WS6 surfaces.
-- **By test (authoritative):** RBAC matrix via `rbac.test.ts`; the as-of clock, citation mapping, data-sync contract, and observability via their unit suites (549 tests green).
-- **Blocked / deferred:** live Leader/Operator browser pass (dev server bogged under concurrent compiles — rerun on a warm server / preview); empty-error-zero-data drawer states; Summer-camp program lens. None touched by the recent changes.
+- **Judged live (local, all 3 roles where view differs):** Home + widget picker, Status, Dashboard, Budget, CRM Ops, Decision Queue, Open Data, `/dev`, and the full RBAC HTTP matrix.
+- **Authoritative tests (live services):** 184+ green across backbone + product (`vitest`).
+- **Not re-rendered this pass:** 8 module pages individually (Nurture, Analytics, Library, Grassroots, Content, Summer Camp, Field & Events, Admissions) — covered by `test:frontend` (green) + code (shared 20px header) + prior per-module panels; empty/error/zero-data states; mobile/responsive.
+- **Blocked:** the **live URL** could not be swept for any authenticated route (504, root-caused above); the dev server crashed twice under concurrent load (~6s middleware), so the full per-surface render loop was cut short. No silent gaps — the above is the honest extent.
 
 ## Stop condition
-One sweep round over the scoped surfaces; the two P0/P1 findings are concrete regressions with a file+fix. Not run to the full two-dry-round stop across all 31 app surfaces — scope was deliberately the recent changes per the invocation. A full-app dry-loop is the next pass.
+One full hard-gate pass complete: all 14 gates evaluated, RBAC matrix run live across 3 roles, density question answered with measurement. Not run to the two-dry-round loop over every module render (dev-server instability) — the 8 un-rendered module pages are the open tail, but they are test- and code-covered and carry no hard gate. **The P0 live-deploy break is the one thing to fix before any demo/submission.**
