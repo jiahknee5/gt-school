@@ -25,7 +25,7 @@ import { reconcileFromDataset } from "@/lib/camp/reconcile";
 import { campRevenue, capacityByCampus } from "@/lib/camp/metrics";
 import { resolveProgramView } from "@/lib/program-view";
 import { ProgramScopeNote } from "@/app/_components/ProgramScopeNote";
-import { defaultReportingWeek, weekMondays } from "@/lib/metrics/registry";
+import { availableWeeks, defaultReportingWeek } from "@/lib/metrics/registry";
 import { guideBySlug } from "@/lib/help/guides";
 import { fmtValue, MetricTile, statusTone } from "./_components/primitives";
 import { Scorecard } from "./_components/Scorecard";
@@ -104,7 +104,7 @@ export default async function DashboardPage({
   const thresholdPct = Number((parityThreshold() * 100).toFixed(2));
   const banner = seedBannerState(ds.field_state, thresholdPct);
 
-  const weeks = weekMondays();
+  const weeks = availableWeeks();
   const selectedWeek = query.week && weeks.includes(query.week) ? query.week : defaultReportingWeek();
   const scorecard = buildScorecard(ds, selectedWeek);
   const pacing = buildPacing(ds, selectedWeek);

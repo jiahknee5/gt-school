@@ -6,7 +6,7 @@ import { resolveViewerProgramScope, type ProgramScope } from "@/lib/program-scop
 import { buildStatusBoard } from "@/lib/status/board";
 import { loadOrGenerateSnapshot } from "@/lib/status/store";
 import { applySnapshotToBoard } from "@/lib/status/generate";
-import { defaultReportingWeek, weekMondays } from "@/lib/metrics/registry";
+import { availableWeeks, defaultReportingWeek } from "@/lib/metrics/registry";
 import { StatusBoardClient } from "./_components/StatusBoardClient";
 import { StatusWeekBar } from "./_components/StatusWeekBar";
 
@@ -23,7 +23,7 @@ export default async function StatusPage({
 }) {
   const query = searchParams ? await searchParams : {};
   const session = await getSession();
-  const weeks = weekMondays();
+  const weeks = availableWeeks();
   const currentWeek = defaultReportingWeek();
   const selectedWeek = query.week && weeks.includes(query.week) ? query.week : currentWeek;
   const isCurrent = selectedWeek === currentWeek;

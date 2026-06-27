@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
-import { weekMondays } from "@/lib/metrics/registry";
+import { availableWeeks } from "@/lib/metrics/registry";
 import { MODULES, moduleHref } from "@/lib/modules";
 import { modulesForNavScope, type NavScope } from "@/lib/nav";
 import { type FunctionalRole, type Role } from "@/lib/phase2";
@@ -32,7 +32,7 @@ export function TopBar({
   const searchParams = useSearchParams();
   const [dark, setDark] = useState(false);
   const isHome = pathname === "/";
-  const weeks = useMemo(() => weekMondays(), []);
+  const weeks = useMemo(() => availableWeeks(), []);
   const explicitWeek = searchParams.get("week");
   const scopedWeek = explicitWeek && weeks.includes(explicitWeek) ? explicitWeek : null;
   const rbacModules = MODULES.filter((module) => !module.leaderOnly || viewer?.role === "leader");

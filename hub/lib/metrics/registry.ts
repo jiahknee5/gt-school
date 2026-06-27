@@ -67,12 +67,32 @@ export function weekMondays(weeks = SPRINT_WEEKS): string[] {
   return Array.from({ length: weeks }, (_, w) => iso(start + w * 7 * DAY).slice(0, 10));
 }
 
+/**
+ * The single demo clock. Every consumer (default reporting week, available weeks,
+ * cumulative-as-of) reads "now" through here so they can never disagree.
+ */
+export function nowMs(now: number | Date = Date.now()): number {
+  return typeof now === "number" ? now : now.getTime();
+}
+
+/** Current sprint week index (0..weeks-1) for `now`, clamped to the window bounds. */
+export function currentWeekIndex(now: number | Date = Date.now(), weeks = SPRINT_WEEKS): number {
+  const idx = Math.floor((nowMs(now) - Date.parse(SPRINT_START)) / (7 * DAY));
+  return Math.min(Math.max(idx, 0), weeks - 1);
+}
+
 /** Default reporting week: the current Monday in the sprint window, clamped to bounds. */
 export function defaultReportingWeek(now: number | Date = Date.now(), weeks = SPRINT_WEEKS): string {
-  const mondays = weekMondays(weeks);
-  const t = typeof now === "number" ? now : now.getTime();
-  const idx = Math.floor((t - Date.parse(SPRINT_START)) / (7 * DAY));
-  return mondays[Math.min(Math.max(idx, 0), mondays.length - 1)];
+  return weekMondays(weeks)[currentWeekIndex(now, weeks)];
+}
+
+/**
+ * The Monday keys that have actually arrived (≤ today) — the ONLY weeks a selector may
+ * offer. Future sprint weeks are not navigable: they carry no settled verdict yet, so
+ * showing them would imply a reading we cannot honestly make.
+ */
+export function availableWeeks(now: number | Date = Date.now(), weeks = SPRINT_WEEKS): string[] {
+  return weekMondays(weeks).slice(0, currentWeekIndex(now, weeks) + 1);
 }
 
 /** Week index (0..weeks-1) for a timestamp, or -1 if outside the window. */
@@ -150,4 +170,22 @@ export function computeKpi(key: string, ds: SeedDataset, weekOf: string, weeks =
   const idx = weekMondays(weeks).indexOf(weekOf);
   if (idx < 0) return 0;
   return kpiWeeklySeries(key, ds, weeks)[idx] ?? 0;
+}
+
+/**
+ * The cumulative-AS-OF-the-selected-week value of a KPI — never the whole-dataset total.
+ *
+ * FLOW KPIs (unit `count`: applicants, deposits, …) accumulate, so the as-of value is the
+ * running sum of the weekly series through `weekOf`. This is what a North Star like
+ * "deposits so far" must use: selecting week 3 shows week-3 cumulative, not the end-of-
+ * sprint figure. LEVEL KPIs (unit `pct`/`ratio`: parity, conversion rate) are a snapshot,
+ * so the as-of value is simply that week's reading.
+ */
+export function kpiCumulative(key: string, ds: SeedDataset, weekOf: string, weeks = SPRINT_WEEKS): number {
+  const idx = weekMondays(weeks).indexOf(weekOf);
+  if (idx < 0) return 0;
+  const series = kpiWeeklySeries(key, ds, weeks);
+  const def = kpiDefinition(key);
+  if (def && def.unit !== "count") return series[idx] ?? 0;
+  return series.slice(0, idx + 1).reduce((a, v) => a + v, 0);
 }

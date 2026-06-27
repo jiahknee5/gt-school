@@ -87,7 +87,15 @@ export function generate(opts: GenerateOptions = {}): SeedDataset {
   const familyCount = opts.families ?? 1200;
   const weeks = opts.weeks ?? 13; // June → end of August sprint
   const sprintStartMs = Date.parse(opts.sprintStart ?? "2026-06-01T00:00:00.000Z");
-  const asOfMs = sprintStartMs + weeks * 7 * DAY;
+  // The dataset's as-of clock. Default spans the full planned sprint window so the
+  // deliberate edge cases (week-6 parity dip, attribution gap, …) are all present and
+  // invariants hold. `asOf` is an opt-in override (tests) and never exceeds the window.
+  // "No future data in the UI" is enforced consumer-side (bounded week selectors +
+  // as-of-week reads), not by shrinking the dataset here.
+  const fullWindowMs = sprintStartMs + weeks * 7 * DAY;
+  const requestedAsOf =
+    opts.asOf != null ? (typeof opts.asOf === "string" ? Date.parse(opts.asOf) : opts.asOf) : fullWindowMs;
+  const asOfMs = Math.min(fullWindowMs, requestedAsOf);
   const rng = makeRng(seed);
 
   const edgeCases: string[] = [];

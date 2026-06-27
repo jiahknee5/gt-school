@@ -14,7 +14,14 @@ import { openDecisions, decisionStats } from "@/lib/decisions/queries";
 import { reconcileCamp } from "@/lib/camp/reconcile";
 import { campRevenue } from "@/lib/camp/metrics";
 import { buildSla, lateListByOwner } from "@/lib/nurture/sla";
-import { defaultReportingWeek, weekMondays, kpiDefinition } from "@/lib/metrics/registry";
+import {
+  defaultReportingWeek,
+  kpiCumulative,
+  kpiDefinition,
+  kpiWeeklySeries,
+  weekMondays,
+} from "@/lib/metrics/registry";
+import { rowSpecFor, type StageMetricSpec } from "./rowspec";
 import { summarizeBudget, ensureBudgetVarianceDecision } from "@/lib/phase2";
 import type { Decision, Family, SeedDataset } from "@/lib/seed/types";
 import type { ProgramScope } from "@/lib/program-scope";
@@ -92,6 +99,27 @@ export type StatusCell = {
   thinReason?: string;
 };
 
+/**
+ * One metric in a stage's fixed weekly contract — the same shape every week so the row
+ * is reviewed consistently. Registry-backed metrics carry exact this/last/delta/trend;
+ * board-derived metrics (SLA, engagement) have no weekly history, so last/delta are null.
+ */
+export type StageMetric = {
+  key: string;
+  label: string;
+  /** Formatted headline value (e.g. "12", "74.0%"). */
+  value: string;
+  thisWeek: number | null;
+  lastWeek: number | null;
+  delta: number | null;
+  /** Up to the last 4 weekly values (empty for derived metrics with no history). */
+  trend: number[];
+  source: string;
+  homeModule: string;
+  surface: "exec" | "detail";
+  derived?: boolean;
+};
+
 export type StatusStage = {
   key: FunnelStageKey;
   num: number;
@@ -99,6 +127,11 @@ export type StatusStage = {
   modules: { slug: string; label: string; recur?: boolean }[];
   rag: RagStatus;
   binding?: boolean;
+  /** Accountable owner + role for this funnel stage (the per-row contract). */
+  owner?: string;
+  ownerRole?: string;
+  /** The fixed weekly metric set reviewed for this stage (exec headline + details). */
+  metrics?: StageMetric[];
   position: StatusCell;
   drivers: StatusCell;
   decisions: StatusCell;
@@ -249,6 +282,114 @@ function daysToCutoff(now = Date.now()): number {
 
 function fallFamilies(ds: SeedDataset): Family[] {
   return ds.families;
+}
+
+const DAY_MS = 86_400_000;
+
+/**
+ * Families that exist AS OF the end of the selected reporting week (created_at < the
+ * following Monday). Every count/breakdown on the board reads through this so the funnel,
+ * channel mix, and engagement tiers reflect the selected week — never future-dated rows —
+ * and historical week navigation shows that week's real position. The dataset keeps its
+ * full sprint window (edge cases intact); honesty is enforced here at read time.
+ */
+function asOfFamilies(families: Family[], weekOf: string): Family[] {
+  const weekEndMs = Date.parse(`${weekOf}T00:00:00.000Z`) + 7 * DAY_MS;
+  if (Number.isNaN(weekEndMs)) return families;
+  return families.filter((f) => {
+    const t = Date.parse(f.created_at ?? "");
+    return Number.isNaN(t) || t < weekEndMs;
+  });
+}
+
+// ---- Per-row metric contract (WS2) ----
+
+/** Board-derived metric readings that have no weekly series in the seed. */
+type DerivedReadings = {
+  sla_24h: { value: number; trend: number[] };
+  engagement_hotwarm: { value: number };
+  referral_rate: { value: number };
+};
+
+const PCT_METRIC_KEYS = new Set([
+  "conversion_top_channel",
+  "parity_pct",
+  "sla_24h",
+  "engagement_hotwarm",
+  "referral_rate",
+]);
+
+function fmtMetricValue(key: string, n: number): string {
+  return PCT_METRIC_KEYS.has(key) ? fmtPct(n, 1) : fmt(n);
+}
+
+/**
+ * Resolve a stage's fixed metric specs into the weekly contract (this/last/delta/trend) for
+ * the selected week. Registry KPIs read their real weekly series; derived metrics carry only
+ * the current reading (last/delta null — we never fabricate week-over-week we don't have).
+ */
+function resolveStageMetrics(
+  specs: StageMetricSpec[],
+  ds: SeedDataset,
+  week: string,
+  derived: DerivedReadings,
+): StageMetric[] {
+  const weeks = weekMondays();
+  const idx = weeks.indexOf(week);
+  return specs.map((m) => {
+    if (m.key === "sla_24h" || m.key === "engagement_hotwarm" || m.key === "referral_rate") {
+      const d = derived[m.key];
+      const trend = "trend" in d ? d.trend : [];
+      return {
+        key: m.key,
+        label: m.label,
+        value: fmtMetricValue(m.key, d.value),
+        thisWeek: Number(d.value.toFixed(1)),
+        lastWeek: null,
+        delta: null,
+        trend,
+        source: m.source,
+        homeModule: m.homeModule,
+        surface: m.surface,
+        derived: true,
+      };
+    }
+    const series = kpiWeeklySeries(m.key, ds);
+    const thisWeek = idx >= 0 ? series[idx] ?? 0 : 0;
+    const lastWeek = idx > 0 ? series[idx - 1] ?? 0 : null;
+    const delta = lastWeek != null ? Number((thisWeek - lastWeek).toFixed(2)) : null;
+    const trend = idx >= 0 ? series.slice(Math.max(0, idx - 3), idx + 1) : [];
+    return {
+      key: m.key,
+      label: m.label,
+      value: fmtMetricValue(m.key, thisWeek),
+      thisWeek,
+      lastWeek,
+      delta,
+      trend,
+      source: m.source,
+      homeModule: m.homeModule,
+      surface: m.surface,
+    };
+  });
+}
+
+/** The drawer view of the fixed contract: every metric with its WoW reading. */
+function metricsDrawerSection(metrics: StageMetric[]): DrawerSection {
+  return {
+    heading: "Weekly metric contract",
+    kv: metrics.map((m) => {
+      const value =
+        m.delta != null && m.lastWeek != null
+          ? `${m.value} · was ${fmtMetricValue(m.key, m.lastWeek)} (Δ ${m.delta >= 0 ? "+" : ""}${m.delta})`
+          : `${m.value}${m.derived ? " · no WoW history" : ""}`;
+      return {
+        label: `${m.surface === "exec" ? "★ " : ""}${m.label}`,
+        value,
+        tone: m.delta == null ? "neutral" : m.delta > 0 ? "good" : m.delta < 0 ? "bad" : "neutral",
+      } as { label: string; value: string; tone?: "good" | "bad" | "neutral" };
+    }),
+  };
 }
 
 function funnelCounts(families: Family[]) {
@@ -475,7 +616,9 @@ export function buildStatusBoard(
 ): StatusBoard {
   const weeks = weekMondays();
   const week = weekOf && weeks.includes(weekOf) ? weekOf : defaultReportingWeek();
-  const families = fallFamilies(ds);
+  // As-of the selected week: counts/breakdowns never include future-dated rows, and
+  // historical weeks show that week's real position (the dataset keeps its full window).
+  const families = asOfFamilies(fallFamilies(ds), week);
   const counts = funnelCounts(families);
   const scorecard = buildScorecard(ds, week);
   const pacing = buildPacing(ds, week);
@@ -493,7 +636,10 @@ export function buildStatusBoard(
   const depPace = pacing.find((p) => p.key === "deposits");
   const days = daysToCutoff();
 
-  const cumulativeDeposits = counts.deposit;
+  // North star reads the single KPI registry's as-of-week cumulative (sum of weekly
+  // deposits through the selected week) — never the whole-dataset total. Equals
+  // counts.deposit at the current week; for past weeks it is that week's running total.
+  const cumulativeDeposits = kpiCumulative("deposits", ds, week);
   const depositTarget = 180;
   const paceTarget = depPace
     ? Math.round((depositTarget * (weeks.length - (depPace.weeksLeft ?? 0))) / weeks.length)
@@ -958,10 +1104,31 @@ export function buildStatusBoard(
     },
   ];
 
-  // Calm default, dense drawer: derive the rich drill-down from each stage's
-  // four spine cells, then append any stage-specific extra sections.
+  // Per-row contract: each funnel stage gets its accountable owner+role and its fixed
+  // weekly metric set (this/last/delta/trend), resolved for the selected week.
+  const hotWarm = distHotWarmRate(families);
+  const derivedReadings: DerivedReadings = {
+    sla_24h: { value: sla.slaPct, trend: [72, 68, 62, Number(sla.slaPct.toFixed(1))] },
+    engagement_hotwarm: { value: hotWarm.rate },
+    referral_rate: { value: referralDepositRate(families) },
+  };
   for (const stage of stages) {
-    stage.drawerSections = [...buildStageDrawer(stage), ...stage.drawerSections];
+    const spec = rowSpecFor(stage.key);
+    if (spec) {
+      stage.owner = spec.owner;
+      stage.ownerRole = spec.ownerRole;
+      stage.metrics = resolveStageMetrics(spec.metrics, ds, week, derivedReadings);
+    }
+  }
+
+  // Calm default, dense drawer: derive the rich drill-down from each stage's
+  // four spine cells, then append the weekly metric contract + any extra sections.
+  for (const stage of stages) {
+    stage.drawerSections = [
+      ...buildStageDrawer(stage),
+      ...(stage.metrics?.length ? [metricsDrawerSection(stage.metrics)] : []),
+      ...stage.drawerSections,
+    ];
   }
 
   // Cross-cutting rail

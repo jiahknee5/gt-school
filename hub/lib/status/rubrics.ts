@@ -312,3 +312,34 @@ export function checkAnswerConformance(answer: AnswerShape): AnswerConformance {
   }
   return { pass: failures.length === 0, failures };
 }
+
+// ---------------------------------------------------------------------------
+// Per-row accountability contract (WS2)
+// ---------------------------------------------------------------------------
+
+export interface StageContractConformance {
+  stage: FunnelStageKey;
+  pass: boolean;
+  failures: string[];
+}
+
+/**
+ * Every funnel stage must carry an accountable owner (+ role) and a fixed weekly metric
+ * set with exactly ONE exec headline metric that has a real this-week value. This is the
+ * falsifiable contract behind "who + what is reviewed each week is consistent".
+ */
+export function checkStageContract(stage: {
+  key: FunnelStageKey;
+  owner?: string;
+  ownerRole?: string;
+  metrics?: { surface: "exec" | "detail"; thisWeek: number | null }[];
+}): StageContractConformance {
+  const failures: string[] = [];
+  if (!stage.owner) failures.push("Stage must name an accountable owner.");
+  if (!stage.ownerRole) failures.push("Stage must name the owner's role.");
+  const metrics = stage.metrics ?? [];
+  const exec = metrics.filter((m) => m.surface === "exec");
+  if (exec.length !== 1) failures.push("Stage must carry exactly one exec headline metric.");
+  if (exec.some((m) => m.thisWeek == null)) failures.push("Exec metric must carry a this-week value.");
+  return { stage: stage.key, pass: failures.length === 0, failures };
+}

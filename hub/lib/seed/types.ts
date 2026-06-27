@@ -447,4 +447,10 @@ export interface GenerateOptions {
   sprintStart?: string;
   /** Number of weeks of activity to generate. */
   weeks?: number;
+  /**
+   * As-of clock: no record is dated after this. Opt-in override (tests); defaults to the
+   * full sprint window so the deliberate edge cases stay present. "No future data in the
+   * UI" is enforced consumer-side (bounded week selectors + as-of-week reads), not here.
+   */
+  asOf?: string | number;
 }

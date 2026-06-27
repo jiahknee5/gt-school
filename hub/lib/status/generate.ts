@@ -191,12 +191,20 @@ export function generateDeterministic(board: StatusBoard): StatusSnapshotContent
 
   const stages: GeneratedStageNarrative[] = board.stages.map((s) => {
     const reasoning: string[] = [];
+    if (s.owner) {
+      reasoning.push(`Owner: ${s.owner}${s.ownerRole ? ` (${s.ownerRole})` : ""}.`);
+    }
     if (s.position.stat) {
       reasoning.push(
         `Position: ${s.position.stat.value}${s.position.stat.unit ? ` ${s.position.stat.unit}` : ""}${
           s.position.stat.delta ? ` (${s.position.stat.delta})` : ""
         }.`,
       );
+    }
+    // Cite the stage's fixed weekly metric contract (this week + WoW where we have history).
+    for (const m of s.metrics ?? []) {
+      const wow = m.delta != null ? ` (Δ ${m.delta >= 0 ? "+" : ""}${m.delta} WoW)` : "";
+      reasoning.push(`${m.surface === "exec" ? "Headline metric" : "Metric"} — ${m.label}: ${m.value}${wow}.`);
     }
     const driverGlance = s.drivers.subline ?? s.drivers.owner;
     if (driverGlance) reasoning.push(`Driver: ${driverGlance}.`);

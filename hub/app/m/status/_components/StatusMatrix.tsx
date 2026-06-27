@@ -53,6 +53,30 @@ function StageDecisionFlag({ stage }: { stage: StatusStage }) {
   );
 }
 
+// The stage's fixed exec metric (the one reviewed every week), shown as a compact chip:
+// label, this-week value, and the week-over-week delta cue. Full set lives in the drawer.
+function StageExecMetric({ stage }: { stage: StatusStage }) {
+  const metric = stage.metrics?.find((m) => m.surface === "exec");
+  if (!metric) return null;
+  const delta = metric.delta;
+  const deltaTone =
+    delta == null ? "text-muted" : delta > 0 ? "text-green" : delta < 0 ? "text-red" : "text-muted";
+  return (
+    <p
+      className="mono inline-flex w-fit items-center gap-1 rounded-full border border-hairline bg-canvas px-1.5 py-0.5 text-[9px] text-slate"
+      title={`${metric.label} — the metric reviewed for this stage every week`}
+    >
+      <span className="font-semibold text-ink">{metric.value}</span>
+      <span className="text-muted">{metric.label}</span>
+      {delta != null && (
+        <span className={`font-semibold ${deltaTone}`}>
+          {delta > 0 ? `▲${Math.abs(delta)}` : delta < 0 ? `▼${Math.abs(delta)}` : "flat"}
+        </span>
+      )}
+    </p>
+  );
+}
+
 export function StatusMatrix({
   board,
   onOpenStage,
@@ -120,6 +144,16 @@ export function StatusMatrix({
                   <h3 className="font-serif text-[13px] font-bold leading-tight text-ink">{stage.name}</h3>
                   <RagToken status={stage.rag} />
                 </button>
+                {stage.owner && (
+                  <p
+                    className="mono text-[9px] leading-tight text-muted"
+                    title={`Accountable owner for ${stage.name}`}
+                  >
+                    <span className="font-semibold text-slate">{stage.owner}</span>
+                    {stage.ownerRole ? ` · ${stage.ownerRole}` : ""}
+                  </p>
+                )}
+                <StageExecMetric stage={stage} />
                 <StageDecisionFlag stage={stage} />
                 <span className="mono absolute right-2 top-2 text-[11px] text-label opacity-30 group-hover:opacity-100">
                   ⊕

@@ -16,7 +16,7 @@ import { buildScorecard, type ScorecardRow } from "@/lib/dashboard/scorecard";
 import { layoutForUser, resolveHomeWidgets } from "@/lib/home/layout";
 import { guideBySlug } from "@/lib/help/guides";
 import { PageObjective } from "@/app/_components/PageObjective";
-import { defaultReportingWeek, weekMondays } from "@/lib/metrics/registry";
+import { availableWeeks, defaultReportingWeek } from "@/lib/metrics/registry";
 
 export const dynamic = "force-dynamic";
 
@@ -142,7 +142,7 @@ export default async function Home({
   const dataset = generate({ seed: 424242, families: 1200 });
   const viewer = session ?? DEMO_USERS.find((user) => user.role === "leader") ?? DEMO_USERS[0];
   const canViewDecisions = viewer.role === "leader";
-  const weeks = weekMondays();
+  const weeks = availableWeeks();
   const selectedWeek =
     query.week && weeks.includes(query.week) ? query.week : defaultReportingWeek();
   const scorecard = buildScorecard(dataset, selectedWeek);
