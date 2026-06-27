@@ -17,3 +17,7 @@ create table if not exists agent_run_trace (
 
 create index if not exists agent_run_trace_started_at_idx on agent_run_trace (started_at desc);
 create index if not exists agent_run_trace_location_idx on agent_run_trace (location);
+
+-- The app persists/recalls traces through app_rw with no program GUC (lib/db withoutProgram).
+-- Upsert (on conflict do update) needs update; the /dev surface reads them back.
+grant select, insert, update on agent_run_trace to app_rw;

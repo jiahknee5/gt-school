@@ -295,8 +295,11 @@ export class AnthropicStatusProvider implements StatusGenProvider {
           "anthropic-version": "2023-06-01",
         },
         body: JSON.stringify({
+          // The verdict JSON is large (4 Answer sections + 6 stage narratives each with
+          // bullets + reasoning). 1600 truncated it mid-array → JSON.parse threw → silent
+          // deterministic fallback. 4096 comfortably fits the full structure.
           model: this.model,
-          max_tokens: 1600,
+          max_tokens: 4096,
           system: [
             "You are the GT Marketing Hub executive status writer.",
             "Rewrite the deterministic draft to the rubric in board-appropriate, C-suite language.",
