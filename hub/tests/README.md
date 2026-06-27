@@ -16,6 +16,7 @@ The suite is organized on **two axes** — and they are not the same axis:
 | `seed-hubspot.test.ts` | data | pure | — | App→HubSpot enum mappings for the seed bridge |
 | `catalog.test.ts` | data | pure | — | Open Data catalog curation + formatting (mocked fetch) |
 | `opendata.test.ts` | data | pure | — | Open Data client cache/fallback + enrichment (mocked fetch) |
+| `integrations.test.ts` | data | pure | — | PRD integration coverage, business purpose docs, status realism, sync-run traceability |
 | `opendata-route.test.ts` | backend | pure | — | Decision-enrichment route validation, cache headers, and 502 failure path |
 | `ask-route.test.ts` | backend | pure | — | Ask-the-Hub route auth, role-aware answers, refusals, citations, and read-only audit metadata |
 | `ask-agents.test.ts` | backend | pure | — | Ask-the-Hub deterministic fallback, provider synthesis, de-identified context, Open Data decision impact, and safe refusals |
@@ -81,7 +82,7 @@ after which the scripts simplify to `vitest run tests/<domain>`:
 
 ```
 tests/
-  data/        seed, matchkey, seed-hubspot, catalog, opendata, seed-fixtures
+  data/        seed, matchkey, seed-hubspot, catalog, opendata, integrations, seed-fixtures
   backend/     ask, decisions, crm-ops, budget, rbac, reconcile, payments, hubspot-webhook, outbox-worker, parity, r1-connection
   scenarios/   brief-usecases, payment-propagation-surface, phase2
   frontend/    route/component/browser tests

@@ -4,14 +4,18 @@ import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
 import type { ReactNode } from "react";
 import { MODULES, MODULE_NAV_GROUPS, moduleBySlug, moduleHref } from "@/lib/modules";
-import type { Role } from "@/lib/phase2";
+import { modulesForNavScope, type NavScope } from "@/lib/nav";
+import type { FunctionalRole, Role } from "@/lib/phase2";
 import { BrandLogo } from "./BrandLogo";
+import { NavScopeControl } from "./NavScopeControl";
 
 export type SidebarViewer = {
   id: string;
   name: string;
   title: string;
   role: Role;
+  functionalRoles: FunctionalRole[];
+  ownsModules: string[];
 };
 
 function initials(name: string): string {
@@ -149,6 +153,21 @@ const DEV_LINKS: { href: string; label: string; icon: ReactNode; exact?: boolean
     ),
   },
   {
+    href: "/dev/integrations",
+    label: "Integrations",
+    icon: (
+      <>
+        <path d="M12 2v6" />
+        <path d="M12 16v6" />
+        <path d="M4.93 4.93 9.17 9.17" />
+        <path d="m14.83 14.83 4.24 4.24" />
+        <path d="M2 12h6" />
+        <path d="M16 12h6" />
+        <circle cx="12" cy="12" r="4" />
+      </>
+    ),
+  },
+  {
     href: "/dev/agents",
     label: "Agent graph",
     icon: (
@@ -225,16 +244,21 @@ function LinkIcon({ children }: { children: ReactNode }) {
 export function Sidebar({
   viewer,
   devMode,
+  navScope = "my",
 }: {
   viewer: SidebarViewer | null;
   devMode: boolean;
+  navScope?: NavScope;
 }) {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const reportingWeek = searchParams.get("week");
   // Internal/dev surfaces are Admin-only (middleware enforces; hide them otherwise).
   const showDevLinks = viewer?.role === "admin";
-  const visibleModules = MODULES.filter((m) => !m.leaderOnly || viewer?.role === "leader");
+  const rbacModules = MODULES.filter((m) => !m.leaderOnly || viewer?.role === "leader");
+  const visibleModules = viewer
+    ? modulesForNavScope(rbacModules, viewer, navScope)
+    : rbacModules;
 
   return (
     <aside className="sticky top-0 hidden h-[100dvh] w-[248px] shrink-0 flex-col border-r border-hairline bg-side lg:flex">
@@ -248,6 +272,8 @@ export function Sidebar({
       </Link>
 
       <nav className="flex-1 overflow-y-auto px-2.5 py-3">
+        {viewer ? <NavScopeControl initialScope={navScope} /> : null}
+
         {MODULE_NAV_GROUPS.map((group) => {
           const groupModules = group.slugs
             .map(moduleBySlug)
@@ -464,7 +490,7 @@ export function Sidebar({
             <div className="min-w-0 flex-1">
               <p className="truncate text-[12px] font-semibold text-ink">{viewer.name}</p>
               <p className="mono truncate text-[10px] text-label">
-                {viewer.role} | GT Anywhere
+                {viewer.title}
               </p>
             </div>
             <a

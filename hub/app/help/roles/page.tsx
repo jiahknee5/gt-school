@@ -3,6 +3,7 @@ import { moduleBySlug, moduleHref } from "@/lib/modules";
 import {
   AGENDA,
   AGENDA_TOTAL_MINUTES,
+  NAV_SCOPE_DOCS,
   PERMISSION_TIERS,
   navSections,
   roleOwnershipMatrix,
@@ -188,6 +189,37 @@ export default function RolesPage() {
                   </li>
                 ))}
               </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* 3b. Admin assignment + nav scope */}
+      <section className="mt-12">
+        <p className="mono text-[11px] font-semibold uppercase tracking-[0.12em] text-gold">
+          Assignment &amp; menu view
+        </p>
+        <h2 className="mt-2 font-serif text-[22px] font-bold tracking-[-0.01em] text-ink">
+          Multi-role profiles &amp; sidebar view
+        </h2>
+        <p className="mt-2 max-w-[720px] text-[13px] leading-relaxed text-muted">
+          Each user has a <strong>permission tier</strong> (admin / leader / operator) assigned
+          only by Admin via <span className="mono">/dev/profiles</span>. They may also hold{" "}
+          <strong>multiple functional roles</strong> (e.g. Grassroots Owner + Content Owner) and
+          explicit module ownership. Functional roles describe org scope — they do not replace
+          security gates.
+        </p>
+        <p className="mt-2 max-w-[720px] text-[13px] leading-relaxed text-muted">
+          The sidebar <strong>View</strong> control filters which modules appear in the menu.
+          This is a soft declutter: operators still have read access to all modules per PRD
+          &sect;2; use <em>All modules</em> to see the full list. Your view choice is saved
+          per user.
+        </p>
+        <div className="mt-4 grid gap-3 sm:grid-cols-3">
+          {NAV_SCOPE_DOCS.map((doc) => (
+            <div key={doc.scope} className="rounded-card border border-hairline bg-surface p-3">
+              <p className="text-[13px] font-semibold text-ink">{doc.label}</p>
+              <p className="mt-1 text-[11px] leading-snug text-muted">{doc.description}</p>
             </div>
           ))}
         </div>

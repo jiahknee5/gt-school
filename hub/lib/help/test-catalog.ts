@@ -1,6 +1,6 @@
 // AUTO-DERIVED from the real test files (hub/tests/*.test.ts) on 2026-06-26.
 // Source of truth: each test's describe/it title. Pure files form the `npm run test:ci`
-// gate (414 tests); live files (37) need DB/HubSpot/Stripe keys and skip in CI.
+// gate (423 tests); live files (37) need DB/HubSpot/Stripe keys and skip in CI.
 // Organized by the suite taxonomy in lib/dev/suites.ts. Do not hand-edit row text;
 // regenerate from the suite when tests change.
 
@@ -81,6 +81,12 @@ export const TEST_GROUPS: TestGroup[] = [
       { test: "filters ratings by county and returns null for unknown datasets", area: "openDataFixture", file: "opendata.test.ts", kind: "pure" },
       { test: "computes a weak-district signal from stood-in data", area: "enrichDecisionByCounties (offline via fixture)", file: "opendata.test.ts", kind: "pure" },
       { test: "turns a cautious baseline decision into an approve recommendation when underserved demand is high", area: "enrichDecisionByCounties (offline via fixture)", file: "opendata.test.ts", kind: "pure" },
+      { test: "covers every required PRD and inferred operational source", area: "integration source registry", file: "integrations.test.ts", kind: "pure" },
+      { test: "documents why each source matters and how it joins into the Hub", area: "integration source registry", file: "integrations.test.ts", kind: "pure" },
+      { test: "keeps GA4 properties and social channels separated instead of blending them", area: "integration source registry", file: "integrations.test.ts", kind: "pure" },
+      { test: "creates one traceable sync run per integration account", area: "integration source registry", file: "integrations.test.ts", kind: "pure" },
+      { test: "shows deferred optional sources as explicit gaps, not fake green integrations", area: "integration source registry", file: "integrations.test.ts", kind: "pure" },
+      { test: "renders the Admin integrations tab with source docs and sync trace rows", area: "integration source registry", file: "integrations.test.ts", kind: "pure" },
       { test: "has ~2,000 families and exactly the 112-deposit fall total", area: "seed fixtures — volume & deposit total", file: "seed-fixtures.test.ts", kind: "live" },
       { test: "clicked ~52%, opened ~30%, cold ~16%, strictly monotonic", area: "seed fixtures — engagement tier is the top predictor (52/30/16)", file: "seed-fixtures.test.ts", kind: "live" },
       { test: "the 160K+ slice converts ~25%", area: "seed fixtures — income is the master variable (160K+ ~25% regardless of geo)", file: "seed-fixtures.test.ts", kind: "live" },

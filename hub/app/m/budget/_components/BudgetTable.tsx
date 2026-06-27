@@ -114,7 +114,7 @@ export function BudgetTable({ recon, viewer }: { recon: Reconciliation; viewer: 
                       </form>
                     ) : (
                       <span className="mono text-[11px] text-muted">
-                        Read-only · owned by {ownerRoleFor(row.key)}
+                        Read-only, owned by {ownerRoleFor(row.key)}
                       </span>
                     )}
                   </td>

@@ -7,7 +7,7 @@
 // No privilege is read from the request — only the verified user id from the cookie.
 
 import { NextResponse, type NextRequest } from "next/server";
-import { profileById } from "@/lib/auth/profiles";
+import { loadProfileById } from "@/lib/auth/profile-store";
 import { verifyToken } from "@/lib/auth/token";
 import { routeDecision } from "@/lib/auth/policy";
 
@@ -23,7 +23,7 @@ export async function middleware(req: NextRequest) {
 
   const token = req.cookies.get(SESSION_COOKIE)?.value;
   const userId = await verifyToken(token);
-  const role = userId ? (profileById(userId)?.role ?? null) : null;
+  const role = userId ? ((await loadProfileById(userId))?.role ?? null) : null;
 
   const decision = routeDecision(role, pathname);
   if (decision.allowed) return NextResponse.next();

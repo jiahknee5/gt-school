@@ -82,6 +82,8 @@ npm run dev                     # http://localhost:3000
   server-enforced session for **Admin / Leader / Operator** (no password). Use it to demo role
   gating (Operator → `/m/decisions` → `/forbidden`).
 - **Public funnel:** open `/gifted-quiz` (no account needed) to run the GT Challenge.
+- **Admin integrations:** sign in as Admin and open `/dev/integrations` to inspect every
+  PRD source, manual-v1 channel, deferred gap, join key, owner, and synthetic sync run.
 - **AI agents:** open `/help/ai-agents` after signing in to ask cited, role-aware
   operating questions. With `ANTHROPIC_API_KEY` + `ASK_THE_HUB_MODEL` set, the final synthesis
   uses Anthropic over de-identified RAG context; the no-key/test path is deterministic. Admins can
@@ -97,7 +99,7 @@ npm run dev                     # http://localhost:3000
 | `npm run dev` | Next dev server on `:3000` |
 | `npm run build` | Production build (`next build`) |
 | `npm run verify` | `build` + `lint` + `test:ci` — the full pure gate |
-| `npm run test:ci` | The pure test suite (no external creds) — **414 passing, 0 todo** |
+| `npm run test:ci` | The pure test suite (no external creds) — **423 passing, 0 todo** |
 | `npm run test:live` | Live integration tests (require real Supabase/HubSpot/Stripe creds) |
 | `npm run seed` / `seed:fixtures` / `reset` | Seed / generate fixtures / clear the DB |
 
@@ -130,7 +132,7 @@ lives in [`.env.example`](.env.example); deploy guidance is in `docs/SUBMISSION.
 
 ## Tests & verification
 
-`npm run verify` runs build + lint + the pure test suite (`test:ci`): **414 passing, 0 todo**,
+`npm run verify` runs build + lint + the pure test suite (`test:ci`): **423 passing, 0 todo**,
 production build clean, eslint clean. Live integration tests (`test:live`) are excluded from the
 pure gate by design — they need real credentials.
 

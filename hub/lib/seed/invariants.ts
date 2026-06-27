@@ -7,6 +7,10 @@
  */
 
 import { BUDGET_TOTAL } from "./dictionaries";
+import {
+  missingRequiredIntegrations,
+  PRD_REQUIRED_INTEGRATION_IDS,
+} from "../integrations/catalog";
 import type { SeedDataset } from "./types";
 
 export interface Check {
@@ -164,6 +168,68 @@ export function validate(ds: SeedDataset): ValidationResult {
     if (Array.isArray(v) && ds.manifest.counts[k] !== v.length) countMismatch++;
   }
   add("manifest_counts_match", countMismatch === 0, `${countMismatch} mismatched counts`);
+
+  // 12b. PRD + inferred integration registry coverage. These rows power Admin
+  //      integrations and the data dictionary; deferred sources must stay visible.
+  const missingIntegrations = missingRequiredIntegrations(ds.integration_accounts);
+  add(
+    "prd_integration_sources_covered",
+    missingIntegrations.length === 0,
+    missingIntegrations.length
+      ? `missing: ${missingIntegrations.join(", ")}`
+      : `${PRD_REQUIRED_INTEGRATION_IDS.length} required sources covered`,
+  );
+
+  const undocumented = ds.integration_accounts.filter(
+    (row) =>
+      row.business_purpose.trim().length < 40 ||
+      row.why_important.trim().length < 60 ||
+      row.module_slugs.length === 0 ||
+      (row.status !== "deferred" && row.authoritative_for.length === 0),
+  );
+  add(
+    "integration_sources_documented",
+    undocumented.length === 0,
+    undocumented.length ? `undocumented: ${undocumented.map((row) => row.integration_id).join(", ")}` : "purpose, why, modules, authority present",
+  );
+
+  const nonDeferredNoRows = ds.integration_accounts.filter(
+    (row) => row.status !== "deferred" && row.row_count <= 0,
+  );
+  const deferredWithoutGap = ds.integration_accounts.filter(
+    (row) => row.status === "deferred" && row.known_gaps.length === 0,
+  );
+  add(
+    "integration_rows_realistic",
+    nonDeferredNoRows.length === 0 && deferredWithoutGap.length === 0,
+    `${nonDeferredNoRows.length} active sources with no rows, ${deferredWithoutGap.length} deferred with no gap`,
+  );
+
+  const runIds = new Set(ds.integration_sync_runs.map((row) => row.integration_id));
+  const accountsWithoutRuns = ds.integration_accounts.filter((row) => !runIds.has(row.integration_id));
+  add(
+    "integration_sync_runs_trace_accounts",
+    accountsWithoutRuns.length === 0 && ds.integration_sync_runs.length === ds.integration_accounts.length,
+    `${accountsWithoutRuns.length} accounts without sync runs`,
+  );
+
+  const ga4Sites = new Set(
+    ds.integration_accounts
+      .filter((row) => row.integration_id.startsWith("ga4_"))
+      .map((row) => row.integration_id),
+  );
+  const x = ds.integration_accounts.find((row) => row.integration_id === "x_api");
+  const hasDeferredKnownGaps = ["read_ai_transcripts", "reconnectext_sms"].every((id) =>
+    ds.integration_accounts.some((row) => row.integration_id === id && row.status === "deferred" && row.known_gaps.length > 0),
+  );
+  add(
+    "integration_known_gaps_are_visible",
+    ga4Sites.has("ga4_gt_school") &&
+      ga4Sites.has("ga4_anywhere") &&
+      x?.status === "degraded" &&
+      hasDeferredKnownGaps,
+    `GA4 properties=${[...ga4Sites].join(", ") || "none"}, X=${x?.status ?? "missing"}, deferred gaps=${hasDeferredKnownGaps}`,
+  );
 
   // 13. UTM threading: CRM families with utm_campaign appear in Meta + GA4 stand-ins.
   const crmCampaigns = new Set(

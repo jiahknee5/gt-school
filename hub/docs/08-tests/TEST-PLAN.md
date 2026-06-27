@@ -70,7 +70,7 @@ Source of truth: `lib/dev/usecases.ts` (`useCaseCounts()`), surfaced live at `/d
 | **Total** | **49** | **1** | **0** |
 
 `npm run test:ci` (pure gate): green, no keys, < 5s. Latest pure gate:
-33 files, 414 passed, 0 todo. `tests/brief-usecases.test.ts`: all `covered`
+34 files, 423 passed, 0 todo. `tests/brief-usecases.test.ts`: all `covered`
 catalog entries are proven; there are currently no `pending` catalog entries.
 
 ## 4. Prioritized backlog

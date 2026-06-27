@@ -73,6 +73,7 @@ describe("realism of the modeled funnel", () => {
       ...ds.meta_insights, ...ds.ga4_days, ...ds.x_posts, ...ds.content_sheet,
       ...ds.summer_site_registrations, ...ds.registration_form_entries,
       ...ds.community_ambassadors, ...ds.hubspot_ambassadors,
+      ...ds.integration_accounts, ...ds.integration_sync_runs,
     ];
     expect(standIn.every((r) => r._standIn === true && typeof r._source === "string")).toBe(true);
   });

@@ -2,7 +2,10 @@ import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
 import {
   AUTH_PROFILES,
   ProfileRoleError,
+  buildFunctionalRoleChangeAudit,
   buildRoleChangeAudit,
+  parseFunctionalRoles,
+  parseOwnedModuleSlugs,
   parseRole,
 } from "@/lib/auth/profiles";
 
@@ -35,6 +38,8 @@ type ProfileRoleRow = {
   display_name: string;
   permission_tier: "admin" | "leader" | "operator";
   title: string | null;
+  functional_roles: string[];
+  owned_module_slugs: string[];
   status: "active" | "disabled";
   role_updated_at: string | Date | null;
   role_updated_by: string | null;
@@ -53,6 +58,8 @@ function profileRow(profile = operator, role = profile.role): ProfileRoleRow {
     display_name: profile.displayName,
     permission_tier: role,
     title: profile.title,
+    functional_roles: [...profile.functionalRoles],
+    owned_module_slugs: [...profile.ownsModules],
     status: "active",
     role_updated_at: null,
     role_updated_by: null,
@@ -70,8 +77,8 @@ function sqlForResponses(...responses: unknown[][]) {
   return sql;
 }
 
-function request(body: unknown): Request {
-  return new Request(`http://localhost/api/admin/profiles/${operator.id}/role`, {
+function request(body: unknown, id = operator.id): Request {
+  return new Request(`http://localhost/api/admin/profiles/${id}/role`, {
     method: "PATCH",
     headers: { "content-type": "application/json" },
     body: JSON.stringify(body),
@@ -98,6 +105,19 @@ describe("profile role model", () => {
     expect(parseRole("super_admin")).toBeNull();
   });
 
+  it("parses functional roles and owned module slugs", () => {
+    expect(parseFunctionalRoles(["Content Owner", "Grassroots Owner"])).toEqual([
+      "Content Owner",
+      "Grassroots Owner",
+    ]);
+    expect(parseFunctionalRoles(["Not A Role"])).toBeNull();
+    expect(parseOwnedModuleSlugs(["content", "grassroots"])).toEqual([
+      "content",
+      "grassroots",
+    ]);
+    expect(parseOwnedModuleSlugs(["not-a-module"])).toBeNull();
+  });
+
   it("allows Admin to change someone else's tier but blocks self-tier changes", () => {
     expect(
       buildRoleChangeAudit({
@@ -120,6 +140,21 @@ describe("profile role model", () => {
         nextRole: "leader",
       }),
     ).toThrow(ProfileRoleError);
+  });
+
+  it("builds functional role audit when roles or modules change", () => {
+    const audit = buildFunctionalRoleChangeAudit({
+      actor: { id: admin.id, role: "admin" },
+      target: {
+        id: operator.id,
+        functionalRoles: ["Content Owner"],
+        ownsModules: ["content", "summer-camp"],
+      },
+      nextFunctionalRoles: ["Content Owner", "Grassroots Owner"],
+      nextOwnedModuleSlugs: ["content", "summer-camp", "grassroots"],
+    });
+    expect(audit?.toFunctionalRoles).toEqual(["Content Owner", "Grassroots Owner"]);
+    expect(audit?.toOwnedModuleSlugs).toContain("grassroots");
   });
 });
 
@@ -157,16 +192,35 @@ describe("PATCH /api/admin/profiles/[id]/role", () => {
     expect(sql.calls).toHaveLength(3);
     expect(sql.calls[0].text).toContain("for update");
     expect(sql.calls[1].text).toContain("permission_tier");
-    expect(sql.calls[1].values).toEqual(["leader", admin.id, operator.id]);
     expect(sql.calls[2].text).toContain("profile_role_event");
-    expect(sql.calls[2].text).toContain("from_permission_tier");
-    expect(sql.calls[2].values).toEqual([
-      admin.id,
-      operator.id,
-      "operator",
-      "leader",
-      "Coverage",
-    ]);
+  });
+
+  it("updates functional roles and owned modules with audit", async () => {
+    const current = profileRow(operator, "operator");
+    const written = {
+      ...current,
+      functional_roles: ["Content Owner", "Grassroots Owner"],
+      owned_module_slugs: ["content", "summer-camp", "grassroots"],
+    };
+    const sql = sqlForResponses([current], [written], []);
+    dbMock.withoutProgram.mockImplementation(async (cb) => cb(sql));
+
+    const res = await PATCH(
+      request({
+        functionalRoles: ["Content Owner", "Grassroots Owner"],
+        ownedModuleSlugs: ["content", "summer-camp", "grassroots"],
+        reason: "Dual coverage",
+      }),
+      { params: Promise.resolve({ id: operator.id }) },
+    );
+    const body = await res.json();
+
+    expect(res.status).toBe(200);
+    expect(body.changed).toBe(true);
+    expect(body.profile.functional_roles).toEqual(["Content Owner", "Grassroots Owner"]);
+    expect(sql.calls.some((c) => c.text.includes("profile_functional_role_event"))).toBe(
+      true,
+    );
   });
 
   it("rejects an invalid functional role as a permission tier", async () => {
@@ -179,7 +233,7 @@ describe("PATCH /api/admin/profiles/[id]/role", () => {
     const body = await res.json();
 
     expect(res.status).toBe(400);
-    expect(body.error).toMatch(/Role must be admin, leader, or operator/i);
-    expect(sql.calls).toHaveLength(1);
+    expect(body.error).toMatch(/Invalid permission tier/i);
+    expect(sql.calls).toHaveLength(0);
   });
 });

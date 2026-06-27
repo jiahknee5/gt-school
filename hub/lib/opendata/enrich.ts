@@ -261,7 +261,7 @@ function buildEnrichment(
         (median !== null
           ? ` spending a median of $${Math.round(median)}/student on gifted programs`
           : "") +
-        ` — a strong "rationed public GT, free GT Anywhere" pool.`;
+        `. This is a strong "rationed public GT, free GT Anywhere" pool.`;
 
   return {
     counties,

@@ -16,6 +16,8 @@ const KIND_TINT: Record<string, string> = {
   real: "bg-green-soft text-green",
   standin: "bg-amber-soft text-amber",
   external: "bg-blue-soft text-blue",
+  manual: "bg-violet-soft text-violet",
+  deferred: "bg-red-soft text-red",
 };
 
 function SectionTitle({ kicker, title }: { kicker: string; title: string }) {
@@ -102,17 +104,17 @@ export default async function DevOverview() {
       </div>
       <p className="mt-2 text-[11px] leading-snug text-muted">
         The Hub app does not read <span className="mono">seed-data/</span> at runtime — those
-        fixtures are for walkthroughs, tests, and loading Postgres. Meta/GA4/X/summer are JSON
-        only today (no backbone table, not wired to a module yet).
+        fixtures are for walkthroughs, tests, and loading Postgres. Stood-in and manual sources
+        are fixture-backed or module-backed today, then swappable behind the same join keys.
       </p>
 
       {/* ---- data sources ---- */}
-      <SectionTitle kicker="11 systems" title="Data sources" />
+      <SectionTitle kicker={`${SOURCES.length} systems`} title="Data sources" />
       <div className="mt-2.5 overflow-x-auto rounded-card border border-hairline bg-surface shadow-sm">
         <table className="w-full border-collapse text-left">
           <thead>
             <tr className="border-b border-hairline bg-side">
-              {["System", "Kind", "Table(s)", "Join key", "Grain", "Note"].map((h) => (
+              {["System", "Kind", "Table(s)", "Join key", "Grain", "Why it matters", "Note"].map((h) => (
                 <th key={h} className="mono px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.08em] text-label">
                   {h}
                 </th>
@@ -131,6 +133,7 @@ export default async function DevOverview() {
                 <td className="mono px-2.5 py-1 text-[11px] text-slate">{s.tables}</td>
                 <td className="mono px-2.5 py-1 text-[11px] text-blue">{s.joinKey}</td>
                 <td className="px-2.5 py-1 text-[11px] text-muted">{s.grain}</td>
+                <td className="px-2.5 py-1 text-[11px] text-slate">{s.why}</td>
                 <td className="px-2.5 py-1 text-[11px] text-muted">{s.note}</td>
               </tr>
             ))}

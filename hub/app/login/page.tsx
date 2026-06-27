@@ -7,9 +7,9 @@ export const dynamic = "force-dynamic";
 export const metadata = { title: "Sign in | GT Marketing Hub" };
 
 const ROLE_BLURB: Record<string, string> = {
-  admin: "Marketing Lead — full access to every module and internal/dev surfaces.",
-  leader: "Growth leader — Decision Queue view + act (exclusive); broad read access.",
-  operator: "Module owner — read/write your module, read-only elsewhere; submit (not view) decisions.",
+  admin: "Marketing Lead with full access to every module and internal/dev surfaces.",
+  leader: "Growth leader with Decision Queue view + act access and broad read access.",
+  operator: "Module owner with read/write access to owned modules, read-only elsewhere, and submit-only decisions.",
 };
 
 function safeNext(value: string | undefined): string {
@@ -95,7 +95,7 @@ export default async function LoginPage({
           >
             GT School
           </a>{" "}
-          — a K–8 microschool for gifted learners in the{" "}
+          , a K-8 microschool for gifted learners in the{" "}
           <a
             href="https://alpha.school"
             target="_blank"

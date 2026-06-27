@@ -12,19 +12,22 @@
     "parity_snapshot": 13,
     "data_quality_issue": 5,
     "budget_workstream": 4,
+    "budget_entry": 14,
     "decisions": 5,
     "processed_events": 295,
     "sync_event_log": 3,
     "sync_outbox": 3,
     "sync_identity_map": 854,
     "meta_insights": 546,
-    "ga4_days": 622,
+    "ga4_days": 601,
     "x_posts": 4,
     "content_sheet": 16,
     "summer_site_registrations": 35,
     "registration_form_entries": 34,
     "community_ambassadors": 19,
-    "hubspot_ambassadors": 18
+    "hubspot_ambassadors": 18,
+    "integration_accounts": 22,
+    "integration_sync_runs": 22
   },
   "edgeCases": [
     "ambassador_conflict",
@@ -54,6 +57,7 @@
     "parity_snapshot",
     "data_quality_issue",
     "budget_workstream",
+    "budget_entry",
     "decisions",
     "processed_events",
     "sync_event_log",
@@ -68,6 +72,8 @@
     "summer_site_registrations",
     "registration_form_entries",
     "community_ambassadors",
-    "hubspot_ambassadors"
+    "hubspot_ambassadors",
+    "integration_accounts",
+    "integration_sync_runs"
   ]
 }

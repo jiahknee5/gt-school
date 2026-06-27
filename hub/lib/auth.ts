@@ -16,6 +16,7 @@ import {
   profileByRole,
   type UserProfile,
 } from "@/lib/auth/profiles";
+import { loadProfileById, loadProfileByRole } from "@/lib/auth/profile-store";
 
 export const SESSION_COOKIE = "gt_session";
 export const SESSION_MAX_AGE = 60 * 60 * 8; // 8 hours
@@ -35,6 +36,14 @@ export function userByRole(role: string): UserProfile | undefined {
   return profileByRole(role);
 }
 
+export async function resolveUserById(id: string): Promise<UserProfile | undefined> {
+  return loadProfileById(id);
+}
+
+export async function resolveUserByRole(role: string): Promise<UserProfile | undefined> {
+  return loadProfileByRole(role as Role);
+}
+
 /** Read + verify the session from the request cookies. Returns null if signed out. */
 export async function getSession(): Promise<SessionUser | null> {
   let token: string | undefined;
@@ -48,7 +57,7 @@ export async function getSession(): Promise<SessionUser | null> {
   }
   const userId = await verifyToken(token);
   if (!userId) return null;
-  return userById(userId) ?? null;
+  return (await loadProfileById(userId)) ?? null;
 }
 
 export async function getRole(): Promise<Role | null> {
@@ -121,12 +130,17 @@ export {
 export {
   AUTH_PROFILES,
   ProfileRoleError,
+  buildFunctionalRoleChangeAudit,
   buildRoleChangeAudit,
   canManageProfileRoles,
   normalizeRoleChangeReason,
+  parseFunctionalRoles,
+  parseOwnedModuleSlugs,
   parseRole,
   profileById,
   profileByRole,
+  allFunctionalRoles,
+  allAssignableModuleSlugs,
 } from "@/lib/auth/profiles";
 export { allowedPrograms, resolveProgramScope, ProgramScopeError } from "@/lib/auth/program";
 export type { Role } from "@/lib/phase2";

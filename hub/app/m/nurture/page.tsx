@@ -70,7 +70,7 @@ export default async function NurturePage({
       <ModuleHeader
         moduleN={5}
         title="Nurture & Lifecycle"
-        blurb="Segments, the engagement×attribute heatmap, pipeline + handoff, read-only sequence health, the PII-gated SMS inbox, and the 24-hour follow-up SLA. Engagement tier and conversion are measured from disjoint fields, so the heatmap is a real predictor — not a tautology."
+        blurb="Segments, the engagement-by-attribute heatmap, pipeline + handoff, read-only sequence health, the PII-gated SMS inbox, and the 24-hour follow-up SLA. Engagement tier and conversion are measured from disjoint fields, so the heatmap is a real predictor, not a tautology."
         viewerName={viewer.name}
         viewerTitle={viewer.title}
         viewerRole={viewer.role}
@@ -101,7 +101,7 @@ export default async function NurturePage({
                     </div>
                   ))}
                   <p className="pt-1.5 text-[11px] text-muted">
-                    n per tier: {tierConv.map((t) => `${t.tier} ${t.n}`).join(" · ")}
+                    n per tier: {tierConv.map((t) => `${t.tier} ${t.n}`).join(", ")}
                   </p>
                 </div>
               </Card>
@@ -164,11 +164,11 @@ export default async function NurturePage({
                         <Pill tone={s.healthy ? "good" : "risk"}>{s.healthy ? "healthy" : "review"}</Pill>
                       </div>
                       <p className="mt-0.5 text-[11px] text-muted">
-                        {s.type} · {s.audienceSize.toLocaleString()} in audience · open {pct(s.openRate * 100)} · click {pct(s.clickRate * 100)} · conv {pct(s.convRate * 100)}
+                        {s.type}, {s.audienceSize.toLocaleString()} in audience, open {pct(s.openRate * 100)}, click {pct(s.clickRate * 100)}, conv {pct(s.convRate * 100)}
                       </p>
                       <div className="mt-1.5 flex gap-1.5">
-                        <Pill tone="neutral">Approve → Decision</Pill>
-                        <Pill tone="neutral">Kill → Decision</Pill>
+                        <Pill tone="neutral">Approve to Decision</Pill>
+                        <Pill tone="neutral">Kill to Decision</Pill>
                       </div>
                     </div>
                   ))}
@@ -319,7 +319,7 @@ function SmsInbox({
                 <Pill tone="risk">Opted out (STOP)</Pill>
               )}
               <Pill tone={canHot ? "good" : "neutral"}>
-                {canHot ? "Flag hot-family → Decision" : "Flag (Leader-only)"}
+                {canHot ? "Flag hot-family to Decision" : "Flag (Leader-only)"}
               </Pill>
             </div>
           </div>

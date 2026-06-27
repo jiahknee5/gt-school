@@ -337,6 +337,60 @@ export interface HubspotAmbassador extends StandIn {
   match_key: string | null;
 }
 
+export type IntegrationStatus = "connected" | "degraded" | "standin" | "manual" | "deferred";
+export type IntegrationCategory =
+  | "crm"
+  | "payments"
+  | "database"
+  | "ads"
+  | "analytics"
+  | "content"
+  | "program"
+  | "community"
+  | "voice"
+  | "public-data"
+  | "manual";
+export type IntegrationPhase = "phase_1" | "phase_2" | "both";
+
+/** Admin integration registry row — fixture-only control-plane data. */
+export interface IntegrationAccount extends StandIn {
+  integration_id: string;
+  system: string;
+  display_name: string;
+  category: IntegrationCategory;
+  status: IntegrationStatus;
+  phase: IntegrationPhase;
+  connector_kind: "api" | "webhook" | "database" | "file" | "manual" | "computed";
+  synthetic_mode: "live-ready" | "fixture-backed" | "manual-v1" | "deferred";
+  owner_role: string;
+  business_purpose: string;
+  why_important: string;
+  entities: string[];
+  authoritative_for: string[];
+  module_slugs: string[];
+  join_keys: string[];
+  privacy_notes: string;
+  freshness_sla_minutes: number | null;
+  last_sync_at: string | null;
+  row_count: number;
+  health_score: number;
+  known_gaps: string[];
+}
+
+/** Recent synthetic sync run row for Admin integration monitoring. */
+export interface IntegrationSyncRun extends StandIn {
+  run_id: string;
+  integration_id: string;
+  started_at: string;
+  completed_at: string | null;
+  status: "success" | "warning" | "failed" | "skipped";
+  records_read: number;
+  records_written: number;
+  records_errored: number;
+  lag_minutes: number;
+  notes: string;
+}
+
 // --------------------------------- the dataset ---------------------------------
 
 export interface SeedManifest {
@@ -382,6 +436,8 @@ export interface SeedDataset {
   registration_form_entries: RegistrationFormEntry[];
   community_ambassadors: CommunityAmbassador[];
   hubspot_ambassadors: HubspotAmbassador[];
+  integration_accounts: IntegrationAccount[];
+  integration_sync_runs: IntegrationSyncRun[];
 }
 
 export interface GenerateOptions {

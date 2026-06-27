@@ -9,6 +9,10 @@
  */
 
 import { matchKey } from "../connectors/SourceConnector";
+import {
+  buildIntegrationAccounts,
+  buildIntegrationSyncRuns,
+} from "../integrations/catalog";
 import { makeRng, type Rng } from "./rng";
 import {
   BUDGET,
@@ -533,6 +537,7 @@ export function generate(opts: GenerateOptions = {}): SeedDataset {
         "meta_insights", "ga4_days", "x_posts", "content_sheet",
         "summer_site_registrations", "registration_form_entries",
         "community_ambassadors", "hubspot_ambassadors",
+        "integration_accounts", "integration_sync_runs",
       ],
     },
     programs,
@@ -552,7 +557,12 @@ export function generate(opts: GenerateOptions = {}): SeedDataset {
     sync_outbox: outbox,
     sync_identity_map: identityMap,
     ...standIn,
+    integration_accounts: [],
+    integration_sync_runs: [],
   };
+
+  dataset.integration_accounts = buildIntegrationAccounts(dataset);
+  dataset.integration_sync_runs = buildIntegrationSyncRuns(dataset);
 
   // counts for the manifest
   for (const [k, v] of Object.entries(dataset)) {

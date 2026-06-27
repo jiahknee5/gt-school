@@ -36,6 +36,7 @@ export const SUITES: Suite[] = [
       { file: "tests/seed-hubspot.test.ts", kind: "pure", needs: [], what: "App→HubSpot enum mappings for the seed bridge." },
       { file: "tests/catalog.test.ts", kind: "pure", needs: [], what: "Open Data catalog curation + formatting (mocked fetch)." },
       { file: "tests/opendata.test.ts", kind: "pure", needs: [], what: "Open Data client cache/fallback + enrichment (mocked fetch)." },
+      { file: "tests/integrations.test.ts", kind: "pure", needs: [], what: "PRD integration coverage, business purpose docs, status realism, sync-run traceability." },
       { file: "tests/seed-fixtures.test.ts", kind: "live", needs: ["db"], what: "Spec-mandated rates + stress cases against seeded Postgres." },
     ],
   },

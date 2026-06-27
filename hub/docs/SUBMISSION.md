@@ -26,7 +26,7 @@ The guiding principle was **honesty over theater**: real code paths where it mat
 stand-ins everywhere else, and gaps tracked rather than faked green.
 
 **Verification in one line:** `npm run verify` (build + lint + `test:ci`). Current status:
-**414 tests passing, 0 todo**; production build clean; eslint clean.
+**423 tests passing, 0 todo**; production build clean; eslint clean.
 
 ---
 
@@ -127,6 +127,11 @@ and full live aggregate adapters remain hardening work beyond the pure demo gate
   asserted by tests.
 - **Budget is exactly $365K** across 4 workstreams (`lib/seed/dictionaries.ts`), reconciled by
   summation in one place — no figure is computed two ways.
+- **Integration registry is explicit.** `/dev/integrations` and
+  `integration_accounts`/`integration_sync_runs` document every PRD source, manual-v1
+  channel, deferred gap, owner, authoritative facts, join keys, privacy notes, row counts,
+  and synthetic sync runs. GT Challenge capture is included as the necessary inferred source
+  because it connects spend, public capture, lead routing, and CPQL.
 
 ---
 
@@ -284,7 +289,7 @@ Full annotated list lives in `.env.example`. **Never commit `.env.local` or real
 
 ## 10. Proof index
 
-- `npm run verify` → build + lint + `test:ci` (**414 passing, 0 todo**).
+- `npm run verify` → build + lint + `test:ci` (**423 passing, 0 todo**).
 - Backbone/security: `tests/rbac.test.ts`, `tests/payments.test.ts`, `tests/parity.test.ts`,
   `tests/reconcile.test.ts`.
 - Product: `tests/budget.test.ts`, `tests/decisions.test.ts` (incl. the new S6 audit trail),

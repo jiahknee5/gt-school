@@ -77,7 +77,7 @@ export default async function AdmissionsPage({
       <ModuleHeader
         moduleN={9}
         title="Admissions & Voice of Customer"
-        blurb="The feedback-to-marketing loop: objections logged as real spans (de-duped, theme-validated), the objection→content bridge, consent-gated Voice of Families, and a closure-tracked feedback loop. Pipeline numbers read app_form; quotes never surface without consent."
+        blurb="The feedback-to-marketing loop: objections logged as real spans (de-duped, theme-validated), the objection-to-content bridge, consent-gated Voice of Families, and a closure-tracked feedback loop. Pipeline numbers read app_form; quotes never surface without consent."
         viewerName={viewer.name}
         viewerTitle={viewer.title}
         viewerRole={viewer.role}
@@ -98,7 +98,7 @@ export default async function AdmissionsPage({
             <Tabs tabs={TABS} active={activeTab} hrefFor={hrefFor} />
 
             {activeTab === "overview" && (
-              <Card title="Top objections this period" note={`${flags} inbound hot-family/decision signals · pipeline reads app_form`}>
+              <Card title="Top objections this period" note={`${flags} inbound hot-family/decision signals. Pipeline reads app_form.`}>
                 <div className="space-y-1.5">
                   {top.map((t) => (
                     <div key={t.theme} className="flex items-center justify-between rounded-card border border-hairline bg-canvas px-2.5 py-1.5">
@@ -160,7 +160,7 @@ export default async function AdmissionsPage({
                       <p className="mt-0.5 text-[11px] text-muted">{b.suggestedAngle}</p>
                       {b.freqAfter !== null && (
                         <p className="mt-0.5 text-[11px] text-muted">
-                          freq {b.freqBefore} → {b.freqAfter} (correlational, 14-day window)
+                          freq {b.freqBefore} to {b.freqAfter} (correlational, 14-day window)
                         </p>
                       )}
                     </div>
@@ -207,7 +207,7 @@ export default async function AdmissionsPage({
                         <Pill tone={f.status === "actioned" ? "good" : f.status === "open" ? "watch" : "neutral"}>{f.status}</Pill>
                       </div>
                       <p className="mt-0.5 text-[11px] text-muted">{f.note}</p>
-                      {f.actionable && <p className="mt-0.5 text-[11px] text-gold">→ chip in Nurture{f.decisionId ? " · submitted to Decision Queue" : ""}</p>}
+                      {f.actionable && <p className="mt-0.5 text-[11px] text-gold">Chip in Nurture{f.decisionId ? ", submitted to Decision Queue" : ""}</p>}
                     </div>
                   ))}
                 </div>
@@ -233,7 +233,7 @@ export default async function AdmissionsPage({
                   : "Operator/Admin: you may submit feedback to the Decision Queue but not view/act on it here."}
               </p>
               <Link href={decisionStatusHref(viewer.role)} className="mt-2 inline-flex text-[11px] font-semibold text-gold hover:underline">
-                {decisionStatusLabel(viewer.role)} →
+                {decisionStatusLabel(viewer.role)}
               </Link>
             </section>
           </aside>

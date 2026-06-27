@@ -4,13 +4,7 @@
 // mode is off and no real IdP is configured, login is refused (no insecure fallback).
 
 import { NextResponse, type NextRequest } from "next/server";
-import {
-  DEV_MODE,
-  createSessionToken,
-  sessionCookie,
-  userById,
-  userByRole,
-} from "@/lib/auth";
+import { DEV_MODE, createSessionToken, sessionCookie, resolveUserById, resolveUserByRole } from "@/lib/auth";
 
 function safeNext(value: string | null): string {
   if (!value || !value.startsWith("/") || value.startsWith("//")) return "/";
@@ -49,7 +43,11 @@ async function handle(req: NextRequest) {
     );
   }
 
-  const user = userId ? userById(userId) : role ? userByRole(role) : undefined;
+  const user = userId
+    ? await resolveUserById(userId)
+    : role
+      ? await resolveUserByRole(role)
+      : undefined;
   if (!user) {
     return NextResponse.json({ error: "Unknown dev user or role." }, { status: 400 });
   }

@@ -157,3 +157,33 @@ export function navSections(): { group: ModuleNavGroup; modules: ModuleDef[] }[]
 }
 
 export { modulesInAgendaOrder };
+
+// ───────────────────────────── Nav scope (soft filter) ─────────────────────────────
+
+export interface NavScopeDoc {
+  scope: "my" | "all" | "agenda";
+  label: string;
+  description: string;
+}
+
+/** Sidebar view modes — soft declutter only; RBAC gates are unchanged. */
+export const NAV_SCOPE_DOCS: NavScopeDoc[] = [
+  {
+    scope: "my",
+    label: "My modules",
+    description:
+      "Default. Shows modules you own or that match your functional role(s), plus Home, Dashboard, and Library. Hides other modules from the menu but does not block routes.",
+  },
+  {
+    scope: "all",
+    label: "All modules",
+    description:
+      "Full module list (still subject to permission-tier gates like the Leadership-only Decision Queue). Operators retain read access per PRD §2.",
+  },
+  {
+    scope: "agenda",
+    label: "Meeting agenda",
+    description:
+      "Modules in §5 weekly-meeting order — useful during the Monday leadership ritual.",
+  },
+];

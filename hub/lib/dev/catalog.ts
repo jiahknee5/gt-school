@@ -115,25 +115,37 @@ export const DATA_STORES: DataStore[] = [
 
 export interface SourceRow {
   system: string;
-  kind: "real" | "standin" | "external";
+  kind: "real" | "standin" | "external" | "manual" | "deferred";
   tables: string;
   joinKey: string;
   grain: string;
   note: string;
+  why: string;
 }
 
 export const SOURCES: SourceRow[] = [
-  { system: "HubSpot", kind: "real", tables: "families, enrollments", joinKey: "match_key, hubspot_contact_id", grain: "contact / deal", note: "CRM source of truth for lifecycle, lead_score, source." },
-  { system: "Stripe", kind: "real", tables: "payments", joinKey: "stripe_payment_intent_id", grain: "payment intent / event", note: "Money facts. Intent id is unique = idempotency layer." },
-  { system: "Hub DB", kind: "real", tables: "budget_workstream, decisions, parity_snapshot, field_state, data_quality_issue", joinKey: "—", grain: "various", note: "Hub-owned: budget, Decision Queue, parity + conflict state." },
-  { system: "Meta", kind: "standin", tables: "meta_insights", joinKey: "utm_campaign", grain: "campaign × date × platform", note: "Marketing API shape. Leads deliberately over-report vs CRM (attribution gap)." },
-  { system: "GA4", kind: "standin", tables: "ga4_days", joinKey: "utm_campaign", grain: "date × site × campaign × landing page", note: "Data API shape. Loose join on purpose (uninstrumented steps)." },
-  { system: "X (Twitter)", kind: "standin", tables: "x_posts", joinKey: "utm_campaign (in link)", grain: "one row per tweet", note: "API v2 metrics. url_link_clicks → GA4 sessions." },
-  { system: "Google Sheets", kind: "standin", tables: "content_sheet", joinKey: "utm_campaign", grain: "one row per content piece", note: "Content calendar; status pipeline." },
-  { system: "summer.gt.school", kind: "standin", tables: "summer_site_registrations", joinKey: "match_key", grain: "one row per registration", note: "Transactional. Reconciles against the registration form + HubSpot deals." },
-  { system: "Registration form", kind: "standin", tables: "registration_form_entries", joinKey: "match_key", grain: "one row per submission", note: "Second source for camp signups → dual-source dedup." },
-  { system: "community.gt.school", kind: "standin", tables: "community_ambassadors", joinKey: "match_key", grain: "one row per ambassador", note: "Reconciles against HubSpot ambassador status." },
-  { system: "Open Data (TEA)", kind: "external", tables: "(queried at decision time)", joinKey: "county / district", grain: "PEIMS / STAAR / A–F", note: "Read-only enrichment via lib/opendata. Live API + cache + fixture fallback." },
+  { system: "Supabase app_form", kind: "real", tables: "families, children, program_membership, enrollments", joinKey: "family_id, match_key, program_id, utm_campaign", grain: "family / child / program membership", note: "App-authoritative funnel, TEFA, income, grade, and program-scoped records.", why: "The dashboard's conversion math depends on the app source of truth, not unreliable HubSpot mirror fields." },
+  { system: "HubSpot CRM", kind: "real", tables: "families, enrollments, field_state", joinKey: "hubspot_contact_id, hubspot_deal_id, match_key", grain: "contact / deal / synced field", note: "CRM source for lifecycle, lead_score, source, email engagement, and pipeline.", why: "Staff work in HubSpot, while the Hub proves which fields can be trusted and which must yield to app_form." },
+  { system: "HubSpot Conversations", kind: "standin", tables: "sms_threads, objections, family_quotes", joinKey: "family_id, thread_id, source_ref", grain: "conversation / theme", note: "Admissions and Nurture voice-of-customer inputs.", why: "Family questions and objections drive content, follow-up, and hot-family escalation decisions." },
+  { system: "HubSpot Sequences", kind: "standin", tables: "sequences, sequence_steps, email_events", joinKey: "seq_id, hubspot_contact_id", grain: "sequence / step", note: "Read-only sequence health and conversion view.", why: "Nurture performance is a primary PRD signal and should not require operators to reconcile HubSpot manually." },
+  { system: "HubSpot Reporting API", kind: "standin", tables: "report_widgets, saved_filters", joinKey: "hubspot_report_id, source", grain: "saved report widget", note: "Dashboard mirror for leadership meeting rows.", why: "Leadership sees HubSpot dashboard context beside Hub-owned metrics without logging into another system." },
+  { system: "Stripe", kind: "real", tables: "payments, processed_events, sync_event_log", joinKey: "stripe_payment_intent_id, stripe_event_id, program_id", grain: "payment intent / event", note: "Money facts. Intent id is unique = idempotency layer.", why: "Phase 1 only works if payments replay, retry, refund, and stay isolated to the right program." },
+  { system: "Open Data (TEA)", kind: "external", tables: "district_ratings, finance_rows, county_enrichment", joinKey: "county, district, year", grain: "district / county / year", note: "Read-only enrichment via live API, cache, and fixture fallback.", why: "A public-school signal must be able to change a decision instead of acting as decorative context." },
+  { system: "Meta Business Suite", kind: "standin", tables: "meta_insights", joinKey: "utm_campaign, campaign_id, publisher_platform", grain: "campaign x date x platform", note: "Marketing API shape. Leads deliberately over-report vs CRM.", why: "Paid-social spend and platform leads must reconcile against CRM so CAC conversations stay honest." },
+  { system: "X API", kind: "standin", tables: "x_posts", joinKey: "utm_campaign, tweet_id", grain: "one row per post", note: "API v2 metrics. One stale connector is intentional.", why: "The PRD treats X as a conviction channel, so it must remain separate from Meta and visibly stale when stale." },
+  { system: "GA4 - gt.school", kind: "standin", tables: "ga4_days", joinKey: "utm_campaign, landingPage, site", grain: "date x site x campaign x landing page", note: "Public site sessions, pages, PDF downloads, and conversions.", why: "Public-site demand has to reconcile with UTM capture and content performance, not live as vanity traffic." },
+  { system: "GA4 - anywhere.gt.school", kind: "standin", tables: "ga4_days", joinKey: "utm_campaign, landingPage, site", grain: "date x site x campaign x landing page", note: "Product site sessions and lead events as a separate property.", why: "Cross-site totals should be summed intentionally and not double-counted across linked properties." },
+  { system: "Google Sheets", kind: "standin", tables: "content_sheet", joinKey: "sheet_row_id, utm_campaign", grain: "one row per content piece", note: "Content Owner production tracker.", why: "The production sheet is the PRD source of truth for content status, owner, target date, and planned UTM." },
+  { system: "summer.gt.school", kind: "standin", tables: "summer_site_registrations", joinKey: "match_key, registration_id, program_id", grain: "one row per registration", note: "Transactional camp source reconciled against form and deals.", why: "Summer Camp is the clearest dual-source reconciliation test and ties directly to Phase 1 isolation." },
+  { system: "Registration form", kind: "standin", tables: "registration_form_entries", joinKey: "match_key, form_id", grain: "one row per submission", note: "Alternate camp intake path.", why: "Without this feed, duplicate camp signups would inflate capacity, revenue, and conversion numbers." },
+  { system: "GT Challenge capture", kind: "standin", tables: "gifted_quiz_submissions, gifted_quiz_leads", joinKey: "utm_campaign, match_key, campaign_key", grain: "submission / deduped lead", note: "Public quiz capture, scoring, and qualified-lead routing.", why: "This campaign closes the loop from spend to capture to CRM lead to Fall Enrollment routing and CPQL." },
+  { system: "community.gt.school", kind: "standin", tables: "community_ambassadors, hubspot_ambassadors", joinKey: "match_key, community_id, hubspot_contact_id", grain: "one row per ambassador", note: "Dual-source ambassador reconciliation.", why: "Grassroots counts and referral performance are not trustworthy unless community and HubSpot are collapsed by person." },
+  { system: "Hub manual workflows", kind: "manual", tables: "budget_entry, budget_workstream, decisions, field_events, resources", joinKey: "workstream_key, decision_id, event_id, resource_id", grain: "manual operating fact", note: "Hub-owned budget, decisions, field events, and linked resources.", why: "Budget and Decision Queue are systems of record inside the Hub; faking them as external sheets would break source-of-truth rules." },
+  { system: "Google Drive / Docs", kind: "manual", tables: "resources, linked_docs", joinKey: "resource_id, url", grain: "document link", note: "Resource Library links, visibility, provenance, and link health.", why: "Operators need to trust which shared assets are current, visible, and safe to use." },
+  { system: "Substack", kind: "manual", tables: "manual_audience", joinKey: "channel", grain: "weekly channel rollup", note: "Manual v1 newsletter audience.", why: "The channel matters in content summaries, but a full connector is not justified before core CRM and payment data are solid." },
+  { system: "Podcast platform", kind: "manual", tables: "manual_audience", joinKey: "channel", grain: "weekly channel rollup", note: "Manual v1 podcast listens.", why: "The channel belongs in high-level summaries, but manual entry is enough until it affects budget decisions." },
+  { system: "Read.ai", kind: "deferred", tables: "call_transcripts", joinKey: "meeting_id, family_id", grain: "transcript", note: "Optional admissions transcript enrichment.", why: "Useful for family voice, but the PRD makes Conversations and manual notes primary, so it stays out of the critical path." },
+  { system: "Reconnectext", kind: "deferred", tables: "sms_send_rate", joinKey: "phone, message_id", grain: "message metric", note: "Known unmeasurable SMS send-rate gap.", why: "The PRD explicitly names this as a measurement hole; the Hub should show the gap rather than fake a green source." },
 ];
 
 // ============================ architecture ============================
@@ -694,6 +706,61 @@ export const TABLES: TableDef[] = [
       { name: "email", type: "text", note: "Email." },
       { name: "ambassador_status", type: "text", note: "HubSpot-side status (may conflict)." },
       { name: "match_key", type: "text", note: "Reconciliation key.", tags: ["key"] },
+    ],
+  },
+  {
+    name: "integration_accounts",
+    zone: "standin",
+    title: "Admin integration source registry",
+    sourceOfTruth: "Stand-in (hub_integration_registry)",
+    why: "Control-plane inventory for every PRD data source and the necessary inferred GT Challenge source. It documents owner, status, business purpose, why the data matters, source authority, join keys, privacy notes, row counts, known gaps, and freshness so Admins can tell real connectors from fixture-backed or deferred sources.",
+    relationships: ["integration_id -> integration_sync_runs.integration_id"],
+    fields: [
+      { name: "_standIn", type: "true", note: "Honest stand-in marker for the registry row.", tags: ["fixture"] },
+      { name: "_source", type: "text", note: "hub_integration_registry.", tags: ["fixture"] },
+      { name: "integration_id", type: "text", note: "Stable integration key used in tests and sync-run traceability.", tags: ["key"] },
+      { name: "system", type: "text", note: "External system or Hub-owned manual workflow." },
+      { name: "display_name", type: "text", note: "Admin-facing label." },
+      { name: "category", type: "text", note: "crm | payments | database | ads | analytics | content | program | community | voice | public-data | manual." },
+      { name: "status", type: "text", note: "connected | degraded | standin | manual | deferred." },
+      { name: "phase", type: "text", note: "phase_1 | phase_2 | both." },
+      { name: "connector_kind", type: "text", note: "api | webhook | database | file | manual | computed." },
+      { name: "synthetic_mode", type: "text", note: "live-ready | fixture-backed | manual-v1 | deferred." },
+      { name: "owner_role", type: "text", note: "Business owner accountable for the source." },
+      { name: "business_purpose", type: "text", note: "What business workflow this source supports." },
+      { name: "why_important", type: "text", note: "Why this data is necessary for the company and dashboard, not just why it exists." },
+      { name: "entities", type: "array", note: "Modeled records or module-backed fixtures represented by the source." },
+      { name: "authoritative_for", type: "array", note: "Facts this source is allowed to own." },
+      { name: "module_slugs", type: "array", note: "Hub modules that consume the source." },
+      { name: "join_keys", type: "array", note: "Keys used to connect this source to families, campaigns, programs, or documents.", tags: ["key"] },
+      { name: "privacy_notes", type: "text", note: "PII, consent, and aggregation guidance." },
+      { name: "freshness_sla_minutes", type: "number", note: "Expected sync freshness; null when deferred." },
+      { name: "last_sync_at", type: "timestamptz", note: "Most recent modeled sync; null when deferred." },
+      { name: "row_count", type: "number", note: "Modeled source volume or module-backed fixture count." },
+      { name: "health_score", type: "number", note: "Admin summary score derived from status and known gaps." },
+      { name: "known_gaps", type: "array", note: "Explicit limitations, stale states, deferred work, or measurement holes." },
+    ],
+  },
+  {
+    name: "integration_sync_runs",
+    zone: "standin",
+    title: "Recent integration sync runs",
+    sourceOfTruth: "Stand-in (hub_integration_registry)",
+    why: "Traceability row per integration account. Admins can see whether a source synced, was skipped, produced warnings, wrote downstream records, or is lagging behind its freshness SLA.",
+    relationships: ["integration_id -> integration_accounts.integration_id"],
+    fields: [
+      { name: "_standIn", type: "true", note: "Honest stand-in marker for the sync run.", tags: ["fixture"] },
+      { name: "_source", type: "text", note: "hub_integration_registry.", tags: ["fixture"] },
+      { name: "run_id", type: "text", note: "Stable synthetic run id.", tags: ["pk"] },
+      { name: "integration_id", type: "text", note: "Foreign key to integration_accounts.integration_id.", tags: ["fk", "key"] },
+      { name: "started_at", type: "timestamptz", note: "Modeled sync start." },
+      { name: "completed_at", type: "timestamptz", note: "Modeled sync completion; null for deferred/skipped sources." },
+      { name: "status", type: "text", note: "success | warning | failed | skipped." },
+      { name: "records_read", type: "number", note: "Rows or source facts inspected." },
+      { name: "records_written", type: "number", note: "Downstream rows written or updated." },
+      { name: "records_errored", type: "number", note: "Rows that could not be processed." },
+      { name: "lag_minutes", type: "number", note: "Age relative to the dataset as-of clock." },
+      { name: "notes", type: "text", note: "Human-readable run outcome or gap." },
     ],
   },
 ];

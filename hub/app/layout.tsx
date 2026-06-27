@@ -6,6 +6,7 @@ import { Sidebar } from "./_components/Sidebar";
 import { TopBar } from "./_components/TopBar";
 import { TourProvider } from "./_components/GuidedTour";
 import { DEV_MODE, getSession } from "@/lib/auth";
+import { getNavScopeForUser } from "@/lib/nav-preference";
 
 // gt.school body face is Inter Tight (Webflow --font-family--body). Kept under the
 // existing --font-inter variable so globals.css / every component stays untouched.
@@ -43,8 +44,16 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const session = await getSession();
+  const navScope = session ? await getNavScopeForUser(session.id) : "my";
   const viewer = session
-    ? { id: session.id, name: session.name, title: session.title, role: session.role }
+    ? {
+        id: session.id,
+        name: session.name,
+        title: session.title,
+        role: session.role,
+        functionalRoles: session.functionalRoles,
+        ownsModules: session.ownsModules,
+      }
     : null;
 
   return (
@@ -55,11 +64,11 @@ export default async function RootLayout({
         <TourProvider>
           <div className="flex min-h-screen bg-canvas">
             <Suspense fallback={null}>
-              <Sidebar viewer={viewer} devMode={DEV_MODE} />
+              <Sidebar viewer={viewer} devMode={DEV_MODE} navScope={navScope} />
             </Suspense>
             <div className="min-w-0 flex-1">
               <Suspense fallback={null}>
-                <TopBar viewer={viewer} devMode={DEV_MODE} />
+                <TopBar viewer={viewer} devMode={DEV_MODE} navScope={navScope} />
               </Suspense>
               {children}
             </div>

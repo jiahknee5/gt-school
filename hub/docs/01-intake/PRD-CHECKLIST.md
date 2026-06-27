@@ -18,7 +18,7 @@ are the walkthrough video, browser-level workflow proof, and live DB-backed GT C
 E1 has a deterministic `/dev/payments` watcher with a live DB path when credentials are present.
 Ask-the-Hub now has role-aware, cited, read-only AI agents in Help, Anthropic-backed synthesis when
 configured, deterministic fallback, and dev graph/eval traceability. Latest local verification:
-`npm run verify` passes with **414 tests passed, 0 todo**.
+`npm run verify` passes with **423 tests passed, 0 todo**.
 
 ## A. Submission deliverables (meta — all ★ P0)
 

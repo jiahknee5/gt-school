@@ -5,8 +5,9 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useId, useMemo, useState, type ChangeEvent } from "react";
 import { defaultReportingWeek, weekMondays } from "@/lib/metrics/registry";
 import { MODULES, moduleHref } from "@/lib/modules";
+import { modulesForNavScope, type NavScope } from "@/lib/nav";
 import { devRoleSwitchUsers } from "@/lib/auth/dev-role-switcher";
-import { type Role } from "@/lib/phase2";
+import { type FunctionalRole, type Role } from "@/lib/phase2";
 import { BrandLogo } from "./BrandLogo";
 import { HomeWidgetPicker } from "./HomeWidgetPicker";
 
@@ -15,6 +16,8 @@ export type TopBarViewer = {
   name: string;
   title: string;
   role: Role;
+  functionalRoles: FunctionalRole[];
+  ownsModules: string[];
 };
 
 function daysToCutoff() {
@@ -126,9 +129,11 @@ function WeekContextControl({
 export function TopBar({
   viewer,
   devMode,
+  navScope = "my",
 }: {
   viewer: TopBarViewer | null;
   devMode: boolean;
+  navScope?: NavScope;
 }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -143,7 +148,10 @@ export function TopBar({
       : defaultReportingWeek();
   const explicitWeek = searchParams.get("week");
   const scopedWeek = explicitWeek && weeks.includes(explicitWeek) ? explicitWeek : null;
-  const visibleModules = MODULES.filter((module) => !module.leaderOnly || viewer?.role === "leader");
+  const rbacModules = MODULES.filter((module) => !module.leaderOnly || viewer?.role === "leader");
+  const visibleModules = viewer
+    ? modulesForNavScope(rbacModules, viewer, navScope)
+    : rbacModules;
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);

@@ -1,0 +1,922 @@
+[
+  {
+    "_standIn": true,
+    "_source": "hub_integration_registry",
+    "integration_id": "supabase_app_form",
+    "system": "Supabase app_form",
+    "display_name": "GT Anywhere application database",
+    "category": "database",
+    "status": "connected",
+    "phase": "both",
+    "connector_kind": "database",
+    "synthetic_mode": "live-ready",
+    "owner_role": "Marketing Lead",
+    "business_purpose": "Own the application funnel, TEFA, income band, grade, identities, and program-scoped records.",
+    "why_important": "This is the PRD source of truth for conversion math. If it drifts, the dashboard cannot answer who applied, who deposited, or which segment is real.",
+    "entities": [
+      "families",
+      "children",
+      "program_membership",
+      "enrollments",
+      "field_state"
+    ],
+    "authoritative_for": [
+      "funnel_stage",
+      "tefa_status",
+      "income_band",
+      "grade",
+      "match_key"
+    ],
+    "module_slugs": [
+      "home",
+      "dashboard",
+      "nurture",
+      "crm-ops",
+      "summer-camp"
+    ],
+    "join_keys": [
+      "family_id",
+      "match_key",
+      "program_id",
+      "utm_campaign"
+    ],
+    "privacy_notes": "Contains family and child records. App views aggregate or role-scope this data.",
+    "freshness_sla_minutes": 15,
+    "known_gaps": [],
+    "last_sync_at": "2026-08-30T23:52:00.000Z",
+    "row_count": 4744,
+    "health_score": 96
+  },
+  {
+    "_standIn": true,
+    "_source": "hub_integration_registry",
+    "integration_id": "hubspot_crm",
+    "system": "HubSpot CRM",
+    "display_name": "Contacts, deals, lead score, engagement",
+    "category": "crm",
+    "status": "connected",
+    "phase": "both",
+    "connector_kind": "api",
+    "synthetic_mode": "live-ready",
+    "owner_role": "Marketing Lead",
+    "business_purpose": "Mirror contacts, deals, lifecycle, source, score, and engagement back to the Hub.",
+    "why_important": "HubSpot is where staff see everyone, but unreliable fields must not override app_form truth. The sync engine proves that split authority.",
+    "entities": [
+      "families",
+      "enrollments",
+      "field_state",
+      "parity_snapshot",
+      "data_quality_issue"
+    ],
+    "authoritative_for": [
+      "lifecycle_stage",
+      "lead_score",
+      "source",
+      "email engagement",
+      "deal pipeline"
+    ],
+    "module_slugs": [
+      "dashboard",
+      "nurture",
+      "crm-ops",
+      "grassroots",
+      "content"
+    ],
+    "join_keys": [
+      "hubspot_contact_id",
+      "hubspot_deal_id",
+      "match_key"
+    ],
+    "privacy_notes": "Contact-level CRM data. The Hub returns aggregate summaries unless a role has a reason to see details.",
+    "freshness_sla_minutes": 60,
+    "known_gaps": [
+      "TEFA, income, and source are known unreliable as HubSpot fields."
+    ],
+    "last_sync_at": "2026-08-30T23:19:00.000Z",
+    "row_count": 11820,
+    "health_score": 88
+  },
+  {
+    "_standIn": true,
+    "_source": "hub_integration_registry",
+    "integration_id": "hubspot_conversations",
+    "system": "HubSpot Conversations",
+    "display_name": "GT Anywhere SMS and family voice inbox",
+    "category": "voice",
+    "status": "standin",
+    "phase": "phase_2",
+    "connector_kind": "api",
+    "synthetic_mode": "fixture-backed",
+    "owner_role": "Admissions Owner",
+    "business_purpose": "Feed SMS themes, objections, hot-family flags, and consent-safe family quotes.",
+    "why_important": "Admissions and Nurture need to know what families are actually asking before content or follow-up decisions are made.",
+    "entities": [
+      "sms_threads",
+      "objections",
+      "family_quotes"
+    ],
+    "authoritative_for": [
+      "sms themes",
+      "objection themes",
+      "inbound reply state"
+    ],
+    "module_slugs": [
+      "home",
+      "nurture",
+      "admissions",
+      "content"
+    ],
+    "join_keys": [
+      "family_id",
+      "thread_id",
+      "source_ref"
+    ],
+    "privacy_notes": "Raw messages and phone numbers are PII. Operator views mask or aggregate these fields.",
+    "freshness_sla_minutes": 60,
+    "known_gaps": [
+      "Keyword rules are v1. LLM auto-theming is intentionally deferred."
+    ],
+    "last_sync_at": "2026-08-30T23:08:00.000Z",
+    "row_count": 35,
+    "health_score": 78
+  },
+  {
+    "_standIn": true,
+    "_source": "hub_integration_registry",
+    "integration_id": "hubspot_sequences",
+    "system": "HubSpot Sequences",
+    "display_name": "Read-only email sequence mirror",
+    "category": "crm",
+    "status": "standin",
+    "phase": "phase_2",
+    "connector_kind": "api",
+    "synthetic_mode": "fixture-backed",
+    "owner_role": "Marketing Lead",
+    "business_purpose": "Show sequence health, open/click/conversion rates, and review candidates.",
+    "why_important": "Nurture performance is the strongest predictor in the PRD, so leadership needs a read-only sequence health view without mutating HubSpot.",
+    "entities": [
+      "sequences",
+      "sequence_steps",
+      "email_events"
+    ],
+    "authoritative_for": [
+      "sequence sends",
+      "opens",
+      "clicks",
+      "sequence conversions"
+    ],
+    "module_slugs": [
+      "home",
+      "nurture",
+      "dashboard"
+    ],
+    "join_keys": [
+      "seq_id",
+      "hubspot_contact_id"
+    ],
+    "privacy_notes": "Aggregated sequence stats only in the Hub.",
+    "freshness_sla_minutes": 240,
+    "known_gaps": [],
+    "last_sync_at": "2026-08-30T21:00:00.000Z",
+    "row_count": 4,
+    "health_score": 84
+  },
+  {
+    "_standIn": true,
+    "_source": "hub_integration_registry",
+    "integration_id": "hubspot_reporting",
+    "system": "HubSpot Reporting API",
+    "display_name": "HubSpot dashboard mirror",
+    "category": "crm",
+    "status": "standin",
+    "phase": "phase_2",
+    "connector_kind": "computed",
+    "synthetic_mode": "fixture-backed",
+    "owner_role": "Marketing Lead",
+    "business_purpose": "Mirror saved HubSpot report widgets inside the Dashboard module.",
+    "why_important": "Leadership should not need to reconcile the Hub and HubSpot manually during the Monday meeting.",
+    "entities": [
+      "report_widgets",
+      "saved_filters",
+      "dashboard_rows"
+    ],
+    "authoritative_for": [
+      "HubSpot dashboard mirror"
+    ],
+    "module_slugs": [
+      "dashboard",
+      "crm-ops"
+    ],
+    "join_keys": [
+      "hubspot_report_id",
+      "source"
+    ],
+    "privacy_notes": "Aggregated report data only.",
+    "freshness_sla_minutes": 240,
+    "known_gaps": [
+      "Live Reporting API credentials are optional in this fixture build."
+    ],
+    "last_sync_at": "2026-08-30T20:29:00.000Z",
+    "row_count": 6,
+    "health_score": 78
+  },
+  {
+    "_standIn": true,
+    "_source": "hub_integration_registry",
+    "integration_id": "stripe",
+    "system": "Stripe",
+    "display_name": "Payments and webhook state",
+    "category": "payments",
+    "status": "connected",
+    "phase": "phase_1",
+    "connector_kind": "webhook",
+    "synthetic_mode": "live-ready",
+    "owner_role": "Budget Owner",
+    "business_purpose": "Drive payment state into the correct program store and back to CRM without duplicate writes.",
+    "why_important": "Phase 1 only works if a payment can be replayed, retried, refunded, and still land in the right program.",
+    "entities": [
+      "payments",
+      "processed_events",
+      "sync_event_log",
+      "sync_outbox"
+    ],
+    "authoritative_for": [
+      "payment status",
+      "payment amount",
+      "payment event idempotency"
+    ],
+    "module_slugs": [
+      "dashboard",
+      "summer-camp",
+      "crm-ops"
+    ],
+    "join_keys": [
+      "stripe_payment_intent_id",
+      "stripe_event_id",
+      "program_id"
+    ],
+    "privacy_notes": "No card data is stored. Only payment intent and event identifiers are retained.",
+    "freshness_sla_minutes": 15,
+    "known_gaps": [],
+    "last_sync_at": "2026-08-30T23:54:00.000Z",
+    "row_count": 591,
+    "health_score": 96
+  },
+  {
+    "_standIn": true,
+    "_source": "hub_integration_registry",
+    "integration_id": "open_data",
+    "system": "Open Data",
+    "display_name": "Texas public-school enrichment",
+    "category": "public-data",
+    "status": "connected",
+    "phase": "phase_2",
+    "connector_kind": "api",
+    "synthetic_mode": "live-ready",
+    "owner_role": "Marketing Lead",
+    "business_purpose": "Add external school-market context to field, budget, and decision recommendations.",
+    "why_important": "The PRD requires a real external signal that can change a decision. This keeps field bets grounded in local market evidence.",
+    "entities": [
+      "district_ratings",
+      "finance_rows",
+      "county_enrichment"
+    ],
+    "authoritative_for": [
+      "public-school context",
+      "market enrichment"
+    ],
+    "module_slugs": [
+      "decisions",
+      "events",
+      "dashboard"
+    ],
+    "join_keys": [
+      "county",
+      "district",
+      "year"
+    ],
+    "privacy_notes": "Public aggregate data only. It must never be written back to family records.",
+    "freshness_sla_minutes": 10080,
+    "known_gaps": [
+      "Falls back to fixture/cache when the public endpoint is unavailable."
+    ],
+    "last_sync_at": "2026-08-30T00:00:00.000Z",
+    "row_count": 4,
+    "health_score": 88
+  },
+  {
+    "_standIn": true,
+    "_source": "hub_integration_registry",
+    "integration_id": "meta_business",
+    "system": "Meta Business Suite",
+    "display_name": "Facebook and Instagram campaign insights",
+    "category": "ads",
+    "status": "standin",
+    "phase": "phase_2",
+    "connector_kind": "api",
+    "synthetic_mode": "fixture-backed",
+    "owner_role": "Content Owner",
+    "business_purpose": "Report spend, impressions, clicks, and lead actions for paid social campaigns.",
+    "why_important": "Meta is intentionally modeled as over-reporting versus CRM so CAC and CPQL conversations stay honest.",
+    "entities": [
+      "meta_insights",
+      "campaign_actions"
+    ],
+    "authoritative_for": [
+      "Meta spend",
+      "Meta impressions",
+      "Meta clicks",
+      "Meta reported leads"
+    ],
+    "module_slugs": [
+      "home",
+      "content",
+      "dashboard",
+      "crm-ops"
+    ],
+    "join_keys": [
+      "utm_campaign",
+      "campaign_id",
+      "publisher_platform"
+    ],
+    "privacy_notes": "Campaign-level data, not family-level data.",
+    "freshness_sla_minutes": 1440,
+    "known_gaps": [
+      "Attribution window inflates leads versus CRM."
+    ],
+    "last_sync_at": "2026-08-30T18:40:00.000Z",
+    "row_count": 546,
+    "health_score": 78
+  },
+  {
+    "_standIn": true,
+    "_source": "hub_integration_registry",
+    "integration_id": "x_api",
+    "system": "X API",
+    "display_name": "X/Twitter organic post metrics",
+    "category": "ads",
+    "status": "degraded",
+    "phase": "phase_2",
+    "connector_kind": "api",
+    "synthetic_mode": "fixture-backed",
+    "owner_role": "Content Owner",
+    "business_purpose": "Track X post reach, engagement, and link clicks for the high-conversion organic channel.",
+    "why_important": "The PRD calls X the conviction channel. It must stay separate from Meta so the dashboard does not blend social channels.",
+    "entities": [
+      "x_posts",
+      "public_metrics",
+      "non_public_metrics"
+    ],
+    "authoritative_for": [
+      "X impressions",
+      "X engagement",
+      "X link clicks"
+    ],
+    "module_slugs": [
+      "home",
+      "content",
+      "dashboard",
+      "analytics"
+    ],
+    "join_keys": [
+      "utm_campaign",
+      "tweet_id"
+    ],
+    "privacy_notes": "Post-level metrics only.",
+    "freshness_sla_minutes": 1440,
+    "known_gaps": [
+      "Seeded stale connector proves stale-but-green risk in the dashboard."
+    ],
+    "last_sync_at": "2026-08-28T00:00:00.000Z",
+    "row_count": 4,
+    "health_score": 62
+  },
+  {
+    "_standIn": true,
+    "_source": "hub_integration_registry",
+    "integration_id": "ga4_gt_school",
+    "system": "Google Analytics 4",
+    "display_name": "gt.school web property",
+    "category": "analytics",
+    "status": "standin",
+    "phase": "phase_2",
+    "connector_kind": "api",
+    "synthetic_mode": "fixture-backed",
+    "owner_role": "Marketing Lead",
+    "business_purpose": "Track public site sessions, landing pages, PDF downloads, and conversion events.",
+    "why_important": "Website demand has to reconcile with UTM capture and content performance, not live as a vanity chart.",
+    "entities": [
+      "ga4_days",
+      "landing_pages",
+      "events"
+    ],
+    "authoritative_for": [
+      "gt.school sessions",
+      "gt.school page performance",
+      "PDF downloads"
+    ],
+    "module_slugs": [
+      "home",
+      "analytics",
+      "dashboard",
+      "content"
+    ],
+    "join_keys": [
+      "utm_campaign",
+      "landingPage",
+      "site"
+    ],
+    "privacy_notes": "Aggregated web analytics only.",
+    "freshness_sla_minutes": 1440,
+    "known_gaps": [],
+    "last_sync_at": "2026-08-30T12:20:00.000Z",
+    "row_count": 298,
+    "health_score": 84
+  },
+  {
+    "_standIn": true,
+    "_source": "hub_integration_registry",
+    "integration_id": "ga4_anywhere",
+    "system": "Google Analytics 4",
+    "display_name": "anywhere.gt.school web property",
+    "category": "analytics",
+    "status": "standin",
+    "phase": "phase_2",
+    "connector_kind": "api",
+    "synthetic_mode": "fixture-backed",
+    "owner_role": "Marketing Lead",
+    "business_purpose": "Track GT Anywhere sessions, product landing pages, and generate-lead events.",
+    "why_important": "The product site is where campaign traffic converts. Cross-site totals must be summed, not double-counted.",
+    "entities": [
+      "ga4_days",
+      "landing_pages",
+      "events"
+    ],
+    "authoritative_for": [
+      "anywhere.gt.school sessions",
+      "lead events",
+      "cross-site aggregate"
+    ],
+    "module_slugs": [
+      "home",
+      "analytics",
+      "dashboard",
+      "crm-ops"
+    ],
+    "join_keys": [
+      "utm_campaign",
+      "landingPage",
+      "site"
+    ],
+    "privacy_notes": "Aggregated web analytics only.",
+    "freshness_sla_minutes": 1440,
+    "known_gaps": [
+      "GA4 cross-site linking remains TBD per PRD; this fixture sums properties explicitly."
+    ],
+    "last_sync_at": "2026-08-30T12:20:00.000Z",
+    "row_count": 303,
+    "health_score": 78
+  },
+  {
+    "_standIn": true,
+    "_source": "hub_integration_registry",
+    "integration_id": "google_sheets_content",
+    "system": "Google Sheets",
+    "display_name": "Content production tracker",
+    "category": "content",
+    "status": "standin",
+    "phase": "phase_2",
+    "connector_kind": "file",
+    "synthetic_mode": "fixture-backed",
+    "owner_role": "Content Owner",
+    "business_purpose": "Mirror the Content Owner's production kanban and UTM plan.",
+    "why_important": "The spec says the sheet is the production source of truth, so content status should not be invented in the Hub.",
+    "entities": [
+      "content_sheet",
+      "content_pieces"
+    ],
+    "authoritative_for": [
+      "content status",
+      "owner",
+      "target date",
+      "planned UTM"
+    ],
+    "module_slugs": [
+      "home",
+      "content",
+      "library"
+    ],
+    "join_keys": [
+      "sheet_row_id",
+      "utm_campaign"
+    ],
+    "privacy_notes": "Work-planning data, no family PII.",
+    "freshness_sla_minutes": 1440,
+    "known_gaps": [
+      "Read-write sync is represented by deterministic conflict tests, not live Sheets credentials."
+    ],
+    "last_sync_at": "2026-08-30T04:20:00.000Z",
+    "row_count": 16,
+    "health_score": 78
+  },
+  {
+    "_standIn": true,
+    "_source": "hub_integration_registry",
+    "integration_id": "summer_gt_school",
+    "system": "summer.gt.school",
+    "display_name": "Summer registration app",
+    "category": "program",
+    "status": "standin",
+    "phase": "both",
+    "connector_kind": "api",
+    "synthetic_mode": "fixture-backed",
+    "owner_role": "Content Owner",
+    "business_purpose": "Provide summer registrations, rosters, payment facts, and campus capacity inputs.",
+    "why_important": "This is the cleanest dual-source reconciliation test and ties directly to Phase 1 program isolation.",
+    "entities": [
+      "summer_site_registrations",
+      "program_membership",
+      "enrollments"
+    ],
+    "authoritative_for": [
+      "summer registration",
+      "campus",
+      "weeks",
+      "paid flag"
+    ],
+    "module_slugs": [
+      "summer-camp",
+      "dashboard",
+      "crm-ops"
+    ],
+    "join_keys": [
+      "match_key",
+      "registration_id",
+      "program_id"
+    ],
+    "privacy_notes": "Contains child names in the source feed. Hub surfaces aggregate capacity and role-scoped roster views.",
+    "freshness_sla_minutes": 60,
+    "known_gaps": [],
+    "last_sync_at": "2026-08-30T23:11:00.000Z",
+    "row_count": 35,
+    "health_score": 84
+  },
+  {
+    "_standIn": true,
+    "_source": "hub_integration_registry",
+    "integration_id": "registration_form",
+    "system": "Registration form",
+    "display_name": "Alternate summer intake path",
+    "category": "program",
+    "status": "standin",
+    "phase": "both",
+    "connector_kind": "file",
+    "synthetic_mode": "fixture-backed",
+    "owner_role": "Content Owner",
+    "business_purpose": "Capture alternate camp signups and reconcile them against summer.gt.school.",
+    "why_important": "Without this feed, the Hub cannot prove it avoids double-counting duplicate camp registrations.",
+    "entities": [
+      "registration_form_entries"
+    ],
+    "authoritative_for": [
+      "alternate summer intake",
+      "form UTM"
+    ],
+    "module_slugs": [
+      "summer-camp",
+      "crm-ops"
+    ],
+    "join_keys": [
+      "match_key",
+      "form_id"
+    ],
+    "privacy_notes": "Contains parent and child intake fields. Aggregated outside roster views.",
+    "freshness_sla_minutes": 1440,
+    "known_gaps": [
+      "Alternate form conflicts are surfaced, not silently overwritten."
+    ],
+    "last_sync_at": "2026-08-30T18:30:00.000Z",
+    "row_count": 34,
+    "health_score": 78
+  },
+  {
+    "_standIn": true,
+    "_source": "hub_integration_registry",
+    "integration_id": "gt_challenge_capture",
+    "system": "GT Challenge capture",
+    "display_name": "Gifted quiz public lead capture",
+    "category": "program",
+    "status": "standin",
+    "phase": "phase_2",
+    "connector_kind": "computed",
+    "synthetic_mode": "fixture-backed",
+    "owner_role": "Marketing Lead",
+    "business_purpose": "Capture consented quiz submissions, preserve UTM, score fit, and route qualified leads into Fall Enrollment.",
+    "why_important": "This is the worked campaign in the technical brief. It connects spend, public capture, CRM lead creation, program routing, and CPQL reporting.",
+    "entities": [
+      "gifted_quiz_submissions",
+      "gifted_quiz_leads",
+      "families",
+      "meta_insights",
+      "budget_entry"
+    ],
+    "authoritative_for": [
+      "GT Challenge consented submissions",
+      "quiz fit bucket",
+      "campaign CPQL"
+    ],
+    "module_slugs": [
+      "gt-challenge",
+      "home",
+      "dashboard",
+      "crm-ops",
+      "budget"
+    ],
+    "join_keys": [
+      "utm_campaign",
+      "match_key",
+      "campaign_key"
+    ],
+    "privacy_notes": "Contains parent contact details and child quiz responses. Public capture requires consent before persistence.",
+    "freshness_sla_minutes": 60,
+    "known_gaps": [
+      "Route uses an in-memory adapter in the demo; a transactional DB adapter is tracked separately."
+    ],
+    "last_sync_at": "2026-08-30T23:42:00.000Z",
+    "row_count": 229,
+    "health_score": 78
+  },
+  {
+    "_standIn": true,
+    "_source": "hub_integration_registry",
+    "integration_id": "community_gt_school",
+    "system": "community.gt.school",
+    "display_name": "Parent ambassador community",
+    "category": "community",
+    "status": "standin",
+    "phase": "both",
+    "connector_kind": "api",
+    "synthetic_mode": "fixture-backed",
+    "owner_role": "Grassroots Owner",
+    "business_purpose": "Track ambassador stages, community participation, and referral activity.",
+    "why_important": "Grassroots data is dual-source with HubSpot. Reconciliation prevents inflated ambassador counts and fake referral performance.",
+    "entities": [
+      "community_ambassadors",
+      "hubspot_ambassadors"
+    ],
+    "authoritative_for": [
+      "community ambassador status",
+      "community identity"
+    ],
+    "module_slugs": [
+      "grassroots",
+      "dashboard",
+      "crm-ops"
+    ],
+    "join_keys": [
+      "match_key",
+      "community_id",
+      "hubspot_contact_id"
+    ],
+    "privacy_notes": "Parent ambassador identity is role-scoped.",
+    "freshness_sla_minutes": 1440,
+    "known_gaps": [
+      "HubSpot and community status can conflict; survivorship is documented in Grassroots."
+    ],
+    "last_sync_at": "2026-08-30T13:40:00.000Z",
+    "row_count": 37,
+    "health_score": 78
+  },
+  {
+    "_standIn": true,
+    "_source": "hub_integration_registry",
+    "integration_id": "hub_manual_workflows",
+    "system": "Hub manual workflows",
+    "display_name": "Budget, events, decisions, library",
+    "category": "manual",
+    "status": "manual",
+    "phase": "phase_2",
+    "connector_kind": "manual",
+    "synthetic_mode": "manual-v1",
+    "owner_role": "Marketing Lead",
+    "business_purpose": "Capture the Hub-owned facts that the PRD says should not come from external tools.",
+    "why_important": "Budget and Decision Queue are system-of-record inside the Hub. Treating them as external sheets would violate the source-of-truth rules.",
+    "entities": [
+      "budget_entry",
+      "budget_workstream",
+      "decisions",
+      "field_events",
+      "resource_library"
+    ],
+    "authoritative_for": [
+      "budget",
+      "decision status",
+      "field event consults",
+      "manual risks"
+    ],
+    "module_slugs": [
+      "home",
+      "budget",
+      "decisions",
+      "events",
+      "library"
+    ],
+    "join_keys": [
+      "workstream_key",
+      "decision_id",
+      "event_id",
+      "resource_id"
+    ],
+    "privacy_notes": "Manual operating data, with leadership-only decisions where applicable.",
+    "freshness_sla_minutes": 10080,
+    "known_gaps": [
+      "Event-to-consult remains manual and uninstrumented by design."
+    ],
+    "last_sync_at": "2026-08-29T00:00:00.000Z",
+    "row_count": 29,
+    "health_score": 70
+  },
+  {
+    "_standIn": true,
+    "_source": "hub_integration_registry",
+    "integration_id": "resource_docs",
+    "system": "Google Drive / Docs",
+    "display_name": "Linked docs, slides, sheets, PDFs",
+    "category": "content",
+    "status": "manual",
+    "phase": "phase_2",
+    "connector_kind": "file",
+    "synthetic_mode": "manual-v1",
+    "owner_role": "Marketing Lead",
+    "business_purpose": "Keep reference documents discoverable without pretending the Hub owns their contents.",
+    "why_important": "The Resource Library should show link health, visibility, and provenance so operators trust shared assets.",
+    "entities": [
+      "resources",
+      "linked_docs"
+    ],
+    "authoritative_for": [
+      "document links",
+      "visibility",
+      "resource tags"
+    ],
+    "module_slugs": [
+      "library",
+      "content",
+      "home"
+    ],
+    "join_keys": [
+      "resource_id",
+      "url"
+    ],
+    "privacy_notes": "Leadership-only documents remain gated.",
+    "freshness_sla_minutes": 10080,
+    "known_gaps": [
+      "One fixture link is intentionally unreachable to exercise the dead-link state."
+    ],
+    "last_sync_at": "2026-08-30T00:00:00.000Z",
+    "row_count": 5,
+    "health_score": 70
+  },
+  {
+    "_standIn": true,
+    "_source": "hub_integration_registry",
+    "integration_id": "substack_manual",
+    "system": "Substack",
+    "display_name": "Newsletter audience manual v1",
+    "category": "content",
+    "status": "manual",
+    "phase": "phase_2",
+    "connector_kind": "manual",
+    "synthetic_mode": "manual-v1",
+    "owner_role": "Content Owner",
+    "business_purpose": "Track newsletter reach beside other content channels until an API integration is justified.",
+    "why_important": "Substack is a content channel in the PRD, but it is not important enough to build a full connector before CRM, payments, and analytics are trustworthy.",
+    "entities": [
+      "manual_audience"
+    ],
+    "authoritative_for": [
+      "Substack subscribers",
+      "newsletter reach"
+    ],
+    "module_slugs": [
+      "content",
+      "home"
+    ],
+    "join_keys": [
+      "channel"
+    ],
+    "privacy_notes": "Aggregate audience counts only.",
+    "freshness_sla_minutes": 10080,
+    "known_gaps": [
+      "PRD defers Substack API integration to later."
+    ],
+    "last_sync_at": "2026-08-28T00:00:00.000Z",
+    "row_count": 1,
+    "health_score": 70
+  },
+  {
+    "_standIn": true,
+    "_source": "hub_integration_registry",
+    "integration_id": "podcast_manual",
+    "system": "Podcast platform",
+    "display_name": "Podcast audience manual v1",
+    "category": "content",
+    "status": "manual",
+    "phase": "phase_2",
+    "connector_kind": "manual",
+    "synthetic_mode": "manual-v1",
+    "owner_role": "Content Owner",
+    "business_purpose": "Carry podcast listens into content channel summaries without pretending a live API exists.",
+    "why_important": "The company needs the channel represented in high-level summaries, but manual v1 is enough until it affects budget decisions.",
+    "entities": [
+      "manual_audience"
+    ],
+    "authoritative_for": [
+      "podcast listens"
+    ],
+    "module_slugs": [
+      "content",
+      "home"
+    ],
+    "join_keys": [
+      "channel"
+    ],
+    "privacy_notes": "Aggregate audience counts only.",
+    "freshness_sla_minutes": 10080,
+    "known_gaps": [
+      "PRD defers podcast API integration to later."
+    ],
+    "last_sync_at": "2026-08-28T00:00:00.000Z",
+    "row_count": 1,
+    "health_score": 70
+  },
+  {
+    "_standIn": true,
+    "_source": "hub_integration_registry",
+    "integration_id": "read_ai_transcripts",
+    "system": "Read.ai",
+    "display_name": "Optional call transcript import",
+    "category": "voice",
+    "status": "deferred",
+    "phase": "phase_2",
+    "connector_kind": "api",
+    "synthetic_mode": "deferred",
+    "owner_role": "Admissions Owner",
+    "business_purpose": "Optionally enrich admissions objection logs with recorded call transcripts.",
+    "why_important": "Useful for family voice, but the PRD makes Conversations and manual notes primary, so this stays out of the critical path.",
+    "entities": [
+      "call_transcripts"
+    ],
+    "authoritative_for": [],
+    "module_slugs": [
+      "admissions"
+    ],
+    "join_keys": [
+      "meeting_id",
+      "family_id"
+    ],
+    "privacy_notes": "Would contain sensitive voice transcripts. Needs consent and redaction before activation.",
+    "freshness_sla_minutes": null,
+    "known_gaps": [
+      "Deferred because it is optional and secondary in the PRD."
+    ],
+    "last_sync_at": null,
+    "row_count": 0,
+    "health_score": 35
+  },
+  {
+    "_standIn": true,
+    "_source": "hub_integration_registry",
+    "integration_id": "reconnectext_sms",
+    "system": "Reconnectext",
+    "display_name": "External SMS send-rate platform",
+    "category": "voice",
+    "status": "deferred",
+    "phase": "phase_2",
+    "connector_kind": "api",
+    "synthetic_mode": "deferred",
+    "owner_role": "Marketing Lead",
+    "business_purpose": "Would measure SMS send-rate, if available.",
+    "why_important": "The PRD explicitly says this gap is unmeasurable. The Admin tab should show it as a known hole, not a fake green source.",
+    "entities": [
+      "sms_send_rate"
+    ],
+    "authoritative_for": [],
+    "module_slugs": [
+      "nurture",
+      "crm-ops"
+    ],
+    "join_keys": [
+      "phone",
+      "message_id"
+    ],
+    "privacy_notes": "Would involve phone numbers and message metadata.",
+    "freshness_sla_minutes": null,
+    "known_gaps": [
+      "Unmeasurable in v1 per PRD."
+    ],
+    "last_sync_at": null,
+    "row_count": 0,
+    "health_score": 35
+  }
+]
