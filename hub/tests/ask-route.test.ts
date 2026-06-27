@@ -77,7 +77,12 @@ describe("/api/ask", () => {
     expect(body.role).toBe("leader");
     expect(body.agent.id).toBe("decision-support-analyst");
     expect(body.citations.length).toBeGreaterThan(0);
-    expect(body.audit.writeTargets).toEqual([]);
+    // WS6 — the sanitized run trace is now durably persisted (file store in tests).
+    expect(body.audit.traceId).toBe(body.trace.runId);
+    expect(body.audit.persisted).toBe(true);
+    expect(body.audit.storeKind).toBe("file");
+    expect(body.audit.writeTargets.length).toBeGreaterThan(0);
+    expect(body.audit.redactionsApplied).toBe(true);
   });
 
   it("refuses an operator full-queue prompt instead of leaking the queue", async () => {

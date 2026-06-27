@@ -10,6 +10,7 @@ import {
   AI_AGENT_SAMPLE_QUESTIONS,
   runAskTheHub,
 } from "@/lib/ai/agents";
+import { persistTrace, toStoredTrace } from "@/lib/ai/trace-store";
 
 export const dynamic = "force-dynamic";
 
@@ -72,16 +73,23 @@ export async function POST(req: Request) {
       userTitle: session.title,
     });
 
+    // Durably persist the SANITIZED run trace (node/eval rows — never raw CRM rows) so it
+    // can be audited later. DB when APP_RW_DATABASE_URL is set, else a file store.
+    const persist = await persistTrace(toStoredTrace(answer.trace, "ask-the-hub", session.role));
+
     return NextResponse.json({
       role: session.role,
       user: { id: session.id, title: session.title },
       ...answer,
       audit: {
-        persisted: false,
+        persisted: persist.persisted,
+        storeKind: persist.storeKind,
         traceId: answer.trace.runId,
-        reason: "Sanitized run trace is returned with node/eval rows; durable DB audit is the next hardening step.",
+        reason: persist.persisted
+          ? `Sanitized run trace persisted to the ${persist.storeKind} store for audit.`
+          : "Trace persistence unavailable; sanitized trace returned inline only.",
         redactionsApplied: true,
-        writeTargets: [],
+        writeTargets: persist.writeTargets,
       },
     });
   } catch (err) {
