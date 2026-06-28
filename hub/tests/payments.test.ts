@@ -103,7 +103,9 @@ async function deliverViaRoute(
   return { status: res.status, body: (await res.json()) as Record<string, unknown> };
 }
 
-describe("Stripe payment propagation (live Stripe TEST sig + live Supabase)", () => {
+// Honest skip: with live services unconfigured the suite shows SKIPPED, not
+// passed-while-asserting-nothing. The per-it !ENABLED guards are then redundant.
+(ENABLED ? describe : describe.skip)("Stripe payment propagation (live Stripe TEST sig + live Supabase)", () => {
   beforeAll(async () => {
     if (!ENABLED) return;
     const programs = await withoutProgram(

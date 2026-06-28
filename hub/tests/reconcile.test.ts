@@ -64,7 +64,8 @@ async function reconcileFromAnchor() {
   return reconcile({ cursorKey: CURSOR_KEY });
 }
 
-describe("reconcile sweep (live HubSpot → app)", () => {
+// Honest skip when live services aren't configured (shows SKIPPED, not passed-empty).
+(ENABLED ? describe : describe.skip)("reconcile sweep (live HubSpot → app)", () => {
   beforeAll(async () => {
     if (!ENABLED) return;
     await withoutProgram(

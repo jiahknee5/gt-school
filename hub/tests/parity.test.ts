@@ -15,7 +15,8 @@ import {
 const HAS_DB = Boolean(process.env.APP_RW_DATABASE_URL);
 const T = 20000;
 
-describe("parity engine (live seeded Supabase)", () => {
+// Honest skip when no live DB (shows SKIPPED, not passed-empty).
+(HAS_DB ? describe : describe.skip)("parity engine (live seeded Supabase)", () => {
   afterAll(async () => {
     if (HAS_DB) await closeDb();
   });

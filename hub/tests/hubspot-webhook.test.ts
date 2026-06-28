@@ -39,7 +39,8 @@ function evt(propertyName: string, propertyValue: string, suffix: string): HsEvt
   };
 }
 
-describe("inbound HubSpot webhook (X-HubSpot-Signature-v3 + field-directional apply)", () => {
+// Honest skip when no live DB (shows SKIPPED, not passed-empty).
+(HAS_DB ? describe : describe.skip)("inbound HubSpot webhook (X-HubSpot-Signature-v3 + field-directional apply)", () => {
   beforeAll(async () => {
     if (!HAS_DB) return;
     familyId = await withoutProgram(async (sql) => {

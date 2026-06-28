@@ -73,7 +73,7 @@ async function programIds() {
   };
 }
 
-describe("seed fixtures — volume & deposit total", () => {
+(HAS_DB ? describe : describe.skip)("seed fixtures — volume & deposit total", () => {
   it("has ~2,000 families and exactly the 112-deposit fall total", async () => {
     if (guard()) return;
     const [{ n: fams }] = (await withoutProgram((s) => s`select count(*)::int n from families`)) as Row[];
@@ -87,7 +87,7 @@ describe("seed fixtures — volume & deposit total", () => {
   });
 });
 
-describe("seed fixtures — engagement tier is the top predictor (52/30/16)", () => {
+(HAS_DB ? describe : describe.skip)("seed fixtures — engagement tier is the top predictor (52/30/16)", () => {
   it("clicked ~52%, opened ~30%, cold ~16%, strictly monotonic", async () => {
     if (guard()) return;
     const m = await depositRateByFieldState("engagement_tier");
@@ -105,7 +105,7 @@ describe("seed fixtures — engagement tier is the top predictor (52/30/16)", ()
   });
 });
 
-describe("seed fixtures — income is the master variable (160K+ ~25% regardless of geo)", () => {
+(HAS_DB ? describe : describe.skip)("seed fixtures — income is the master variable (160K+ ~25% regardless of geo)", () => {
   it("the 160K+ slice converts ~25%", async () => {
     if (guard()) return;
     const m = await depositRateByColumn("income_band");
@@ -134,7 +134,7 @@ describe("seed fixtures — income is the master variable (160K+ ~25% regardless
   });
 });
 
-describe("seed fixtures — geo split, channel, grade", () => {
+(HAS_DB ? describe : describe.skip)("seed fixtures — geo split, channel, grade", () => {
   it("TX vs out-of-state is ~50/50", async () => {
     if (guard()) return;
     const rows = (await withoutProgram((s) =>
@@ -179,7 +179,7 @@ describe("seed fixtures — geo split, channel, grade", () => {
   });
 });
 
-describe("seed fixtures — T2/T3 segments (asserted loosely, ±20%)", () => {
+(HAS_DB ? describe : describe.skip)("seed fixtures — T2/T3 segments (asserted loosely, ±20%)", () => {
   it("T2:T3 ~ 3100:1124 with T2 the dominant cohort", async () => {
     if (guard()) return;
     const rows = (await withoutProgram((s) =>
@@ -200,7 +200,7 @@ describe("seed fixtures — T2/T3 segments (asserted loosely, ±20%)", () => {
   });
 });
 
-describe("seed fixtures — CRM Ops sync parity (income low, overall healthy)", () => {
+(HAS_DB ? describe : describe.skip)("seed fixtures — CRM Ops sync parity (income low, overall healthy)", () => {
   it("income_band field parity is below threshold while overall stays healthy", async () => {
     if (guard()) return;
     const [overall] = (await withoutProgram((s) =>
@@ -226,7 +226,7 @@ describe("seed fixtures — CRM Ops sync parity (income low, overall healthy)", 
   });
 });
 
-describe("seed fixtures — budget reconciles to $365K with guerrilla >10% over", () => {
+(HAS_DB ? describe : describe.skip)("seed fixtures — budget reconciles to $365K with guerrilla >10% over", () => {
   it("planned + committed both sum to 365,000 and only guerrilla is >10% over plan", async () => {
     if (guard()) return;
     const rows = (await withoutProgram(
@@ -244,7 +244,7 @@ describe("seed fixtures — budget reconciles to $365K with guerrilla >10% over"
   });
 });
 
-describe("seed fixtures — Phase-1 stress cases all present", () => {
+(HAS_DB ? describe : describe.skip)("seed fixtures — Phase-1 stress cases all present", () => {
   it("a family is enrolled in BOTH programs (RLS-scoped reads, intersected)", async () => {
     if (guard()) return;
     const { fall, summer } = await programIds();

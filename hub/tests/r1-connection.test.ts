@@ -3,7 +3,8 @@ import { closeDb, withProgram, withoutProgram } from "../lib/db";
 
 const HAS_DB = Boolean(process.env.APP_RW_DATABASE_URL);
 
-describe("R1 — app_rw program-isolation connection smoke test", () => {
+// Honest skip when no live DB (shows SKIPPED, not passed-empty).
+(HAS_DB ? describe : describe.skip)("R1 — app_rw program-isolation connection smoke test", () => {
   afterAll(async () => {
     if (HAS_DB) await closeDb();
   });

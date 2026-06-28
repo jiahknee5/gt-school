@@ -40,7 +40,8 @@ async function rowStatus(dedupeKey: string) {
   ).then((r) => r[0]);
 }
 
-describe("outbox worker (live Supabase + live HubSpot)", () => {
+// Honest skip when live services aren't configured (shows SKIPPED, not passed-empty).
+(HAS_DB && HAS_HS ? describe : describe.skip)("outbox worker (live Supabase + live HubSpot)", () => {
   const dealsToClean: string[] = [];
 
   beforeAll(async () => {
