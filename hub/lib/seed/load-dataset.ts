@@ -333,11 +333,10 @@ export async function loadDataset(opts: LoadDatasetOptions = {}): Promise<SeedDa
   // fallback. We then overwrite the 16 real tables with live DB rows.
   const base = generate(opts);
 
+  // No DB configured is the EXPECTED path for tests / local build / the static seed
+  // baseline — render the deterministic seed silently (logging it as an "error" on every
+  // page render just spams the test-suite logs with hundreds of false alarms).
   if (!process.env.APP_RW_DATABASE_URL) {
-    console.error(
-      "[load-dataset] falling back to in-memory seed:",
-      new Error("APP_RW_DATABASE_URL is not set"),
-    );
     return base;
   }
 
@@ -345,7 +344,15 @@ export async function loadDataset(opts: LoadDatasetOptions = {}): Promise<SeedDa
     const real = await readRealTables();
     return { ...base, ...real };
   } catch (err) {
-    console.error("[load-dataset] falling back to in-memory seed:", err);
+    // A DB IS configured but the read failed — that IS worth surfacing (real outage,
+    // bad creds, schema drift). Keep it, but as a single concise warn, not a stack-noisy
+    // error, and not during tests where there is no DB to reach anyway.
+    if (process.env.NODE_ENV !== "test") {
+      console.warn(
+        "[load-dataset] DB read failed; rendering the in-memory seed this request:",
+        err instanceof Error ? err.message : String(err),
+      );
+    }
     return base;
   }
 }
