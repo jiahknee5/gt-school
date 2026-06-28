@@ -8,11 +8,8 @@ import type { DemoUser } from "@/lib/phase2";
 import type { Reconciliation } from "@/lib/budget/reconcile";
 import { workstreamHealth } from "@/lib/metrics/budget";
 import { canWriteEntry, ownerRoleFor } from "@/lib/budget/rbac";
+import { ctDate } from "@/lib/format/datetime";
 import { Card, Pill, healthTone, usd } from "./primitives";
-
-function fmtDate(iso: string): string {
-  return iso.slice(0, 10);
-}
 
 export function BudgetTable({ recon, viewer }: { recon: Reconciliation; viewer: DemoUser }) {
   const reconcilePill = recon.reconciles ? (
@@ -68,7 +65,7 @@ export function BudgetTable({ recon, viewer }: { recon: Reconciliation; viewer: 
                     </div>
                     <p className="mono mt-0.5 text-[11px] text-muted">
                       {row.lastEdit
-                        ? `last: ${usd(row.lastEdit.amount)} ${row.lastEdit.kind} by ${row.lastEdit.entered_by}, ${fmtDate(row.lastEdit.created_at)}`
+                        ? `last: ${usd(row.lastEdit.amount)} ${row.lastEdit.kind} by ${row.lastEdit.entered_by}, ${ctDate(row.lastEdit.created_at)}`
                         : "no entries yet, $0 actual"}
                     </p>
                   </td>

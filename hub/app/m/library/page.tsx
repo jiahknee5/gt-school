@@ -15,6 +15,7 @@ import { TAGS, type Tag } from "@/lib/library/types";
 import { visibleResources, canUpload } from "@/lib/library/rbac";
 import { searchResources, filterResources } from "@/lib/library/search";
 import { downloadChip } from "@/lib/library/access";
+import { ctDate } from "@/lib/format/datetime";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Resource Library | GT Marketing Hub" };
@@ -124,7 +125,7 @@ export default async function LibraryPage({
                         {r.visibility === "leadership" && <Pill tone="watch">leadership-only</Pill>}
                       </div>
                       <div className="mt-2 flex items-center justify-between text-[11px] text-muted">
-                        <span>{r.owner} · {r.createdAt.slice(0, 10)}</span>
+                        <span>{r.owner} · {ctDate(r.createdAt)}</span>
                         {chip !== null && <span className="text-gold">↓ {chip} this week</span>}
                       </div>
                       {r.linkOk ? (

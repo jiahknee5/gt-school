@@ -1,14 +1,9 @@
 import Link from "next/link";
 import type { StatusSnapshotMeta } from "@/lib/status/board";
+import { ctDate } from "@/lib/format/datetime";
 
 function weekHref(week: string, currentWeek: string): string {
   return week === currentWeek ? "/m/status" : `/m/status?week=${week}`;
-}
-
-function shortWhen(iso: string): string {
-  const d = new Date(iso);
-  if (Number.isNaN(d.getTime())) return iso;
-  return d.toISOString().slice(0, 10);
 }
 
 export function StatusWeekBar({
@@ -66,7 +61,7 @@ export function StatusWeekBar({
               }
             >
               {meta.source === "llm" ? "✦ LLM" : "▦ Deterministic"} ·{" "}
-              {meta.recalled ? "pre-loaded" : "on view"} · {shortWhen(meta.generatedAt)}
+              {meta.recalled ? "pre-loaded" : "on view"} · {ctDate(meta.generatedAt)}
             </span>
           </div>
         )}

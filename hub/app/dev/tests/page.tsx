@@ -10,6 +10,7 @@ import {
   type UseCaseStatus,
 } from "@/lib/dev/usecases";
 import { SUITES } from "@/lib/dev/suites";
+import { ctDateTime } from "@/lib/format/datetime";
 
 export const dynamic = "force-dynamic";
 
@@ -183,7 +184,7 @@ export default async function DevTests() {
                 <span className="text-muted"><b className="num">{results.skipped}</b> skipped (no keys)</span>
               </div>
               {results.generatedAt && (
-                <span className="ml-auto text-[10px] text-label">last run {new Date(results.generatedAt).toLocaleString()}</span>
+                <span className="ml-auto text-[10px] text-label">last run {ctDateTime(results.generatedAt)}</span>
               )}
             </>
           ) : (

@@ -5,6 +5,7 @@
 
 import type { Decision } from "@/lib/seed/types";
 import { outcomeLabel, outcomeTone, type OutcomeTone } from "@/lib/decisions/queries";
+import { ctDate } from "@/lib/format/datetime";
 import { DecisionActions } from "./DecisionActions";
 
 function toneClass(tone: OutcomeTone): string {
@@ -77,7 +78,7 @@ export function DecisionCard({
         <Field label="Workstream" value={clean(decision.workstream) || "—"} />
         <Field label="Raised by" value={clean(decision.raised_by) || "—"} />
         <Field label="Due" value={decision.due_date ?? "—"} />
-        <Field label="Raised" value={decision.created_at.slice(0, 10)} />
+        <Field label="Raised" value={ctDate(decision.created_at)} />
       </dl>
 
       {!open && decision.response_note && (
@@ -85,7 +86,7 @@ export function DecisionCard({
           <p className="mono text-[10px] font-semibold text-label">Leadership note</p>
           <p className="mt-1 text-[13px] leading-relaxed text-ink">{clean(decision.response_note)}</p>
           {decision.resolved_at && (
-            <p className="mono mt-1 text-[11px] text-label">Resolved {decision.resolved_at.slice(0, 10)}</p>
+            <p className="mono mt-1 text-[11px] text-label">Resolved {ctDate(decision.resolved_at)}</p>
           )}
         </div>
       )}

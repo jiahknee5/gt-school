@@ -13,6 +13,7 @@ import { loadDataset } from "@/lib/seed/load-dataset";
 import { outcomeLabel, outcomeTone, submittedBy, type OutcomeTone } from "@/lib/decisions/queries";
 import { RAISED_COOKIE, ownRaises } from "@/lib/decisions/raise";
 import { PageObjective } from "@/app/_components/PageObjective";
+import { ctDate } from "@/lib/format/datetime";
 import { RaiseDecisionForm, type RaisePrefill } from "./_components/RaiseDecisionForm";
 
 export const dynamic = "force-dynamic";
@@ -124,7 +125,7 @@ export default async function SubmissionsPage({
                     </span>
                   </div>
                   <p className="mono mt-2 text-[12px] text-label">
-                    {clean(d.workstream) || "—"} · raised {d.created_at.slice(0, 10)}
+                    {clean(d.workstream) || "—"} · raised {ctDate(d.created_at)}
                     {d.due_date ? ` · due ${d.due_date}` : ""}
                   </p>
                   {d.response_note ? (

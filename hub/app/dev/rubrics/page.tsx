@@ -11,6 +11,7 @@ import { loadDataset } from "@/lib/seed/load-dataset";
 import { defaultReportingWeek } from "@/lib/metrics/registry";
 import { buildDerivations, llmCallSiteRows, type DerivationGraph } from "@/lib/status/derivation";
 import { listRecentTraces } from "@/lib/ai/trace-store";
+import { ctDateTime } from "@/lib/format/datetime";
 import { DerivationConsole, type GeneratorRow, type RunLog, type TraceRow } from "./DerivationConsole";
 
 export const dynamic = "force-dynamic";
@@ -38,7 +39,7 @@ export default async function DevRubricsPage() {
   const week = defaultReportingWeek();
   const ds = await loadDataset({ seed: 424242, families: 1200 });
   const derivations = buildDerivations(ds, week);
-  const builtAt = new Date().toISOString().replace("T", " ").slice(0, 19);
+  const builtAt = ctDateTime(new Date());
 
   // Deterministic rows: one run (this build), recomputed identically every time.
   const detRows: GeneratorRow[] = derivations.map((g) => ({
@@ -72,7 +73,7 @@ export default async function DevRubricsPage() {
       .slice(0, 12)
       .map((t) => ({
         id: t.runId,
-        datetime: t.startedAt.replace("T", " ").slice(0, 19),
+        datetime: ctDateTime(t.startedAt),
         entry: `${t.provider} · ${t.model} · role ${t.role ?? "—"}`,
         trace: (t.trace.evalRows ?? []).map(
           // EV-6 backward-compat: legacy persisted rows have no `output` → fall back to actualOutput.

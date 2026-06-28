@@ -6,6 +6,7 @@ import {
   PRD_REQUIRED_INTEGRATION_IDS,
 } from "@/lib/integrations/catalog";
 import { humanizeAge } from "@/lib/dashboard/freshness";
+import { ctDateTimeShort } from "@/lib/format/datetime";
 import { loadDataset } from "@/lib/seed/load-dataset";
 import type {
   IntegrationAccount,
@@ -241,8 +242,8 @@ export default async function DevIntegrationsPage() {
                     <p className="mono text-[9px] text-label">{run.run_id}</p>
                   </td>
                   <td className="px-2 py-1.5"><RunBadge status={run.status} /></td>
-                  <td className="mono px-2 py-1.5 text-[10px] text-muted">{run.started_at.slice(0, 16).replace("T", " ")}</td>
-                  <td className="mono px-2 py-1.5 text-[10px] text-muted">{run.completed_at ? run.completed_at.slice(0, 16).replace("T", " ") : "skipped"}</td>
+                  <td className="mono px-2 py-1.5 text-[10px] text-muted">{ctDateTimeShort(run.started_at)}</td>
+                  <td className="mono px-2 py-1.5 text-[10px] text-muted">{run.completed_at ? ctDateTimeShort(run.completed_at) : "skipped"}</td>
                   <td className="num px-2 py-1.5 text-[10px] text-slate">{run.records_read.toLocaleString()}</td>
                   <td className="num px-2 py-1.5 text-[10px] text-slate">{run.records_written.toLocaleString()}</td>
                   <td className="num px-2 py-1.5 text-[10px] text-slate">{run.records_errored.toLocaleString()}</td>

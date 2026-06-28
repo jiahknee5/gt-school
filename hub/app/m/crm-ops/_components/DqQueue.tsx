@@ -5,6 +5,7 @@
 import type { QueueView } from "@/lib/crm-ops/queue";
 import type { Role } from "@/lib/phase2";
 import { canActOnQueue } from "@/lib/crm-ops/queue";
+import { ctDate } from "@/lib/format/datetime";
 import { Card, Pill, type Tone } from "./primitives";
 
 function sevTone(severity: string): Tone {
@@ -63,7 +64,7 @@ export function DqQueue({ queue, role }: { queue: QueueView; role: Role | null |
                 <div>
                   <p className="text-[13px] font-semibold leading-snug text-ink">{i.description}</p>
                   <p className="mt-1 text-[12px] leading-relaxed text-muted">
-                    {i.category} · resolved {i.resolved_at?.slice(0, 10) ?? "—"}
+                    {i.category} · resolved {ctDate(i.resolved_at)}
                   </p>
                 </div>
                 <Pill tone="good">resolved</Pill>

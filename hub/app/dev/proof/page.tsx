@@ -15,6 +15,7 @@ import { getBannerState, type BannerState } from "@/lib/parity";
 import { seedBannerState, computeSeedParity } from "@/lib/crm-ops/parity-view";
 import { BUDGET_TOTAL } from "@/lib/seed/dictionaries";
 import type { Role } from "@/lib/phase2";
+import { ctDateTime } from "@/lib/format/datetime";
 import { PaymentPropagationPlayer, ParityDropToggle, type PaymentStep } from "./ProofConsole";
 
 export const dynamic = "force-dynamic";
@@ -220,7 +221,7 @@ export default async function DevProofPage() {
           {liveBanner ? (
             <p className="mono mt-2 text-[9px] leading-snug text-label">
               Live reader verdict: overall {liveBanner.overallPct}% · {liveBanner.below.length} field{liveBanner.below.length === 1 ? "" : "s"} below the {liveBanner.thresholdPct}% bar{liveBanner.alarm ? " · ALARM (a surprise field dropped)" : liveBanner.below.length ? " · all calm (known-unreliable)" : ""}
-              {liveBanner.takenAt ? ` · snapshot ${new Date(liveBanner.takenAt).toLocaleString("en-US")}` : " · computed live (no snapshot yet)"}.
+              {liveBanner.takenAt ? ` · snapshot ${ctDateTime(liveBanner.takenAt)}` : " · computed live (no snapshot yet)"}.
             </p>
           ) : (
             <p className="mono mt-2 text-[9px] leading-snug text-label">
