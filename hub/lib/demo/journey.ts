@@ -13,6 +13,7 @@
 import { withProgram, withoutProgram } from "@/lib/db";
 import { createPaymentIntent, signPayload, handleStripeEvent } from "@/lib/payments";
 import { upsertContactByEmail, createDeal, associateDealToContact } from "@/lib/connectors/hubspot";
+import { drainOutbox } from "@/lib/sync/outbox-worker";
 
 const FALL_PROGRAM_KEY = "fall_enrollment";
 const DEPOSIT_CENTS = 10000; // $100 Fall deposit (demo)
@@ -141,6 +142,16 @@ export async function checkoutDepositForFamily(
   };
   const raw = JSON.stringify(event);
   await handleStripeEvent(raw, signPayload(raw));
+
+  // 4) Dispatch THIS deposit's HubSpot patch_deal outbox row so the payments ledger shows
+  //    the CRM sync as "done" (the deal already exists from the HubSpot-first create above;
+  //    this fires the idempotent patch + flips the outbox row). Scoped by dedupe_key to this
+  //    one event — never a mass drain of seed rows — and best-effort so it can't block.
+  try {
+    await drainOutbox({ dedupeKeyLike: `stripe:${event.id}` });
+  } catch (err) {
+    console.error("[checkout] outbox drain (non-fatal):", err);
+  }
 
   return { ok: true, intentId, trackKey: familyId, contactId, dealId };
 }
