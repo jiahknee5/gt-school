@@ -8,7 +8,7 @@ export const metadata = {
   title: "Is your child gifted? — GT School",
 };
 
-const QUIZ_HREF = "/gifted-quiz?utm_source=ad&utm_medium=paid_social&utm_campaign=gifted_quiz_2026";
+const QUIZ_HREF = "/gifted-quiz?utm_source=ad&utm_medium=paid_social&utm_campaign=gifted_quiz_2026&demo=1";
 
 export default function AdLandingPage() {
   return (

@@ -57,6 +57,11 @@ const SCALE_QUESTIONS: ScaleQuestion[] = [
 
 const GRADES = ["K", "1", "2", "3", "4", "5", "6", "7", "8"];
 
+// The static demo email prefilled by ?demo=1. At submit it's rewritten to a unique
+// plus-addressed variant so each demo run creates a fresh, distinct real lead (a new
+// match_key) rather than de-duping onto one family.
+export const DEMO_EMAIL = "harper.demo@gtschool.test";
+
 type Result = {
   duplicate: boolean;
   bucket: "strong_fit" | "promising" | "explore";
@@ -150,7 +155,19 @@ function newIdempotencyKey(): string {
   return `gtc-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 }
 
-export function GiftedQuiz() {
+export interface QuizPrefill {
+  scales: Record<string, Scale | null>;
+  readingAboveGrade: boolean | null;
+  childFirstName: string;
+  childGrade: string;
+  parentEmail: string;
+  parentPhone: string;
+  zip: string;
+  consent: boolean;
+  parentObservation: string;
+}
+
+export function GiftedQuiz({ prefill }: { prefill?: QuizPrefill | null } = {}) {
   // One idempotency key per attempt — stable across accidental double-submits so the
   // backbone collapses them to a single submission + lead. Generated off the render path
   // (impure) and captured in a ref so resubmits reuse it.
@@ -168,17 +185,19 @@ export function GiftedQuiz() {
     utm.current = readUtm();
   }, []);
 
+  // Initial state comes from the server-provided prefill (demo mode) or the empty
+  // defaults — set as useState initializers so SSR and client hydrate identically.
   const [scales, setScales] = useState<Record<string, Scale | null>>(
-    Object.fromEntries(SCALE_QUESTIONS.map((q) => [q.key, null])),
+    prefill?.scales ?? Object.fromEntries(SCALE_QUESTIONS.map((q) => [q.key, null])),
   );
-  const [readingAboveGrade, setReadingAboveGrade] = useState<boolean | null>(null);
-  const [parentObservation, setParentObservation] = useState("");
-  const [childFirstName, setChildFirstName] = useState("");
-  const [childGrade, setChildGrade] = useState("");
-  const [parentEmail, setParentEmail] = useState("");
-  const [parentPhone, setParentPhone] = useState("");
-  const [zip, setZip] = useState("");
-  const [consent, setConsent] = useState(false);
+  const [readingAboveGrade, setReadingAboveGrade] = useState<boolean | null>(prefill?.readingAboveGrade ?? null);
+  const [parentObservation, setParentObservation] = useState(prefill?.parentObservation ?? "");
+  const [childFirstName, setChildFirstName] = useState(prefill?.childFirstName ?? "");
+  const [childGrade, setChildGrade] = useState(prefill?.childGrade ?? "");
+  const [parentEmail, setParentEmail] = useState(prefill?.parentEmail ?? "");
+  const [parentPhone, setParentPhone] = useState(prefill?.parentPhone ?? "");
+  const [zip, setZip] = useState(prefill?.zip ?? "");
+  const [consent, setConsent] = useState(prefill?.consent ?? false);
 
   const [status, setStatus] = useState<"idle" | "submitting" | "done" | "error">("idle");
   const [error, setError] = useState<string | null>(null);
@@ -215,6 +234,14 @@ export function GiftedQuiz() {
     }
     const submissionKey = idempotencyKey.current;
 
+    // In demo mode the prefilled email is static; make it unique per submit (plus-addressing)
+    // so each run is a fresh, distinct real lead. Date.now() is fine here — event handler,
+    // not render. A real parent who edits the email submits exactly what they typed.
+    const submitEmail =
+      parentEmail.trim() === DEMO_EMAIL
+        ? `harper.demo+${Date.now()}@gtschool.test`
+        : parentEmail.trim();
+
     const answers: Record<string, unknown> = {
       ...scales,
       readingAboveGrade,
@@ -228,7 +255,7 @@ export function GiftedQuiz() {
         body: JSON.stringify({
           idempotency_key: submissionKey,
           parent_consent: consent,
-          parent_email: parentEmail.trim() || null,
+          parent_email: submitEmail || null,
           parent_phone: parentPhone.trim() || null,
           zip: zip.trim() || null,
           child_first_name: childFirstName.trim() || null,
