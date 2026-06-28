@@ -58,9 +58,10 @@ const SCALE_QUESTIONS: ScaleQuestion[] = [
 const GRADES = ["K", "1", "2", "3", "4", "5", "6", "7", "8"];
 
 // The static demo email prefilled by ?demo=1. At submit it's rewritten to a unique
-// plus-addressed variant so each demo run creates a fresh, distinct real lead (a new
-// match_key) rather than de-duping onto one family.
-export const DEMO_EMAIL = "harper.demo@gtschool.test";
+// variant so each demo run creates a fresh, distinct real lead (a new match_key) rather
+// than de-duping onto one family. Uses example.com — HubSpot rejects .test emails, and the
+// HubSpot-first deposit needs a valid address to create the contact.
+export const DEMO_EMAIL = "harper.demo@example.com";
 
 type Result = {
   duplicate: boolean;
@@ -239,7 +240,7 @@ export function GiftedQuiz({ prefill }: { prefill?: QuizPrefill | null } = {}) {
     // not render. A real parent who edits the email submits exactly what they typed.
     const submitEmail =
       parentEmail.trim() === DEMO_EMAIL
-        ? `harper.demo+${Date.now()}@gtschool.test`
+        ? `harper.demo.${Date.now()}@example.com`
         : parentEmail.trim();
 
     const answers: Record<string, unknown> = {

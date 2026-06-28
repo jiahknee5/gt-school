@@ -6,7 +6,6 @@
 
 import Link from "next/link";
 import { loadDemoFlow, latestDemoKey, type DemoStep, type DemoKey } from "@/lib/demo/journey";
-import { RunButton } from "./RunButton";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Live demo — ad → form → Stripe → hub | GT" };
@@ -105,10 +104,13 @@ export default async function DemoPage({
             <span className="mono text-ink">hubspot_contact_id</span> / <span className="mono text-ink">hubspot_deal_id</span> link straight into HubSpot.
           </p>
           <div className="mt-3 flex flex-wrap items-center gap-3">
-            <RunButton label={flow ? "Run a fresh one" : "Run the live demo"} />
-            <Link href="/ad" className="mono text-[11px] font-semibold text-gold hover:underline">
-              …or start from the ad →
+            <Link
+              href="/ad"
+              className="inline-flex h-10 items-center justify-center rounded-card bg-ink-cta px-5 text-[13px] font-semibold text-on-cta shadow-sm transition-transform active:translate-y-px"
+            >
+              Start from the ad →
             </Link>
+            <span className="mono text-[10px] text-label">ad → prefilled form → pay the deposit → land here</span>
           </div>
           {flow && (
             <p className="mono mt-3 break-all text-[10px] text-label">
@@ -128,8 +130,8 @@ export default async function DemoPage({
         ) : (
           <div className="rounded-card border border-hairline bg-surface p-6 text-center">
             <p className="text-[12px] text-muted">
-              No record yet. Click <span className="font-semibold text-ink">Run the live demo</span> above to capture a lead,
-              charge a real Stripe test deposit, and watch the key chain appear.
+              No record yet. <Link href="/ad" className="font-semibold text-gold hover:underline">Start from the ad</Link>,
+              take the prefilled quiz, and pay the deposit — then this page shows that record&apos;s key chain.
             </p>
           </div>
         )}

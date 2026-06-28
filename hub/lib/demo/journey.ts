@@ -10,12 +10,9 @@
 //
 // Everything is real writes/reads against the provisioned DB; nothing is seeded or faked.
 
-import crypto from "node:crypto";
 import { withProgram, withoutProgram } from "@/lib/db";
 import { createPaymentIntent, signPayload, handleStripeEvent } from "@/lib/payments";
 import { upsertContactByEmail, createDeal, associateDealToContact } from "@/lib/connectors/hubspot";
-import { captureGiftedQuizSubmission, coerceGiftedQuizCaptureRequest } from "@/lib/gt-challenge/capture";
-import { DbGiftedQuizCaptureStore } from "@/lib/gt-challenge/store-db";
 
 const FALL_PROGRAM_KEY = "fall_enrollment";
 const DEPOSIT_CENTS = 50000; // $500 Fall deposit (demo)
@@ -58,26 +55,70 @@ export interface Journey {
   stages: JourneyStage[];
 }
 
-/** Charge a real Stripe TEST deposit for a quiz lead and propagate it through the real handler. */
+/**
+ * Charge a real Stripe TEST deposit for a quiz lead and propagate it through the real
+ * handler. HubSpot-FIRST (Johnny's chosen demo flow): the CRM contact + deal are created
+ * before the DB payment write — but BEST-EFFORT, so a slow/down HubSpot never blocks (or
+ * hangs) the actual payment. When HubSpot is healthy, the records exist before the charge.
+ */
 export async function checkoutDepositForFamily(
   familyId: string,
-): Promise<{ ok: true; intentId: string; trackKey: string }> {
+): Promise<{ ok: true; intentId: string; trackKey: string; contactId: string | null; dealId: string | null }> {
   if (!UUID_RE.test(familyId)) throw new Error("familyId must be a UUID.");
   const fallId = await fallProgramId();
 
-  // 1) ensure the family has a payable enrollment (the quiz only creates routing).
+  // 0) the lead's identity — email is HubSpot's natural key for the upsert.
+  const fam = await withProgram(fallId, async (sql) => {
+    const rows = await sql<{ email: string | null; first_name: string | null; hubspot_contact_id: string | null }[]>`
+      select email, first_name, hubspot_contact_id from families where id = ${familyId} limit 1`;
+    return rows[0] ?? null;
+  });
+  if (!fam) throw new Error("family not found");
+
+  // 1) HubSpot FIRST — upsert the contact, create the deal (closedwon), associate them.
+  //    Best-effort: a HubSpot failure logs + continues so the payment is never lost.
+  let contactId: string | null = fam.hubspot_contact_id;
+  let dealId: string | null = null;
+  if (fam.email) {
+    try {
+      const contact = await upsertContactByEmail(fam.email, {
+        firstname: fam.first_name ?? "GT",
+        lastname: "(GT lead)",
+        lifecyclestage: "lead",
+      });
+      contactId = contact.id;
+      const deal = await createDeal({
+        dealname: `GT Fall deposit — ${fam.first_name ?? "lead"}`,
+        amount: String(DEPOSIT_CENTS / 100),
+        dealstage: "closedwon",
+        pipeline: "default",
+      });
+      dealId = deal.id;
+      await associateDealToContact(deal.id, contact.id).catch(() => {});
+    } catch (err) {
+      console.error("[checkout] HubSpot-first create failed; continuing with the payment:", err);
+    }
+  }
+
+  // 2) ensure a payable enrollment carrying the real hubspot_deal_id; stamp the contact id.
   const enrollmentId = await withProgram(fallId, async (sql) => {
+    if (contactId) {
+      await sql`update families set hubspot_contact_id = ${contactId} where id = ${familyId}`;
+    }
     const found = await sql<{ id: string }[]>`
       select id from enrollments where family_id = ${familyId} and program_id = ${fallId} limit 1`;
-    if (found[0]) return found[0].id;
+    if (found[0]) {
+      if (dealId) await sql`update enrollments set hubspot_deal_id = ${dealId} where id = ${found[0].id}`;
+      return found[0].id;
+    }
     const ins = await sql<{ id: string }[]>`
-      insert into enrollments (program_id, family_id, stage, amount)
-      values (${fallId}, ${familyId}, 'deposit', ${DEPOSIT_CENTS / 100})
+      insert into enrollments (program_id, family_id, hubspot_deal_id, stage, amount)
+      values (${fallId}, ${familyId}, ${dealId}, 'deposit', ${DEPOSIT_CENTS / 100})
       returning id`;
     return ins[0].id;
   });
 
-  // 2) a REAL Stripe test PaymentIntent (pm_card_visa, confirm=true → succeeded).
+  // 3) a REAL Stripe test PaymentIntent (pm_card_visa, confirm=true → succeeded).
   const pi = await createPaymentIntent({
     amount_cents: DEPOSIT_CENTS,
     metadata: { program_id: fallId, family_id: familyId, enrollment_id: enrollmentId },
@@ -101,102 +142,7 @@ export async function checkoutDepositForFamily(
   const raw = JSON.stringify(event);
   await handleStripeEvent(raw, signPayload(raw));
 
-  return { ok: true, intentId, trackKey: familyId };
-}
-
-export interface HubspotFirstResult {
-  ok: true;
-  key: string;
-  contactId: string;
-  dealId: string;
-  intentId: string;
-  contactUrl: string;
-  dealUrl: string;
-}
-
-/**
- * HubSpot-FIRST demo run (Johnny's chosen architecture for the demo): the CRM is written
- * before the DB. Create the HubSpot contact + deal (closedwon) and associate them, then
- * mirror to the DB (family + quiz_submission + membership + enrollment carrying the real
- * hubspot_deal_id), then charge the real Stripe test deposit. Returns the HubSpot ids +
- * portal URLs so the entry is directly viewable.
- *
- * NOTE: this WRITES to the live HubSpot portal. Scoped to the demo path only — the rest of
- * the app keeps the transactional-outbox (DB-first) model + its tests.
- */
-export async function runHubspotFirstDemo(): Promise<HubspotFirstResult> {
-  const stamp = Date.now();
-  const email = `harper.demo.${stamp}@example.com`; // HubSpot rejects .test; example.com is valid
-  const portal = process.env.HUBSPOT_PORTAL_ID ?? "";
-
-  // 1) HubSpot FIRST — contact + deal (closedwon) + association, before any DB write.
-  const contact = await upsertContactByEmail(email, {
-    firstname: "Harper",
-    lastname: "(GT demo)",
-    phone: "(512) 555-0143",
-    zip: "78704",
-    lifecyclestage: "lead",
-  });
-  const deal = await createDeal({
-    dealname: `GT Fall deposit — Harper ${stamp}`,
-    amount: "500",
-    dealstage: "closedwon",
-    pipeline: "default",
-  });
-  await associateDealToContact(deal.id, contact.id).catch(() => {}); // best-effort
-
-  // 2) Mirror to the DB — capture the lead (family + quiz_submission + membership).
-  const store = new DbGiftedQuizCaptureStore();
-  const input = coerceGiftedQuizCaptureRequest({
-    idempotency_key: crypto.randomUUID(),
-    parent_consent: true,
-    parent_email: email,
-    parent_phone: "(512) 555-0143",
-    zip: "78704",
-    child_first_name: "Harper",
-    child_grade: "3",
-    answers: {
-      patternReasoning: 5,
-      curiosity: 5,
-      selfDirectedProjects: 5,
-      focusPersistence: 5,
-      readingAboveGrade: true,
-      parentObservation: "Self-taught multiplication from a library book over spring break.",
-    },
-    utm_source: "ad",
-    utm_medium: "paid_social",
-    utm_campaign: "gifted_quiz_2026",
-  });
-  const capture = await captureGiftedQuizSubmission(input, store);
-  const familyId = capture.lead.id;
-  const fallId = await fallProgramId();
-
-  // 3) Stamp the HubSpot ids onto the DB mirror + ensure a payable enrollment carrying the
-  //    real hubspot_deal_id (so the payment's deal handoff is wired, not a stand-in).
-  await withProgram(fallId, async (sql) => {
-    await sql`update families set hubspot_contact_id = ${contact.id} where id = ${familyId}`;
-    const existing = await sql<{ id: string }[]>`
-      select id from enrollments where family_id = ${familyId} and program_id = ${fallId} limit 1`;
-    if (existing[0]) {
-      await sql`update enrollments set hubspot_deal_id = ${deal.id} where id = ${existing[0].id}`;
-    } else {
-      await sql`insert into enrollments (program_id, family_id, hubspot_deal_id, stage, amount)
-                values (${fallId}, ${familyId}, ${deal.id}, 'deposit', ${DEPOSIT_CENTS / 100})`;
-    }
-  });
-
-  // 4) Real Stripe TEST deposit → recorded payment + enrollment paid (same handler the webhook uses).
-  const pay = await checkoutDepositForFamily(familyId);
-
-  return {
-    ok: true,
-    key: familyId,
-    contactId: contact.id,
-    dealId: deal.id,
-    intentId: pay.intentId,
-    contactUrl: portal ? `https://app.hubspot.com/contacts/${portal}/contact/${contact.id}` : "",
-    dealUrl: portal ? `https://app.hubspot.com/contacts/${portal}/record/0-3/${deal.id}` : "",
-  };
+  return { ok: true, intentId, trackKey: familyId, contactId, dealId };
 }
 
 /** Read the LIVE DB and assemble one lead's journey across every stage. */
