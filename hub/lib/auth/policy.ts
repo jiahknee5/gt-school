@@ -50,6 +50,7 @@ const PUBLIC_EXACT = new Set([
   "/ad",
   "/demo",
   "/api/demo/checkout",
+  "/writeup.html",
 ]);
 
 export function isPublicPath(pathname: string): boolean {
