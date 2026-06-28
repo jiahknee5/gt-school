@@ -293,7 +293,10 @@ export async function withLiveLeads(dataset: SeedDataset): Promise<MergeResult> 
   try {
     const { rows, programId } = await loadLiveLeadRows();
     return mergeLiveLeads(dataset, rows, programId ?? undefined);
-  } catch {
+  } catch (err) {
+    // Fail CLOSED to the seed-only dataset, but never silently — a swallowed error here
+    // is exactly why the Hub would read as "mock" with no clue why.
+    console.error("[live-overlay] withLiveLeads failed; rendering seed-only:", err);
     return { dataset, leads: [], liveFamilyIds: new Set() };
   }
 }

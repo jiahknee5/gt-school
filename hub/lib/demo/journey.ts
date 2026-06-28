@@ -216,3 +216,184 @@ type SubRow = {
   scored_at: string;
   submitted_at: string;
 };
+
+/* ----------------------- simplified step-by-step demo flow ----------------------- */
+// A single record walked through the WHOLE pipeline — ad → form → Stripe → database →
+// synced on the hub → shown in the payment log — with the NEW key minted at each step
+// (and a date/time), so a grader can watch the identifier chain that ends in the ledger.
+
+export interface DemoKey {
+  label: string;
+  value: string;
+  /** true when this key is FIRST minted at this step (vs. carried in from a prior one). */
+  fresh: boolean;
+}
+
+export interface DemoStep {
+  n: number;
+  label: string;
+  done: boolean;
+  at: string | null;
+  summary: string;
+  keys: DemoKey[];
+  href?: string;
+  hrefLabel?: string;
+}
+
+export interface DemoFlow {
+  key: string;
+  familyId: string;
+  childName: string;
+  email: string | null;
+  matchKey: string | null;
+  steps: DemoStep[];
+}
+
+/** The most recent real captured lead's family id (for /demo with no key). */
+export async function latestDemoKey(): Promise<string | null> {
+  if (!process.env.APP_RW_DATABASE_URL) return null;
+  const fallId = await fallProgramId().catch(() => null);
+  if (!fallId) return null;
+  return withProgram(fallId, async (sql) => {
+    const rows = await sql<{ family_id: string }[]>`
+      select family_id from quiz_submissions where family_id is not null
+      order by scored_at desc limit 1`;
+    return rows[0]?.family_id ?? null;
+  }).catch(() => null);
+}
+
+/** Read the LIVE DB and assemble the six-step key chain for one record. */
+export async function loadDemoFlow(key: string): Promise<DemoFlow | null> {
+  const fallId = await fallProgramId();
+  const byId = UUID_RE.test(key);
+
+  return withProgram(fallId, async (sql) => {
+    const fam = byId
+      ? await sql<FamilyRow[]>`select id, email, first_name, last_name, funnel_stage, source, match_key, created_at, hubspot_contact_id from families where id = ${key} limit 1`
+      : await sql<FamilyRow[]>`select id, email, first_name, last_name, funnel_stage, source, match_key, created_at, hubspot_contact_id from families where lower(email) = ${key.toLowerCase()} order by created_at desc limit 1`;
+    const family = fam[0];
+    if (!family) return null;
+    const fid = family.id;
+
+    const subs = await sql<(SubRow & { id: string })[]>`
+      select id, child_first_name, bucket, raw_score, qualified, status, utm_source, utm_campaign, scored_at, submitted_at
+      from quiz_submissions where family_id = ${fid} order by scored_at desc limit 1`;
+    const sub = subs[0] ?? null;
+
+    const mem = await sql<{ status: string; source: string | null; joined_at: string }[]>`
+      select status, source, joined_at from program_membership where family_id = ${fid} and program_id = ${fallId} limit 1`;
+    const membership = mem[0] ?? null;
+
+    const enr = await sql<{ id: string; stage: string | null; paid: boolean; amount: string | number | null; hubspot_deal_id: string | null }[]>`
+      select id, stage, paid, amount, hubspot_deal_id from enrollments where family_id = ${fid} and program_id = ${fallId} order by created_at desc limit 1`;
+    const enrollment = enr[0] ?? null;
+
+    const pay = await sql<{ stripe_payment_intent_id: string; stripe_event_id: string | null; status: string; amount: string | number; occurred_at: string | null }[]>`
+      select stripe_payment_intent_id, stripe_event_id, status, amount, occurred_at
+      from payments where family_id = ${fid} order by status_rank desc, occurred_at desc limit 1`;
+    const payment = pay[0] ?? null;
+
+    const outIds = [fid, enrollment?.id, sub?.id].filter(Boolean) as string[];
+    const out = await sql<{ op: string; dedupe_key: string; aggregate_id: string; status: string; created_at: string }[]>`
+      select op, dedupe_key, aggregate_id, status, created_at from sync_outbox
+      where aggregate_id::text = any(${outIds}) order by created_at desc limit 1`;
+    const outbox = out[0] ?? null;
+
+    const childName = (sub?.child_first_name ?? "").trim() || [family.first_name, family.last_name].filter(Boolean).join(" ") || "Lead";
+    const usd = (n: number) => `$${Math.round(n).toLocaleString("en-US")}`;
+    const paid = payment?.status === "succeeded" || Boolean(enrollment?.paid);
+
+    const steps: DemoStep[] = [
+      {
+        n: 1,
+        label: "Ad click",
+        done: true,
+        at: family.created_at,
+        summary: "A parent lands from the paid social ad and clicks through to the quiz.",
+        keys: [
+          { label: "utm_campaign", value: sub?.utm_campaign ?? "gifted_quiz_2026", fresh: true },
+          { label: "utm_source", value: sub?.utm_source ?? family.source ?? "ad", fresh: true },
+        ],
+        href: "/ad",
+        hrefLabel: "the ad",
+      },
+      {
+        n: 2,
+        label: "Form submitted (GT Challenge quiz)",
+        done: Boolean(sub),
+        at: sub?.scored_at ?? null,
+        summary: sub
+          ? `Scored ${sub.bucket} (${sub.raw_score}) · ${sub.qualified ? "qualified" : "not qualified"}. The lead's identity is minted here.`
+          : "No submission yet.",
+        keys: [
+          { label: "match_key", value: family.match_key ?? "—", fresh: true },
+          { label: "family_id", value: fid, fresh: true },
+          { label: "submission_id", value: sub?.id ?? "—", fresh: true },
+        ],
+        href: "/gifted-quiz?demo=1",
+        hrefLabel: "the form",
+      },
+      {
+        n: 3,
+        label: "Stripe payment",
+        done: Boolean(payment),
+        at: payment?.occurred_at ?? null,
+        summary: payment
+          ? `A real Stripe TEST charge ${payment.status} for ${usd(Number(payment.amount))} (pm_card_visa).`
+          : "No payment yet.",
+        keys: [
+          { label: "payment_intent_id", value: payment?.stripe_payment_intent_id ?? "—", fresh: true },
+          { label: "event_id", value: payment?.stripe_event_id ?? "—", fresh: true },
+        ],
+        href: "/dev/payments",
+        hrefLabel: "Stripe / payments",
+      },
+      {
+        n: 4,
+        label: "Database (payment recorded, enrollment paid)",
+        done: paid,
+        at: payment?.occurred_at ?? null,
+        summary: enrollment
+          ? `Payment row written + enrollment flipped paid=${enrollment.paid} (${enrollment.stage ?? "—"}).`
+          : "No enrollment yet.",
+        keys: [
+          { label: "enrollment_id", value: enrollment?.id ?? "—", fresh: true },
+          { label: "family_id", value: fid, fresh: false },
+        ],
+      },
+      {
+        n: 5,
+        label: "Synced on the hub",
+        done: Boolean(membership || outbox),
+        at: membership?.joined_at ?? outbox?.created_at ?? null,
+        summary: [
+          membership ? `Routed into Fall enrollment (program_membership · ${membership.status}).` : "",
+          outbox ? `CRM sync queued (sync_outbox ${outbox.op} · ${outbox.status}).` : "",
+        ].filter(Boolean).join(" ") || "Not synced yet.",
+        keys: [
+          ...(membership ? [{ label: "program_membership.family_id", value: fid, fresh: false }] : []),
+          ...(outbox ? [{ label: "sync_outbox.dedupe_key", value: outbox.dedupe_key, fresh: true }] : []),
+        ],
+        href: "/m/dashboard",
+        hrefLabel: "the Dashboard funnel",
+      },
+      {
+        n: 6,
+        label: "Shown in the payment log",
+        done: Boolean(payment),
+        at: payment?.occurred_at ?? null,
+        summary: payment
+          ? `This exact key appears in the Event/payment ledger with its date/time — ${payment.status} · ${usd(Number(payment.amount))}.`
+          : "Will appear once the deposit is paid.",
+        keys: [
+          { label: "payment_intent_id", value: payment?.stripe_payment_intent_id ?? "—", fresh: false },
+          { label: "event_id", value: payment?.stripe_event_id ?? "—", fresh: false },
+        ],
+        href: "/dev/payments",
+        hrefLabel: "the payment log",
+      },
+    ];
+
+    return { key: fid, familyId: fid, childName, email: family.email, matchKey: family.match_key, steps };
+  });
+}

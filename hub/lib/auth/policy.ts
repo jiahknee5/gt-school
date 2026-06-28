@@ -37,9 +37,10 @@ export type RouteDecision = {
 // `Authorization: Bearer <CRON_SECRET>` header, NOT a session cookie, so it must
 // bypass the session gate. Auth is enforced AT the route — GET checks CRON_SECRET
 // (503 in prod when unset) and POST (manual "regenerate now") calls requireRole.
-// The public marketing funnel (ad → quiz → deposit → tracker) is signed-out by design:
-// /ad (creative), /gifted-quiz (form+quiz), /api/demo/checkout (deposit), /track/<key> (the
-// lead's own journey). These are the watchable end-to-end "show it works" slice.
+// The public marketing funnel (ad → quiz → deposit → tracker → demo) is signed-out by
+// design: /ad (creative), /gifted-quiz (form+quiz), /api/demo/checkout (deposit),
+// /track/<key> (the lead's own journey), and /demo + /api/demo/run (the one-page pipeline
+// walkthrough + its one-click runner). These are the watchable end-to-end "show it works" slice.
 const PUBLIC_PREFIXES = ["/api/auth/", "/api/webhooks/", "/api/cron/", "/track/"];
 const PUBLIC_EXACT = new Set([
   "/login",
@@ -47,7 +48,9 @@ const PUBLIC_EXACT = new Set([
   "/gifted-quiz",
   "/api/gifted-quiz",
   "/ad",
+  "/demo",
   "/api/demo/checkout",
+  "/api/demo/run",
 ]);
 
 export function isPublicPath(pathname: string): boolean {
