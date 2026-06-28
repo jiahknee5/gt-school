@@ -47,6 +47,9 @@
   .foot{margin-top:14px;border-top:1px solid var(--hairline);padding-top:7px;font-family:var(--mono);font-size:9.5px;color:var(--label)}
   .foot a{color:var(--blue);text-decoration:none}
   .apxhead{font-family:var(--serif);font-size:15px;color:var(--navy);font-weight:700;margin:0 0 2px}
+  figure.fig{margin:8px 0 0;text-align:center}
+  figure.fig img{max-width:100%;max-height:6in;height:auto;border:1px solid var(--hairline);border-radius:8px}
+  figure.fig figcaption{font-family:var(--mono);font-size:9px;color:var(--label);margin-top:4px;font-style:italic}
   .kicker{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
   .note{font-size:11px;color:var(--muted)}
   @media print{
@@ -167,6 +170,10 @@
     <li><b>Agent graph (Ask-the-Hub) —</b> validate request → de-identified role-scoped snapshot → policy check → classify agent → intent → retrieve-with-citations → synthesize → compose → output scan (no PII). Every retrieval carries citations.</li>
     <li><b>Evals + provenance —</b> per-node eval rows (input / expected / actual / pass) at <code>/dev/agents</code>; per-claim source + self-eval at <code>/dev/rubrics</code>. Runs deterministically in CI — no model or network needed.</li>
   </ul>
+  <figure class="fig">
+    <img src="ask-the-hub.png" alt="Ask-the-Hub answering 'where should I put my next ad dollar?' — a cited, caveated recommendation with action items and source links" />
+    <figcaption>Ask-the-Hub (live, /help/ai-agents): flags the broken UTM up front, gives a directional recommendation, lists next actions, and cites its sources — Anthropic-backed with a deterministic fallback, and it never invents a number.</figcaption>
+  </figure>
 
   <div class="kicker" style="margin-top:16px">Appendix C</div>
   <p class="apxhead">Data &amp; schema — honest by construction</p>
