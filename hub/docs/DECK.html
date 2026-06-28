@@ -62,6 +62,8 @@
   .bnote{font-family:var(--mono);font-size:9px;color:var(--slate);line-height:1.5;margin-top:9px;background:var(--paper);border:1px solid var(--hairline);border-radius:7px;padding:8px 11px}
   .bnote b{color:var(--ink)}
   .appendix h1.title{font-size:20px}
+  .appendix .body{display:flex;align-items:center;justify-content:center}
+  .appendix .shot{max-width:100%;max-height:100%;object-fit:contain;border:1px solid var(--border);border-radius:10px;box-shadow:0 2px 14px rgba(0,0,0,.14)}
   .notes{display:none;position:fixed;left:0;right:0;bottom:0;background:#06222e;color:#f5ddcd;font-size:13px;line-height:1.5;padding:11px 18px;border-top:2px solid var(--gold);z-index:30}
   .notes b{color:var(--gold)} body.shownotes .notes{display:block}
   .hud{position:fixed;bottom:13px;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:12px;z-index:40}
@@ -115,6 +117,16 @@
     </div>
   </section>
 
+  <!-- APPENDIX · ASK-THE-HUB -->
+  <section class="slide appendix">
+    <div class="kicker"><span class="num">A1</span><span class="sec">Appendix · Ask-the-Hub (live AI)</span></div>
+    <h1 class="title">Ask-the-Hub — a cited, role-aware answer in the operator's words</h1>
+    <div class="body">
+      <img class="shot" src="ask-the-hub.png" alt="Ask the Hub — 'where should I put my next ad dollar?' returns a caveated, cited recommendation with action items and source links" />
+    </div>
+    <div class="foot"><span class="src">Live at /help/ai-agents · Anthropic-backed (deterministic fallback) · cites sources, flags broken UTM, recommends + links the decision context — never invents a number.</span><span>Appendix A</span></div>
+  </section>
+
 </div>
 
 <div class="notes" id="notes"></div>
@@ -139,7 +151,8 @@
     else { if(kn)kn.textContent=('0'+(k+1)).slice(-2); if(sp)sp[sp.length-1].textContent=(k+1)+' / '+mainCount; }
   });
   var SPK=[
-    "Agenda — the three acts, then start the demo."
+    "Agenda — the three acts, then start the demo.",
+    "Appendix A — Ask-the-Hub: a real cited answer to 'where should I put my next ad dollar?' Pull up to show the AI in action."
   ];
   slides.forEach(function(s,n){var d=document.createElement('button');d.className='dot'+(s.classList.contains('appendix')?' ap':'');d.onclick=function(){go(n)};dotsWrap.appendChild(d)});
   var dots=[].slice.call(document.querySelectorAll('.dot'));
