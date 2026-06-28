@@ -5,7 +5,7 @@
 // post delta. Feedback is submit-not-view for Operators. HubSpot-consuming → banner.
 
 import Link from "next/link";
-import { generate } from "@/lib/seed/generate";
+import { loadDataset } from "@/lib/seed/load-dataset";
 import { demoUserByRole } from "@/lib/phase2";
 import { getSession } from "@/lib/auth";
 import { parityThreshold } from "@/lib/parity";
@@ -45,7 +45,7 @@ export default async function AdmissionsPage({
   const viewer = session ?? demoUserByRole(role);
   const activeTab: TabKey = TABS.find((t) => t.key === query.tab)?.key ?? "overview";
 
-  const ds = generate({ seed: 424242, families: 1200 });
+  const ds = await loadDataset({ seed: 424242, families: 1200 });
   const asOf = ds.manifest.generatedAt;
   const thresholdPct = Number((parityThreshold() * 100).toFixed(2));
   const banner = seedBannerState(ds.field_state, thresholdPct);

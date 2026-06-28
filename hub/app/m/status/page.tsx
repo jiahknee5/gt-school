@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { generate } from "@/lib/seed/generate";
+import { loadDataset } from "@/lib/seed/load-dataset";
 import { getSession } from "@/lib/auth";
 import { getProgramScopeForUser } from "@/lib/program-preference";
 import { resolveViewerProgramScope, type ProgramScope } from "@/lib/program-scope";
@@ -32,7 +32,7 @@ export default async function StatusPage({
     ? resolveViewerProgramScope(session.role, await getProgramScopeForUser(session.id))
     : "fall_enrollment";
 
-  const ds = generate({ seed: 424242, families: 1200 });
+  const ds = await loadDataset({ seed: 424242, families: 1200 });
   const board = buildStatusBoard(ds, programScope, selectedWeek);
 
   // Pre-loaded verdict: serve the stored snapshot for this week if one exists (recall),

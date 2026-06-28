@@ -9,7 +9,7 @@ import {
   ensureBudgetVarianceDecision,
   summarizeBudget,
 } from "@/lib/phase2";
-import { generate } from "@/lib/seed/generate";
+import { loadDataset } from "@/lib/seed/load-dataset";
 import { getSession } from "@/lib/auth";
 import { withoutProgram } from "@/lib/db";
 import { buildScorecard, type ScorecardRow } from "@/lib/dashboard/scorecard";
@@ -139,7 +139,7 @@ export default async function Home({
 } = {}) {
   const query = searchParams ? await searchParams : {};
   const session = await getSession();
-  const dataset = generate({ seed: 424242, families: 1200 });
+  const dataset = await loadDataset({ seed: 424242, families: 1200 });
   const viewer = session ?? DEMO_USERS.find((user) => user.role === "leader") ?? DEMO_USERS[0];
   const canViewDecisions = viewer.role === "leader";
   const weeks = availableWeeks();

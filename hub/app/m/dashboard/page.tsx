@@ -10,8 +10,7 @@
 // HubSpot mirror — switchable via ?tab=, with a ?week= selector over the frozen weeks.
 
 import Link from "next/link";
-import { generate } from "@/lib/seed/generate";
-import { withLiveLeads } from "@/lib/seed/live-overlay";
+import { loadDataset } from "@/lib/seed/load-dataset";
 import { demoUserByRole } from "@/lib/phase2";
 import { getSession } from "@/lib/auth";
 import { parityThreshold } from "@/lib/parity";
@@ -87,10 +86,11 @@ export default async function DashboardPage({
   // a separate P&L surfaced as their own strip and never summed into the fall numbers.
   const view = await resolveProgramView({ userId: session?.id, role: viewer.role });
 
-  // Overlay REAL captured leads (form → Stripe → DB) onto the seed snapshot so a live
-  // deposit shows up in the funnel + the "live leads" strip — not just on /track. Fails
-  // closed to seed-only if the DB is unset/unreachable.
-  const { dataset: ds, leads: liveLeads } = await withLiveLeads(generate({ seed: 424242, families: 1200 }));
+  // Single source of truth: the Phase 1 DB (loadDataset falls back to the in-memory seed
+  // when the DB is unset/unreachable). Live captured leads (form → Stripe → DB) are now
+  // real rows in ds.families (source 'gifted_quiz'), so they flow into the funnel counts
+  // naturally — no separate overlay.
+  const ds = await loadDataset({ seed: 424242, families: 1200 });
   const campKpis = view.showCamp
     ? (() => {
         const { resolved } = reconcileFromDataset(ds);
@@ -266,37 +266,6 @@ export default async function DashboardPage({
             </nav>
 
             {activeTab === "scorecard" && <Scorecard scorecard={scorecard} />}
-            {activeTab === "scorecard" && liveLeads.length > 0 && (
-              <section className="mt-3 rounded-card border border-green/30 bg-surface p-3 shadow-sm">
-                <div className="flex flex-wrap items-center gap-2">
-                  <span className="mono rounded-[4px] bg-green-soft px-1.5 py-0.5 text-[9px] font-bold uppercase text-green">live</span>
-                  <p className="text-[12px] font-semibold text-ink">
-                    {liveLeads.length} real lead{liveLeads.length === 1 ? "" : "s"} captured through the funnel
-                  </p>
-                  <span className="mono text-[10px] text-label">form &rarr; Stripe &rarr; DB &rarr; counted in the scorecard above</span>
-                </div>
-                <ul className="mt-2 divide-y divide-hairline">
-                  {liveLeads.map((l) => (
-                    <li key={l.familyId} className="flex flex-wrap items-center gap-x-2 gap-y-0.5 py-1.5 text-[11px]">
-                      <span className="font-semibold text-ink">{l.name}</span>
-                      <span className="mono text-[10px] text-label">{l.email ?? "no email"}</span>
-                      <span
-                        className={`mono rounded-[4px] px-1.5 py-0.5 text-[9px] font-semibold uppercase ${
-                          l.paid ? "bg-green-soft text-green" : l.qualified ? "bg-amber-soft text-amber" : "bg-fill text-label"
-                        }`}
-                      >
-                        {l.stage}
-                        {l.paid && l.amount != null ? ` · $${Math.round(l.amount)}` : ""}
-                      </span>
-                      {l.bucket && <span className="mono text-[9px] text-muted">{l.bucket}</span>}
-                      <Link href={l.trackHref} className="mono ml-auto text-[10px] font-semibold text-gold hover:underline">
-                        track &rarr;
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </section>
-            )}
             {activeTab === "trends" && <Trends ds={ds} window={8} />}
             {activeTab === "sla" && <SlaOpsHealth ds={ds} />}
             {activeTab === "pacing" && <GoalPacing rows={pacing} canEdit={editable} />}

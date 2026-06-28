@@ -12,7 +12,7 @@
 // reconcile/variance/metrics logic the live engine uses.
 
 import Link from "next/link";
-import { generate } from "@/lib/seed/generate";
+import { loadDataset } from "@/lib/seed/load-dataset";
 import { demoUserByRole } from "@/lib/phase2";
 import { getSession } from "@/lib/auth";
 import { reconcileBudget } from "@/lib/budget/reconcile";
@@ -70,7 +70,7 @@ export default async function BudgetPage({
   // shows both sections side by side and NEVER merges camp into the $365K total.
   const view = await resolveProgramView({ userId: session?.id, role: viewer.role });
 
-  const ds = generate({ seed: 424242, families: 1200 });
+  const ds = await loadDataset({ seed: 424242, families: 1200 });
   const recon = reconcileBudget(ds.budget_workstream, ds.budget_entry);
   const camp = view.showCamp
     ? campRevenue(ds, reconcileFromDataset(ds).resolved, CAMP_TARGET)

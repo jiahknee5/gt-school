@@ -9,7 +9,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { getSession } from "@/lib/auth";
 import { ensureBudgetVarianceDecision } from "@/lib/phase2";
-import { generate } from "@/lib/seed/generate";
+import { loadDataset } from "@/lib/seed/load-dataset";
 import { outcomeLabel, outcomeTone, submittedBy, type OutcomeTone } from "@/lib/decisions/queries";
 import { RAISED_COOKIE, ownRaises } from "@/lib/decisions/raise";
 import { PageObjective } from "@/app/_components/PageObjective";
@@ -43,7 +43,7 @@ export default async function SubmissionsPage({
 } = {}) {
   const query = searchParams ? await searchParams : {};
   const session = await getSession();
-  const dataset = generate({ seed: 424242, families: 1200 });
+  const dataset = await loadDataset({ seed: 424242, families: 1200 });
   const decisions = ensureBudgetVarianceDecision(dataset.budget_workstream, dataset.decisions);
   const seeded = session ? submittedBy(decisions, session.title) : [];
 

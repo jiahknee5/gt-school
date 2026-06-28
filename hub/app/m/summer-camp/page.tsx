@@ -5,7 +5,7 @@
 // is role-gated; camp revenue stays OUT of the $365K budget.
 
 import Link from "next/link";
-import { generate } from "@/lib/seed/generate";
+import { loadDataset } from "@/lib/seed/load-dataset";
 import { demoUserByRole } from "@/lib/phase2";
 import { getSession } from "@/lib/auth";
 import { Card, MetricTile, ModuleHeader, Pill, Bar, Tabs } from "@/app/_components/modkit";
@@ -52,7 +52,7 @@ export default async function SummerCampPage({
   // viewer focused on Fall knows this is a separate program before reading camp numbers.
   const view = await resolveProgramView({ userId: session?.id, role: viewer.role });
 
-  const ds = generate({ seed: 424242, families: 1200 });
+  const ds = await loadDataset({ seed: 424242, families: 1200 });
 
   const { resolved, conflicts } = reconcileFromDataset(ds);
   const campuses = capacityByCampus(resolved);

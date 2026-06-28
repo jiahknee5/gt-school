@@ -12,7 +12,7 @@
 // queue logic the live engine uses. Stand-in vs live is labeled honestly below.
 
 import Link from "next/link";
-import { generate } from "@/lib/seed/generate";
+import { loadDataset } from "@/lib/seed/load-dataset";
 import { getSession } from "@/lib/auth";
 import { parityThreshold } from "@/lib/parity";
 import { computeSeedParity, seedBannerState } from "@/lib/crm-ops/parity-view";
@@ -95,7 +95,11 @@ export default async function CrmOpsPage({
         {!allowed ? (
           <AccessDenied role={role} />
         ) : (
-          <CrmOpsBody activeTab={activeTab} role={role ?? "leader"} />
+          <CrmOpsBody
+            activeTab={activeTab}
+            role={role ?? "leader"}
+            ds={await loadDataset({ seed: 424242, families: 1200 })}
+          />
         )}
       </div>
     </main>
@@ -115,8 +119,15 @@ function AccessDenied({ role }: { role: string | undefined }) {
   );
 }
 
-function CrmOpsBody({ activeTab, role }: { activeTab: TabKey; role: "admin" | "leader" | "operator" }) {
-  const ds = generate({ seed: 424242, families: 1200 });
+function CrmOpsBody({
+  activeTab,
+  role,
+  ds,
+}: {
+  activeTab: TabKey;
+  role: "admin" | "leader" | "operator";
+  ds: Awaited<ReturnType<typeof loadDataset>>;
+}) {
   const thresholdPct = Number((parityThreshold() * 100).toFixed(2));
 
   const parity = computeSeedParity(ds.field_state);

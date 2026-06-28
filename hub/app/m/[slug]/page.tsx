@@ -2,7 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { moduleBySlug } from "@/lib/modules";
 import { buildModuleSurface, type SurfaceMetric, type SurfaceRow } from "@/lib/phase2";
-import { generate } from "@/lib/seed/generate";
+import { loadDataset } from "@/lib/seed/load-dataset";
 import { getSession } from "@/lib/auth";
 import { summarizeQuizSubmissionsFromDb } from "@/lib/gt-challenge/store-db";
 
@@ -55,7 +55,7 @@ export default async function ModulePage({
   // can never escalate privilege at runtime.
   const session = await getSession();
   const role = session?.role ?? query.role;
-  const dataset = generate({ seed: 424242, families: 1200 });
+  const dataset = await loadDataset({ seed: 424242, families: 1200 });
   // GT Challenge reads LIVE capture counts from the DB (real public-quiz submissions
   // persisted via the backbone); null on no-DB/error → the surface falls back to seed.
   const liveChallenge =

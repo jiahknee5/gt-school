@@ -4,7 +4,7 @@
 // leadership-only row). Dead links surface a visible "link unreachable" state. No
 // data-confidence banner here (no HubSpot parity input).
 
-import { generate } from "@/lib/seed/generate";
+import { loadDataset } from "@/lib/seed/load-dataset";
 import { demoUserByRole } from "@/lib/phase2";
 import { getSession } from "@/lib/auth";
 import { Card, MetricTile, ModuleHeader, Pill } from "@/app/_components/modkit";
@@ -38,7 +38,7 @@ export default async function LibraryPage({
   const role = session?.role ?? (query.role as "admin" | "leader" | "operator" | undefined);
   const viewer = session ?? demoUserByRole(role);
 
-  const ds = generate({ seed: 424242, families: 1200 });
+  const ds = await loadDataset({ seed: 424242, families: 1200 });
 
   // visibility FIRST (query-layer RBAC), then search + facet
   let resources = visibleResources(SAMPLE_RESOURCES, viewer.role);

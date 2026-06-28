@@ -15,7 +15,7 @@
 import { NextResponse } from "next/server";
 import { getSession } from "@/lib/auth";
 import type { Role } from "@/lib/phase2";
-import { generate } from "@/lib/seed/generate";
+import { loadDataset } from "@/lib/seed/load-dataset";
 import { parityThreshold } from "@/lib/parity";
 import { asIssueRow, runDetect } from "@/lib/crm-ops/detect";
 import { buildQueue, canViewCrmOps } from "@/lib/crm-ops/queue";
@@ -37,8 +37,8 @@ function requireCrmOps(role: Role | null | undefined): void {
   }
 }
 
-function detectPayload() {
-  const ds = generate({ seed: 424242, families: 1200 });
+async function detectPayload() {
+  const ds = await loadDataset({ seed: 424242, families: 1200 });
   const thresholdPct = Number((parityThreshold() * 100).toFixed(2));
 
   // First pass over the issues already on record.
@@ -73,7 +73,7 @@ export async function GET() {
   try {
     const session = await getSession();
     requireCrmOps(session?.role);
-    return NextResponse.json({ role: session!.role, ...detectPayload() });
+    return NextResponse.json({ role: session!.role, ...(await detectPayload()) });
   } catch (err) {
     if (err instanceof RouteAuthError) {
       return NextResponse.json({ error: err.message }, { status: err.status });
@@ -86,7 +86,7 @@ export async function POST() {
   try {
     const session = await getSession();
     requireCrmOps(session?.role);
-    const payload = detectPayload();
+    const payload = await detectPayload();
     return NextResponse.json({ role: session!.role, ran: true, ...payload });
   } catch (err) {
     if (err instanceof RouteAuthError) {

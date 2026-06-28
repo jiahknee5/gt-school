@@ -10,7 +10,7 @@
 
 import { NextResponse } from "next/server";
 import { AuthError, requireRole } from "@/lib/auth";
-import { generate } from "@/lib/seed/generate";
+import { loadDataset } from "@/lib/seed/load-dataset";
 import { buildStatusBoard } from "@/lib/status/board";
 import { REFRESH_PROGRAMS, refreshSnapshot } from "@/lib/status/store";
 import { defaultReportingWeek } from "@/lib/metrics/registry";
@@ -31,7 +31,7 @@ function authorizeCron(req: Request): { ok: boolean; status: 401 | 503 } {
 
 async function runRefresh() {
   const week = defaultReportingWeek();
-  const ds = generate({ seed: 424242, families: 1200 });
+  const ds = await loadDataset({ seed: 424242, families: 1200 });
   const results = [];
   for (const program of REFRESH_PROGRAMS) {
     const board = buildStatusBoard(ds, program, week);

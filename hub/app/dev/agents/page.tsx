@@ -3,7 +3,7 @@ import { DevTabs } from "../_components/DevTabs";
 import { ASK_EVAL_CASES, runAskEvalSuite } from "@/lib/ai/agents";
 import { statusGenCallSite } from "@/lib/ai/observability";
 import { listRecentTraces } from "@/lib/ai/trace-store";
-import { generate } from "@/lib/seed/generate";
+import { loadDataset } from "@/lib/seed/load-dataset";
 import { AgentGraphConsole } from "./AgentGraphConsole";
 import { AgentGraphDiagram } from "./AgentGraphDiagram";
 
@@ -22,7 +22,7 @@ export default async function DevAgentsPage() {
   const first = suite.results[0];
   // WS6 — every LLM call-site in one place, same eval shape. Ask-the-Hub (above) +
   // Status generation, plus the durably-persisted run traces.
-  const statusSite = statusGenCallSite(generate({ seed: 424242, families: 1200 }));
+  const statusSite = statusGenCallSite(await loadDataset({ seed: 424242, families: 1200 }));
   const recentTraces = await listRecentTraces(10);
 
   return (

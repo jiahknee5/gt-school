@@ -6,7 +6,7 @@
 // flow are badged stand-in (BigQuery/path-exploration TBD).
 
 import Link from "next/link";
-import { generate } from "@/lib/seed/generate";
+import { loadDataset } from "@/lib/seed/load-dataset";
 import { demoUserByRole } from "@/lib/phase2";
 import { getSession } from "@/lib/auth";
 import { Card, MetricTile, ModuleHeader, Pill, Tabs } from "@/app/_components/modkit";
@@ -57,7 +57,7 @@ export default async function AnalyticsPage({
   const viewer = session ?? demoUserByRole(role);
   const activeTab: TabKey = TABS.find((t) => t.key === query.tab)?.key ?? "overview";
 
-  const ds = generate({ seed: 424242, families: 1200 });
+  const ds = await loadDataset({ seed: 424242, families: 1200 });
   const rows = ds.ga4_days;
 
   const totals = siteTotals(rows);

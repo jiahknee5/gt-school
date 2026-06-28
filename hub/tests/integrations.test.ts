@@ -61,8 +61,8 @@ describe("integration source registry", () => {
     expect(byId.get("reconnectext_sms")?.known_gaps.length).toBeGreaterThan(0);
   });
 
-  it("renders the Admin integrations tab with source docs and sync trace rows", () => {
-    const html = renderToStaticMarkup(DevIntegrationsPage());
+  it("renders the Admin integrations tab with source docs and sync trace rows", async () => {
+    const html = renderToStaticMarkup(await DevIntegrationsPage());
     expect(html).toContain("Integrations");
     expect(html).toContain("required PRD and inferred operational sources are represented");
     expect(html).toContain("GT Challenge capture");

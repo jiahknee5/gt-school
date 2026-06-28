@@ -7,7 +7,7 @@
 // data" surface — every value carries its data source and a self-eval.
 
 import { DevTabs } from "../_components/DevTabs";
-import { generate } from "@/lib/seed/generate";
+import { loadDataset } from "@/lib/seed/load-dataset";
 import { defaultReportingWeek } from "@/lib/metrics/registry";
 import { buildDerivations, llmCallSiteRows, type DerivationGraph } from "@/lib/status/derivation";
 import { listRecentTraces } from "@/lib/ai/trace-store";
@@ -34,7 +34,7 @@ function traceFromGraph(g: DerivationGraph): TraceRow[] {
 
 export default async function DevRubricsPage() {
   const week = defaultReportingWeek();
-  const ds = generate({ seed: 424242, families: 1200 });
+  const ds = await loadDataset({ seed: 424242, families: 1200 });
   const derivations = buildDerivations(ds, week);
   const builtAt = new Date().toISOString().replace("T", " ").slice(0, 19);
 

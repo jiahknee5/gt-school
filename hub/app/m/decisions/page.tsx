@@ -12,7 +12,7 @@
 import Link from "next/link";
 import { getSession } from "@/lib/auth";
 import { ensureBudgetVarianceDecision } from "@/lib/phase2";
-import { generate } from "@/lib/seed/generate";
+import { loadDataset } from "@/lib/seed/load-dataset";
 import {
   activeDecisions,
   decisionStats,
@@ -52,7 +52,7 @@ export default async function DecisionsPage({
   const isLeader = role === "leader";
   const activeTab: TabKey = TABS.find((t) => t.key === query.tab)?.key ?? "active";
 
-  const dataset = generate({ seed: 424242, families: 1200 });
+  const dataset = await loadDataset({ seed: 424242, families: 1200 });
   const decisions = ensureBudgetVarianceDecision(dataset.budget_workstream, dataset.decisions);
   const stats = decisionStats(decisions);
   const badge = openBadgeCount(decisions);

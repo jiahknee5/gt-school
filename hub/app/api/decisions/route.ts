@@ -7,7 +7,7 @@ import { NextResponse } from "next/server";
 import { AuthError, getSession } from "@/lib/auth";
 import { decisionQueueRoleAllowed } from "@/lib/auth/policy";
 import { ensureBudgetVarianceDecision } from "@/lib/phase2";
-import { generate } from "@/lib/seed/generate";
+import { loadDataset } from "@/lib/seed/load-dataset";
 
 export const dynamic = "force-dynamic";
 
@@ -22,7 +22,7 @@ export async function GET() {
       );
     }
 
-    const dataset = generate({ seed: 424242, families: 1200 });
+    const dataset = await loadDataset({ seed: 424242, families: 1200 });
     const decisions = ensureBudgetVarianceDecision(dataset.budget_workstream, dataset.decisions);
     const open = decisions.filter((d) => d.status === "open");
 

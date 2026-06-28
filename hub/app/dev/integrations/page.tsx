@@ -6,7 +6,7 @@ import {
   PRD_REQUIRED_INTEGRATION_IDS,
 } from "@/lib/integrations/catalog";
 import { humanizeAge } from "@/lib/dashboard/freshness";
-import { generate } from "@/lib/seed/generate";
+import { loadDataset } from "@/lib/seed/load-dataset";
 import type {
   IntegrationAccount,
   IntegrationStatus,
@@ -95,8 +95,8 @@ function SourceCard({ account, run }: { account: IntegrationAccount; run?: Integ
   );
 }
 
-export default function DevIntegrationsPage() {
-  const ds = generate({ seed: 424242, families: 1200 });
+export default async function DevIntegrationsPage() {
+  const ds = await loadDataset({ seed: 424242, families: 1200 });
   const accounts = ds.integration_accounts;
   const runs = ds.integration_sync_runs;
   const coverage = integrationCoverage(accounts);

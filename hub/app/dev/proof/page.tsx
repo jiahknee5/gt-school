@@ -6,7 +6,7 @@
 
 import Link from "next/link";
 import { DevTabs } from "../_components/DevTabs";
-import { generate } from "@/lib/seed/generate";
+import { loadDataset } from "@/lib/seed/load-dataset";
 import { buildSeedPaymentPropagationSummary, type PaymentWatchRow } from "@/lib/payments/propagation";
 import { reconcileBudget } from "@/lib/budget/reconcile";
 import { routeDecision } from "@/lib/auth/policy";
@@ -33,8 +33,8 @@ function ProofCard({ n, title, brief, children }: { n: number; title: string; br
   );
 }
 
-export default function DevProofPage() {
-  const ds = generate({ seed: 424242, families: 1200 });
+export default async function DevProofPage() {
+  const ds = await loadDataset({ seed: 424242, families: 1200 });
 
   // ---- Proof 1: payment propagates (real propagation summary) ----
   const pay = buildSeedPaymentPropagationSummary(ds);

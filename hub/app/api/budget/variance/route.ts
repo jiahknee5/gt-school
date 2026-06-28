@@ -11,7 +11,7 @@
 import { NextResponse } from "next/server";
 import { getSession } from "@/lib/auth";
 import type { Role } from "@/lib/phase2";
-import { generate } from "@/lib/seed/generate";
+import { loadDataset } from "@/lib/seed/load-dataset";
 import { reconcileBudget } from "@/lib/budget/reconcile";
 import { evaluateVariance, pendingVarianceDecisions } from "@/lib/budget/variance";
 
@@ -32,8 +32,8 @@ function requireLeadership(role: Role | null | undefined): void {
   }
 }
 
-function variancePayload(asOf = "2026-08-31T00:00:00.000Z") {
-  const ds = generate({ seed: 424242, families: 1200 });
+async function variancePayload(asOf = "2026-08-31T00:00:00.000Z") {
+  const ds = await loadDataset({ seed: 424242, families: 1200 });
   const recon = reconcileBudget(ds.budget_workstream, ds.budget_entry);
   const rows = recon.rows.map((r) => ({ key: r.key, name: r.name, planned: r.planned, actual: r.actual }));
   const variance = evaluateVariance(rows);
@@ -60,14 +60,14 @@ function variancePayload(asOf = "2026-08-31T00:00:00.000Z") {
 export async function GET() {
   const session = await getSession();
   if (!session) return NextResponse.json({ error: "Authentication required." }, { status: 401 });
-  return NextResponse.json({ role: session.role, ...variancePayload() });
+  return NextResponse.json({ role: session.role, ...(await variancePayload()) });
 }
 
 export async function POST() {
   try {
     const session = await getSession();
     requireLeadership(session?.role);
-    return NextResponse.json({ role: session!.role, raised: true, ...variancePayload() });
+    return NextResponse.json({ role: session!.role, raised: true, ...(await variancePayload()) });
   } catch (err) {
     if (err instanceof RouteAuthError) {
       return NextResponse.json({ error: err.message }, { status: err.status });

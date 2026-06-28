@@ -6,7 +6,7 @@
 
 import { NextResponse } from "next/server";
 import { AuthError, requireSession } from "@/lib/auth";
-import { generate } from "@/lib/seed/generate";
+import { loadDataset } from "@/lib/seed/load-dataset";
 import { getProgramScopeForUser } from "@/lib/program-preference";
 import { resolveViewerProgramScope, type ProgramScope } from "@/lib/program-scope";
 import { buildStatusBoard } from "@/lib/status/board";
@@ -53,7 +53,7 @@ export async function POST(req: Request) {
       await getProgramScopeForUser(session.id),
     );
 
-    const ds = generate({ seed: 424242, families: 1200 });
+    const ds = await loadDataset({ seed: 424242, families: 1200 });
     const board = buildStatusBoard(ds, programScope, selectedWeek);
     const { snapshot, recalled } = await loadOrGenerateSnapshot(board, programScope, {
       generate: { provider: null },
