@@ -39,7 +39,23 @@ function StageRow({ stage, last }: { stage: JourneyStage; last: boolean }) {
           {stage.at && <span className="mono ml-auto text-[10px] text-label">{fmtAt(stage.at)}</span>}
         </div>
         <p className="mono mt-1 text-[11px] leading-snug text-muted">{stage.detail}</p>
-        <Link href={stage.href} className="mono mt-1 inline-block text-[9px] font-semibold text-gold hover:underline">
+        {stage.keys.length > 0 && (
+          <dl className="mt-1.5 grid gap-1 sm:grid-cols-2">
+            {stage.keys.map((k) => (
+              <div key={k.label} className="rounded-[5px] border border-hairline bg-fill px-1.5 py-1">
+                <dt className="mono text-[9px] font-semibold text-label">{k.label}</dt>
+                {k.href ? (
+                  <a href={k.href} target="_blank" rel="noopener noreferrer" className="mono block break-all text-[10px] font-semibold text-gold hover:underline">
+                    {k.value} ↗
+                  </a>
+                ) : (
+                  <dd className="mono break-all text-[10px] text-ink">{k.value}</dd>
+                )}
+              </div>
+            ))}
+          </dl>
+        )}
+        <Link href={stage.href} className="mono mt-1.5 inline-block text-[9px] font-semibold text-gold hover:underline">
           ⛁ {stage.source}
         </Link>
       </div>

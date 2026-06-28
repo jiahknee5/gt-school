@@ -30,6 +30,13 @@ async function fallProgramId(): Promise<string> {
   return id;
 }
 
+export interface StageKey {
+  label: string;
+  value: string;
+  /** when set, the value links out (e.g. a HubSpot record URL). */
+  href?: string;
+}
+
 export interface JourneyStage {
   key: string;
   label: string;
@@ -38,6 +45,8 @@ export interface JourneyStage {
   at: string | null;
   source: string;
   href: string;
+  /** the identifiers passed/minted at this stage — shown so the key chain is traceable. */
+  keys: StageKey[];
 }
 
 export interface Journey {
@@ -216,8 +225,8 @@ export async function loadJourney(key: string): Promise<Journey | null> {
       select id, stage, paid, hubspot_deal_id from enrollments where family_id = ${fid} and program_id = ${fallId} order by created_at desc limit 1`;
     const enrollment = enr[0] ?? null;
 
-    const pay = await sql<{ amount: string | number; status: string; occurred_at: string | null }[]>`
-      select amount, status, occurred_at from payments where family_id = ${fid} order by status_rank desc, occurred_at desc limit 1`;
+    const pay = await sql<{ stripe_payment_intent_id: string; stripe_event_id: string | null; amount: string | number; status: string; occurred_at: string | null }[]>`
+      select stripe_payment_intent_id, stripe_event_id, amount, status, occurred_at from payments where family_id = ${fid} order by status_rank desc, occurred_at desc limit 1`;
     const payment = pay[0] ?? null;
 
     // The HubSpot sync intent can be keyed on any of: the family (contact), the
@@ -227,8 +236,8 @@ export async function loadJourney(key: string): Promise<Journey | null> {
     const outIds = [fid, enrollment?.id, sub?.id].filter(Boolean) as string[];
     // aggregate_id is uuid; postgres.js sends a JS string[] as text[], so compare on
     // ::text to avoid a `uuid = any(text[])` type error (the ids are exact uuid strings).
-    const out = await sql<{ op: string; target_system: string; status: string; created_at: string }[]>`
-      select op, target_system, status, created_at from sync_outbox
+    const out = await sql<{ op: string; target_system: string; status: string; dedupe_key: string; created_at: string }[]>`
+      select op, target_system, status, dedupe_key, created_at from sync_outbox
       where aggregate_id::text = any(${outIds}) order by created_at desc limit 1`;
     const outbox = out[0] ?? null;
 
@@ -239,6 +248,8 @@ export async function loadJourney(key: string): Promise<Journey | null> {
       (sub?.child_first_name ?? "").trim() ||
       "Lead";
     const usd = (n: number) => `$${Math.round(n).toLocaleString("en-US")}`;
+    const portal = process.env.HUBSPOT_PORTAL_ID ?? "";
+    const dash = (v: string | null | undefined) => (v && String(v).trim() ? String(v) : "—");
 
     const stages: JourneyStage[] = [
       {
@@ -249,6 +260,10 @@ export async function loadJourney(key: string): Promise<Journey | null> {
         at: family.created_at,
         source: "Supabase app_form",
         href: "/dev/integrations#supabase_app_form",
+        keys: [
+          { label: "utm_campaign", value: dash(sub?.utm_campaign ?? "gifted_quiz_2026") },
+          { label: "utm_source", value: dash(sub?.utm_source ?? family.source) },
+        ],
       },
       {
         key: "quiz",
@@ -258,6 +273,11 @@ export async function loadJourney(key: string): Promise<Journey | null> {
         at: sub?.scored_at ?? null,
         source: "GT Challenge capture",
         href: "/dev/integrations#gt_challenge_capture",
+        keys: [
+          { label: "match_key", value: dash(family.match_key) },
+          { label: "family_id", value: fid },
+          { label: "submission_id", value: dash(sub?.id) },
+        ],
       },
       {
         key: "routed",
@@ -267,6 +287,7 @@ export async function loadJourney(key: string): Promise<Journey | null> {
         at: membership?.joined_at ?? null,
         source: "Supabase app_form",
         href: "/dev/integrations#supabase_app_form",
+        keys: [{ label: "program_membership.family_id", value: fid }],
       },
       {
         key: "paid",
@@ -276,15 +297,37 @@ export async function loadJourney(key: string): Promise<Journey | null> {
         at: payment?.occurred_at ?? null,
         source: "Stripe",
         href: "/dev/integrations#stripe",
+        keys: [
+          { label: "payment_intent_id", value: dash(payment?.stripe_payment_intent_id) },
+          { label: "event_id", value: dash(payment?.stripe_event_id) },
+          { label: "enrollment_id", value: dash(enrollment?.id) },
+        ],
       },
       {
         key: "hubspot",
         label: "Synced to HubSpot",
-        status: outbox ? "done" : "pending",
-        detail: outbox ? `outbox ${outbox.op} → ${outbox.target_system} · ${outbox.status}` : "No outbox intent yet",
-        at: outbox?.created_at ?? null,
+        status: family.hubspot_contact_id || outbox ? "done" : "pending",
+        detail: family.hubspot_contact_id
+          ? `contact in HubSpot${enrollment?.hubspot_deal_id ? " + deal" : ""}${outbox ? ` · outbox ${outbox.op} · ${outbox.status}` : ""}`
+          : outbox
+            ? `outbox ${outbox.op} → ${outbox.target_system} · ${outbox.status}`
+            : "No outbox intent yet",
+        at: outbox?.created_at ?? family.created_at,
         source: "HubSpot",
         href: "/dev/integrations#hubspot_crm",
+        keys: [
+          {
+            label: "hubspot_contact_id",
+            value: dash(family.hubspot_contact_id),
+            href: portal && family.hubspot_contact_id ? `https://app.hubspot.com/contacts/${portal}/contact/${family.hubspot_contact_id}` : undefined,
+          },
+          {
+            label: "hubspot_deal_id",
+            value: dash(enrollment?.hubspot_deal_id),
+            href: portal && enrollment?.hubspot_deal_id ? `https://app.hubspot.com/contacts/${portal}/record/0-3/${enrollment.hubspot_deal_id}` : undefined,
+          },
+          ...(outbox ? [{ label: "sync_outbox.dedupe_key", value: outbox.dedupe_key }] : []),
+        ],
       },
     ];
 
