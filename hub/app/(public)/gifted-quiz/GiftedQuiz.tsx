@@ -588,7 +588,7 @@ function ResultScreen({
         <div className="mt-4 rounded-card border border-green-soft bg-green-soft p-3">
           <p className="text-[13px] font-semibold text-green">Secure {name}&apos;s Fall spot</p>
           <p className="mt-1 text-[11px] leading-snug text-slate">
-            Qualified families can reserve a seat now with a refundable $500 deposit. Fall
+            Qualified families can reserve a seat now with a refundable $100 deposit. Fall
             enrollment closes Aug 17 and spots are limited.
           </p>
           {checkoutError && (
@@ -602,7 +602,7 @@ function ResultScreen({
             disabled={checkout === "charging"}
             className="mt-3 flex h-11 w-full items-center justify-center rounded-card bg-ink-cta text-[14px] font-semibold text-on-cta shadow-sm transition-colors hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-50"
           >
-            {checkout === "charging" ? "Processing deposit..." : "Secure your spot — pay $500 deposit"}
+            {checkout === "charging" ? "Processing deposit..." : "Secure your spot — pay $100 deposit"}
           </button>
           <p className="mono mt-2 text-center text-[10px] text-label">
             Stripe test mode · then watch your spot move through our system live.

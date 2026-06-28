@@ -15,7 +15,7 @@ import { createPaymentIntent, signPayload, handleStripeEvent } from "@/lib/payme
 import { upsertContactByEmail, createDeal, associateDealToContact } from "@/lib/connectors/hubspot";
 
 const FALL_PROGRAM_KEY = "fall_enrollment";
-const DEPOSIT_CENTS = 50000; // $500 Fall deposit (demo)
+const DEPOSIT_CENTS = 10000; // $100 Fall deposit (demo)
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i;
 
 async function fallProgramId(): Promise<string> {
