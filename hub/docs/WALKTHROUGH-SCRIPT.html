@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>GT Marketing Hub — Walkthrough Video Script</title>
+<title>GT Marketing Hub — Walkthrough</title>
 <style>
   :root{
     --canvas:#faf8f4; --paper:#ffffff; --fill:#f3eee4;
@@ -11,493 +11,167 @@
     --gold:#a8741f; --gold-soft:#f4ead3;
     --hairline:#e9e2d6; --border:#ded5c6;
     --live:#1f7a4d; --live-bg:#e4f3ea;
-    --local:#9a6212; --local-bg:#fbeeda;
-    --either:#5b6470; --either-bg:#eceef1;
-    --red:#b23b3b; --red-bg:#f7e6e6;
     --fs:16px;
     --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
     --sans:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
   }
   *{box-sizing:border-box}
   html{scroll-behavior:smooth}
-  body{
-    margin:0;background:var(--canvas);color:var(--ink);
-    font-family:var(--sans);font-size:var(--fs);line-height:1.5;
-    -webkit-font-smoothing:antialiased;
-  }
-  .wrap{max-width:920px;margin:0 auto;padding:0 20px 120px}
-
-  /* ---- top bar ---- */
-  header.top{
-    position:sticky;top:0;z-index:50;background:rgba(250,248,244,.92);
-    backdrop-filter:blur(8px);border-bottom:1px solid var(--hairline);
-  }
-  .top-inner{max-width:920px;margin:0 auto;padding:10px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
+  body{margin:0;background:var(--canvas);color:var(--ink);font-family:var(--sans);font-size:var(--fs);line-height:1.5;-webkit-font-smoothing:antialiased}
+  .wrap{max-width:900px;margin:0 auto;padding:0 20px 120px}
+  header.top{position:sticky;top:0;z-index:50;background:rgba(250,248,244,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--hairline)}
+  .top-inner{max-width:900px;margin:0 auto;padding:10px 20px;display:flex;flex-wrap:wrap;align-items:center;gap:10px 14px}
   .top h1{font-size:15px;margin:0;font-weight:700;letter-spacing:-.01em}
   .top .sub{font-family:var(--mono);font-size:10px;color:var(--label);text-transform:uppercase;letter-spacing:.06em}
   .spacer{flex:1}
   .controls{display:flex;gap:6px;align-items:center}
-  button.ctl{
-    font-family:var(--mono);font-size:11px;border:1px solid var(--border);
-    background:var(--paper);color:var(--ink);border-radius:7px;padding:5px 9px;cursor:pointer;
-  }
+  button.ctl{font-family:var(--mono);font-size:11px;border:1px solid var(--border);background:var(--paper);color:var(--ink);border-radius:7px;padding:5px 9px;cursor:pointer}
   button.ctl:hover{border-color:var(--gold);color:var(--gold)}
   button.ctl.on{background:var(--gold);border-color:var(--gold);color:#fff}
-
-  /* ---- hero ---- */
-  .hero{padding:30px 0 8px}
-  .hero h2{font-size:27px;margin:0 0 6px;letter-spacing:-.02em;line-height:1.12}
+  .hero{padding:26px 0 4px}
+  .hero h2{font-size:25px;margin:0 0 6px;letter-spacing:-.02em;line-height:1.12}
   .hero .meta{font-family:var(--mono);font-size:11px;color:var(--muted)}
   .hero .meta a{color:var(--gold);text-decoration:none}
-  .hero .meta a:hover{text-decoration:underline}
-  .legend{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px}
-
-  /* ---- chips ---- */
-  .chip{display:inline-flex;align-items:center;gap:5px;font-family:var(--mono);
-    font-size:10px;font-weight:600;border-radius:999px;padding:3px 9px;letter-spacing:.02em;border:1px solid transparent}
-  .chip.live{background:var(--live-bg);color:var(--live);border-color:#c7e6d3}
-  .chip.local{background:var(--local-bg);color:var(--local);border-color:#f0d8b4}
-  .chip.either{background:var(--either-bg);color:var(--either);border-color:#d6dae0}
-  .chip::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
-
-  /* ---- callout ---- */
-  .callout{background:var(--paper);border:1px solid var(--border);border-left:3px solid var(--gold);
-    border-radius:10px;padding:16px 18px;margin:18px 0}
-  .callout h3{margin:0 0 8px;font-size:14px;letter-spacing:.01em}
-  .callout p{margin:0 0 10px}
-  .callout p:last-child{margin-bottom:0}
-  .callout.warn{border-left-color:var(--red)}
-  .callout.warn h3{color:var(--red)}
-
-  /* ---- checklist ---- */
-  ul.check{list-style:none;padding:0;margin:8px 0 0}
-  ul.check li{display:flex;gap:9px;align-items:flex-start;padding:5px 0;font-size:14px}
-  ul.check input{margin-top:3px;width:15px;height:15px;accent-color:var(--gold);flex:0 0 auto}
-  ul.check li.done span{color:var(--label);text-decoration:line-through}
-
-  /* ---- segment cards ---- */
-  .seg{background:var(--paper);border:1px solid var(--border);border-radius:12px;
-    padding:18px 20px;margin:16px 0;box-shadow:0 1px 2px rgba(40,30,15,.04)}
-  .seg-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-bottom:4px}
-  .seg-num{font-family:var(--mono);font-size:11px;font-weight:700;color:var(--gold);
-    background:var(--gold-soft);border-radius:6px;padding:2px 7px}
+  .callout{background:var(--paper);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:10px;padding:13px 16px;margin:16px 0}
+  .callout h3{margin:0 0 7px;font-size:13px}
+  .callout ul{margin:0;padding-left:18px}
+  .callout li{font-size:13px;margin:3px 0;line-height:1.45}
+  .seg{background:var(--paper);border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin:14px 0;box-shadow:0 1px 2px rgba(40,30,15,.04)}
+  .seg-head{display:flex;flex-wrap:wrap;align-items:center;gap:10px}
+  .seg-num{font-family:var(--mono);font-size:10px;font-weight:700;color:#fff;background:var(--gold);border-radius:6px;padding:3px 8px;letter-spacing:.04em}
   .seg-time{font-family:var(--mono);font-size:11px;color:var(--muted)}
-  .seg-title{font-size:18px;font-weight:700;letter-spacing:-.01em;flex-basis:100%;margin:2px 0 0}
+  .seg-title{font-size:19px;font-weight:700;letter-spacing:-.01em;flex-basis:100%;margin:3px 0 0}
   .seg-done{margin-left:auto;display:flex;align-items:center;gap:6px;font-family:var(--mono);font-size:10px;color:var(--label);cursor:pointer}
   .seg-done input{width:15px;height:15px;accent-color:var(--live)}
-
-  .blk{margin:12px 0 0}
-  .blk-label{font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;
-    letter-spacing:.08em;color:var(--label);margin-bottom:5px}
-  .do p,.proves p{margin:0;font-size:14.5px}
-  .do code,.proves code,.say code,.callout code,td code{font-family:var(--mono);font-size:.86em;
-    background:var(--fill);border:1px solid var(--hairline);border-radius:4px;padding:1px 5px}
-
-  .say{border-left:3px solid var(--gold);background:linear-gradient(90deg,var(--gold-soft)0%,rgba(244,234,211,.25)100%);
-    border-radius:0 8px 8px 0;padding:13px 16px}
-  .say p{margin:0 0 10px;font-size:18px;line-height:1.55}
+  .blk{margin:11px 0 0}
+  .blk-label{font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--label);margin-bottom:4px}
+  .cue p{margin:0;font-size:13px;color:var(--muted);line-height:1.6}
+  code{font-family:var(--mono);font-size:.85em;background:var(--fill);border:1px solid var(--hairline);border-radius:4px;padding:1px 5px}
+  a.lnk{font-family:var(--mono);font-size:.9em;color:var(--gold);text-decoration:none;border-bottom:1px solid var(--gold-soft);word-break:break-all}
+  a.lnk:hover{border-color:var(--gold)}
+  .say{border-left:3px solid var(--gold);background:linear-gradient(90deg,var(--gold-soft)0%,rgba(244,234,211,.22)100%);border-radius:0 8px 8px 0;padding:12px 16px}
+  .say p{margin:0 0 9px;font-size:17px;line-height:1.5}
   .say p:last-child{margin-bottom:0}
-
-  .scut{font-size:13px;color:var(--muted);margin-top:10px;padding-top:9px;border-top:1px dashed var(--hairline)}
-  .scut b{color:var(--ink)}
-  ol.clicks{margin:6px 0 0;padding-left:22px}
-  ol.clicks li{margin:4px 0;font-size:14.5px;line-height:1.45}
-  .land{background:var(--red-bg);border:1px solid #e9c9c9;border-radius:8px;padding:9px 12px;margin:11px 0 0;font-size:13.5px;color:#7a2a2a}
-  .land b{color:var(--red)}
-  body.tele .land{display:none}
-
-  /* ---- section heading ---- */
-  h3.sec{margin:38px 0 4px;font-size:13px;font-family:var(--mono);text-transform:uppercase;
-    letter-spacing:.1em;color:var(--gold);border-bottom:1px solid var(--hairline);padding-bottom:6px}
-
-  /* ---- tables ---- */
-  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13.5px;background:var(--paper);
-    border:1px solid var(--border);border-radius:10px;overflow:hidden}
-  th,td{text-align:left;padding:8px 11px;border-bottom:1px solid var(--hairline);vertical-align:top}
-  th{background:var(--fill);font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:var(--label);font-weight:700}
-  tr:last-child td{border-bottom:none}
-  td b{color:var(--ink)}
-  .ok{color:var(--live);font-weight:600}
-  .si{color:var(--local);font-weight:600}
-  .no{color:var(--red);font-weight:600}
-
-  /* ---- teleprompter mode ---- */
+  .hl{font-family:var(--mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--gold);margin-right:7px;vertical-align:1px}
+  .say p.tech .hl{color:var(--label)}
+  h3.sec{margin:30px 0 2px;font-size:13px;font-family:var(--mono);text-transform:uppercase;letter-spacing:.1em;color:var(--gold);border-bottom:1px solid var(--hairline);padding-bottom:6px}
   body.tele{background:#0e0d0c;color:#f4efe6}
   body.tele header.top{background:rgba(14,13,12,.95);border-color:#2a2723}
   body.tele .top h1,body.tele .top .sub{color:#bdb4a4}
-  body.tele .hero,body.tele .legend,body.tele .callout,body.tele h3.sec,
-  body.tele table,body.tele .blk.do,body.tele .blk.proves,body.tele .scut,
-  body.tele .seg-done,body.tele .seg-num{display:none}
-  body.tele .seg{background:transparent;border:none;box-shadow:none;padding:20px 0;border-bottom:1px solid #232120;border-radius:0}
-  body.tele .seg-head{margin-bottom:8px}
+  body.tele .hero,body.tele .callout,body.tele h3.sec,body.tele .blk.cue,body.tele .seg-done{display:none}
+  body.tele .seg{background:transparent;border:none;box-shadow:none;padding:18px 0;border-bottom:1px solid #232120;border-radius:0}
   body.tele .seg-time{color:#8c8576}
   body.tele .seg-title{color:#cdbf9a;font-size:15px}
   body.tele .say{border-left:4px solid var(--gold);background:none;border-radius:0;padding:6px 0 6px 18px}
-  body.tele .say p{font-size:30px;line-height:1.45;color:#f7f2e8}
+  body.tele .say p{font-size:25px;line-height:1.4;color:#f7f2e8}
   body.tele .blk-label{display:none}
   body.tele button.ctl{background:#1b1917;border-color:#3a352e;color:#cdbf9a}
-
-  @media print{
-    header.top,.controls,.seg-done{display:none}
-    body{background:#fff;font-size:12px}
-    .seg,.callout,table{break-inside:avoid;box-shadow:none}
-    .say p{font-size:14px}
-  }
-  @media (max-width:560px){.hero h2{font-size:22px}.say p{font-size:16px}}
+  @media print{header.top,.controls,.seg-done{display:none}body{background:#fff;font-size:12px}.seg,.callout{break-inside:avoid;box-shadow:none}.say p{font-size:14px}}
+  @media (max-width:560px){.hero h2{font-size:21px}.say p{font-size:15px}}
 </style>
 </head>
 <body>
-
-<header class="top">
-  <div class="top-inner">
-    <div>
-      <h1>GT Marketing Hub — Walkthrough Script</h1>
-      <div class="sub">Deliverable A4 · record-from · ≈9:30</div>
-    </div>
-    <div class="spacer"></div>
-    <div class="controls">
-      <button class="ctl" id="font-dn" title="Smaller">A−</button>
-      <button class="ctl" id="font-up" title="Larger">A+</button>
-      <button class="ctl" id="tele" title="Show only the lines you speak">▶ Teleprompter</button>
-      <button class="ctl" id="reset" title="Clear all checkmarks">↺ Reset</button>
-    </div>
+<header class="top"><div class="top-inner">
+  <div><h1>GT Marketing Hub — Walkthrough</h1><div class="sub">example → status → AI → data → close · ~8 min</div></div>
+  <div class="spacer"></div>
+  <div class="controls">
+    <button class="ctl" id="font-dn">A−</button><button class="ctl" id="font-up">A+</button>
+    <button class="ctl" id="tele">▶ Teleprompter</button><button class="ctl" id="reset">↺ Reset</button>
   </div>
-</header>
+</div></header>
 
 <div class="wrap">
-
   <div class="hero">
-    <h2>Walkthrough Video Script</h2>
-    <div class="meta">
-      Audience: the grader · Live: <a href="https://gt-school-hub.vercel.app">gt-school-hub.vercel.app</a>
-      · Local: <code>npm run dev</code> → localhost:3000<br>
-      Companion: <code>docs/SUBMISSION.md</code> · <code>docs/06-gt-challenge/WORKFLOW.md</code> · <code>docs/audits/STATUS-RUBRICS.md</code>
-    </div>
-    <div class="legend">
-      <span class="chip live">LIVE — safe on the deployed URL</span>
-      <span class="chip local">LOCAL+DB — record on a seeded local run</span>
-      <span class="chip either">EITHER</span>
-    </div>
+    <h2>Walkthrough</h2>
+    <div class="meta">Riff from the points, don't read them. All live: <a href="https://gt-school-hub.vercel.app">gt-school-hub.vercel.app</a></div>
   </div>
 
-  <!-- ============ RECORDING PLAN ============ -->
   <div class="callout">
-    <h3>Recording plan — read once before you start</h3>
-    <p><b>Record from two sources, and say which is which on camera.</b> The live URL has
-      <b>no database attached</b> (<code>AUTH_DEV_MODE=true</code>, in-memory paths), so the
-      cause→effect backbone proofs (a payment <i>moving</i>, a cross-program write being
-      <i>rejected</i>, parity <i>dropping</i>) cannot truly happen there — <code>/dev/payments</code>
-      shows <code>source: seed-fixture</code>. Record those on a <b>local <code>npm run dev</code> +
-      seeded Supabase</b> segment (<span class="chip local">LOCAL+DB</span> beats); record everything
-      genuinely live (RBAC/403, $365K, Open Data, the public quiz, the methodology surfaces) on the
-      <b>live URL</b> (<span class="chip live">LIVE</span> beats). This split <i>is</i> the honesty the
-      brief rewards — a feature, not an apology.</p>
-    <p><b>All-live fallback:</b> keep the LOCAL+DB beats but change the verb from “watch it happen” to
-      “here's the surface, here's the test that proves it,” and run the named test on camera
-      (<code>npx vitest run tests/payments.test.ts</code>). Never say “watch it propagate” over a
-      <code>seed-fixture</code> screen.</p>
-  </div>
-
-  <div class="callout warn">
-    <h3>Pre-flight checklist — the live URL will bite you otherwise</h3>
-    <ul class="check" id="preflight">
-      <li><input type="checkbox"><span><b>Pre-warm every page</b> seconds before its take. Authed requests run a live Supabase profile lookup in middleware; under load they hang to a 25s ceiling and <b>504-cascade across all <code>/m/*</code> routes</b>. <code>/m/status</code> is the worst offender.</span></li>
-      <li><input type="checkbox"><span><b>Don't rapid-click or hover the sidebar</b> (RSC prefetch storm fans out the middleware lookups). Click deliberately.</span></li>
-      <li><input type="checkbox"><span><b>Use 3 separate tabs/sessions</b>, one per role. <b>Don't rely on sign-out mid-take</b> (<code>/api/auth/logout</code> is slow/fragile).</span></li>
-      <li><input type="checkbox"><span><b>Log in as Admin</b> for the methodology, source-drill-down, and <code>/dev/*</code> beats (they're admin-gated — itself part of the hard-gates story).</span></li>
-      <li><input type="checkbox"><span><b>Do one full dress-rehearsal take and watch it back.</b> Hunt for the <code>/m/status</code> hang and any “edit then navigate” beat that returns empty (serverless drops in-memory writes across requests).</span></li>
-      <li><input type="checkbox"><span><b>Numbers to expect live:</b> budget <b>$365,000</b> / 4 workstreams · nurture banner <b>“overall 92.76%”</b> · GT Challenge KPIs on <b>/m/gt-challenge</b> (spend <b>$8,208</b> · qualified <b>12</b> · CPQL <b>$684</b>) · Open Data decision <b>$41 vs $63 blended</b>.</span></li>
+    <h3>Before you record</h3>
+    <ul>
+      <li>All live (Supabase attached). Tabs: incognito for the ad/quiz, plus Admin + Leader signed in (dev-auth).</li>
+      <li>Pre-warm pages; don't rapid-click or hover the sidebar (per-request DB lookup → 504 under load).</li>
+      <li>Don't click Approve/Reject on a Decision Queue card (seed ids ≠ DB ids → 404).</li>
     </ul>
   </div>
 
-  <h3 class="sec">The script · target ≈ 9:30 · ✂️ = trim point</h3>
-
-  <!-- ============ SEGMENT 1 ============ -->
   <div class="seg">
-    <div class="seg-head">
-      <span class="seg-num">01</span><span class="seg-time">0:00–0:40</span>
-      <span class="chip live">LIVE · /login</span>
-      <label class="seg-done"><input type="checkbox"> done</label>
-      <div class="seg-title">Frame + the dev-auth honesty line</div>
+    <div class="seg-head"><span class="seg-num">1 · EXAMPLE</span><span class="seg-time">~2:30</span><label class="seg-done"><input type="checkbox"> done</label>
+      <div class="seg-title">One lead, end to end: ad → quiz → $100 deposit → tracked</div></div>
+    <div class="blk cue"><div class="blk-label">Open</div><p><a class="lnk" href="https://gt-school-hub.vercel.app/ad" target="_blank">…/ad</a> → quiz + consent → <b>"pay $100 deposit"</b> → <a class="lnk" href="https://gt-school-hub.vercel.app/track/test" target="_blank">…/track/&lt;lead&gt;</a> &nbsp;·&nbsp; Admin → <a class="lnk" href="https://gt-school-hub.vercel.app/dev/payments" target="_blank">…/dev/payments</a></p></div>
+    <div class="blk say"><div class="blk-label">Talking points</div>
+      <p><span class="hl">high</span>One real lead, the whole way through — an ad, the quiz, a $100 deposit. Watch it move.</p>
+      <p class="tech"><span class="hl">tech</span>The quiz writes a real family to Supabase. The deposit's a real Stripe charge through the production handler — payment recorded, enrollment paid, HubSpot queued. /track walks the record ad → quiz → routed → paid → synced; /dev/payments shows it in the live ledger, and re-delivering the event is a no-op.</p>
     </div>
-    <div class="blk do"><div class="blk-label">Click</div>
-      <ol class="clicks">
-        <li>Go to <code>gt-school-hub.vercel.app</code> → it 307-redirects to <code>/login</code>.</li>
-        <li>Cursor-point the <b>“Dev auth mode is on”</b> banner and the role personas (Admin / Leader / Operator) while you say the dev-auth line.</li>
-        <li>Click the <b>Leader</b> persona card → you land on Home (your cockpit). Leave it open; you'll switch tabs later.</li>
-      </ol></div>
-    <div class="blk say"><div class="blk-label">Say</div>
-      <p>“I'm Johnny. This is a 48-hour take-home. I went deep on a sync backbone and the modules that prove its hardest rules — CRM Ops for data trust, Budget for single-source reconciliation, and the role-gated Decision Queue where every cross-module rule lands — plus one end-to-end campaign, and I deliberately stubbed the rest. I'll prove the four things you asked to watch, show that data is connected front to back with the program gates holding, and I'll name every stand-in as I go.</p>
-      <p>One thing up front so it's not a gotcha: this public link runs dev-auth — pick any role, no password, so you can review all three from one URL. It does <b>not</b> weaken the gate. The session is a real signed cookie; the role is resolved server-side from the verified user id, never trusted from the request; middleware denies by default. Dev mode removes the password, not the enforcement — flip one env var, wire an IdP, zero call-site changes.”</p></div>
-    <div class="blk proves"><div class="blk-label">Proves</div><p>Sequencing judgment up front; disarms the dev-auth question before the grader wonders.</p></div>
   </div>
 
-  <!-- ============ SEGMENT 2 ============ -->
   <div class="seg">
-    <div class="seg-head">
-      <span class="seg-num">02</span><span class="seg-time">0:40–2:00</span>
-      <span class="chip local">LOCAL+DB</span>
-      <label class="seg-done"><input type="checkbox"> done</label>
-      <div class="seg-title">The spine — watch a payment propagate, contaminate nothing</div>
+    <div class="seg-head"><span class="seg-num">2 · STATUS</span><span class="seg-time">~1:30</span><label class="seg-done"><input type="checkbox"> done</label>
+      <div class="seg-title">The weekly answer — and where the LLM runs</div></div>
+    <div class="blk cue"><div class="blk-label">Open</div><p><a class="lnk" href="https://gt-school-hub.vercel.app/m/status" target="_blank">…/m/status</a> &nbsp;·&nbsp; drill <a class="lnk" href="https://gt-school-hub.vercel.app/m/budget" target="_blank">…/m/budget</a> · <a class="lnk" href="https://gt-school-hub.vercel.app/m/decisions" target="_blank">…/m/decisions</a></p></div>
+    <div class="blk say"><div class="blk-label">Talking points</div>
+      <p><span class="hl">high</span>This is the page I open Monday. One question: on track for Fall, and what do I do this week.</p>
+      <p class="tech"><span class="hl">numbers</span>Every figure's single-sourced — budget to $365K, paced to the Aug 17 cutoff, the binding constraint named. Drill any owner or stage. The Decision Queue's leader-only; Open Data flips a pilot to approve, $41 a lead vs $63.</p>
+      <p class="tech"><span class="hl">the LLM</span>The verdict at the top isn't hand-written — an LLM drafts it from the real numbers. That's the first place AI shows up; here's how I keep it honest.</p>
     </div>
-    <div class="blk do"><div class="blk-label">Click / run</div>
-      <ol class="clicks">
-        <li>Terminal A: <code>node scripts/stripe-service.mjs</code> (port 4242).</li>
-        <li>Terminal B: <code>stripe listen --forward-to localhost:4242/webhooks/stripe</code>.</li>
-        <li>Terminal C: <code>node scripts/pay.mjs &lt;deal_ext_id&gt;</code> → watch the chain: payment → webhook → idempotency ledger → role-scoped program store → HubSpot deal <code>closedwon</code>.</li>
-        <li>Run the same command again → log shows <b>duplicate → no-op</b> (one ledger row, same id, balance unchanged).</li>
-        <li>Browser (Admin) → <code>/dev/payments</code> to show the watcher. <i>On the live URL it's labeled <code>seed-fixture</code> — say so.</i></li>
-        <li>Optional proof on camera: <code>npx vitest run tests/payments.test.ts</code>.</li>
-      </ol></div>
-    <div class="blk say"><div class="blk-label">Say</div>
-      <p>“This is the foundation everything else rides on. Real Stripe event, real idempotency ledger — I send the same signed event twice and the replay is a no-op, not a double-charge: same payment id, one ledger row, balance unchanged. On the public link this surface renders deterministic seed facts so it runs with no database — you'll see it labeled <code>seed-fixture</code>. This is the live path, and <code>payments.test.ts</code> pins it in CI.”</p></div>
-    <div class="blk proves"><div class="blk-label">Proves</div><p>Signal 1 — payment propagates without contamination; idempotency (failure/edge #1); front-to-back path #1.</p></div>
   </div>
 
-  <!-- ============ SEGMENT 3 ============ -->
   <div class="seg">
-    <div class="seg-head">
-      <span class="seg-num">03</span><span class="seg-time">2:00–3:30</span>
-      <span class="chip local">LOCAL+DB</span><span class="chip live">+ LIVE</span>
-      <label class="seg-done"><input type="checkbox"> done</label>
-      <div class="seg-title">Hard gates &amp; no data leaks (the hero beat)</div>
+    <div class="seg-head"><span class="seg-num">3 · AGENT GRAPH + EVALS</span><span class="seg-time">~1:30</span><label class="seg-done"><input type="checkbox"> done</label>
+      <div class="seg-title">How the AI is checked</div></div>
+    <div class="blk cue"><div class="blk-label">Open</div><p><a class="lnk" href="https://gt-school-hub.vercel.app/dev/agents" target="_blank">…/dev/agents</a> · <a class="lnk" href="https://gt-school-hub.vercel.app/dev/rubrics" target="_blank">…/dev/rubrics</a> · <a class="lnk" href="https://gt-school-hub.vercel.app/dev/proof" target="_blank">…/dev/proof</a></p></div>
+    <div class="blk say"><div class="blk-label">Talking points</div>
+      <p><span class="hl">high</span>I don't trust an LLM I can't check — so here's the check.</p>
+      <p class="tech"><span class="hl">graph + evals</span>/dev/agents is the agent graph and every node's eval: input, expected, actual, pass. /dev/rubrics tags each claim measured, derived, or stand-in, with a self-eval. The verdict only ships if it passes the rubric — otherwise the deterministic draft stands.</p>
+      <p class="tech"><span class="hl">proof</span>/dev/proof runs the four "show us it works" signals live — idempotent payment, budget to $365K, operator denied, parity banner.</p>
     </div>
-    <div class="blk do"><div class="blk-label">Click / run — no leak <span class="chip local">LOCAL+DB</span></div>
-      <ol class="clicks">
-        <li>In <code>psql</code> as the restricted <code>app_rw</code> login: <code>SET LOCAL app.current_program = 'fall_enrollment';</code> then <code>SELECT * FROM &lt;program-scoped table&gt;;</code> → only fall rows.</li>
-        <li>Switch the GUC to the summer program → only summer rows. With the GUC <b>unset</b> → <b>0 rows</b> (fail-closed).</li>
-        <li>Attempt an <code>INSERT</code> whose program ≠ the GUC → RLS <code>WITH CHECK</code> <b>rejection</b>.</li>
-        <li>Proof path: <code>r1_isolation.sql</code> + <code>supabase/migrations/0001_backbone.sql</code>, or <code>npx vitest run tests/rbac.test.ts</code> (program-scope + <code>ProgramScopeError</code>).</li>
-      </ol></div>
-    <div class="blk say"><div class="blk-label">Say</div>
-      <p>“The brief says of program isolation, literally, ‘prove this.’ So here it is, the way that matters — a leak isn't policed by app code, it's rejected by the database. <code>app_rw</code> is NOSUPERUSER, NOBYPASSRLS; an unset program scope returns zero rows — fail-closed. As program A I try to read program B: nothing. I try to <i>write</i> into program B: the row-level-security check rejects it. And if I forge a program id above the database, the app throws before it ever gets there.”</p></div>
-    <div class="blk do"><div class="blk-label">Click — role gate <span class="chip live">LIVE</span></div>
-      <ol class="clicks">
-        <li><b>Leader tab:</b> click <b>Decisions</b> in the sidebar → the queue renders.</li>
-        <li><b>Operator tab:</b> the Decisions nav item is hidden, so type <code>/m/decisions</code> in the URL → it redirects to <code>/forbidden</code>.</li>
-        <li>Still as Operator, open DevTools → <b>Network</b> (Cmd+Opt+I), navigate to <code>/api/decisions</code> → click the request → <b>Response</b> is <code>403</code> JSON, not the data. (Or visit <code>/api/decisions</code> directly — the 403 JSON renders inline.)</li>
-      </ol></div>
-    <div class="blk say"><div class="blk-label">Say</div>
-      <p>“Same discipline at the role layer. The Decision Queue is leadership-only — even an Admin is denied; it's the role-gated hub where every cross-module rule lands. As a Leader I see the queue. As an Operator, the same URL bounces to /forbidden — and critically, the API itself returns 403 JSON, not the data. This is server-enforced at three layers, not a hidden button. Operators can <i>submit</i> to the queue; they can never view or act on it.”</p></div>
-    <div class="blk proves"><div class="blk-label">Proves</div><p>Signal 3 — role denied DQ; program isolation / no cross-program leak (security); the hard gates shown as <i>rejection</i>, not just a pretty wall.</p></div>
-    <div class="land"><b>Do NOT click Approve / Reject on a queue card on camera.</b> The cards render from in-memory seed, but the decide API writes to a DB table seeded with <i>different ids</i> — a live ruling 404s/500s and the card won't change. Show the queue + the gate + (in §7) the Open-Data recommendation; demo the actual ruling + audit trail via <code>npx vitest run tests/decisions.test.ts</code>.</div>
   </div>
 
-  <!-- ============ SEGMENT 4 ============ -->
   <div class="seg">
-    <div class="seg-head">
-      <span class="seg-num">04</span><span class="seg-time">3:30–5:30</span>
-      <span class="chip live">LIVE · Admin</span>
-      <label class="seg-done"><input type="checkbox"> done</label>
-      <div class="seg-title">How every number on the board is made — rubric → graph → evals → logs → citation</div>
+    <div class="seg-head"><span class="seg-num">4 · HUB CHAT</span><span class="seg-time">~0:45</span><label class="seg-done"><input type="checkbox"> done</label>
+      <div class="seg-title">Ask-the-Hub</div></div>
+    <div class="blk cue"><div class="blk-label">Open</div><p><a class="lnk" href="https://gt-school-hub.vercel.app/help/ai-agents" target="_blank">…/help/ai-agents</a> (also the Ask strip on Status)</p></div>
+    <div class="blk say"><div class="blk-label">Talking points</div>
+      <p><span class="hl">high</span>Same engine, as a chat.</p>
+      <p class="tech"><span class="hl">tech</span>Ask a plain-language question — the answer is role-aware, cites its sources, and refuses raw PII. An operator gets coaching, not the full queue.</p>
     </div>
-    <div class="blk do"><div class="blk-label">Click — 4a · One-glance answer <span class="chip live">LIVE</span></div>
-      <ol class="clicks">
-        <li><b>Admin tab</b> → click <b>Status</b> in the sidebar (or type <code>/m/status</code>). <i>Pre-warm it once before the take</i> — it's the 504-prone route.</li>
-      </ol></div>
-    <div class="blk say"><div class="blk-label">Say</div><p>“This is the executive verdict — leadership's one-glance answer: where we are, are we on track, the one binding constraint, and what to do before the Aug 17 cutoff. Now I want to show you that nothing on this board is hand-waved.”</p></div>
-
-    <div class="blk do"><div class="blk-label">Click — 4b · It fills a rubric <span class="chip live">LIVE</span></div>
-      <ol class="clicks">
-        <li>Show the rubric catalog on screen: open <code>docs/audits/STATUS-RUBRICS.md</code> (or the methodology surface) and scroll the per-cell rubric table.</li>
-      </ol></div>
-    <div class="blk say"><div class="blk-label">Say</div><p>“Every cell answers one fixed question against a falsifiable rubric — in <code>rubrics.ts</code>, the single definition — filled with the real KPI numbers. Each column has a required structure and a quality bar, and <code>checkCellConformance</code> fails the build if any cell drops below it. The verdict isn't authored prose; it's a rubric filled from data.”</p></div>
-
-    <div class="blk do"><div class="blk-label">Click — 4c · Harness + evals + logs <span class="chip live">LIVE · Admin</span></div>
-      <ol class="clicks">
-        <li>Navigate <code>/dev/agents</code>.</li>
-        <li>Click <b>Run agent graph</b> (or type a question) → the pipeline diagram renders.</li>
-        <li>Scroll to the <b>eval table</b> (node · pass · input · expected · actual · citations) and the <b>provenance</b> (source · model · generatedAt · inputsHash).</li>
-      </ol></div>
-    <div class="blk say"><div class="blk-label">Say</div><p>“Here's the machine that writes the weekly verdict: a deterministic draft from the real numbers, then an optional LLM rewrite — but it's <i>gated</i>, only accepted if it still passes conformance, otherwise the deterministic draft stands. Every run is logged with its source — deterministic or LLM — its model, a timestamp, and an inputs-hash so I can detect a stale verdict. These eval rows show each node's expected-versus-actual and pass/fail, and the citations each claim rests on. The same harness backs the Ask-the-Hub agent — role-aware, cited, and it refuses raw PII.”</p></div>
-
-    <div class="blk do"><div class="blk-label">Click — 4d · Cite tab + source <span class="chip live">LIVE · Admin</span></div>
-      <ol class="clicks">
-        <li>Navigate <code>/m/dashboard</code> → point at the <b>Source</b> column on the scorecard.</li>
-        <li>On the <b>Applicants</b> row, click <b>⛁ Supabase</b> → it jumps to <code>/dev/integrations#supabase_app_form</code> and the connector row amber-highlights (authoritative-for, join keys, owner, row count).</li>
-      </ol></div>
-    <div class="blk say"><div class="blk-label">Say</div><p>“And every number declares the one tab that owns it and the one source it comes from. Applicants comes from Supabase app_form — click it, and here's that exact connector: what it's authoritative for, its join keys, its row count. There's no second definition anywhere; every KPI is computed in one file, and the dashboard, the exec board, and the Home widget all read that same one. Notice the drill-down itself is admin-only — even provenance respects the role gate.”</p></div>
-
-    <div class="blk do"><div class="blk-label">Click — 4e · Where it isn't live, it says so <span class="chip live">LIVE</span></div>
-      <ol class="clicks">
-        <li>Back on <code>/m/status</code>, click the <b>Nurture</b> stage cell → the drawer opens.</li>
-        <li>Point at the SLA reading (“72% · 67 late · worst owner Johnny Chung, 25 of 67”) and its stand-in basis note. <b>Don't click its ⛁ HubSpot link</b> (see Appendix A).</li>
-      </ol></div>
-    <div class="blk say"><div class="blk-label">Say</div><p>“I want to be precise about this one. The SLA reads 72%, 67 late this week. That's a deterministic stand-in modeled on HubSpot Conversations — generated from seed, not a live read. So its citation says ‘stand-in,’ and the weekly target shows as a dash, because there's no live SLA series and I won't invent one. Real numbers cite their live connector; stand-ins cite themselves as stand-ins. That distinction is the whole point of the data strategy.”</p></div>
-
-    <div class="blk proves"><div class="blk-label">Proves</div><p>Single source of truth (clicked, not asserted); deterministic + eval-checked + logged generation; citations to tab + source; honest real-vs-stand-in labeling.</p></div>
-    <div class="scut">✂️ <b>If long:</b> cut 4b and fold its one line into 4c.</div>
   </div>
 
-  <!-- ============ SEGMENT 5 ============ -->
   <div class="seg">
-    <div class="seg-head">
-      <span class="seg-num">05</span><span class="seg-time">5:30–6:40</span>
-      <span class="chip live">LIVE</span><span class="chip local">+ LOCAL+DB</span>
-      <label class="seg-done"><input type="checkbox"> done</label>
-      <div class="seg-title">It all reconciles — budget + the composable Hub</div>
+    <div class="seg-head"><span class="seg-num">5 · DATA PAGES</span><span class="seg-time">~1:30</span><label class="seg-done"><input type="checkbox"> done</label>
+      <div class="seg-title">The data, tab by tab</div></div>
+    <div class="blk cue"><div class="blk-label">Open, in order</div><p><a class="lnk" href="https://gt-school-hub.vercel.app/dev" target="_blank">/dev</a> → <a class="lnk" href="https://gt-school-hub.vercel.app/dev/data-model" target="_blank">/dev/data-model</a> → <a class="lnk" href="https://gt-school-hub.vercel.app/dev/dictionary" target="_blank">/dev/dictionary</a> → <a class="lnk" href="https://gt-school-hub.vercel.app/dev/integrations" target="_blank">/dev/integrations</a></p></div>
+    <div class="blk say"><div class="blk-label">Talking points (one per tab)</div>
+      <p class="tech"><span class="hl">overview</span>What's real and what's synthetic, by source — every row on one of two join keys, reproducible from one seed.</p>
+      <p class="tech"><span class="hl">data model</span>The schema in a sentence — family → program → enrollment → payment — each table tagged for who owns the field and how it's guarded.</p>
+      <p class="tech"><span class="hl">dictionary</span>Every column documented: type, owner, protection. Nothing undocumented.</p>
+      <p class="tech"><span class="hl">integrations</span>Every source we touch, honest about maturity — connected, stand-in, or deferred — with owners, join keys, last sync. When Supabase and HubSpot disagree, this is what raises the data-confidence banner.</p>
     </div>
-    <div class="blk do"><div class="blk-label">Click — budget <span class="chip local">edit LOCAL+DB</span> <span class="chip live">total LIVE</span></div>
-      <ol class="clicks">
-        <li>Navigate <code>/m/budget</code> → cursor-circle the <b>$365,000</b> total and the 4 workstream rows (Grassroots $210K, Content $90K, Guerrilla, Foundations).</li>
-        <li><b>LOCAL:</b> add spend to a workstream → the total still reconciles to $365K; the &gt;10% overage auto-files into the queue.</li>
-        <li><b>LIVE (no edit possible):</b> point at the already-fired <b>“Guerrilla 12% over plan”</b> flag on <code>/m/decisions</code> (as Leader).</li>
-      </ol></div>
-    <div class="blk say"><div class="blk-label">Say</div><p>“A number has to mean the same thing everywhere. The budget reconciles to $365K across four workstreams. I add spend to a workstream — the total holds, and when a workstream drifts past 10% over plan, the system flags <i>itself</i> into the Decision Queue. That's already fired here on Guerrilla.”</p></div>
-    <div class="blk do"><div class="blk-label">Click — the Hub <span class="chip live">LIVE</span></div>
-      <ol class="clicks">
-        <li>Navigate <code>/</code> (Home) → open the widget picker (Customize) → add and remove a widget → <b>Save</b>. Saved-layout works; drag-reorder is the tracked gap.</li>
-      </ol></div>
-    <div class="blk say"><div class="blk-label">Say</div><p>“And the Hub is composable: each user builds their own command center from the widget library, with a role-aware starter pack. Saved-layout is wired; the browser drag-reorder is the one piece I'd finish next — it's tracked, not faked.”</p></div>
-    <div class="blk proves"><div class="blk-label">Proves</div><p>Signal 2 — budget reconciles + variance→DQ auto-flag; the composable-Home non-negotiable (honest about the partial).</p></div>
   </div>
 
-  <!-- ============ SEGMENT 6 ============ -->
   <div class="seg">
-    <div class="seg-head">
-      <span class="seg-num">06</span><span class="seg-time">6:40–8:10</span>
-      <span class="chip live">LIVE</span><span class="chip local">+ LOCAL+DB</span>
-      <label class="seg-done"><input type="checkbox"> done</label>
-      <div class="seg-title">Front-to-back — the GT Challenge, end to end</div>
+    <div class="seg-head"><span class="seg-num">6 · CLOSE</span><span class="seg-time">~0:20</span><label class="seg-done"><input type="checkbox"> done</label>
+      <div class="seg-title">Close</div></div>
+    <div class="blk say"><div class="blk-label">Talking points</div>
+      <p><span class="hl">high</span>The backbone's real, one number means one thing everywhere, and where something's a stand-in, it says so.</p>
+      <p class="tech"><span class="hl">tech</span><code>npm run verify</code> runs the suite. With another week: harden the live-integration tests and finish the composable-Home drag.</p>
     </div>
-    <div class="blk do"><div class="blk-label">Click</div>
-      <ol class="clicks">
-        <li><b>New incognito tab (no auth):</b> <code>/gifted-quiz</code> → answer the questions → <b>tick the consent box</b> → <b>Submit</b> → the result <b>bucket</b> screen appears (a fit screen; no “not gifted”). <span class="chip live">LIVE</span></li>
-        <li><code>/m/submissions</code> → your submission shows <code>received → scored → routed</code> with UTM incl. <code>(not set)</code>. <span class="chip local">LOCAL+DB</span> — on live this read-back may be empty across serverless instances; narrate it.</li>
-        <li><code>/m/gt-challenge</code> → KPI row: spend <b>$8,208</b> · qualified <b>12</b> · CPQL <b>$684</b>; spend rolled into its workstream, total still $365K. <span class="chip live">LIVE</span></li>
-        <li><b>Operator tab</b> → type <code>/m/decisions</code> → <code>/forbidden</code> (gate callback; an Operator can't act on a “raise Challenge budget” decision). <span class="chip live">LIVE</span></li>
-      </ol></div>
-    <div class="blk say"><div class="blk-label">Say</div><p>“Here's the whole loop in one motion. A parent takes the public quiz — consent first — and gets a fit result, never a pass/fail on a child. That submission becomes a lead, gets scored, and routes into the right program store on the same backbone — same isolation, spent not re-solved. Its UTM is captured honestly, missing UTM shows as ‘not set,’ never dropped. The spend rolls into its workstream and the total still reconciles. And the cost-per-qualified-lead is <i>measured</i> — spend divided by counted qualified — not a hard-coded constant. If an Operator tries to raise the Challenge budget, the gate denies it. One campaign, all four signals.”</p></div>
-    <div class="blk proves"><div class="blk-label">Proves</div><p>Front-to-back path #2 (public capture→lead→score→route→KPI); single-source CPQL; budget + role gate reused.</p></div>
-    <div class="scut">✂️ Resubmit-idempotency is fragile on live (in-memory, cross-request) — demo it <b>LOCAL+DB</b> or skip; the payment idempotency in §2 already covers the signal.</div>
   </div>
-
-  <!-- ============ SEGMENT 7 ============ -->
-  <div class="seg">
-    <div class="seg-head">
-      <span class="seg-num">07</span><span class="seg-time">8:10–8:50</span>
-      <span class="chip live">LIVE</span>
-      <label class="seg-done"><input type="checkbox"> done</label>
-      <div class="seg-title">Open Data changes a decision + the required failure</div>
-    </div>
-    <div class="blk do"><div class="blk-label">Click</div>
-      <ol class="clicks">
-        <li>Leader/Admin → <code>/m/decisions</code> → find the <b>$18K guerrilla</b> decision card.</li>
-        <li>Point at its recommendation: <b>“pilot → approve (recommendation changed)”</b> with the Open-Data rationale (gifted pools in C/D/F districts, <b>$41 vs $63 blended</b>).</li>
-        <li>Failure/edge: narrate the degrade path (cache → live → stale → fixture); show <code>npx vitest run tests/opendata.test.ts</code> or the <code>/opendata</code> page.</li>
-      </ol>
-      <div class="land">Read the recommendation aloud — <b>don't click Approve here either</b> (same seed-vs-DB id mismatch as §3).</div></div>
-    <div class="blk say"><div class="blk-label">Say</div><p>“External public-school data isn't decoration — it changes a call. This $18K decision flips from ‘pilot’ to ‘approve’ because Texas Open Data shows large gifted pools in lower-rated Austin and Dallas districts, at about $41 per qualified lead versus $63 blended. And here's a real failure path: when the live query is unavailable it degrades — cache, then live, then stale, then a fixture — instead of lying or blanking.”</p></div>
-    <div class="blk proves"><div class="blk-label">Proves</div><p>Signal 5 / Open-Data-changes-a-decision; failure/edge #2.</p></div>
-  </div>
-
-  <!-- ============ SEGMENT 8 ============ -->
-  <div class="seg">
-    <div class="seg-head">
-      <span class="seg-num">08</span><span class="seg-time">8:50–9:30</span>
-      <span class="chip either">EITHER</span>
-      <label class="seg-done"><input type="checkbox"> done</label>
-      <div class="seg-title">Honest close</div>
-    </div>
-    <div class="blk say"><div class="blk-label">Say</div><p>“To be clear about the stand-ins: the GT Challenge persistence here is an in-memory contract — consent gate, idempotent replay, and UTM honesty are all real — with the database migration specced as the named next step. Meta, GA4, and summer.gt.school are seeded behind the same interfaces, and labeled. The live link runs dev-auth; the CSP ships report-only first. Where I went further: an append-only audit trail — who, when, what — written in the same transaction as the ruling and enforced by a least-privilege grant; the role-aware, cited Ask-the-Hub agent; and rate-limited public capture. <code>npm run verify</code> is the pure gate — 423 tests, nothing faked green. With another week: the GT Challenge DB adapter, browser end-to-end for the demo path and Home drag, and the live integration suite. Thanks for watching.”</p></div>
-  </div>
-
-  <!-- ============ COVERAGE MATRIX ============ -->
-  <h3 class="sec">Coverage matrix — nothing the brief asks for is missed</h3>
-  <table>
-    <thead><tr><th>Brief requirement / your ask</th><th>Segment</th></tr></thead>
-    <tbody>
-      <tr><td>Phase 1 wired / everything connected</td><td>§2 spine · §6 GT Challenge (two front-to-back paths)</td></tr>
-      <tr><td>Hard gates: RBAC + Leader-only Decision Queue</td><td>§1 dev-auth · §3 (Operator→/forbidden + 403 JSON)</td></tr>
-      <tr><td>Security / data leaks (program isolation)</td><td>§3 cross-program write <b>rejected</b> by RLS + <code>ProgramScopeError</code></td></tr>
-      <tr><td>Data: real vs stood-in, cited to source</td><td>§4d citations · §4e honest stand-in · Appendix A</td></tr>
-      <tr><td>Roles (3, enforced)</td><td>§1 · §3 · §6 callback</td></tr>
-      <tr><td>Executive summary / weekly status</td><td>§4a Exec Verdict Board</td></tr>
-      <tr><td>Dashboards</td><td>§4d weekly scorecard · §5 composable Home</td></tr>
-      <tr><td>The Hub (composable per-user)</td><td>§5 Home widget library + starter pack</td></tr>
-      <tr><td>Rubrics / agent harness graphs / evals / logs</td><td>§4b rubric · §4c graph + evals + logs</td></tr>
-      <tr><td>Citations linked to tab + source</td><td>§4d <code>⛁ Source</code> drill-down</td></tr>
-      <tr><td>Signal: payment propagates, no contamination</td><td>§2</td></tr>
-      <tr><td>Signal: budget reconciles to total</td><td>§5 (live edit + variance→DQ)</td></tr>
-      <tr><td>Signal: role denied Decision Queue</td><td>§3</td></tr>
-      <tr><td>Signal: data-confidence banner on parity drop</td><td>§3 (live banner) + §4e (parity cited)</td></tr>
-      <tr><td>Open Data query that changes a decision</td><td>§7</td></tr>
-      <tr><td>≥1 failure/edge case</td><td>§2 idempotent no-op · §3 403 · §7 Open Data degrade</td></tr>
-      <tr><td>Challenger campaign end-to-end</td><td>§6</td></tr>
-      <tr><td>Extras (going further, noticed)</td><td>§8 audit trail · Ask-the-Hub · rate limiting</td></tr>
-      <tr><td>Sequencing judgment (deep vs stubbed &amp; why)</td><td>§1 frame line</td></tr>
-    </tbody>
-  </table>
-
-  <!-- ============ APPENDIX A ============ -->
-  <h3 class="sec">Appendix A — metric fidelity (so you narrate each accurately)</h3>
-  <table>
-    <thead><tr><th>Stage · metric</th><th>Cited source</th><th>Reality</th><th>Say it as</th></tr></thead>
-    <tbody>
-      <tr><td>Conversion · <code>deposits</code></td><td>Supabase app_form</td><td class="ok">REAL</td><td>live, cited</td></tr>
-      <tr><td>Acquisition · <code>applicants</code></td><td>Supabase app_form</td><td class="ok">REAL</td><td>live, cited</td></tr>
-      <tr><td>CRM Ops · <code>parity_pct</code></td><td>HubSpot</td><td class="ok">REAL</td><td>live, cited</td></tr>
-      <tr><td>Advocacy · <code>ambassador_influenced</code></td><td>HubSpot seed</td><td class="ok">REAL series</td><td>live, cited</td></tr>
-      <tr><td>Awareness · <code>conversion_top_channel</code></td><td>GA4</td><td class="ok">REAL, low-confidence</td><td>“honestly flagged low-confidence (UTM drift)”</td></tr>
-      <tr><td>Dashboard · <code>event_to_consult</code></td><td>Manual</td><td class="si">STAND-IN (fixed)</td><td>“manual stand-in, uninstrumented”</td></tr>
-      <tr><td>Nurture · <code>sla_24h</code> (“67 late”)</td><td>(shows HubSpot)</td><td class="si">STAND-IN from seed</td><td>“deterministic stand-in, not a live read”</td></tr>
-      <tr><td>Activation · <code>engagement_hotwarm</code></td><td>(shows HubSpot)</td><td class="si">DERIVED from lead_score</td><td>“derived from lead-score bands, no weekly series”</td></tr>
-      <tr><td>Acquisition · CPQL drivers</td><td>“estimated”</td><td class="si">authored constants</td><td>“illustrative figures, not computed”</td></tr>
-    </tbody>
-  </table>
-  <div class="callout warn">
-    <h3>Honesty note before you record</h3>
-    <p>The SLA / engagement / referral cells currently cite “HubSpot” even though they're
-      seed-derived. <b>Narrate them as stand-ins</b> (as scripted in 4e) — and <b>don't click their
-      <code>⛁ HubSpot</code> source link on camera</b>, since it points at the live connector and a
-      sharp grader would catch the mismatch. (The optional “fix integrity gaps” pass removes this
-      caveat and lets you click freely.)</p>
-  </div>
-
-  <!-- ============ APPENDIX B ============ -->
-  <h3 class="sec">Appendix B — do NOT claim (a grader will check)</h3>
-  <table>
-    <thead><tr><th>❌ Don't say</th><th>✓ Say instead</th></tr></thead>
-    <tbody>
-      <tr><td>“Watch a payment propagate” over the <b>live</b> URL (shows <code>seed-fixture</code>)</td><td>Say it on a LOCAL+DB take, or “proven by <code>payments.test.ts</code>”</td></tr>
-      <tr><td>“Real-time / bidirectional sync is live”</td><td>“built and tested; this URL runs with no DB attached”</td></tr>
-      <tr><td>“Production-ready / secure”</td><td>“a 48-hour demo; production needs an IdP, a provisioned DB, and CSP flipped to enforcing”</td></tr>
-      <tr><td>“GT Challenge is fully wired end-to-end”</td><td>“the contract is end-to-end and tested; persistence here is in-memory, the DB adapter is next”</td></tr>
-      <tr><td>“The banner appears when I edit parity” (on live)</td><td>banner renders from seed; the <i>toggle</i> is LOCAL+DB / tested</td></tr>
-      <tr><td>Ask-the-Hub <i>agent</i> citations “link to module tabs / name the connector”</td><td>they link to <code>/help</code> guides + cite the spec; tab+connector cites live in <code>MetricCite</code> &amp; the Status Ask strip</td></tr>
-    </tbody>
-  </table>
-
 </div>
 
 <script>
 (function(){
-  var KEY="gt-walkthrough-checks-v1";
-  var boxes=Array.prototype.slice.call(document.querySelectorAll('input[type=checkbox]'));
-  boxes.forEach(function(b,i){b.dataset.idx=i;});
-  // restore
-  try{
-    var saved=JSON.parse(localStorage.getItem(KEY)||"[]");
-    saved.forEach(function(i){ if(boxes[i]){boxes[i].checked=true; mark(boxes[i]);} });
-  }catch(e){}
-  function mark(b){ var li=b.closest('li'); if(li) li.classList.toggle('done', b.checked); }
-  function save(){
-    var on=boxes.filter(function(b){return b.checked}).map(function(b){return +b.dataset.idx});
-    try{localStorage.setItem(KEY, JSON.stringify(on));}catch(e){}
-  }
-  boxes.forEach(function(b){ b.addEventListener('change',function(){mark(b);save();}); });
-
-  document.getElementById('reset').addEventListener('click',function(){
-    boxes.forEach(function(b){b.checked=false;mark(b);}); save();
-  });
-  document.getElementById('tele').addEventListener('click',function(){
-    document.body.classList.toggle('tele');
-    this.classList.toggle('on');
-  });
-  var fs=16;
-  function setFs(v){ fs=Math.max(13,Math.min(22,v)); document.documentElement.style.setProperty('--fs',fs+'px'); }
-  document.getElementById('font-up').addEventListener('click',function(){setFs(fs+1);});
-  document.getElementById('font-dn').addEventListener('click',function(){setFs(fs-1);});
+  var KEY="gt-walkthrough-v4";
+  var boxes=[].slice.call(document.querySelectorAll('input[type=checkbox]'));
+  boxes.forEach(function(b,i){b.dataset.idx=i});
+  try{(JSON.parse(localStorage.getItem(KEY)||"[]")).forEach(function(i){if(boxes[i])boxes[i].checked=true})}catch(e){}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(boxes.filter(function(b){return b.checked}).map(function(b){return +b.dataset.idx})))}catch(e){}}
+  boxes.forEach(function(b){b.addEventListener('change',save)});
+  document.getElementById('reset').addEventListener('click',function(){boxes.forEach(function(b){b.checked=false});save()});
+  document.getElementById('tele').addEventListener('click',function(){document.body.classList.toggle('tele');this.classList.toggle('on')});
+  var fs=16;function setFs(v){fs=Math.max(13,Math.min(26,v));document.documentElement.style.setProperty('--fs',fs+'px')}
+  document.getElementById('font-up').addEventListener('click',function(){setFs(fs+1)});
+  document.getElementById('font-dn').addEventListener('click',function(){setFs(fs-1)});
 })();
 </script>
 </body>

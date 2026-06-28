@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>GT Marketing Hub — Build Write-up</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Literata:opsz,wght@7..72,400;7..72,600;7..72,700&family=Inconsolata:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#001117; --navy:#002a3a; --slate:#003b5c; --blue:#004f71;
+    --gold:#a8650f; --muted:#44525a; --label:#6a7a82; --hairline:#e3ded5; --fill:#f6f0e8;
+    --green:#2d6b5d; --amber:#9b5f2f; --red:#a94334;
+    --mono:"Inconsolata",ui-monospace,Menlo,monospace;
+    --sans:"Inter Tight",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    --serif:"Literata",Georgia,serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;background:#d9d4cb;color:var(--ink);font-family:var(--sans);font-size:13px;line-height:1.42}
+  .page{background:#fff;max-width:8.5in;margin:18px auto;padding:0.6in 0.66in;box-shadow:0 4px 24px rgba(0,0,0,.16)}
+  /* masthead */
+  .mast{display:flex;justify-content:space-between;align-items:flex-end;border-bottom:2px solid var(--navy);padding-bottom:9px;margin-bottom:13px}
+  .mast h1{font-family:var(--serif);font-size:21px;font-weight:700;margin:0;letter-spacing:-.01em;color:var(--navy)}
+  .mast .sub{font-size:11.5px;color:var(--muted);margin-top:2px}
+  .mast .who{font-family:var(--mono);font-size:9.5px;color:var(--label);text-align:right;line-height:1.5}
+  .mast .who a{color:var(--blue);text-decoration:none}
+  /* sections */
+  h2{font-family:var(--mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--gold);margin:15px 0 5px;border-bottom:1px solid var(--hairline);padding-bottom:3px}
+  h2:first-of-type{margin-top:4px}
+  p{margin:0 0 7px}
+  b{color:var(--navy)}
+  .lede{font-size:13.5px;line-height:1.5}
+  code{font-family:var(--mono);font-size:.86em;background:var(--fill);border:1px solid var(--hairline);border-radius:3px;padding:0 4px}
+  ul{margin:2px 0 7px;padding-left:17px}
+  li{margin:2.5px 0}
+  li b{color:var(--navy)}
+  .tight li{margin:1.5px 0}
+  table{width:100%;border-collapse:collapse;margin:4px 0 8px;font-size:12px}
+  th,td{text-align:left;padding:4px 8px;border-bottom:1px solid var(--hairline);vertical-align:top}
+  th{font-family:var(--mono);font-size:9px;text-transform:uppercase;letter-spacing:.05em;color:var(--label);border-bottom:1px solid var(--border,#cfc8bb)}
+  td b{color:var(--navy)}
+  .tag{font-family:var(--mono);font-size:9px;font-weight:700;border-radius:4px;padding:1px 6px;white-space:nowrap}
+  .t-deep{background:#f6e3d2;color:var(--gold)} .t-built{background:#e2eee9;color:var(--green)}
+  .t-part{background:#f8e6d9;color:var(--amber)} .t-stub{background:#eee9e0;color:var(--label)}
+  .two{display:grid;grid-template-columns:1fr 1fr;gap:0 22px}
+  .foot{margin-top:14px;border-top:1px solid var(--hairline);padding-top:7px;font-family:var(--mono);font-size:9.5px;color:var(--label)}
+  .foot a{color:var(--blue);text-decoration:none}
+  .apxhead{font-family:var(--serif);font-size:15px;color:var(--navy);font-weight:700;margin:0 0 2px}
+  .kicker{font-family:var(--mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+  .note{font-size:11px;color:var(--muted)}
+  @media print{
+    html,body{background:#fff;font-size:10.5px}
+    .page{box-shadow:none;margin:0;max-width:none;padding:0.5in 0.6in}
+    .page-break{page-break-before:always}
+    @page{size:letter;margin:0}
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 1–2 : THE WRITE-UP ============ -->
+<div class="page">
+  <div class="mast">
+    <div>
+      <h1>GT Marketing Hub — Build Write-up</h1>
+      <div class="sub">A marketing-operations hub built on a trustworthy, program-isolated data backbone.</div>
+    </div>
+    <div class="who">
+      Johnny Chung · GT Technical Project<br>
+      live · <a href="https://gt-school-hub.vercel.app">gt-school-hub.vercel.app</a><br>
+      repo · <a href="#">[link]</a> &nbsp;·&nbsp; video · <a href="#">[link]</a>
+    </div>
+  </div>
+
+  <h2>What I built</h2>
+  <p class="lede">A centralized hub for GT Anywhere's marketing functions, standing on one <b>load-bearing backbone</b>: program-isolated Postgres (row-level security), field-directional CRM↔app sync with <b>idempotent payments</b> and a <b>parity / data-confidence</b> signal, and app-level RBAC. On top sit three deep modules — <b>CRM Ops, Budget, Decision&nbsp;Queue</b> — a <b>Status</b> command center with a checked AI layer, and one <b>live end-to-end campaign</b>, the GT Challenge: a real lead flows ad → quiz → a $100 Stripe test deposit → tracked through to HubSpot. Real code where it matters; every stand-in is labeled.</p>
+
+  <h2>What I went deep on — vs. stubbed — and why</h2>
+  <p>Two days isn't enough for 13 modules, and trying is the red flag. I built a coherent vertical slice and stubbed the rest deliberately.</p>
+  <table>
+    <thead><tr><th style="width:78px">Depth</th><th style="width:34%">Modules</th><th>Why this call</th></tr></thead>
+    <tbody>
+      <tr><td><span class="tag t-deep">backbone</span></td><td>sync · isolation · idempotency · parity</td><td>the foundation everything trusts; Phase 2 spends it, never re-solves it</td></tr>
+      <tr><td><span class="tag t-deep">deep</span></td><td>CRM Ops · Budget · Decision Queue</td><td>backbone-as-product · single-source-of-truth ($365K) · the role-gate + cross-module sink</td></tr>
+      <tr><td><span class="tag t-built">built</span></td><td>Status · Dashboard · Nurture · Summer Camp · GT Challenge</td><td>leadership synthesis · dual-source reconcile (counted once) · the live campaign</td></tr>
+      <tr><td><span class="tag t-part">partial</span></td><td>Composable Home</td><td>widget library + saved layout per user; browser drag E2E is the remainder</td></tr>
+      <tr><td><span class="tag t-stub">stubbed</span></td><td>Grassroots · Content · Admissions · Analytics · Field Events · Library</td><td>real, labeled surfaces — not where the engineering judgment lives</td></tr>
+    </tbody>
+  </table>
+
+  <h2>The backbone (Phase 1)</h2>
+  <ul class="tight">
+    <li><b>Isolation, proven —</b> program-scoped tables behind RLS + FORCE; the app runs as a least-privilege role (<code>app_rw</code>, NOSUPERUSER / NOBYPASSRLS). An unset program scope returns <b>0 rows</b> (fail-closed); a cross-program write is <b>rejected</b> by the database, not policed by app code.</li>
+    <li><b>Idempotent payments —</b> a re-delivered Stripe event is recorded once (<code>processed_events</code>); balances are monotonic. The live demo runs a real $100 test deposit through the <b>same handler the webhook uses</b>.</li>
+    <li><b>Bidirectional sync + parity —</b> field-directional authority decides who wins per column; when Supabase and HubSpot disagree, parity drops and the data-confidence banner fires across the HubSpot modules.</li>
+  </ul>
+
+  <h2>Prove it works — the four signals</h2>
+  <table>
+    <thead><tr><th style="width:46%">Signal</th><th>Where to watch (all live)</th></tr></thead>
+    <tbody>
+      <tr><td>A payment propagates, no contamination</td><td class="note">the live slice + <code>/dev/payments</code> (Live DB)</td></tr>
+      <tr><td>The budget reconciles to the total</td><td class="note"><code>/m/budget</code> — 4 workstreams → $365K, &gt;10% variance auto-flags</td></tr>
+      <tr><td>A role is denied the Decision Queue</td><td class="note">Operator → <code>/forbidden</code>; <code>/api/decisions</code> → 403 JSON</td></tr>
+      <tr><td>Data-confidence banner on parity drop</td><td class="note"><code>/dev/proof</code> + the HubSpot modules</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Key decisions &amp; trade-offs</h2>
+  <ul class="tight">
+    <li><b>AI grader behind a swappable interface, with a rules floor</b> — quality from the model, determinism for the demo, and capture never blocks on a flaky API. <span class="note">(over: a raw LLM in the request path, or a pure rules grader.)</span></li>
+    <li><b>The LLM writes prose, never numbers</b> — every figure is pulled from data against a rubric; the LLM rewrite ships only if it still passes conformance. <span class="note">(over: letting the model state the numbers.)</span></li>
+    <li><b>One definition per number</b> — CPQL is <i>measured</i> (spend ÷ qualified), the budget total computed in one place. <span class="note">(over: hard-coding an impressive headline.)</span></li>
+    <li><b>Security fails closed</b> — role resolved server-side from the verified session; unset scope → 0 rows; least-privilege DB role. <span class="note">(over: trusting a role claim from the request, or the service-role key on program paths.)</span></li>
+    <li><b>No "not gifted" bucket</b> — the quiz is a fit screen for a child, never a verdict.</li>
+    <li><b>Honesty over theater</b> — real vs stand-in is labeled everywhere; gaps are tracked, not faked green.</li>
+  </ul>
+
+  <div class="two">
+    <div>
+      <h2>Where I honored / bent the spec</h2>
+      <ul class="tight">
+        <li><b>Honored —</b> source-of-truth (funnel/income = <code>app_form</code>, engagement = HubSpot, budget = Hub); known-broken surfaced honestly (UTM kept as <code>(not set)</code>, GA4 flagged low-confidence).</li>
+        <li><b>Bent —</b> the demo link runs dev-auth (pick a role, no password) so reviewers can switch roles — but the role is server-enforced from the signed session; one env var swaps in a real IdP.</li>
+      </ul>
+    </div>
+    <div>
+      <h2>With another week</h2>
+      <ul class="tight">
+        <li>Composable-Home drag-and-drop E2E.</li>
+        <li>Harden the credential-gated live-integration tests.</li>
+        <li>Flip CSP from report-only to enforcing.</li>
+        <li>Persist agent run-traces durably (today: file store).</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="foot">
+    Verify: <code>npm run verify</code> (build + lint + tests, no external services) &nbsp;·&nbsp; live: <a href="https://gt-school-hub.vercel.app">gt-school-hub.vercel.app</a> (Admin / Leader / Operator) &nbsp;·&nbsp; appendices A–E follow.
+  </div>
+</div>
+
+<!-- ============ APPENDICES ============ -->
+<div class="page page-break">
+  <div class="kicker">Appendix A</div>
+  <p class="apxhead">The live end-to-end slice — the GT Challenge</p>
+  <p class="note">The brief's worked example, built on the backbone (not forked) and live on the deployed URL. One real lead, all six stages.</p>
+  <table>
+    <thead><tr><th style="width:96px">Stage</th><th>What happens · what it proves</th></tr></thead>
+    <tbody>
+      <tr><td><b>Capture</b></td><td><code>/ad</code> → quiz (consent-gated) writes a real family + submission + routing to Supabase; UTM attributed <code>source=ad</code>, missing UTM kept as <code>(not set)</code>.</td></tr>
+      <tr><td><b>Assess</b></td><td>deterministic AI grader (rules floor) buckets the child — strong-fit / promising / explore; no "not gifted." <code>qualified</code> drives routing and CPQL.</td></tr>
+      <tr><td><b>Deposit</b></td><td>$100 real Stripe test charge → propagated through the production handler: payment recorded, enrollment → paid, HubSpot deal queued, routed into the Fall program via RLS.</td></tr>
+      <tr><td><b>Track</b></td><td><code>/track/&lt;lead&gt;</code> reads the live DB and advances ad → quiz → routed → paid → synced; nothing staged.</td></tr>
+      <tr><td><b>Reconcile</b></td><td>the spend rolls into its budget workstream; the total still reconciles to $365K.</td></tr>
+      <tr><td><b>Report</b></td><td><code>/m/gt-challenge</code>: spend · qualified · <b>measured</b> CPQL beside other channels; <code>/dev/payments</code> shows the deposit in the live ledger, replay = no-op.</td></tr>
+    </tbody>
+  </table>
+  <p class="note">One play exercises all four signals: propagation without contamination, budget reconciliation, the leader-only gate (a non-leader can't raise the Challenge budget), and parity → the data-confidence banner.</p>
+
+  <div class="kicker" style="margin-top:16px">Appendix B</div>
+  <p class="apxhead">The AI layer — useful, and checkable</p>
+  <ul class="tight">
+    <li><b>What's AI vs not —</b> the Status verdict and Ask-the-Hub answers are LLM <i>prose</i>; every number is pulled from the database. The LLM never invents figures.</li>
+    <li><b>Generated against a rubric —</b> each claim has a rubric (e.g. "north-star deposits must cite Supabase and be a running sum as of the reporting week, never the full-dataset total"). The deterministic draft is the floor; an LLM rewrite ships only if it still conforms.</li>
+    <li><b>Agent graph (Ask-the-Hub) —</b> validate request → de-identified role-scoped snapshot → policy check → classify agent → intent → retrieve-with-citations → synthesize → compose → output scan (no PII). Every retrieval carries citations.</li>
+    <li><b>Evals + provenance —</b> per-node eval rows (input / expected / actual / pass) at <code>/dev/agents</code>; per-claim source + self-eval at <code>/dev/rubrics</code>. Runs deterministically in CI — no model or network needed.</li>
+  </ul>
+
+  <div class="kicker" style="margin-top:16px">Appendix C</div>
+  <p class="apxhead">Data &amp; schema — honest by construction</p>
+  <div class="two">
+    <div>
+      <p style="margin:2px 0 4px"><b>Sources</b></p>
+      <ul class="tight">
+        <li><b>Real:</b> HubSpot · Stripe · Supabase · Open Data (TX).</li>
+        <li><b>Stand-in (labeled):</b> Meta · GA4 · summer.gt · X — behind the same interfaces, each row tagged <code>_standIn</code> + <code>_source</code>.</li>
+      </ul>
+      <p style="margin:6px 0 4px"><b>Join keys</b></p>
+      <ul class="tight">
+        <li><code>utm_campaign</code> — attribution.</li>
+        <li><code>match_key</code> — dual-source reconciliation (counted once).</li>
+      </ul>
+    </div>
+    <div>
+      <p style="margin:2px 0 4px"><b>Model</b></p>
+      <p class="note" style="margin:0 0 6px">family (+children) → program (fall · summer, RLS-isolated) → enrollment → payment. Ledgers: <code>processed_events</code>, <code>sync_outbox</code>, <code>decision_event</code> (append-only).</p>
+      <p style="margin:2px 0 4px"><b>Reproducible &amp; stressed</b></p>
+      <ul class="tight">
+        <li>Deterministic seed → reset to a known state.</li>
+        <li>15 deliberate edge cases (duplicate payment, family in two programs, conflicting records, missing UTM…) so isolation &amp; reconcile are provable.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="kicker" style="margin-top:16px">Appendix D</div>
+  <p class="apxhead">Verification</p>
+  <ul class="tight">
+    <li><b>Pure CI gate —</b> <code>npm run verify</code> = build + lint + the test suite, with <b>no external services</b> (deterministic seed + mocked SQL). This is the always-green gate.</li>
+    <li><b>Credential-gated —</b> live-integration tests (reconcile, payments, webhook, parity, real DB connection) run only when Supabase / HubSpot / Stripe keys are present, and skip cleanly otherwise.</li>
+    <li><b>Brief-to-test map —</b> <code>/dev/tests</code> maps each "prove it" scenario to the test that proves it; <code>/dev/test-suite</code> is the full inventory by category.</li>
+  </ul>
+
+  <div class="kicker" style="margin-top:16px">Appendix E · Glossary</div>
+  <table>
+    <tbody>
+      <tr><td style="width:130px"><b>RLS</b></td><td>row-level security — program isolation enforced by the database.</td></tr>
+      <tr><td><b>Idempotency key</b></td><td>identifies a repeated event so it's processed once (no double charge).</td></tr>
+      <tr><td><b>Parity / data-confidence</b></td><td>agreement between Supabase and HubSpot per field; a drop raises the banner.</td></tr>
+      <tr><td><b>SoT</b></td><td>source of truth — the one system authoritative for a given field.</td></tr>
+      <tr><td><b>CPQL</b></td><td>cost per qualified lead — measured as spend ÷ counted qualified.</td></tr>
+      <tr><td><b>PII</b></td><td>personally identifiable information — scanned out of AI output.</td></tr>
+      <tr><td><b>GUC</b></td><td>the per-transaction session variable that scopes a query to one program.</td></tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>
