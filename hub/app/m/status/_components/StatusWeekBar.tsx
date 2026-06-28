@@ -62,7 +62,7 @@ export function StatusWeekBar({
               title={
                 meta.source === "llm"
                   ? `LLM-written verdict (${meta.model}), ${meta.recalled ? "pre-loaded" : "generated on view"}.`
-                  : `Deterministic rubric-templated verdict (no LLM key), ${meta.recalled ? "pre-loaded" : "generated on view"}.`
+                  : `Rubric-templated verdict, ${meta.recalled ? "pre-loaded" : "generated on view for speed"}. The LLM-written verdict is produced by the daily refresh when a model key is configured.`
               }
             >
               {meta.source === "llm" ? "✦ LLM" : "▦ Deterministic"} ·{" "}

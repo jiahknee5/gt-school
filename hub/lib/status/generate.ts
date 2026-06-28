@@ -263,12 +263,22 @@ function rubricSummary(): string {
   return [`ANSWER RUBRIC: ${answer}`, "COLUMN RUBRICS:", cols, "STAGE RULES:", stageRules].join("\n");
 }
 
+/**
+ * Whether a live LLM provider is CONFIGURED for status generation (key + a model).
+ * This is about credentials only — independent of whether a given call forced
+ * deterministic generation (e.g. provider:null for speed). UI notes must use this,
+ * not "was this snapshot deterministic?", or they wrongly claim "no LLM key".
+ */
+export function statusLlmConfigured(): boolean {
+  return Boolean(process.env.ANTHROPIC_API_KEY && (process.env.STATUS_GEN_MODEL || process.env.ASK_THE_HUB_MODEL));
+}
+
 function statusProviderEnabled(opts: GenerateOptions): boolean {
   if (opts.provider === null) return false;
   if (opts.provider) return true;
   if (process.env.NODE_ENV === "test" || process.env.VITEST) return false;
   if (process.env.STATUS_GEN_LIVE === "false") return false;
-  return Boolean(process.env.ANTHROPIC_API_KEY && (process.env.STATUS_GEN_MODEL || process.env.ASK_THE_HUB_MODEL));
+  return statusLlmConfigured();
 }
 
 export class AnthropicStatusProvider implements StatusGenProvider {

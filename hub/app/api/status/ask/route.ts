@@ -11,7 +11,7 @@ import { getProgramScopeForUser } from "@/lib/program-preference";
 import { resolveViewerProgramScope, type ProgramScope } from "@/lib/program-scope";
 import { buildStatusBoard } from "@/lib/status/board";
 import { loadOrGenerateSnapshot } from "@/lib/status/store";
-import { applySnapshotToBoard } from "@/lib/status/generate";
+import { applySnapshotToBoard, statusLlmConfigured } from "@/lib/status/generate";
 import { answerStatusQuestion } from "@/lib/status/ask";
 import { defaultReportingWeek, weekMondays } from "@/lib/metrics/registry";
 import { runAskTheHub } from "@/lib/ai/agents";
@@ -69,7 +69,12 @@ export async function POST(req: Request) {
       recalled,
     };
 
-    // 1) Status-specific, board-grounded deterministic answer.
+    const llmConfigured = statusLlmConfigured();
+
+    // 1) Status-specific, board-grounded answer. This is ALWAYS deterministic by
+    //    design — matched status questions are answered from the board's exact
+    //    numbers (you want the real figure, not an LLM paraphrase). The note only
+    //    flags a MISSING key; with a key set it explains the by-design determinism.
     const direct = answerStatusQuestion(board, question);
     if (direct.matched) {
       return NextResponse.json({
@@ -80,10 +85,9 @@ export async function POST(req: Request) {
         answer: direct.answer,
         citations: direct.citations,
         actions: direct.actions,
-        note:
-          snapshot.source === "deterministic"
-            ? "Grounded deterministic answer (no LLM key). Set ANTHROPIC_API_KEY + STATUS_GEN_MODEL for free-form synthesis."
-            : undefined,
+        note: llmConfigured
+          ? "Answered directly from the board's real numbers; free-form questions use live LLM synthesis."
+          : "Grounded deterministic answer (no LLM key). Set ANTHROPIC_API_KEY + STATUS_GEN_MODEL for free-form synthesis.",
       });
     }
 
@@ -91,7 +95,9 @@ export async function POST(req: Request) {
     const agent = await runAskTheHub({ question, role: session.role, userTitle: session.title });
     const note =
       agent.mode === "deterministic"
-        ? "Grounded deterministic answer (no LLM key configured). Set ANTHROPIC_API_KEY + ASK_THE_HUB_MODEL for free-form LLM synthesis."
+        ? llmConfigured
+          ? "Live LLM synthesis was unavailable; answered from grounded data."
+          : "Grounded deterministic answer (no LLM key configured). Set ANTHROPIC_API_KEY + ASK_THE_HUB_MODEL for free-form LLM synthesis."
         : undefined;
 
     return NextResponse.json({
