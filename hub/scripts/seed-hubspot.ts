@@ -2,6 +2,18 @@ import { pathToFileURL } from "node:url";
 import { loadEnvLocal } from "./_env";
 import { closeDb, withoutProgram, type ScopedSql } from "../lib/db";
 import { hs } from "../lib/connectors/hubspot";
+// Shared with the live GT Challenge capture path so a seeded family and a captured lead
+// map onto the EXACT same gt_* enum vocabulary. Imported as locals (used by
+// contactProperties) AND re-exported so the seed bridge keeps its existing import surface.
+import {
+  mapFitBucket,
+  mapGradeBand,
+  mapIncomeBand,
+  mapSource,
+  mapTefaStatus,
+} from "../lib/connectors/hs-mappings";
+
+export { mapFitBucket, mapGradeBand, mapIncomeBand, mapSource, mapTefaStatus };
 
 loadEnvLocal();
 
@@ -48,8 +60,8 @@ interface HsError extends Error {
 interface PropertyDef {
   name: string;
   label: string;
-  type: "string" | "number" | "enumeration";
-  fieldType: "text" | "number" | "select";
+  type: "string" | "number" | "enumeration" | "bool" | "datetime";
+  fieldType: "text" | "number" | "select" | "booleancheckbox" | "date";
   options?: string[];
 }
 
@@ -121,13 +133,26 @@ const enumProp = (name: string, label: string, options: string[]): PropertyDef =
   fieldType: "select",
   options,
 });
+const boolProp = (name: string, label: string): PropertyDef => ({
+  name,
+  label,
+  type: "bool",
+  fieldType: "booleancheckbox",
+  options: ["true", "false"],
+});
+const dateProp = (name: string, label: string): PropertyDef => ({
+  name,
+  label,
+  type: "datetime",
+  fieldType: "date",
+});
 
 const BASE_CONTACT_PROPS: PropertyDef[] = [
   strProp("gt_ext_id", "GT Ext ID"),
   strProp("gt_seed_batch", "GT Seed Batch"),
 ];
 
-const SYNC_CONTACT_PROPS: PropertyDef[] = [
+export const SYNC_CONTACT_PROPS: PropertyDef[] = [
   enumProp("gt_income_band", "GT Income Band (HubSpot - unreliable)", [
     "under_65k",
     "65k_160k",
@@ -148,34 +173,54 @@ const SYNC_CONTACT_PROPS: PropertyDef[] = [
     "esa_navigator",
   ]),
   numProp("gt_lead_score", "GT Lead Score"),
+  // GT Challenge capture enrichment — the full lead signal a deposit forwards.
+  strProp("gt_utm_medium", "GT UTM Medium"),
+  strProp("gt_utm_campaign", "GT UTM Campaign"),
+  enumProp("gt_fit_bucket", "GT Fit Bucket", ["strong_fit", "promising", "explore"]),
+  boolProp("gt_consent", "GT Consent"),
+  dateProp("gt_consent_at", "GT Consent At"),
+];
+
+// DEAL custom properties (object type = deals). A GT Fall-deposit deal carries the lead's
+// fit signal + the Stripe linkage so the CRM deal is legible on its own. Provisioned under
+// the same --sync-fields/--apply flags as the contact props, into a deals property group.
+export const DEAL_PROPS: PropertyDef[] = [
+  strProp("gt_program", "GT Program"),
+  strProp("gt_child_grade", "GT Child Grade"),
+  enumProp("gt_fit_bucket", "GT Fit Bucket", ["strong_fit", "promising", "explore"]),
+  numProp("gt_lead_score", "GT Lead Score"),
+  strProp("gt_match_key", "GT Match Key"),
+  strProp("gt_stripe_intent", "GT Stripe Intent"),
 ];
 
 function isHsError(err: unknown): err is HsError {
   return err instanceof Error && "status" in err;
 }
 
-async function ensureGroup(): Promise<void> {
+type HsObjectType = "contacts" | "deals";
+
+async function ensureGroup(object: HsObjectType): Promise<void> {
   const name = "gt_marketing_hub";
   try {
-    await hs(`/crm/v3/properties/contacts/groups/${name}`);
+    await hs(`/crm/v3/properties/${object}/groups/${name}`);
   } catch (err) {
     if (!isHsError(err) || err.status !== 404) throw err;
-    await hs("/crm/v3/properties/contacts/groups", {
+    await hs(`/crm/v3/properties/${object}/groups`, {
       method: "POST",
       body: { name, label: "GT Marketing Hub", displayOrder: -1 },
     });
   }
 }
 
-async function ensureProperty(def: PropertyDef): Promise<"exists" | "created"> {
+async function ensureProperty(object: HsObjectType, def: PropertyDef): Promise<"exists" | "created"> {
   try {
-    await hs(`/crm/v3/properties/contacts/${def.name}`);
+    await hs(`/crm/v3/properties/${object}/${def.name}`);
     return "exists";
   } catch (err) {
     if (!isHsError(err) || err.status !== 404) throw err;
   }
 
-  await hs("/crm/v3/properties/contacts", {
+  await hs(`/crm/v3/properties/${object}`, {
     method: "POST",
     body: {
       name: def.name,
@@ -194,68 +239,20 @@ async function ensureProperty(def: PropertyDef): Promise<"exists" | "created"> {
   return "created";
 }
 
-async function ensureProperties(syncFields: boolean): Promise<void> {
-  await ensureGroup();
-  const defs = syncFields ? [...BASE_CONTACT_PROPS, ...SYNC_CONTACT_PROPS] : BASE_CONTACT_PROPS;
+async function ensurePropertySet(object: HsObjectType, defs: PropertyDef[]): Promise<void> {
+  await ensureGroup(object);
   let created = 0;
   for (const def of defs) {
-    if ((await ensureProperty(def)) === "created") created++;
+    if ((await ensureProperty(object, def)) === "created") created++;
   }
-  console.log(`hubspot: properties ready (${created} created, ${defs.length - created} existed)`);
+  console.log(`hubspot: ${object} properties ready (${created} created, ${defs.length - created} existed)`);
 }
 
-export function mapIncomeBand(value: string | null): string | undefined {
-  if (value == null) return undefined;
-  const v = value.trim().toLowerCase();
-  if (v === "<65k" || v === "under_65k" || v === "under 65k") return "under_65k";
-  if (v === "65-160k" || v === "65k_160k" || v === "65k-160k") return "65k_160k";
-  if (v === "160k+" || v === "over_160k" || v === "over 160k") return "over_160k";
-  return undefined;
-}
-
-export function mapGradeBand(value: string | null): string | undefined {
-  if (value == null) return undefined;
-  const v = value.trim().toLowerCase();
-  if (v === "prek" || v === "pre-k" || v === "k" || v === "1" || v === "2" || v === "k2") {
-    return "k_2";
-  }
-  if (v === "3" || v === "4" || v === "5" || v === "g35" || v === "3_5") return "3_5";
-  if (v === "6" || v === "7" || v === "8" || v === "g68" || v === "6_8") return "6_8";
-  if (v === "9" || v === "10" || v === "11" || v === "12" || v === "g912" || v === "9_12") {
-    return "9_12";
-  }
-  return undefined;
-}
-
-export function mapTefaStatus(value: string | null): string | undefined {
-  if (value == null) return undefined;
-  const v = value.trim().toLowerCase();
-  if (v === "esa_planned" || v === "planned") return "planned";
-  if (v === "eligible" || v === "approved") return "approved";
-  if (v === "esa_ineligible" || v === "ineligible") return "ineligible";
-  if (v === "no_indicator" || v === "not_applicable" || v === "frozen_2027" || v === "none") {
-    return "none";
-  }
-  return undefined;
-}
-
-export function mapSource(value: string | null): string | undefined {
-  if (value == null) return undefined;
-  const v = value.trim().toLowerCase();
-  const mapped: Record<string, string> = {
-    x: "x_twitter",
-    x_twitter: "x_twitter",
-    facebook: "facebook",
-    instagram: "instagram",
-    organic: "organic",
-    referral: "referral",
-    email: "email",
-    word_of_mouth: "referral",
-    community: "gifted_community",
-    website: "organic",
-    direct: "organic",
-  };
-  return mapped[v];
+async function ensureProperties(syncFields: boolean): Promise<void> {
+  const contactDefs = syncFields ? [...BASE_CONTACT_PROPS, ...SYNC_CONTACT_PROPS] : BASE_CONTACT_PROPS;
+  await ensurePropertySet("contacts", contactDefs);
+  // Deal custom props only land under --sync-fields (alongside the GT contact signal).
+  if (syncFields) await ensurePropertySet("deals", DEAL_PROPS);
 }
 
 function put(props: Record<string, string>, key: string, value: string | number | undefined | null) {

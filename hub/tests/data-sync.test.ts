@@ -10,6 +10,7 @@ import { connectorFreshness, freshnessFor } from "@/lib/dashboard/freshness";
 import { computeSeedParity, seedBannerState } from "@/lib/crm-ops/parity-view";
 import { parityThreshold } from "@/lib/parity";
 import { SYNCED_FIELDS } from "@/lib/seed/dictionaries";
+import { mapFitBucket, mapGradeBand, mapSource } from "@/lib/connectors/hs-mappings";
 
 const ds = generate({ seed: 424242, families: 1200 });
 const fresh = connectorFreshness(ds);
@@ -57,6 +58,39 @@ describe("sync parity + source-of-truth", () => {
     // The known data-quality story: source/tefa_status/income_band are flagged unreliable.
     const unreliable = new Set(SYNCED_FIELDS.filter((f) => f.unreliable).map((f) => f.field));
     expect(unreliable.has("source")).toBe(true);
+  });
+});
+
+describe("GT Challenge lead enrichment — captured signal maps onto the provisioned HubSpot vocabulary", () => {
+  // The live deposit forwards grade/source/fit-bucket onto gt_* contact+deal props that
+  // scripts/seed-hubspot.ts provisions with FIXED enum options. A mapper that emitted a
+  // value outside that vocabulary would 400 the live contact write — pin it here.
+  const GRADE_BAND_OPTIONS = new Set(["k_2", "3_5", "6_8", "9_12"]);
+  const FIT_BUCKET_OPTIONS = new Set(["strong_fit", "promising", "explore"]);
+
+  it("every quiz grade maps into a provisioned gt_grade_band option", () => {
+    for (const grade of ["K", "1", "2", "3", "4", "5", "6", "7", "8"]) {
+      const band = mapGradeBand(grade);
+      expect(band, `grade ${grade} produced no band`).toBeDefined();
+      expect(GRADE_BAND_OPTIONS.has(band!), `grade ${grade} → ${band} not a provisioned option`).toBe(true);
+    }
+  });
+
+  it("every fit bucket passes through to a provisioned gt_fit_bucket option", () => {
+    for (const bucket of ["strong_fit", "promising", "explore"]) {
+      expect(FIT_BUCKET_OPTIONS.has(mapFitBucket(bucket)!)).toBe(true);
+    }
+    // anything off-vocabulary is dropped, never sent
+    expect(mapFitBucket("not gifted")).toBeUndefined();
+  });
+
+  it("a mapped utm source stays within the provisioned gt_utm_source vocabulary", () => {
+    // The ad UTM sources the GT Challenge uses resolve to known source enums; an unknown
+    // source maps to undefined (omitted) rather than an invalid option.
+    expect(mapSource("facebook")).toBe("facebook");
+    expect(mapSource("instagram")).toBe("instagram");
+    expect(mapSource("paid_social")).toBe("facebook");
+    expect(mapSource("totally-unknown")).toBeUndefined();
   });
 });
 

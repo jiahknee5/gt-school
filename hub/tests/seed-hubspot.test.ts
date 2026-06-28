@@ -1,10 +1,13 @@
 import { describe, expect, it } from "vitest";
 import {
   contactProperties,
+  DEAL_PROPS,
+  mapFitBucket,
   mapGradeBand,
   mapIncomeBand,
   mapSource,
   mapTefaStatus,
+  SYNC_CONTACT_PROPS,
 } from "../scripts/seed-hubspot";
 
 describe("seed-hubspot bridge mappings", () => {
@@ -26,6 +29,49 @@ describe("seed-hubspot bridge mappings", () => {
     expect(mapSource("x")).toBe("x_twitter");
     expect(mapSource("community")).toBe("gifted_community");
     expect(mapSource("direct")).toBe("organic");
+
+    expect(mapFitBucket("strong_fit")).toBe("strong_fit");
+    expect(mapFitBucket("promising")).toBe("promising");
+    expect(mapFitBucket("explore")).toBe("explore");
+    expect(mapFitBucket("nonsense")).toBeUndefined();
+  });
+
+  it("provisions the GT Challenge enrichment props on both contacts and deals", () => {
+    // The full lead's signal must be defined so ONE `npm run seed:hubspot -- --apply
+    // --sync-fields` creates every property the live deposit forwards.
+    const contactNames = SYNC_CONTACT_PROPS.map((p) => p.name);
+    for (const name of [
+      "gt_utm_medium",
+      "gt_utm_campaign",
+      "gt_fit_bucket",
+      "gt_consent",
+      "gt_consent_at",
+      "gt_lead_score",
+      "gt_grade_band",
+      "gt_utm_source",
+    ]) {
+      expect(contactNames, `missing contact prop ${name}`).toContain(name);
+    }
+
+    const dealNames = DEAL_PROPS.map((p) => p.name);
+    expect(dealNames).toEqual([
+      "gt_program",
+      "gt_child_grade",
+      "gt_fit_bucket",
+      "gt_lead_score",
+      "gt_match_key",
+      "gt_stripe_intent",
+    ]);
+
+    // gt_fit_bucket is the same enum vocabulary on both objects.
+    const contactBucket = SYNC_CONTACT_PROPS.find((p) => p.name === "gt_fit_bucket");
+    const dealBucket = DEAL_PROPS.find((p) => p.name === "gt_fit_bucket");
+    expect(contactBucket?.options).toEqual(["strong_fit", "promising", "explore"]);
+    expect(dealBucket?.options).toEqual(["strong_fit", "promising", "explore"]);
+
+    // gt_consent is a boolean; gt_consent_at is a datetime.
+    expect(SYNC_CONTACT_PROPS.find((p) => p.name === "gt_consent")?.type).toBe("bool");
+    expect(SYNC_CONTACT_PROPS.find((p) => p.name === "gt_consent_at")?.type).toBe("datetime");
   });
 
   it("keeps dry bridge payloads identity-only unless syncFields is requested", () => {

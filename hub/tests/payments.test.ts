@@ -26,7 +26,16 @@ let enrA = ""; // succeeded / idempotency enrollment
 let enrB = ""; // out-of-order enrollment
 
 function meta(enrollmentId: string): Record<string, string> {
-  return { program_id: summerId, family_id: familyId, enrollment_id: enrollmentId };
+  // Enriched PI metadata — the handler routes on program_id/family_id/enrollment_id and
+  // stamps the remaining gt_* signal onto the deal patch (program/child_grade/bucket).
+  return {
+    program: "summer_camp",
+    program_id: summerId,
+    family_id: familyId,
+    enrollment_id: enrollmentId,
+    child_grade: "5",
+    bucket: "strong_fit",
+  };
 }
 
 function piEvent(
@@ -173,14 +182,20 @@ describe("Stripe payment propagation (live Stripe TEST sig + live Supabase)", ()
     );
     expect(enr[0].paid).toBe(true);
 
-    // outbox row enqueued for the deal PATCH
+    // outbox row enqueued for the deal PATCH — carrying the enriched gt_* deal props
     const ob = await withoutProgram((sql) =>
-      sql<{ op: string; target_system: string }[]>`
-        select op, target_system from sync_outbox where dedupe_key = ${`stripe:${evId}`}`,
+      sql<{ op: string; target_system: string; payload: Record<string, unknown> }[]>`
+        select op, target_system, payload from sync_outbox where dedupe_key = ${`stripe:${evId}`}`,
     );
     expect(ob.length).toBe(1);
     expect(ob[0].op).toBe("patch_deal");
     expect(ob[0].target_system).toBe("hubspot");
+    const props = (ob[0].payload as { properties?: Record<string, string> }).properties ?? {};
+    expect(props.dealstage).toBe("closedwon");
+    expect(props.gt_stripe_intent).toBe(intent); // ties the deal to the exact PaymentIntent
+    expect(props.gt_program).toBe("summer_camp");
+    expect(props.gt_child_grade).toBe("5");
+    expect(props.gt_fit_bucket).toBe("strong_fit");
   }, T);
 
   it("#3 is idempotent on replay of the SAME signed event", async () => {

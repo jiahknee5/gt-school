@@ -290,9 +290,19 @@ export async function handleStripeEvent(
       const [enr] = await sql<{ hubspot_deal_id: string | null }[]>`
         select hubspot_deal_id from enrollments where id = ${enrollmentId}`;
       if (enr?.hubspot_deal_id) {
+        // Stamp the deal closedwon AND carry the lead's fit signal onto the deal custom
+        // props (provisioned by scripts/seed-hubspot.ts --sync-fields). Built from the PI
+        // metadata so the webhook stays self-contained; empty values are omitted so an
+        // un-provisioned portal never 400s on a prop we didn't send. gt_stripe_intent ties
+        // the deal back to the exact PaymentIntent.
+        const dealProps: Record<string, string> = { dealstage: "closedwon" };
+        if (intentId) dealProps.gt_stripe_intent = intentId;
+        if (metadata.program) dealProps.gt_program = metadata.program;
+        if (metadata.child_grade) dealProps.gt_child_grade = metadata.child_grade;
+        if (metadata.bucket) dealProps.gt_fit_bucket = metadata.bucket;
         const payload = {
           deal_id: enr.hubspot_deal_id,
-          properties: { dealstage: "closedwon" },
+          properties: dealProps,
           reason: "stripe_payment_succeeded",
           intent: intentId,
         };

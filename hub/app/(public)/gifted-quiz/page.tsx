@@ -31,6 +31,8 @@ export default async function GiftedQuizPage({
           readingAboveGrade: true,
           childFirstName: "Harper",
           childGrade: "3",
+          parentFirstName: "Dana",
+          parentLastName: "Whitfield",
           parentEmail: DEMO_EMAIL,
           parentPhone: "(512) 555-0143",
           zip: "78704",

@@ -79,8 +79,19 @@ function qualifyingInput(idem: string, email: string): GiftedQuizCaptureRequest 
     );
     expect(ob).toHaveLength(1);
     expect(ob[0].op).toBe("upsert_contact");
-    expect(ob[0].payload.email).toBe(email);
-    expect(ob[0].payload.hs_lead_status).toBe("NEW"); // qualified → NEW lead status
+    const payload = ob[0].payload;
+    expect(payload.email).toBe(email);
+    expect(payload.hs_lead_status).toBe("NEW"); // qualified → NEW lead status
+    // The FULL lead is on the wire: real parent name + zip + the gt_* fit signal.
+    expect(payload.firstname).toBe("QA");
+    expect(payload.lastname).toBe("Runner");
+    expect(payload.zip).toBe("78701");
+    expect(payload.gt_grade_band).toBe("k_2"); // grade "2" → k_2 band
+    expect(payload.gt_fit_bucket).toBe("strong_fit");
+    expect(payload.gt_lead_score).toBeGreaterThanOrEqual(80);
+    expect(payload.gt_consent).toBe(true);
+    expect(payload.gt_consent_at).toBeTruthy();
+    expect(payload.gt_utm_source).toBe("facebook");
 
     // 4) qualified → routed into Fall Enrollment (RLS-scoped membership)
     const fallId = (

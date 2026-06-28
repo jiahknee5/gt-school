@@ -166,6 +166,24 @@ describe("GT Challenge capture persistence model", () => {
     expect(result.lead.latestBucket).toBe(result.submission.bucket);
     expect(result.lead.latestQualified).toBe(result.submission.qualified);
   });
+
+  it("carries the full lead — parent name, zip, and a consent timestamp — for HubSpot enrichment", async () => {
+    const store = new InMemoryGiftedQuizCaptureStore();
+    const now = new Date("2026-06-26T10:00:00.000Z");
+
+    const result = await captureGiftedQuizSubmission(baseInput({ idempotencyKey: "rich-lead" }), store, {
+      now,
+    });
+
+    // The submission stamps WHEN consent was given (capture only reaches here consented).
+    expect(result.submission.consentAt).toBe(now.toISOString());
+    // The lead carries the real parent identity the deposit forwards to HubSpot — never
+    // the "GT"/"(GT lead)" placeholder.
+    expect(result.lead.parentFirstName).toBe("Pat");
+    expect(result.lead.parentLastName).toBe("Rivera");
+    expect(result.lead.zip).toBe("78704");
+    expect(JSON.stringify(result.lead)).not.toContain("(GT lead)");
+  });
 });
 
 describe("POST /api/gifted-quiz route contract", () => {

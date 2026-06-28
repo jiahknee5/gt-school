@@ -26,6 +26,7 @@ import {
   type GiftedQuizCaptureRecord,
 } from "@/lib/gt-challenge/capture";
 import type { ChallengeBucket } from "@/lib/gt-challenge/assess";
+import { mapFitBucket, mapGradeBand, mapSource } from "@/lib/connectors/hs-mappings";
 
 const FALL_PROGRAM_KEY = "fall_enrollment";
 
@@ -50,6 +51,7 @@ type SubmissionRow = {
   utm_campaign: string | null;
   status: "scored" | "routed";
   routed_program_key: string | null;
+  consent_at: string | Date | null;
   submitted_at: string | Date;
   scored_at: string | Date;
 };
@@ -82,6 +84,7 @@ function rowToSubmission(row: SubmissionRow): PersistedGiftedQuizSubmission {
     parentEmail: row.parent_email,
     parentPhone: row.parent_phone,
     parentConsent: true,
+    consentAt: row.consent_at ? iso(row.consent_at) : iso(row.scored_at),
     answers: row.answers,
     utm: {
       source: row.utm_source ?? "(not set)",
@@ -145,8 +148,11 @@ export class DbGiftedQuizCaptureStore implements GiftedQuizCaptureStore {
       }
       if (!familyId) {
         const inserted = await tx<{ id: string }[]>`
-          insert into families (email, phone, match_key, source)
-          values (${sub.parentEmail}, ${sub.parentPhone}, ${mk}, 'gifted_quiz')
+          insert into families (email, phone, first_name, last_name, zip, match_key, source)
+          values (
+            ${sub.parentEmail}, ${sub.parentPhone},
+            ${capture.lead.parentFirstName}, ${capture.lead.parentLastName}, ${capture.lead.zip},
+            ${mk}, 'gifted_quiz')
           returning id`;
         familyId = inserted[0].id;
       }
@@ -160,14 +166,14 @@ export class DbGiftedQuizCaptureStore implements GiftedQuizCaptureStore {
           child_first_name, child_grade, parent_email, parent_phone,
           answers, raw_score, bucket, qualified, rationale, answer_hash,
           utm_source, utm_medium, utm_campaign, status, routed_program_key,
-          submitted_at, scored_at
+          consent_at, submitted_at, scored_at
         ) values (
           ${sub.idempotencyKey}, ${sub.campaignKey}, ${familyId}, ${mk},
           ${sub.childFirstName}, ${sub.childGrade}, ${sub.parentEmail}, ${sub.parentPhone},
           ${tx.json(sub.answers as unknown as postgres.JSONValue)}, ${sub.rawScore}, ${sub.bucket}, ${sub.qualified},
           ${sub.rationale}, ${sub.answerHash},
           ${utm.source}, ${utm.medium}, ${utm.campaign}, ${sub.status}, ${sub.routedProgramKey},
-          ${sub.submittedAt}, ${sub.scoredAt}
+          ${sub.consentAt}, ${sub.submittedAt}, ${sub.scoredAt}
         ) returning id`;
       const submissionId = insertedSub[0].id;
 
@@ -182,19 +188,33 @@ export class DbGiftedQuizCaptureStore implements GiftedQuizCaptureStore {
       }
 
       // 5) enqueue the app→HubSpot intent (existing outbox backbone dispatches it).
-      //    Only STANDARD HubSpot contact properties go on the wire — HubSpot 400s on
-      //    unknown properties. The GT-specific signal (bucket/score/UTM) stays in
-      //    quiz_submissions, which is the app-authoritative SSOT for it; hs_lead_status
-      //    is the standard property that carries the qualified verdict into the CRM.
+      //    The FULL lead goes on the wire: standard contact props (name/phone/zip) PLUS
+      //    the GT-specific signal mapped to the gt_* custom props provisioned by
+      //    scripts/seed-hubspot.ts (--sync-fields). The outbox worker drops null/undefined
+      //    fields before the PATCH, so any value we couldn't map (e.g. an unknown UTM
+      //    source) is simply omitted rather than 400-ing the contact write. hs_lead_status
+      //    carries the qualified verdict; gt_consent/_at record the consent gate.
+      const contactPayload: Record<string, unknown> = {
+        email: sub.parentEmail,
+        phone: sub.parentPhone,
+        hs_lead_status: sub.qualified ? "NEW" : "UNQUALIFIED",
+        firstname: capture.lead.parentFirstName,
+        lastname: capture.lead.parentLastName,
+        zip: capture.lead.zip,
+        gt_grade_band: mapGradeBand(sub.childGrade),
+        gt_utm_source: mapSource(utm.source),
+        gt_utm_medium: utm.medium === "(not set)" ? null : utm.medium,
+        gt_utm_campaign: utm.campaign === "(not set)" ? null : utm.campaign,
+        gt_fit_bucket: mapFitBucket(sub.bucket),
+        gt_lead_score: sub.rawScore,
+        gt_consent: true,
+        gt_consent_at: sub.consentAt,
+      };
       await tx`
         insert into sync_outbox (aggregate_type, aggregate_id, target_system, op, payload, dedupe_key)
         values (
           'quiz_submission', ${submissionId}, 'hubspot', 'upsert_contact',
-          ${tx.json({
-            email: sub.parentEmail,
-            phone: sub.parentPhone,
-            hs_lead_status: sub.qualified ? "NEW" : "UNQUALIFIED",
-          } as unknown as postgres.JSONValue)},
+          ${tx.json(contactPayload as unknown as postgres.JSONValue)},
           ${`gtc:${submissionId}`}
         )
         on conflict (dedupe_key) do nothing`;
@@ -221,6 +241,11 @@ export class DbGiftedQuizCaptureStore implements GiftedQuizCaptureStore {
         source: "gifted_quiz",
         parentEmail: row.parent_email,
         parentPhone: row.parent_phone,
+        // The parent name + zip live on families, not quiz_submissions; the snapshot is a
+        // submission-level KPI/contract view, so they are not re-read here (null is fine).
+        parentFirstName: null,
+        parentLastName: null,
+        zip: null,
         childFirstName: row.child_first_name,
         childGrade: row.child_grade,
         utm: submission.utm,

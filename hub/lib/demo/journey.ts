@@ -14,6 +14,7 @@ import { withProgram, withoutProgram } from "@/lib/db";
 import { createPaymentIntent, signPayload, handleStripeEvent } from "@/lib/payments";
 import { upsertContactByEmail, createDeal, associateDealToContact } from "@/lib/connectors/hubspot";
 import { drainOutbox } from "@/lib/sync/outbox-worker";
+import { mapFitBucket } from "@/lib/connectors/hs-mappings";
 
 const FALL_PROGRAM_KEY = "fall_enrollment";
 const DEPOSIT_CENTS = 10000; // $100 Fall deposit (demo)
@@ -68,13 +69,47 @@ export async function checkoutDepositForFamily(
   if (!UUID_RE.test(familyId)) throw new Error("familyId must be a UUID.");
   const fallId = await fallProgramId();
 
-  // 0) the lead's identity — email is HubSpot's natural key for the upsert.
+  // 0) the lead's identity — email is HubSpot's natural key for the upsert. The full
+  //    lead (real parent name, phone, zip, grade) carries into the contact; the most
+  //    recent quiz submission carries the fit signal (bucket/score/match_key/campaign)
+  //    into the deal custom props + the Stripe PI metadata.
   const fam = await withProgram(fallId, async (sql) => {
-    const rows = await sql<{ email: string | null; first_name: string | null; hubspot_contact_id: string | null }[]>`
-      select email, first_name, hubspot_contact_id from families where id = ${familyId} limit 1`;
+    const rows = await sql<{
+      email: string | null;
+      first_name: string | null;
+      last_name: string | null;
+      phone: string | null;
+      zip: string | null;
+      grade: string | null;
+      match_key: string | null;
+      hubspot_contact_id: string | null;
+    }[]>`
+      select email, first_name, last_name, phone, zip, grade, match_key, hubspot_contact_id
+      from families where id = ${familyId} limit 1`;
     return rows[0] ?? null;
   });
   if (!fam) throw new Error("family not found");
+
+  const sub = await withProgram(fallId, async (sql) => {
+    const rows = await sql<{
+      id: string;
+      child_grade: string | null;
+      bucket: string | null;
+      raw_score: number | null;
+      match_key: string | null;
+      utm_campaign: string | null;
+    }[]>`
+      select id, child_grade, bucket, raw_score, match_key, utm_campaign
+      from quiz_submissions where family_id = ${familyId} order by scored_at desc limit 1`;
+    return rows[0] ?? null;
+  });
+
+  const childGrade = sub?.child_grade ?? fam.grade ?? null;
+  const fitBucket = sub?.bucket ?? null;
+  const leadScore = sub?.raw_score ?? null;
+  const matchKey = sub?.match_key ?? fam.match_key ?? null;
+  const campaign = sub?.utm_campaign && sub.utm_campaign !== "(not set)" ? sub.utm_campaign : null;
+  const dealName = `GT Fall deposit — ${[fam.first_name, fam.last_name].filter(Boolean).join(" ") || "lead"}`;
 
   // 1) HubSpot FIRST — upsert the contact, create the deal (closedwon), associate them.
   //    Best-effort: a HubSpot failure logs + continues so the payment is never lost.
@@ -82,18 +117,33 @@ export async function checkoutDepositForFamily(
   let dealId: string | null = null;
   if (fam.email) {
     try {
-      const contact = await upsertContactByEmail(fam.email, {
-        firstname: fam.first_name ?? "GT",
-        lastname: "(GT lead)",
-        lifecyclestage: "lead",
-      });
+      // Real parent name only — NEVER the "GT"/"(GT lead)" placeholder. Drop empty props
+      // so HubSpot keeps whatever the capture-time upsert_contact already set.
+      const contactProps: Record<string, string> = { lifecyclestage: "lead" };
+      if (fam.first_name) contactProps.firstname = fam.first_name;
+      if (fam.last_name) contactProps.lastname = fam.last_name;
+      if (fam.phone) contactProps.phone = fam.phone;
+      if (fam.zip) contactProps.zip = fam.zip;
+      const contact = await upsertContactByEmail(fam.email, contactProps);
       contactId = contact.id;
-      const deal = await createDeal({
-        dealname: `GT Fall deposit — ${fam.first_name ?? "lead"}`,
+
+      // Deal custom props (provisioned by scripts/seed-hubspot.ts --sync-fields). Drop
+      // empties so an un-provisioned portal never 400s on a value we didn't send.
+      const dealProps: Record<string, string> = {
+        dealname: dealName,
         amount: String(DEPOSIT_CENTS / 100),
         dealstage: "closedwon",
         pipeline: "default",
-      });
+      };
+      const gtFitBucket = mapFitBucket(fitBucket);
+      dealProps.gt_program = "fall_enrollment";
+      // gt_child_grade is a free-text deal prop — the raw grade ("K".."8"), not the
+      // contact-side gt_grade_band enum. gt_fit_bucket is the clean enum (strong_fit|…).
+      if (childGrade) dealProps.gt_child_grade = childGrade;
+      if (gtFitBucket) dealProps.gt_fit_bucket = gtFitBucket;
+      if (leadScore != null) dealProps.gt_lead_score = String(leadScore);
+      if (matchKey) dealProps.gt_match_key = matchKey;
+      const deal = await createDeal(dealProps);
       dealId = deal.id;
       await associateDealToContact(deal.id, contact.id).catch(() => {});
     } catch (err) {
@@ -120,14 +170,31 @@ export async function checkoutDepositForFamily(
   });
 
   // 3) a REAL Stripe test PaymentIntent (pm_card_visa, confirm=true → succeeded).
+  //    Metadata is enriched so the charge in Stripe is legible on its own AND so the
+  //    description names the program. The handler routes on program_id/family_id/
+  //    enrollment_id; the rest is human-facing context. Drop empties (Stripe rejects
+  //    null metadata values).
+  const piMetadata: Record<string, string> = {
+    program: FALL_PROGRAM_KEY,
+    program_id: fallId,
+    family_id: familyId,
+    enrollment_id: enrollmentId,
+    dealname: dealName,
+  };
+  if (contactId) piMetadata.contact_id = contactId;
+  if (dealId) piMetadata.deal_id = dealId;
+  if (campaign) piMetadata.campaign = campaign;
+  if (childGrade) piMetadata.child_grade = childGrade;
+  if (fitBucket) piMetadata.bucket = fitBucket;
   const pi = await createPaymentIntent({
     amount_cents: DEPOSIT_CENTS,
-    metadata: { program_id: fallId, family_id: familyId, enrollment_id: enrollmentId },
+    metadata: piMetadata,
   });
   const intentId = String(pi.id);
 
   // 3) propagate via the SAME verified path the webhook uses — sign a succeeded event and
-  //    run handleStripeEvent (records payment, flips enrollment paid, enqueues outbox).
+  //    run handleStripeEvent (records payment, flips enrollment paid, enqueues outbox). The
+  //    event mirrors the PI metadata so payments.ts can stamp the gt_* deal props on patch.
   const event = {
     id: `evt_demo_${intentId}`,
     type: "payment_intent.succeeded",
@@ -136,21 +203,30 @@ export async function checkoutDepositForFamily(
       object: {
         id: intentId,
         amount_received: DEPOSIT_CENTS,
-        metadata: { program_id: fallId, family_id: familyId, enrollment_id: enrollmentId },
+        metadata: piMetadata,
       },
     },
   };
   const raw = JSON.stringify(event);
   await handleStripeEvent(raw, signPayload(raw));
 
-  // 4) Dispatch THIS deposit's HubSpot patch_deal outbox row so the payments ledger shows
-  //    the CRM sync as "done" (the deal already exists from the HubSpot-first create above;
-  //    this fires the idempotent patch + flips the outbox row). Scoped by dedupe_key to this
-  //    one event — never a mass drain of seed rows — and best-effort so it can't block.
+  // 4) Dispatch THIS deposit's HubSpot outbox rows so the payments ledger shows the CRM
+  //    sync as "done": the patch_deal enqueued by the webhook (keyed stripe:<event>) AND
+  //    the capture-time enriched upsert_contact (keyed gtc:<submission>) so the FULL
+  //    contact (name/phone/zip/gt_* props) lands in HubSpot immediately rather than waiting
+  //    for the next cron drain. Scoped by dedupe_key to this lead — never a mass seed drain
+  //    — and best-effort so neither can block the (already-succeeded) payment.
   try {
     await drainOutbox({ dedupeKeyLike: `stripe:${event.id}` });
   } catch (err) {
-    console.error("[checkout] outbox drain (non-fatal):", err);
+    console.error("[checkout] outbox drain stripe (non-fatal):", err);
+  }
+  if (sub?.id) {
+    try {
+      await drainOutbox({ dedupeKeyLike: `gtc:${sub.id}` });
+    } catch (err) {
+      console.error("[checkout] outbox drain gtc (non-fatal):", err);
+    }
   }
 
   return { ok: true, intentId, trackKey: familyId, contactId, dealId };

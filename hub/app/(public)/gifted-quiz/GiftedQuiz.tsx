@@ -161,6 +161,8 @@ export interface QuizPrefill {
   readingAboveGrade: boolean | null;
   childFirstName: string;
   childGrade: string;
+  parentFirstName: string;
+  parentLastName: string;
   parentEmail: string;
   parentPhone: string;
   zip: string;
@@ -195,6 +197,8 @@ export function GiftedQuiz({ prefill }: { prefill?: QuizPrefill | null } = {}) {
   const [parentObservation, setParentObservation] = useState(prefill?.parentObservation ?? "");
   const [childFirstName, setChildFirstName] = useState(prefill?.childFirstName ?? "");
   const [childGrade, setChildGrade] = useState(prefill?.childGrade ?? "");
+  const [parentFirstName, setParentFirstName] = useState(prefill?.parentFirstName ?? "");
+  const [parentLastName, setParentLastName] = useState(prefill?.parentLastName ?? "");
   const [parentEmail, setParentEmail] = useState(prefill?.parentEmail ?? "");
   const [parentPhone, setParentPhone] = useState(prefill?.parentPhone ?? "");
   const [zip, setZip] = useState(prefill?.zip ?? "");
@@ -258,6 +262,8 @@ export function GiftedQuiz({ prefill }: { prefill?: QuizPrefill | null } = {}) {
           parent_consent: consent,
           parent_email: submitEmail || null,
           parent_phone: parentPhone.trim() || null,
+          parent_first_name: parentFirstName.trim() || null,
+          parent_last_name: parentLastName.trim() || null,
           zip: zip.trim() || null,
           child_first_name: childFirstName.trim() || null,
           child_grade: childGrade.trim(),
@@ -428,6 +434,28 @@ export function GiftedQuiz({ prefill }: { prefill?: QuizPrefill | null } = {}) {
                       </option>
                     ))}
                   </select>
+                </label>
+              </div>
+              <div className="grid grid-cols-2 gap-2.5">
+                <label className="block">
+                  <span className="text-[12px] font-semibold text-slate">Your first name</span>
+                  <input
+                    value={parentFirstName}
+                    onChange={(e) => setParentFirstName(e.target.value)}
+                    autoComplete="given-name"
+                    className="mt-1 w-full rounded-card border border-border bg-canvas px-3 py-2 text-[13px] text-ink focus:border-gold focus:outline-none"
+                    placeholder="Optional"
+                  />
+                </label>
+                <label className="block">
+                  <span className="text-[12px] font-semibold text-slate">Your last name</span>
+                  <input
+                    value={parentLastName}
+                    onChange={(e) => setParentLastName(e.target.value)}
+                    autoComplete="family-name"
+                    className="mt-1 w-full rounded-card border border-border bg-canvas px-3 py-2 text-[13px] text-ink focus:border-gold focus:outline-none"
+                    placeholder="Optional"
+                  />
                 </label>
               </div>
               <label className="block">

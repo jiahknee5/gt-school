@@ -48,6 +48,8 @@ export interface PersistedGiftedQuizSubmission {
   parentEmail: string | null;
   parentPhone: string | null;
   parentConsent: true;
+  // When the parent consent gate was satisfied — carried to HubSpot as gt_consent_at.
+  consentAt: string;
   answers: QuizAnswers;
   utm: CaptureUtm;
   rawScore: number;
@@ -69,6 +71,9 @@ export interface PersistedGiftedQuizLead {
   source: "gifted_quiz";
   parentEmail: string | null;
   parentPhone: string | null;
+  parentFirstName: string | null;
+  parentLastName: string | null;
+  zip: string | null;
   childFirstName: string | null;
   childGrade: string;
   utm: CaptureUtm;
@@ -205,6 +210,9 @@ function buildNewCapture(
       parentEmail: input.parent.email ?? null,
       parentPhone: input.parent.phone ?? null,
       parentConsent: true,
+      // consent is required to reach here (captureGiftedQuizSubmission throws otherwise),
+      // so the consent timestamp is the moment the submission was scored.
+      consentAt: now,
       answers: input.answers,
       utm,
       rawScore: grade.rawScore,
@@ -223,6 +231,9 @@ function buildNewCapture(
       source: "gifted_quiz",
       parentEmail: input.parent.email ?? null,
       parentPhone: input.parent.phone ?? null,
+      parentFirstName: input.parent.firstName ?? null,
+      parentLastName: input.parent.lastName ?? null,
+      zip: input.parent.zip ?? null,
       childFirstName: input.child.firstName ?? null,
       childGrade: input.child.grade,
       utm,
@@ -326,6 +337,9 @@ export class InMemoryGiftedQuizCaptureStore implements GiftedQuizCaptureStore {
           ...existingLead,
           parentEmail: existingLead.parentEmail ?? capture.lead.parentEmail,
           parentPhone: existingLead.parentPhone ?? capture.lead.parentPhone,
+          parentFirstName: existingLead.parentFirstName ?? capture.lead.parentFirstName,
+          parentLastName: existingLead.parentLastName ?? capture.lead.parentLastName,
+          zip: existingLead.zip ?? capture.lead.zip,
           childFirstName: existingLead.childFirstName ?? capture.lead.childFirstName,
           childGrade: capture.lead.childGrade,
           utm: capture.lead.utm,
