@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { createHash } from "node:crypto";
+import { readFileSync } from "node:fs";
+import { fileURLToPath } from "node:url";
 import { generate } from "@/lib/seed/generate";
 import { SYNCED_FIELDS } from "@/lib/seed/dictionaries";
 import { USE_CASES } from "@/lib/dev/usecases";
@@ -544,21 +546,14 @@ describe("Marketing Hub spec (data-level proofs)", () => {
 
 // ───────────────────────── Catalog integrity ─────────────────────────
 describe("Use-case catalog integrity (lib/dev/usecases.ts)", () => {
-  const IMPLEMENTED = new Set([
-    "UC-P1-ISOLATION", "UC-P1-PAYMENT-IDEM", "UC-P1-PAYMENT-RETRY", "UC-P1-DUP-WEBHOOK",
-    "UC-P1-CONFLICT", "UC-P1-PARITY-SIGNAL", "UC-P1-RECON-SUMMER", "UC-P1-RECON-AMBASSADOR",
-    "UC-DATA-DETERMINISM", "UC-DATA-EDGECASES", "UC-DATA-MESSY", "UC-DATA-HONEST", "UC-DATA-BUDGET-365",
-    "UC-DATA-VARIANCE", "UC-DATA-ATTR-GAP", "UC-DATA-UTM-THREAD",
-    "UC-P2-SSOT", "UC-P2-CRMOPS-GAPS", "UC-P2-AUTH-ROLES", "UC-P2-HOME", "UC-P2-HOME-PERSISTENCE", "UC-GTC-CAPTURE-ASSESS", "UC-GTC-CAMPAIGN", "UC-GTC-CAPTURE-PERSIST",
-    "UC-SPEC-BUDGET-WORKSTREAMS", "UC-SPEC-CAMP-PL", "UC-SPEC-FIELD-RELIABILITY",
-    "UC-SPEC-SCORE-CONVERSION", "UC-SPEC-DQ-AUTODETECT", "UC-SPEC-OUTBOX-DLQ",
-    "UC-SPEC-CONTENT-PIPELINE",
-    "UC-SPEC-XLINK-TESTIMONIAL", "UC-SPEC-XLINK-OBJECTION", "UC-SPEC-XLINK-HOTFAMILY",
-    "UC-SPEC-XLINK-EVENT", "UC-SPEC-MONDAY-MEETING", "UC-SPEC-HANDOFF",
-    "UC-DEMO-BUDGET", "UC-DEMO-ROLE-DENIED", "UC-DEMO-BANNER",
-    "UC-DEMO-BUDGET-UI", "UC-DEMO-ROLE-DENIED-AUTH-UI", "UC-DEMO-BANNER-UI",
-  ]);
-  const TODOS = new Set<string>();
+  // Parse THIS file's own source to learn which use cases ACTUALLY have a runnable
+  // it() here (titles are "UC-XXX: …"). This replaces a hand-maintained IMPLEMENTED
+  // set that could drift from reality — the check below now fails if the catalog
+  // claims a brief-usecases proof that doesn't exist as a real test.
+  const selfSrc = readFileSync(fileURLToPath(import.meta.url), "utf8");
+  const presentItIds = new Set(
+    [...selfSrc.matchAll(/\bit\(\s*["'`](UC-[A-Z0-9-]+):/g)].map((m) => m[1]),
+  );
 
   it("every use case is well-formed (id, reqs, proves, tests)", () => {
     for (const u of USE_CASES) {
@@ -587,16 +582,25 @@ describe("Use-case catalog integrity (lib/dev/usecases.ts)", () => {
     expect(orphans, `P0 requirements with no use case: ${orphans.join(", ")}`).toHaveLength(0);
   });
 
-  it("catalog stays in sync with this file's implemented + todo cases", () => {
+  it("every catalog UC that claims a brief-usecases proof has a real it() in this file", () => {
+    // The anti-theater check: a catalog entry whose tests[] points at
+    // "brief-usecases.test.ts > <id>" must correspond to a real test titled "<id>: …"
+    // here. A drifted/fabricated claim fails instead of being rubber-stamped by a list.
+    const missing: string[] = [];
     for (const u of USE_CASES) {
       const ref = u.tests.find((t) => t.startsWith("brief-usecases.test.ts"));
-      if (!ref) continue;
-      if (ref.includes("(todo)")) expect(TODOS.has(u.id), `${u.id} should be a todo here`).toBe(true);
-      else expect(IMPLEMENTED.has(u.id), `${u.id} should be implemented here`).toBe(true);
+      if (!ref || ref.includes("(todo)")) continue; // proof lives elsewhere, or is an explicit placeholder
+      const claimed = ref.match(/›\s*(UC-[A-Z0-9-]+)/)?.[1] ?? u.id;
+      if (!presentItIds.has(claimed)) {
+        missing.push(`${u.id}: catalog claims "${ref}" but no it("${claimed}: …") exists in this file`);
+      }
     }
-    // and every pending catalog entry is tracked as a todo
-    for (const u of USE_CASES) {
-      if (u.status === "pending") expect(TODOS.has(u.id), `${u.id} pending → needs a todo`).toBe(true);
-    }
+    expect(missing, `Catalog claims brief-usecases proofs that don't exist:\n${missing.join("\n")}`).toHaveLength(0);
+  });
+
+  it("no UC-* test in this file is orphaned from the catalog", () => {
+    const catalogIds = new Set(USE_CASES.map((u) => u.id));
+    const orphans = [...presentItIds].filter((id) => !catalogIds.has(id));
+    expect(orphans, `it() blocks with no catalog entry: ${orphans.join(", ")}`).toHaveLength(0);
   });
 });
