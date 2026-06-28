@@ -5,7 +5,7 @@ import Link from "next/link";
 import type { DerivationGraph, DerivationKind } from "@/lib/status/derivation";
 import { DerivationGraphView, KIND_BADGE } from "@/app/_components/DerivationGraphView";
 
-export type TraceRow = { node: string; input: string; output: string; expected: string; pass: boolean };
+export type TraceRow = { node: string; input: string; output: string; actual: string; expected: string; pass: boolean };
 export type RunLog = { id: string; datetime: string; entry: string; trace: TraceRow[] };
 export type GeneratorRow = {
   key: string;
@@ -31,10 +31,10 @@ function KindBadge({ kind }: { kind: DerivationKind }) {
 function TraceTable({ trace }: { trace: TraceRow[] }) {
   return (
     <div className="overflow-x-auto rounded-card border border-hairline bg-canvas">
-      <table className="w-full min-w-[640px] border-collapse text-left">
+      <table className="w-full min-w-[720px] border-collapse text-left">
         <thead>
           <tr className="border-b border-hairline bg-side">
-            {["Node", "Input", "Output", "Expected", "✓"].map((h) => (
+            {["Node", "Input", "Output", "Actual", "Expected", "✓"].map((h) => (
               <th key={h} className="mono px-2 py-1 text-[8px] font-semibold uppercase tracking-[0.08em] text-label">{h}</th>
             ))}
           </tr>
@@ -45,6 +45,7 @@ function TraceTable({ trace }: { trace: TraceRow[] }) {
               <td className="mono px-2 py-1 text-[10px] font-semibold text-slate">{r.node}</td>
               <td className="px-2 py-1 text-[10px] leading-snug text-muted">{r.input}</td>
               <td className="px-2 py-1 text-[10px] leading-snug text-slate">{r.output}</td>
+              <td className="px-2 py-1 text-[10px] leading-snug text-slate">{r.actual}</td>
               <td className="px-2 py-1 text-[10px] leading-snug text-muted">{r.expected}</td>
               <td className="px-2 py-1">
                 <span className={`mono text-[10px] font-bold ${r.pass ? "text-green" : "text-red"}`}>{r.pass ? "✓" : "✗"}</span>

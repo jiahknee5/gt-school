@@ -12,7 +12,8 @@ const ROLE_BLURB: Record<string, string> = {
 };
 
 function safeNext(value: string | undefined): string {
-  if (!value || !value.startsWith("/") || value.startsWith("//")) return "/";
+  // Same-origin absolute PATHS only — reject protocol-relative + backslash (SEC-06).
+  if (!value || !value.startsWith("/") || value.startsWith("//") || value.includes("\\")) return "/";
   return value;
 }
 

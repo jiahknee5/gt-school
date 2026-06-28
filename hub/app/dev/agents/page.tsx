@@ -34,8 +34,8 @@ export default async function DevAgentsPage() {
         Ask-the-Hub agent graph
       </h1>
       <p className="mt-1.5 max-w-[760px] text-[12px] leading-snug text-muted">
-        Live agent runs expose the same trace shape the API returns: node, input, expected output,
-        actual output, pass/fail, citations, and decisions. The built-in suite below runs in deterministic
+        Live agent runs expose the same trace shape the API returns: node, input, output (raw),
+        actual (normalized), expected, pass/fail, citations, and decisions. The built-in suite below runs in deterministic
         mode so regressions are reproducible without model or network access.
       </p>
 
@@ -81,11 +81,18 @@ export default async function DevAgentsPage() {
             <div key={result.case.id} className="border-b border-hairline px-3 py-2.5 last:border-0">
               <div className="flex flex-wrap items-center gap-2">
                 <code className="mono text-[11px] font-semibold text-slate">{result.case.id}</code>
+                {result.case.tier === "golden" && (
+                  <span className="mono rounded-[5px] bg-gold/15 px-1.5 py-0.5 text-[9px] font-semibold uppercase tracking-[0.08em] text-gold" title="Hand-curated golden eval — must never regress">
+                    Golden
+                  </span>
+                )}
                 <Status pass={result.pass} />
                 <span className="mono rounded-[5px] bg-fill px-1.5 py-0.5 text-[9px] text-slate">{result.case.role}</span>
                 <span className="mono rounded-[5px] bg-fill px-1.5 py-0.5 text-[9px] text-slate">{result.answer.agent.id}</span>
+                {result.case.label && <span className="text-[11px] font-semibold text-ink">{result.case.label}</span>}
               </div>
               <p className="mt-1 text-[12px] font-semibold text-ink">{result.case.question}</p>
+              {result.case.description && <p className="mt-0.5 text-[11px] leading-snug text-muted">{result.case.description}</p>}
               {result.failures.length > 0 && (
                 <ul className="mt-1 space-y-0.5 text-[11px] text-red">
                   {result.failures.map((failure) => <li key={failure}>{failure}</li>)}
@@ -111,7 +118,7 @@ export default async function DevAgentsPage() {
           <table className="w-full min-w-[980px] border-collapse text-left">
             <thead>
               <tr className="border-b border-hairline bg-side">
-                {["Case", "Node", "Pass", "Input", "Expected out", "Actual out", "Citations"].map((h) => (
+                {["Case", "Node", "Pass", "Input", "Output", "Actual", "Expected", "Citations"].map((h) => (
                   <th key={h} className="mono px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.08em] text-label">
                     {h}
                   </th>
@@ -125,9 +132,10 @@ export default async function DevAgentsPage() {
                     <td className="mono px-2 py-1 text-[10px] text-label">{result.case.id}</td>
                     <td className="mono px-2 py-1 text-[10px] font-semibold text-slate">{row.node}</td>
                     <td className="px-2 py-1"><Status pass={row.pass} /></td>
-                    <td className="max-w-[190px] px-2 py-1 text-[10px] leading-snug text-muted">{row.input}</td>
-                    <td className="max-w-[220px] px-2 py-1 text-[10px] leading-snug text-muted">{row.expectedOutput}</td>
-                    <td className="max-w-[240px] px-2 py-1 text-[10px] leading-snug text-slate">{row.actualOutput}</td>
+                    <td className="max-w-[170px] px-2 py-1 text-[10px] leading-snug text-muted">{row.input}</td>
+                    <td className="max-w-[200px] px-2 py-1 text-[10px] leading-snug text-slate">{row.output ?? row.actualOutput}</td>
+                    <td className="max-w-[200px] px-2 py-1 text-[10px] leading-snug text-slate">{row.actualOutput}</td>
+                    <td className="max-w-[200px] px-2 py-1 text-[10px] leading-snug text-muted">{row.expectedOutput}</td>
                     <td className="px-2 py-1">
                       <div className="flex flex-wrap gap-1">
                         {row.citations.map((id) => (
@@ -152,7 +160,7 @@ export default async function DevAgentsPage() {
         </h2>
         <p className="mt-1 max-w-[760px] text-[12px] leading-snug text-muted">
           Ask-the-Hub (above) and the Status weekly-verdict generator are evaluated with the same
-          input · node · expected · actual · pass contract, organized by location.
+          node · input · output · actual · expected · pass contract, organized by location.
         </p>
         <div className="mt-2 rounded-card border border-hairline bg-surface p-3 shadow-sm">
           <div className="flex flex-wrap items-center gap-2">
@@ -163,10 +171,10 @@ export default async function DevAgentsPage() {
           </div>
           <p className="mt-1 text-[11px] text-muted">{statusSite.description}</p>
           <div className="mt-2 overflow-x-auto">
-            <table className="w-full min-w-[820px] border-collapse text-left">
+            <table className="w-full min-w-[900px] border-collapse text-left">
               <thead>
                 <tr className="border-b border-hairline bg-side">
-                  {["Node", "Pass", "Input", "Expected out", "Actual out"].map((h) => (
+                  {["Node", "Pass", "Input", "Output", "Actual", "Expected"].map((h) => (
                     <th key={h} className="mono px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.08em] text-label">{h}</th>
                   ))}
                 </tr>
@@ -176,9 +184,10 @@ export default async function DevAgentsPage() {
                   <tr key={row.node} className="border-b border-hairline last:border-0 align-top">
                     <td className="mono px-2 py-1 text-[10px] font-semibold text-slate">{row.node}</td>
                     <td className="px-2 py-1"><Status pass={row.pass} /></td>
-                    <td className="max-w-[210px] px-2 py-1 text-[10px] leading-snug text-muted">{row.input}</td>
-                    <td className="max-w-[230px] px-2 py-1 text-[10px] leading-snug text-muted">{row.expectedOutput}</td>
-                    <td className="max-w-[260px] px-2 py-1 text-[10px] leading-snug text-slate">{row.actualOutput}</td>
+                    <td className="max-w-[190px] px-2 py-1 text-[10px] leading-snug text-muted">{row.input}</td>
+                    <td className="max-w-[210px] px-2 py-1 text-[10px] leading-snug text-slate">{row.output ?? row.actualOutput}</td>
+                    <td className="max-w-[210px] px-2 py-1 text-[10px] leading-snug text-slate">{row.actualOutput}</td>
+                    <td className="max-w-[210px] px-2 py-1 text-[10px] leading-snug text-muted">{row.expectedOutput}</td>
                   </tr>
                 ))}
               </tbody>

@@ -65,18 +65,21 @@ export function PaymentPropagationPlayer({ steps }: { steps: PaymentStep[] }) {
 export function ParityDropToggle({ healthy, dropped }: { healthy: BannerStateLike; dropped: BannerStateLike }) {
   const [low, setLow] = useState(false);
   const state = low ? dropped : healthy;
+  // The governed fields that sit in-parity at the lenient bar but cross BELOW once the policy
+  // bar applies — the explicit threshold-cross this proof is about (real DB parity numbers).
+  const crossing = dropped.below.filter((d) => !healthy.below.some((h) => h.field === d.field));
   return (
     <div>
-      <div className="mb-2 flex items-center gap-2">
+      <div className="mb-2 flex flex-wrap items-center gap-2">
         <button
           type="button"
           onClick={() => setLow((v) => !v)}
           className={`rounded-card px-2.5 py-1 text-[11px] font-semibold ${low ? "bg-ink-cta text-on-cta" : "border border-border bg-canvas text-slate"}`}
         >
-          {low ? "↩ Restore parity" : "▼ Drop a governed field below threshold"}
+          {low ? `↩ Lower to the lenient ${healthy.thresholdPct}% bar` : `▲ Raise to the ${dropped.thresholdPct}% policy bar`}
         </button>
         <span className="mono text-[10px] text-label">
-          overall {state.overallPct}% · threshold {state.thresholdPct}% · {state.below.length} below
+          overall {state.overallPct}% · bar {state.thresholdPct}% · {state.below.length} below
         </span>
       </div>
       {/* The REAL shared banner component the modules mount. Renders only when a field is below. */}
@@ -84,9 +87,17 @@ export function ParityDropToggle({ healthy, dropped }: { healthy: BannerStateLik
         <DataConfidenceBanner state={state} />
       ) : (
         <p className="rounded-card border border-green/40 bg-green-soft/40 px-2.5 py-1.5 text-[11px] text-green">
-          All governed fields above {state.thresholdPct}% — no banner (healthy). Drop one to watch it appear.
+          All governed fields above the {state.thresholdPct}% bar — no banner (healthy). Raise the bar to policy to watch it appear.
         </p>
       )}
+      {crossing.length > 0 ? (
+        <p className="mono mt-1.5 text-[9px] leading-snug text-label">
+          Crosses below as the bar rises {healthy.thresholdPct}% → {dropped.thresholdPct}%:{" "}
+          {crossing
+            .map((f) => `${f.field} ${f.pct}%${f.expectedUnreliable ? " (known-unreliable)" : " (surprise)"}`)
+            .join(", ")}
+        </p>
+      ) : null}
     </div>
   );
 }

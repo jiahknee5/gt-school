@@ -84,10 +84,10 @@ export function AgentGraphConsole() {
           </div>
 
           <div className="overflow-x-auto rounded-card border border-hairline">
-            <table className="w-full min-w-[920px] border-collapse text-left">
+            <table className="w-full min-w-[1000px] border-collapse text-left">
               <thead>
                 <tr className="border-b border-hairline bg-side">
-                  {["Node", "Pass", "Input", "Expected out", "Actual out", "Citations"].map((h) => (
+                  {["Node", "Pass", "Input", "Output", "Actual", "Expected", "Citations"].map((h) => (
                     <th key={h} className="mono px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.08em] text-label">
                       {h}
                     </th>
@@ -99,9 +99,10 @@ export function AgentGraphConsole() {
                   <tr key={row.node} className="border-b border-hairline last:border-0 align-top">
                     <td className="mono px-2 py-1 text-[10px] font-semibold text-slate">{row.node}</td>
                     <td className="px-2 py-1"><Status pass={row.pass} /></td>
-                    <td className="max-w-[210px] px-2 py-1 text-[10px] leading-snug text-muted">{row.input}</td>
-                    <td className="max-w-[210px] px-2 py-1 text-[10px] leading-snug text-muted">{row.expectedOutput}</td>
-                    <td className="max-w-[240px] px-2 py-1 text-[10px] leading-snug text-slate">{row.actualOutput}</td>
+                    <td className="max-w-[180px] px-2 py-1 text-[10px] leading-snug text-muted">{row.input}</td>
+                    <td className="max-w-[190px] px-2 py-1 text-[10px] leading-snug text-slate">{row.output ?? row.actualOutput}</td>
+                    <td className="max-w-[190px] px-2 py-1 text-[10px] leading-snug text-slate">{row.actualOutput}</td>
+                    <td className="max-w-[190px] px-2 py-1 text-[10px] leading-snug text-muted">{row.expectedOutput}</td>
                     <td className="px-2 py-1">
                       <div className="flex flex-wrap gap-1">
                         {row.citations.map((id) => (

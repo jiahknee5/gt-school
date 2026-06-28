@@ -17,13 +17,17 @@ const TOKEN_MAX_AGE_MS = 8 * 60 * 60 * 1000;
 function getSecret(): string {
   const secret = process.env.AUTH_SECRET;
   if (secret && secret.length >= 16) return secret;
-  // Dev fallback so the app runs out-of-the-box without a configured secret.
-  if (process.env.AUTH_DEV_MODE === "true" || process.env.NODE_ENV !== "production") {
+  // Dev fallback so the app runs out-of-the-box without a configured secret — NEVER in
+  // production, even with AUTH_DEV_MODE on. DEV_SECRET is in the source, so signing prod
+  // sessions with it would make admin tokens forgeable by anyone (SEC-02). The dev-auth
+  // demo still works in prod because AUTH_SECRET is configured there; this only refuses
+  // the insecure hardcoded fallback when NODE_ENV is production.
+  if (process.env.NODE_ENV !== "production") {
     return DEV_SECRET;
   }
   throw new Error(
     "AUTH_SECRET must be set to a value of at least 16 characters in production " +
-      "(or enable AUTH_DEV_MODE=true for local dev).",
+      "(the public DEV_SECRET is never used in prod, even with AUTH_DEV_MODE=true).",
   );
 }
 

@@ -7,7 +7,9 @@ import { NextResponse, type NextRequest } from "next/server";
 import { DEV_MODE, createSessionToken, sessionCookie, resolveUserById, resolveUserByRole } from "@/lib/auth";
 
 function safeNext(value: string | null): string {
-  if (!value || !value.startsWith("/") || value.startsWith("//")) return "/";
+  // Same-origin absolute PATHS only. Reject protocol-relative ("//", "/\") and any
+  // backslash so `next` can never become an open redirect to another host (SEC-06).
+  if (!value || !value.startsWith("/") || value.startsWith("//") || value.includes("\\")) return "/";
   return value;
 }
 

@@ -17,15 +17,17 @@ export const dynamic = "force-dynamic";
 
 // Map a derivation graph's nodes into a node-by-node traceability log: each node's input is
 // the upstream node's value, its output is its own value/detail, and the OUTPUT node carries
-// the eval's expected value + pass.
+// the eval's actual (what the board renders) + expected (the independent recompute) + pass.
 function traceFromGraph(g: DerivationGraph): TraceRow[] {
   return g.nodes.map((n, i) => {
     const prev = i > 0 ? g.nodes[i - 1] : undefined;
     const isOutput = n.role === "output";
+    const own = n.value ?? n.detail;
     return {
       node: n.label,
       input: prev ? prev.value ?? prev.label : "(seed)",
-      output: n.value ?? n.detail,
+      output: own,
+      actual: isOutput ? g.eval.actual : own,
       expected: isOutput ? g.eval.expected : n.value ?? "—",
       pass: isOutput ? g.eval.pass : true,
     };
@@ -73,7 +75,15 @@ export default async function DevRubricsPage() {
         datetime: t.startedAt.replace("T", " ").slice(0, 19),
         entry: `${t.provider} · ${t.model} · role ${t.role ?? "—"}`,
         trace: (t.trace.evalRows ?? []).map(
-          (r): TraceRow => ({ node: r.node, input: r.input, output: r.actualOutput, expected: r.expectedOutput, pass: r.pass }),
+          // EV-6 backward-compat: legacy persisted rows have no `output` → fall back to actualOutput.
+          (r): TraceRow => ({
+            node: r.node,
+            input: r.input,
+            output: r.output ?? r.actualOutput,
+            actual: r.actualOutput,
+            expected: r.expectedOutput,
+            pass: r.pass,
+          }),
         ),
       }));
     return {
