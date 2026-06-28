@@ -70,6 +70,7 @@ export interface PaymentWatchRow {
   paymentStatus: string;
   statusRank: number;
   occurredAt: string | null;
+  createdAt: string | null;
   deliveries: number;
   processedDeliveries: number;
   duplicateDeliveries: number;
@@ -432,6 +433,7 @@ export function buildPaymentPropagationSummary(
         paymentStatus: payment.status,
         statusRank: payment.status_rank,
         occurredAt: payment.occurred_at,
+        createdAt: payment.created_at,
         deliveries,
         processedDeliveries,
         duplicateDeliveries,
@@ -449,7 +451,10 @@ export function buildPaymentPropagationSummary(
         outboxStatus: outbox?.status ?? null,
       } satisfies PaymentWatchRow;
     })
-    .sort((a, b) => timeValue(b.occurredAt) - timeValue(a.occurredAt));
+    // Sort by created_at (when the row was actually RECORDED) descending — not occurred_at,
+    // which the seed future-dates across the sprint (Jul/Aug), burying genuinely-recent
+    // payments. created_at puts the just-made payments at the top, where you expect them.
+    .sort((a, b) => timeValue(b.createdAt ?? b.occurredAt) - timeValue(a.createdAt ?? a.occurredAt));
 
   const duplicateRow = rows.find((row) => row.idempotentReplayVisible);
   const selected =

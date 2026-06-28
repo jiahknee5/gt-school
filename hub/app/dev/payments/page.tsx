@@ -132,7 +132,7 @@ function RowTimeline({ row }: { row: PaymentWatchRow }) {
 export default async function PaymentPropagationDevPage() {
   const summary = await readPaymentPropagationSummary();
   const selected = summary.selected;
-  const recentRows = summary.rows.slice(0, 12);
+  const recentRows = summary.rows; // show all, newest-recorded first (sorted in propagation.ts)
 
   return (
     <div className="mx-auto max-w-[1180px] px-4 py-5">
@@ -243,7 +243,7 @@ export default async function PaymentPropagationDevPage() {
         collisions: <span className="num">{summary.contamination.crossProgramIntentContamination.length}</span>.
       </div>
 
-      <SectionTitle kicker={`${recentRows.length} recent rows`} title="Event/payment ledger" />
+      <SectionTitle kicker={`${recentRows.length} payments · newest recorded first`} title="Event/payment ledger" />
       <div className="mt-3 overflow-x-auto rounded-card border border-hairline bg-surface shadow-sm">
         <table className="w-full min-w-[920px] border-collapse text-left">
           <thead>
@@ -260,7 +260,7 @@ export default async function PaymentPropagationDevPage() {
               <tr key={row.paymentId} className="border-b border-hairline last:border-0 align-top">
                 <td className="px-2.5 py-1">
                   <code className="mono block text-[11px] text-slate">{shortId(row.eventId)}</code>
-                  <span className="mono text-[10px] text-label">{dateLabel(row.occurredAt)}</span>
+                  <span className="mono text-[10px] text-label">{dateLabel(row.createdAt ?? row.occurredAt)}</span>
                 </td>
                 <td className="px-2.5 py-1 text-[11px] font-medium text-ink">{row.programName}</td>
                 <td className="px-2.5 py-1">

@@ -1,5 +1,4 @@
 import Image from "next/image";
-import Link from "next/link";
 import { AUTH_PROFILES, DEV_MODE } from "@/lib/auth";
 
 export const dynamic = "force-dynamic";
@@ -54,13 +53,18 @@ export default async function LoginPage({
             </p>
             <div className="mt-4 space-y-2">
               {AUTH_PROFILES.map((user) => (
-                <Link
+                // A plain <a> (full-page navigation), NOT next/link: login hits a route
+                // handler that sets the session cookie and redirects. A client-side <Link>
+                // nav applies the cookie but keeps the cached signed-out layout/nav until a
+                // hard refresh — the "have to refresh to sign in" bug. A document load
+                // renders the destination fresh with the new session.
+                //
+                // Sign in as the EXACT named user (by id). Logging in by role would
+                // re-resolve to the alphabetically-first profile of that role, so a
+                // multi-user role (3 leaders / 4 operators) would land the wrong person.
+                <a
                   key={user.id}
-                  // Sign in as the EXACT named user (by id). Logging in by role would
-                  // re-resolve to the alphabetically-first profile of that role, so a
-                  // multi-user role (3 leaders / 4 operators) would land the wrong person.
                   href={`/api/auth/login?userId=${user.id}&next=${encodeURIComponent(next)}`}
-                  prefetch={false}
                   className="block rounded-card border border-hairline bg-surface p-3 shadow-sm transition-colors hover:border-border hover:bg-hover"
                 >
                   <div className="flex items-center justify-between gap-2">
@@ -72,7 +76,7 @@ export default async function LoginPage({
                   <p className="mt-0.5 text-[11px] leading-snug text-muted">
                     {ROLE_BLURB[user.role] ?? user.title}
                   </p>
-                </Link>
+                </a>
               ))}
             </div>
             <p className="mono mt-4 text-[11px] leading-snug text-label">
