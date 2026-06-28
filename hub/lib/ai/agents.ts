@@ -494,7 +494,7 @@ function uniqueCitations(citations: Citation[]): Citation[] {
   return out;
 }
 
-function classifyAgent(question: string, role: Role): AgentId {
+export function classifyAgent(question: string, role: Role): AgentId {
   const q = question.toLowerCase();
   if (role === "operator" || includesAny(q, ["operator", "submit", "my submissions", "how do i", "where do i"])) {
     return "operator-coach";
@@ -508,9 +508,20 @@ function classifyAgent(question: string, role: Role): AgentId {
   return "growth-strategist";
 }
 
-function refusalFor(question: string, role: Role): AskHubAnswer["refused"] | undefined {
+export function refusalFor(question: string, role: Role): AskHubAnswer["refused"] | undefined {
   const q = question.toLowerCase();
-  if (includesAny(q, ["email", "phone", "child name", "child's name", "sms body", "raw sms", "parent list", "pii", "is this child gifted"])) {
+  // Keyword set is best-effort defense-in-depth, NOT the guarantee — the real
+  // protection is that the agent context is a de-identified aggregate snapshot
+  // (buildDeidentifiedAgentContext) with no PII to leak, plus the output scan
+  // (hasPiiLeak) on any LLM synthesis. We still catch common identity/contact
+  // paraphrases here so the refusal UX fires before synthesis.
+  if (includesAny(q, [
+    "email", "email address", "phone", "phone number", "home address",
+    "child name", "child's name", "parent name", "parent names", "their names",
+    "sms body", "raw sms", "parent list", "list of parents", "list of families",
+    "contact info", "contact information", "contact details", "their contact",
+    "reach the families", "reach the parents", "pii", "is this child gifted",
+  ])) {
     return {
       reason: "I cannot expose parent or child-level PII. The agent context is de-identified by design.",
       saferAlternative: "Ask for aggregate segment counts, SLA risk, objection themes, or the owner/action needed next.",
@@ -539,7 +550,7 @@ function safeJson(value: unknown): string {
   return JSON.stringify(value, null, 2);
 }
 
-function hasPiiLeak(value: string): boolean {
+export function hasPiiLeak(value: string): boolean {
   return /[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}|\b(?:\+?1[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\b|555[-.\s]?\d{4}/i.test(value);
 }
 

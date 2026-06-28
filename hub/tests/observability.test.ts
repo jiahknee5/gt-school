@@ -52,7 +52,10 @@ describe("run traces persist durably and are recallable", () => {
     };
     const res = await persistTrace(toStoredTrace(trace, "ask-the-hub", "leader"));
     expect(res.persisted).toBe(true);
-    expect(res.storeKind).toBe("file");
+    // storeKind reflects the env (db when APP_RW_DATABASE_URL is set, else file) —
+    // assert the env-correct value rather than hardcoding "file" (which false-fails
+    // under a configured DB even though persistence works).
+    expect(res.storeKind).toBe(process.env.APP_RW_DATABASE_URL ? "db" : "file");
     expect(res.writeTargets.length).toBeGreaterThan(0);
 
     const recent = await listRecentTraces(10);

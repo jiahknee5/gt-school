@@ -77,10 +77,14 @@ describe("/api/ask", () => {
     expect(body.role).toBe("leader");
     expect(body.agent.id).toBe("decision-support-analyst");
     expect(body.citations.length).toBeGreaterThan(0);
-    // WS6 — the sanitized run trace is now durably persisted (file store in tests).
+    // WS6 — the sanitized run trace is durably persisted. The store kind reflects the
+    // env: a DB store when APP_RW_DATABASE_URL is configured, else the file store.
+    // (Asserting the env-correct value — not a hardcoded "file" — so a configured DB
+    // doesn't false-fail a persistence path that actually works.)
+    const expectedStore = process.env.APP_RW_DATABASE_URL ? "db" : "file";
     expect(body.audit.traceId).toBe(body.trace.runId);
     expect(body.audit.persisted).toBe(true);
-    expect(body.audit.storeKind).toBe("file");
+    expect(body.audit.storeKind).toBe(expectedStore);
     expect(body.audit.writeTargets.length).toBeGreaterThan(0);
     expect(body.audit.redactionsApplied).toBe(true);
   });
