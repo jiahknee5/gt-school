@@ -56,7 +56,10 @@ export default async function LoginPage({
               {AUTH_PROFILES.map((user) => (
                 <Link
                   key={user.id}
-                  href={`/api/auth/login?role=${user.role}&next=${encodeURIComponent(next)}`}
+                  // Sign in as the EXACT named user (by id). Logging in by role would
+                  // re-resolve to the alphabetically-first profile of that role, so a
+                  // multi-user role (3 leaders / 4 operators) would land the wrong person.
+                  href={`/api/auth/login?userId=${user.id}&next=${encodeURIComponent(next)}`}
                   prefetch={false}
                   className="block rounded-card border border-hairline bg-surface p-3 shadow-sm transition-colors hover:border-border hover:bg-hover"
                 >

@@ -27,7 +27,10 @@ export function DevRoleSwitch({ currentRole }: { currentRole?: Role | null }) {
         return (
           <a
             key={user.id}
-            href={`/api/auth/login?role=${user.role}&next=${next}`}
+            // Sign in as the EXACT user shown (by id), not by role — role-resolution
+            // re-picks the alphabetically-first profile of that role (DB order_by
+            // display_name), which would land a different person than the card names.
+            href={`/api/auth/login?userId=${user.id}&next=${next}`}
             aria-current={active ? "true" : undefined}
             className={`flex flex-col rounded-card border p-3 text-left shadow-sm transition-colors ${
               active
