@@ -121,6 +121,13 @@ export async function createContact(properties: Record<string, string>): Promise
   return hs<{ id: string }>(`/crm/v3/objects/contacts`, { method: "POST", body: { properties } });
 }
 
+/** Associate a deal with a contact using the default (v4) association type. Best-effort. */
+export async function associateDealToContact(dealId: string, contactId: string): Promise<void> {
+  await hs(`/crm/v4/objects/deals/${dealId}/associations/default/contacts/${contactId}`, {
+    method: "PUT",
+  });
+}
+
 /**
  * Resolve a contact by exact email via the search index. Returns the HubSpot id or
  * null. Used by the outbox upsert_contact path to create-or-patch a freshly captured

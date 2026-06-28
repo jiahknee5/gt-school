@@ -10,8 +10,12 @@
 //
 // Everything is real writes/reads against the provisioned DB; nothing is seeded or faked.
 
+import crypto from "node:crypto";
 import { withProgram, withoutProgram } from "@/lib/db";
 import { createPaymentIntent, signPayload, handleStripeEvent } from "@/lib/payments";
+import { upsertContactByEmail, createDeal, associateDealToContact } from "@/lib/connectors/hubspot";
+import { captureGiftedQuizSubmission, coerceGiftedQuizCaptureRequest } from "@/lib/gt-challenge/capture";
+import { DbGiftedQuizCaptureStore } from "@/lib/gt-challenge/store-db";
 
 const FALL_PROGRAM_KEY = "fall_enrollment";
 const DEPOSIT_CENTS = 50000; // $500 Fall deposit (demo)
@@ -89,6 +93,101 @@ export async function checkoutDepositForFamily(
   await handleStripeEvent(raw, signPayload(raw));
 
   return { ok: true, intentId, trackKey: familyId };
+}
+
+export interface HubspotFirstResult {
+  ok: true;
+  key: string;
+  contactId: string;
+  dealId: string;
+  intentId: string;
+  contactUrl: string;
+  dealUrl: string;
+}
+
+/**
+ * HubSpot-FIRST demo run (Johnny's chosen architecture for the demo): the CRM is written
+ * before the DB. Create the HubSpot contact + deal (closedwon) and associate them, then
+ * mirror to the DB (family + quiz_submission + membership + enrollment carrying the real
+ * hubspot_deal_id), then charge the real Stripe test deposit. Returns the HubSpot ids +
+ * portal URLs so the entry is directly viewable.
+ *
+ * NOTE: this WRITES to the live HubSpot portal. Scoped to the demo path only — the rest of
+ * the app keeps the transactional-outbox (DB-first) model + its tests.
+ */
+export async function runHubspotFirstDemo(): Promise<HubspotFirstResult> {
+  const stamp = Date.now();
+  const email = `harper.demo.${stamp}@example.com`; // HubSpot rejects .test; example.com is valid
+  const portal = process.env.HUBSPOT_PORTAL_ID ?? "";
+
+  // 1) HubSpot FIRST — contact + deal (closedwon) + association, before any DB write.
+  const contact = await upsertContactByEmail(email, {
+    firstname: "Harper",
+    lastname: "(GT demo)",
+    phone: "(512) 555-0143",
+    zip: "78704",
+    lifecyclestage: "lead",
+  });
+  const deal = await createDeal({
+    dealname: `GT Fall deposit — Harper ${stamp}`,
+    amount: "500",
+    dealstage: "closedwon",
+    pipeline: "default",
+  });
+  await associateDealToContact(deal.id, contact.id).catch(() => {}); // best-effort
+
+  // 2) Mirror to the DB — capture the lead (family + quiz_submission + membership).
+  const store = new DbGiftedQuizCaptureStore();
+  const input = coerceGiftedQuizCaptureRequest({
+    idempotency_key: crypto.randomUUID(),
+    parent_consent: true,
+    parent_email: email,
+    parent_phone: "(512) 555-0143",
+    zip: "78704",
+    child_first_name: "Harper",
+    child_grade: "3",
+    answers: {
+      patternReasoning: 5,
+      curiosity: 5,
+      selfDirectedProjects: 5,
+      focusPersistence: 5,
+      readingAboveGrade: true,
+      parentObservation: "Self-taught multiplication from a library book over spring break.",
+    },
+    utm_source: "ad",
+    utm_medium: "paid_social",
+    utm_campaign: "gifted_quiz_2026",
+  });
+  const capture = await captureGiftedQuizSubmission(input, store);
+  const familyId = capture.lead.id;
+  const fallId = await fallProgramId();
+
+  // 3) Stamp the HubSpot ids onto the DB mirror + ensure a payable enrollment carrying the
+  //    real hubspot_deal_id (so the payment's deal handoff is wired, not a stand-in).
+  await withProgram(fallId, async (sql) => {
+    await sql`update families set hubspot_contact_id = ${contact.id} where id = ${familyId}`;
+    const existing = await sql<{ id: string }[]>`
+      select id from enrollments where family_id = ${familyId} and program_id = ${fallId} limit 1`;
+    if (existing[0]) {
+      await sql`update enrollments set hubspot_deal_id = ${deal.id} where id = ${existing[0].id}`;
+    } else {
+      await sql`insert into enrollments (program_id, family_id, hubspot_deal_id, stage, amount)
+                values (${fallId}, ${familyId}, ${deal.id}, 'deposit', ${DEPOSIT_CENTS / 100})`;
+    }
+  });
+
+  // 4) Real Stripe TEST deposit → recorded payment + enrollment paid (same handler the webhook uses).
+  const pay = await checkoutDepositForFamily(familyId);
+
+  return {
+    ok: true,
+    key: familyId,
+    contactId: contact.id,
+    dealId: deal.id,
+    intentId: pay.intentId,
+    contactUrl: portal ? `https://app.hubspot.com/contacts/${portal}/contact/${contact.id}` : "",
+    dealUrl: portal ? `https://app.hubspot.com/contacts/${portal}/record/0-3/${deal.id}` : "",
+  };
 }
 
 /** Read the LIVE DB and assemble one lead's journey across every stage. */
@@ -227,6 +326,8 @@ export interface DemoKey {
   value: string;
   /** true when this key is FIRST minted at this step (vs. carried in from a prior one). */
   fresh: boolean;
+  /** when set, the value links out (e.g. a HubSpot record URL). */
+  href?: string;
 }
 
 export interface DemoStep {
@@ -293,12 +394,7 @@ export async function loadDemoFlow(key: string): Promise<DemoFlow | null> {
       from payments where family_id = ${fid} order by status_rank desc, occurred_at desc limit 1`;
     const payment = pay[0] ?? null;
 
-    const outIds = [fid, enrollment?.id, sub?.id].filter(Boolean) as string[];
-    const out = await sql<{ op: string; dedupe_key: string; aggregate_id: string; status: string; created_at: string }[]>`
-      select op, dedupe_key, aggregate_id, status, created_at from sync_outbox
-      where aggregate_id::text = any(${outIds}) order by created_at desc limit 1`;
-    const outbox = out[0] ?? null;
-
+    const portal = process.env.HUBSPOT_PORTAL_ID ?? "";
     const childName = (sub?.child_first_name ?? "").trim() || [family.first_name, family.last_name].filter(Boolean).join(" ") || "Lead";
     const usd = (n: number) => `$${Math.round(n).toLocaleString("en-US")}`;
     const paid = payment?.status === "succeeded" || Boolean(enrollment?.paid);
@@ -350,29 +446,46 @@ export async function loadDemoFlow(key: string): Promise<DemoFlow | null> {
       },
       {
         n: 4,
-        label: "Database (payment recorded, enrollment paid)",
+        label: "HubSpot (CRM — written first)",
+        done: Boolean(family.hubspot_contact_id),
+        at: family.created_at,
+        summary: family.hubspot_contact_id
+          ? "The contact + deal (closedwon) are created in HubSpot first — the CRM is the system of record, then mirrored to the DB."
+          : "Not in HubSpot yet (older record predates the HubSpot-first flow).",
+        keys: [
+          {
+            label: "hubspot_contact_id",
+            value: family.hubspot_contact_id ?? "—",
+            fresh: true,
+            href: portal && family.hubspot_contact_id
+              ? `https://app.hubspot.com/contacts/${portal}/contact/${family.hubspot_contact_id}`
+              : undefined,
+          },
+          {
+            label: "hubspot_deal_id",
+            value: enrollment?.hubspot_deal_id ?? "—",
+            fresh: true,
+            href: portal && enrollment?.hubspot_deal_id
+              ? `https://app.hubspot.com/contacts/${portal}/record/0-3/${enrollment.hubspot_deal_id}`
+              : undefined,
+          },
+        ],
+        href: portal && family.hubspot_contact_id
+          ? `https://app.hubspot.com/contacts/${portal}/contact/${family.hubspot_contact_id}`
+          : undefined,
+        hrefLabel: "HubSpot",
+      },
+      {
+        n: 5,
+        label: "Synced to the database (mirror of HubSpot)",
         done: paid,
         at: payment?.occurred_at ?? null,
         summary: enrollment
-          ? `Payment row written + enrollment flipped paid=${enrollment.paid} (${enrollment.stage ?? "—"}).`
+          ? `DB mirrors the CRM: family carries hubspot_contact_id, enrollment carries hubspot_deal_id; payment row written + enrollment paid=${enrollment.paid}.${membership ? " Routed into Fall enrollment." : ""}`
           : "No enrollment yet.",
         keys: [
           { label: "enrollment_id", value: enrollment?.id ?? "—", fresh: true },
           { label: "family_id", value: fid, fresh: false },
-        ],
-      },
-      {
-        n: 5,
-        label: "Synced on the hub",
-        done: Boolean(membership || outbox),
-        at: membership?.joined_at ?? outbox?.created_at ?? null,
-        summary: [
-          membership ? `Routed into Fall enrollment (program_membership · ${membership.status}).` : "",
-          outbox ? `CRM sync queued (sync_outbox ${outbox.op} · ${outbox.status}).` : "",
-        ].filter(Boolean).join(" ") || "Not synced yet.",
-        keys: [
-          ...(membership ? [{ label: "program_membership.family_id", value: fid, fresh: false }] : []),
-          ...(outbox ? [{ label: "sync_outbox.dedupe_key", value: outbox.dedupe_key, fresh: true }] : []),
         ],
         href: "/m/dashboard",
         hrefLabel: "the Dashboard funnel",

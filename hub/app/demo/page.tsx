@@ -31,7 +31,13 @@ function KeyChip({ k }: { k: DemoKey }) {
           </span>
         )}
       </div>
-      <p className="mono mt-0.5 break-all text-[11px] leading-snug text-ink">{k.value}</p>
+      {k.href ? (
+        <a href={k.href} target="_blank" rel="noopener noreferrer" className="mono mt-0.5 block break-all text-[11px] leading-snug font-semibold text-gold hover:underline">
+          {k.value} ↗
+        </a>
+      ) : (
+        <p className="mono mt-0.5 break-all text-[11px] leading-snug text-ink">{k.value}</p>
+      )}
     </div>
   );
 }
@@ -93,10 +99,10 @@ export default async function DemoPage({
           <h1 className="mt-1 font-serif text-[22px] font-bold leading-tight tracking-[-0.02em] text-ink">
             {flow ? `${flow.childName}'s record, end to end` : "Watch one record flow through the system"}
           </h1>
-          <p className="mt-1.5 max-w-[620px] text-[12px] leading-snug text-muted">
-            One real record: <span className="font-semibold text-ink">ad → form → Stripe payment → database → synced on the hub → shown in the payment log</span>.
-            Each step shows the new key minted there (with a timestamp) — the same{" "}
-            <span className="mono text-ink">payment_intent_id</span> you see at Stripe is the one that lands in the payment log.
+          <p className="mt-1.5 max-w-[640px] text-[12px] leading-snug text-muted">
+            One real record, HubSpot-first: <span className="font-semibold text-ink">ad → form → Stripe payment → HubSpot (CRM, written first) → synced to the database → shown in the payment log</span>.
+            Each step shows the new key minted there (with a timestamp) — the{" "}
+            <span className="mono text-ink">hubspot_contact_id</span> / <span className="mono text-ink">hubspot_deal_id</span> link straight into HubSpot.
           </p>
           <div className="mt-3 flex flex-wrap items-center gap-3">
             <RunButton label={flow ? "Run a fresh one" : "Run the live demo"} />
