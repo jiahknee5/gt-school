@@ -4,6 +4,10 @@
     {
       "path": "/api/cron/status-refresh",
       "schedule": "0 7 * * 1"
+    },
+    {
+      "path": "/api/cron/sync-drain",
+      "schedule": "*/10 * * * *"
     }
   ]
 }
