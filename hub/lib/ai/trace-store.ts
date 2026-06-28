@@ -111,7 +111,49 @@ export function toStoredTrace(
   };
 }
 
-/** Recent traces for the /dev observability surface (file store; DB lists separately). */
+async function dbList(limit: number): Promise<StoredTrace[]> {
+  const { withoutProgram } = await import("@/lib/db");
+  return withoutProgram(async (sql) => {
+    const rows = await sql<
+      {
+        run_id: string;
+        location: string;
+        role: string | null;
+        provider: string;
+        model: string;
+        started_at: Date | string;
+        trace: unknown;
+      }[]
+    >`
+      select run_id, location, role, provider, model, started_at, trace
+      from agent_run_trace
+      order by started_at desc
+      limit ${limit}`;
+    return rows.map((r) => ({
+      runId: r.run_id,
+      location: r.location as StoredTrace["location"],
+      role: r.role,
+      provider: r.provider as AgentRunTrace["provider"],
+      model: r.model,
+      startedAt: r.started_at instanceof Date ? r.started_at.toISOString() : String(r.started_at),
+      trace: r.trace as AgentRunTrace,
+    }));
+  });
+}
+
+/**
+ * Recent traces for the /dev observability surface. MUST mirror persistTrace's resolution:
+ * read the DB when it's configured (that's where the writes go — otherwise the page reads an
+ * empty tmp dir and shows "no runs yet" even though every run persisted to the DB), and fall
+ * back to the file store when there's no DB or the DB read fails.
+ */
 export async function listRecentTraces(limit = 25): Promise<StoredTrace[]> {
+  if (dbConfigured()) {
+    try {
+      return await dbList(limit);
+    } catch {
+      return fileList(limit);
+    }
+  }
   return fileList(limit);
 }
