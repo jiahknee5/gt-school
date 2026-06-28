@@ -700,8 +700,11 @@ export class AnthropicAskProvider implements AskLlmProvider {
           "anthropic-version": "2023-06-01",
         },
         body: JSON.stringify({
+          // 900 truncated the JSON answer for opus-class models on the large Hub-snapshot
+          // context (the closing brace got cut → "did not contain JSON" → llm-error fallback).
+          // 2048 comfortably fits {answer, confidence, actions[], warnings[]}.
           model: this.model,
-          max_tokens: 900,
+          max_tokens: 2048,
           system: buildProviderSystemPrompt(),
           messages: [{ role: "user", content: buildProviderUserPrompt(input) }],
         }),
