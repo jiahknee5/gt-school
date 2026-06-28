@@ -283,7 +283,4 @@ and [`hub/docs/SUBMISSION.md`](hub/docs/SUBMISSION.md).
 | **2-page write-up** (rendered) | https://gt-school-hub.vercel.app/writeup.html · source [`hub/docs/WRITEUP.html`](hub/docs/WRITEUP.html) |
 | Full submission write-up | [`hub/docs/SUBMISSION.md`](hub/docs/SUBMISSION.md) |
 | Presentation deck (agenda) | [`hub/docs/DECK.html`](hub/docs/DECK.html) |
-| Video narration | [`hub/docs/NARRATION.html`](hub/docs/NARRATION.html) |
-| Demo walkthrough talking points | [`hub/docs/WALKTHROUGH-SCRIPT.html`](hub/docs/WALKTHROUGH-SCRIPT.html) |
-| GT Challenge campaign script | [`hub/docs/CHALLENGE-SCRIPT.html`](hub/docs/CHALLENGE-SCRIPT.html) |
 | PRD checklist / requirement matrix | [`hub/docs/01-intake/PRD-CHECKLIST.md`](hub/docs/01-intake/PRD-CHECKLIST.md) |
