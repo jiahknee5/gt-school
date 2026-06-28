@@ -12,6 +12,25 @@ import type {
 
 export type PaymentWatcherSource = "live-db" | "seed-fixture";
 export type ContaminationStatus = "isolated" | "contaminated";
+
+/**
+ * A human label for WHICH database the live rows were written to — the host + database
+ * name parsed from APP_RW_DATABASE_URL (and the Supabase project ref from the username
+ * when present). Credentials (user:password) are NEVER included.
+ */
+function liveDbLabel(): string {
+  const url = process.env.APP_RW_DATABASE_URL;
+  if (!url) return "Live DB";
+  try {
+    const u = new URL(url);
+    const db = u.pathname.replace(/^\//, "") || "postgres";
+    const ref = decodeURIComponent(u.username).split(".")[1]; // Supabase user is postgres.<projectref>
+    const who = ref ? `Supabase ${ref}` : u.hostname;
+    return `Live DB · ${who} · ${u.hostname}/${db}`;
+  } catch {
+    return "Live DB";
+  }
+}
 export type CrmSyncStatus =
   | "done"
   | "queued"
@@ -338,7 +357,7 @@ export async function readLivePaymentPropagationSummary(): Promise<PaymentPropag
 
   return buildPaymentPropagationSummary({
     source: "live-db",
-    sourceLabel: "Live DB",
+    sourceLabel: liveDbLabel(),
     generatedAt: new Date().toISOString(),
     programs,
     payments,

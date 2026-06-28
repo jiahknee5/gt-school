@@ -68,11 +68,14 @@ function shortId(value: string | null) {
 
 function dateLabel(value: string | null) {
   if (!value) return "not set";
+  // GT is in Austin — render in Central Time (CST/CDT), not the server's UTC.
   return new Intl.DateTimeFormat("en-US", {
     month: "short",
     day: "numeric",
     hour: "numeric",
     minute: "2-digit",
+    timeZone: "America/Chicago",
+    timeZoneName: "short",
   }).format(new Date(value));
 }
 

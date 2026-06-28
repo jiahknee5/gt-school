@@ -13,7 +13,17 @@ function fmtAt(at: string | null): string {
   if (!at) return "";
   const t = Date.parse(at);
   if (Number.isNaN(t)) return "";
-  return new Date(t).toISOString().replace("T", " ").slice(0, 19);
+  // GT is in Austin — show timestamps in Central Time (CST/CDT), not UTC.
+  return new Intl.DateTimeFormat("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    second: "2-digit",
+    timeZone: "America/Chicago",
+    timeZoneName: "short",
+  }).format(t);
 }
 
 function StageRow({ stage, last }: { stage: JourneyStage; last: boolean }) {
